@@ -105,7 +105,15 @@ export default class VideoChat extends Component {
         });
 
         peer.on('stream', (data)  => {
+            try {
+                this.myVideo.srcObject = stream;
+            } catch (e) {
+                this.myVideo.src = URL.createObjectURL(stream);
+                console.log(e);
+            }
 
+                this.myVideo.play();
+        });
             /*this.userVideo.srcObject = data;
             let playPromise = this.userVideo.play();
 
@@ -119,7 +127,7 @@ export default class VideoChat extends Component {
                 })
             }*/
 
-            if(this.userVideo !== undefined) {
+            /*if(this.userVideo !== undefined) {
                 try {
                     this.userVideo.srcObject = data;
                 } catch (e) {
@@ -136,7 +144,7 @@ export default class VideoChat extends Component {
                 console.log('something went wrong')
             }
 
-        });
+        });*/
 
         peer.on('close', () => {
             let peer = this.peers[userName];
