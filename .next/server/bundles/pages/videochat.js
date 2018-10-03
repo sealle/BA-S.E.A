@@ -67,63 +67,10 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./components/HomeHeader.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("react");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__ = __webpack_require__("semantic-ui-react");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_semantic_ui_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes__ = __webpack_require__("./routes.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__routes__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_next_head__ = __webpack_require__("next/head");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_next_head___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_next_head__);
-var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/components/HomeHeader.js";
-
-
-
-
-
-
-var HomeHeader = function HomeHeader() {
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"], {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 8
-    }
-  }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"].Menu, {
-    position: "right",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 9
-    }
-  }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"].Item, {
-    name: "login",
-    href: "/login",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 10
-    }
-  }, "Login"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"].Item, {
-    name: "register",
-    href: "/register",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 16
-    }
-  }, "Register")));
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (HomeHeader);
-
-/***/ }),
 
 /***/ "./components/Layout.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -321,32 +268,300 @@ function (_Component) {
 
 /***/ }),
 
-/***/ "./pages/login.js":
+/***/ "./components/VideoChat.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VideoChat; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("react");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__webrtc_MediaHandler__ = __webpack_require__("./webrtc/MediaHandler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pusher_js__ = __webpack_require__("pusher-js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pusher_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_pusher_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_simple_peer__ = __webpack_require__("simple-peer");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_simple_peer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_simple_peer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_UserUtils__ = __webpack_require__("./utils/UserUtils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_jwt_decode__ = __webpack_require__("jwt-decode");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_jwt_decode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_jwt_decode__);
+var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/components/VideoChat.js";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+
+
+
+
+var APP_KEY = "0f924dcd44dc93a88aa7";
+
+var wrtc = __webpack_require__("wrtc");
+
+
+
+
+
+var VideoChat =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(VideoChat, _Component);
+
+  function VideoChat() {
+    var _this;
+
+    _classCallCheck(this, VideoChat);
+
+    _this = _possibleConstructorReturn(this, (VideoChat.__proto__ || Object.getPrototypeOf(VideoChat)).call(this));
+    _this.state = {
+      hasMedia: false,
+      otherUserName: ""
+    };
+    var token = Object(__WEBPACK_IMPORTED_MODULE_5__utils_CookieUtils__["a" /* getCookie */])("x-access-token");
+    var decoded = __WEBPACK_IMPORTED_MODULE_6_jwt_decode___default()(token);
+    var userName = Object(__WEBPACK_IMPORTED_MODULE_4__utils_UserUtils__["a" /* default */])();
+    window.user = {
+      name: userName
+    };
+    window.xsrftoken = decoded.xsrftoken;
+    _this.user = window.user;
+    _this.user.stream = null;
+    _this.peers = {};
+    _this.mediaHandler = new __WEBPACK_IMPORTED_MODULE_1__webrtc_MediaHandler__["a" /* default */]();
+
+    _this.setupPusher();
+
+    _this.callTo = _this.callTo.bind(_assertThisInitialized(_this));
+    _this.setupPusher = _this.setupPusher.bind(_assertThisInitialized(_this));
+    _this.startPeer = _this.startPeer.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(VideoChat, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      this.mediaHandler.getPermissions().then(function (stream) {
+        _this2.setState({
+          hasMedia: true
+        });
+
+        _this2.user.stream = stream;
+        /*try {
+          this.myVideo.srcObject = stream;
+        } catch (e) {*/
+
+        _this2.myVideo.src = URL.createObjectURL(stream); //}
+
+        _this2.myVideo.play();
+      });
+    }
+  }, {
+    key: "setupPusher",
+    value: function setupPusher() {
+      var _this3 = this;
+
+      //TODO: Pusher only one way: User->Admin
+      //Pusher.logToConsole = true;
+      this.pusher = new __WEBPACK_IMPORTED_MODULE_2_pusher_js___default.a(APP_KEY, {
+        authEndpoint: "/pusher/auth",
+        cluster: "eu",
+        auth: {
+          params: this.user.name,
+          headers: {
+            "X-XSRF-Token": window.xsrfToken
+          }
+        }
+      });
+      this.channel = this.pusher.subscribe("presence-video-channel"); //presence: requires auth!
+
+      this.channel.bind("client-signal-".concat(this.user.name), function (signal) {
+        var peer = _this3.peers[signal.userName]; // if peer is not already exists, we got an incoming call
+
+        if (peer === undefined) {
+          _this3.setState({
+            otherUserName: signal.userName
+          });
+
+          peer = _this3.startPeer(signal.userName, false);
+        }
+
+        peer.signal(signal.data);
+      });
+      /*this.channel.bind('pusher:subscription_succeeded', function() {
+              alert('successfully subscribed!');
+          });*/
+    }
+  }, {
+    key: "startPeer",
+    value: function startPeer(userName) {
+      var _this4 = this;
+
+      var initiator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var wrtc = arguments.length > 2 ? arguments[2] : undefined;
+      //TODO: initiator is always user!
+      var peer = new __WEBPACK_IMPORTED_MODULE_3_simple_peer___default.a({
+        initiator: initiator,
+        stream: this.user.stream,
+        trickle: false,
+        wrtc: wrtc
+      });
+      peer.on("signal", function (data) {
+        _this4.channel.trigger("client-signal-".concat(userName), {
+          type: "signal",
+          userName: _this4.user.name,
+          data: data
+        });
+      });
+      peer.on("stream", function (stream) {
+        /*try {
+          this.myVideo.srcObject = stream; //bug -> why is the stream reloading?
+        } catch (e) {
+          this.myVideo.src = URL.createObjectURL(stream);
+          console.log(e);
+        }
+         this.myVideo.play();
+        });*/
+        _this4.userVideo.src = URL.createObjectURL(stream); //this.userVideo.srcObject = stream; //bug -> why is the stream reloading?
+
+        var playPromise = _this4.userVideo.play();
+
+        if (playPromise !== null) {
+          playPromise.catch(function () {
+            _this4.userVideo.play();
+          });
+        }
+      });
+      peer.on("close", function () {
+        var peer = _this4.peers[userName];
+
+        if (peer !== undefined) {
+          peer.destroy(err);
+        }
+
+        _this4.peers[userName] = undefined;
+      });
+      return peer;
+    }
+  }, {
+    key: "callTo",
+    value: function callTo(userName) {
+      this.peers[userName] = this.startPeer(userName);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this5 = this;
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "VideoChat",
+        style: {
+          textAlign: "center"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 146
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 147
+        }
+      }, "VideoChat"), ["Admin"].map(function (userName) {
+        return _this5.user.name !== userName ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("button", {
+          key: userName,
+          onClick: function onClick() {
+            return _this5.callTo(userName);
+          },
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 150
+          }
+        }, "Call ", userName) : null;
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "video-container",
+        style: {
+          width: "500px",
+          height: "380px",
+          margin: "0px auto",
+          position: "relative",
+          border: "6px solid #645cff"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 156
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", {
+        className: "my-video",
+        ref: function ref(_ref) {
+          _this5.myVideo = _ref;
+        },
+        style: {
+          width: "130px",
+          position: "absolute",
+          left: "10px",
+          bottom: "10px",
+          border: "6px solid #2196F3",
+          zIndex: "2"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 166
+        }
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", {
+        className: "user-video",
+        ref: function ref(_ref2) {
+          _this5.userVideo = _ref2;
+        },
+        style: {
+          position: "absolute",
+          left: "0",
+          right: "0",
+          bottom: "0",
+          top: "0",
+          width: "100%",
+          height: "100%",
+          zIndex: "1"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 180
+        }
+      })));
+    }
+  }]);
+
+  return VideoChat;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+/***/ }),
+
+/***/ "./pages/videochat.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator__ = __webpack_require__("@babel/runtime/regenerator");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__("react");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes__ = __webpack_require__("./routes.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__routes__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__ = __webpack_require__("semantic-ui-react");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_semantic_ui_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Layout__ = __webpack_require__("./components/Layout.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_isomorphic_unfetch__ = __webpack_require__("isomorphic-unfetch");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_isomorphic_unfetch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_isomorphic_unfetch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_axios__ = __webpack_require__("axios");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_HomeHeader__ = __webpack_require__("./components/HomeHeader.js");
-
-var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/pages/login.js";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("react");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ProfileHeader__ = __webpack_require__("./components/ProfileHeader.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Layout__ = __webpack_require__("./components/Layout.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_VideoChat__ = __webpack_require__("./components/VideoChat.js");
+var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/pages/videochat.js";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -365,240 +580,48 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-
-
-
-
-
-var Login =
+var VideoChatPage =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Login, _Component);
+  _inherits(VideoChatPage, _Component);
 
-  function Login(props) {
-    var _this;
+  function VideoChatPage() {
+    _classCallCheck(this, VideoChatPage);
 
-    _classCallCheck(this, Login);
-
-    _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
-    _this.state = {
-      password: "",
-      username: "",
-      errorMessage: "",
-      errors: "",
-      loading: false
-    };
-
-    _this.login = function (e) {
-      return _this._login();
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, (VideoChatPage.__proto__ || Object.getPrototypeOf(VideoChatPage)).apply(this, arguments));
   }
 
-  _createClass(Login, [{
-    key: "_login",
-    value: function () {
-      var _login2 = _asyncToGenerator(
-      /*#__PURE__*/
-      __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.mark(function _callee() {
-        var formData, response, res;
-        return __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                //let {username} = this.state;
-                //let {password} = this.state;
-                formData = new FormData();
-                formData.append("username", this.state.username);
-                formData.append("password", this.state.password);
-                this.setState({
-                  loading: true
-                });
-                _context.prev = 4;
-                _context.next = 7;
-                return __WEBPACK_IMPORTED_MODULE_5_isomorphic_unfetch___default()("/authenticate", {
-                  method: "POST",
-                  body: formData
-                }).then(function (res) {
-                  if (res.status >= 400) {
-                    return new Error("Bad response from server");
-                  }
-
-                  return res.json();
-                }).catch(function (err) {
-                  console.log(err);
-                });
-
-              case 7:
-                response = _context.sent;
-                _context.next = 10;
-                return __WEBPACK_IMPORTED_MODULE_6_axios___default.a.post(window.location.origin + "/authenticate", this.state);
-
-              case 10:
-                res = _context.sent;
-
-                if (res.data.success) {
-                  Object(__WEBPACK_IMPORTED_MODULE_7__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.token);
-                  __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/profile");
-                }
-
-                _context.next = 17;
-                break;
-
-              case 14:
-                _context.prev = 14;
-                _context.t0 = _context["catch"](4);
-                this.setState({
-                  errorMessage: _context.t0.response.data.message
-                });
-
-              case 17:
-                this.setState({
-                  loading: false
-                });
-
-              case 18:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[4, 14]]);
-      }));
-
-      return function _login() {
-        return _login2.apply(this, arguments);
-      };
-    }()
-  }, {
+  _createClass(VideoChatPage, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 68
+          lineNumber: 10
         }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__components_HomeHeader__["a" /* default */], {
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components_ProfileHeader__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 69
+          lineNumber: 11
         }
-      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_Layout__["a" /* default */], {
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Layout__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 70
+          lineNumber: 12
         }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Header"], {
-        as: "h1",
-        textAlign: "center",
-        style: {
-          marginTop: 60
-        },
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_VideoChat__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 71
+          lineNumber: 13
         }
-      }, "Welcome"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Header"], {
-        as: "h3",
-        textAlign: "center",
-        style: {
-          marginBottom: 20
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 74
-        }
-      }, "Please login or register"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"], {
-        onSubmit: this.login,
-        error: this.state.errorMessage,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 77
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"].Field, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 78
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 79
-        }
-      }, " Username "), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
-        placeholder: "Username",
-        name: "username",
-        value: this.state.username,
-        onChange: function onChange(event) {
-          return _this2.setState({
-            username: event.target.value
-          });
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 80
-        }
-      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"].Field, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 89
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 90
-        }
-      }, "Password"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
-        type: "password",
-        placeholder: "Password",
-        name: "password",
-        value: this.state.password,
-        onChange: function onChange(event) {
-          return _this2.setState({
-            password: event.target.value
-          });
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 91
-        }
-      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Message"], {
-        error: true,
-        header: "Oops!",
-        content: this.state.errorMessage,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 101
-        }
-      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Button"], {
-        loading: this.state.loading,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 102
-        }
-      }, "Login"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__routes__["Link"], {
-        route: "/register",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 103
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Button"], {
-        primary: true,
-        floated: "right",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 104
-        }
-      }, "Register")))));
+      })));
     }
   }]);
 
-  return Login;
-}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
+  return VideoChatPage;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Login);
+/* harmony default export */ __webpack_exports__["default"] = (VideoChatPage);
 
 /***/ }),
 
@@ -663,32 +686,52 @@ function getCurrentUser(currentUser) {
 
 /***/ }),
 
-/***/ 4:
+/***/ "./webrtc/MediaHandler.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MediaHandler; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var MediaHandler =
+/*#__PURE__*/
+function () {
+  function MediaHandler() {
+    _classCallCheck(this, MediaHandler);
+  }
+
+  _createClass(MediaHandler, [{
+    key: "getPermissions",
+    value: function getPermissions() {
+      return new Promise(function (resolve, rej) {
+        navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true
+        }).then(function (stream) {
+          resolve(stream);
+        }).catch(function (err) {
+          throw new Error("Unable to fetch stream ".concat(err));
+        });
+      });
+    }
+  }]);
+
+  return MediaHandler;
+}();
+
+
+
+/***/ }),
+
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("./pages/login.js");
+module.exports = __webpack_require__("./pages/videochat.js");
 
-
-/***/ }),
-
-/***/ "@babel/runtime/regenerator":
-/***/ (function(module, exports) {
-
-module.exports = require("@babel/runtime/regenerator");
-
-/***/ }),
-
-/***/ "axios":
-/***/ (function(module, exports) {
-
-module.exports = require("axios");
-
-/***/ }),
-
-/***/ "isomorphic-unfetch":
-/***/ (function(module, exports) {
-
-module.exports = require("isomorphic-unfetch");
 
 /***/ }),
 
@@ -713,6 +756,13 @@ module.exports = require("next/head");
 
 /***/ }),
 
+/***/ "pusher-js":
+/***/ (function(module, exports) {
+
+module.exports = require("pusher-js");
+
+/***/ }),
+
 /***/ "react":
 /***/ (function(module, exports) {
 
@@ -725,7 +775,21 @@ module.exports = require("react");
 
 module.exports = require("semantic-ui-react");
 
+/***/ }),
+
+/***/ "simple-peer":
+/***/ (function(module, exports) {
+
+module.exports = require("simple-peer");
+
+/***/ }),
+
+/***/ "wrtc":
+/***/ (function(module, exports) {
+
+module.exports = require("wrtc");
+
 /***/ })
 
 /******/ });
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=videochat.js.map
