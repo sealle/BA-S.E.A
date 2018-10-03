@@ -95,10 +95,13 @@ app.prepare()
 
 
         server.post('/authenticate', (req, response) => {
-            let username = database.connection.escape(req.body.username);//prevent sql injection
-            let sql = "SELECT * FROM idTest WHERE username= '" + username + "'";
+            //let username = database.connection.escape(req.body.username);
+            //let password = database.connection.escape(req.body.password);//prevent sql injection
+            let body = req.body;
+            let sql = "SELECT * FROM idTest WHERE username= '" + body.username + "'";
             database.connection.query(sql, function (err, res, fields) {
                 if(err) {
+                    console.log(err)
                     response.status(400).json({message: 'Username or Password incorrect'})
                 } else {
                     if (res.length) {
@@ -116,16 +119,18 @@ app.prepare()
                                     token: token,
                                 })
                             } else {
+                                console.log(err);
                                 response.status(400).json({
                                     success: false,
-                                    message: 'Username or Password is not correct'
+                                    message: 'Username or Password is not correct2'
                                 })
                             }
                         })
                     } else {
+                        console.log(err);
                         response.status(400).json({
                             success: false,
-                            message: 'Username or Password is not correct'
+                            message: 'Username or Password is not correct3'
                         })
                     }
                 }

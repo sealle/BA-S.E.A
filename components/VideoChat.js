@@ -58,7 +58,7 @@ export default class VideoChat extends Component {
     }
 
     setupPusher() { //TODO: Pusher only one way: User->Admin
-        //Pusher.logToConsole = true;
+        Pusher.logToConsole = true;
         this.pusher = new Pusher(APP_KEY, {
             authEndpoint: '/pusher/auth',
             cluster: 'eu',

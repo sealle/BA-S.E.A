@@ -382,10 +382,10 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
     _this.state = {
-      password: '',
-      username: '',
-      errorMessage: '',
-      errors: '',
+      password: "",
+      username: "",
+      errorMessage: "",
+      errors: "",
       loading: false
     };
 
@@ -402,67 +402,68 @@ function (_Component) {
       var _login2 = _asyncToGenerator(
       /*#__PURE__*/
       __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.mark(function _callee() {
-        var username, password, res;
+        var formData, response, res;
         return __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                username = this.state.username;
-                password = this.state.password;
+                //let {username} = this.state;
+                //let {password} = this.state;
+                formData = new FormData();
+                formData.append("username", this.state.username);
+                formData.append("password", this.state.password);
                 this.setState({
                   loading: true
                 });
-                _context.prev = 3;
-                __WEBPACK_IMPORTED_MODULE_5_isomorphic_unfetch___default()("/authenticate", {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    username: username,
-                    password: password
-                  })
+                _context.prev = 4;
+                _context.next = 7;
+                return __WEBPACK_IMPORTED_MODULE_5_isomorphic_unfetch___default()("/authenticate", {
+                  method: "POST",
+                  body: formData
                 }).then(function (res) {
                   if (res.status >= 400) {
-                    return new Error('Bad response from server');
+                    return new Error("Bad response from server");
                   }
 
                   return res.json();
                 }).catch(function (err) {
                   console.log(err);
                 });
-                _context.next = 7;
-                return __WEBPACK_IMPORTED_MODULE_6_axios___default.a.post(window.location.origin + '/authenticate', this.state);
 
               case 7:
+                response = _context.sent;
+                _context.next = 10;
+                return __WEBPACK_IMPORTED_MODULE_6_axios___default.a.post(window.location.origin + "/authenticate", this.state);
+
+              case 10:
                 res = _context.sent;
 
                 if (res.data.success) {
-                  Object(__WEBPACK_IMPORTED_MODULE_7__utils_CookieUtils__["b" /* setCookie */])('x-access-token', res.data.token);
-                  __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push('/profile');
+                  Object(__WEBPACK_IMPORTED_MODULE_7__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.token);
+                  __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/profile");
                 }
 
-                _context.next = 14;
+                _context.next = 17;
                 break;
 
-              case 11:
-                _context.prev = 11;
-                _context.t0 = _context["catch"](3);
+              case 14:
+                _context.prev = 14;
+                _context.t0 = _context["catch"](4);
                 this.setState({
                   errorMessage: _context.t0.response.data.message
                 });
 
-              case 14:
+              case 17:
                 this.setState({
                   loading: false
                 });
 
-              case 15:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[3, 11]]);
+        }, _callee, this, [[4, 14]]);
       }));
 
       return function _login() {
@@ -477,17 +478,17 @@ function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 64
+          lineNumber: 68
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__components_HomeHeader__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 65
+          lineNumber: 69
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_Layout__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66
+          lineNumber: 70
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Header"], {
         as: "h1",
@@ -497,7 +498,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 67
+          lineNumber: 71
         }
       }, "Welcome"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Header"], {
         as: "h3",
@@ -507,24 +508,24 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 68
+          lineNumber: 74
         }
       }, "Please login or register"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"], {
         onSubmit: this.login,
         error: this.state.errorMessage,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 69
+          lineNumber: 77
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"].Field, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 70
+          lineNumber: 78
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 71
+          lineNumber: 79
         }
       }, " Username "), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
         placeholder: "Username",
@@ -537,17 +538,17 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 72
+          lineNumber: 80
         }
       })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"].Field, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 77
+          lineNumber: 89
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 78
+          lineNumber: 90
         }
       }, "Password"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
         type: "password",
@@ -561,7 +562,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 79
+          lineNumber: 91
         }
       })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Message"], {
         error: true,
@@ -569,26 +570,26 @@ function (_Component) {
         content: this.state.errorMessage,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 85
+          lineNumber: 101
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Button"], {
         loading: this.state.loading,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 86
+          lineNumber: 102
         }
       }, "Login"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__routes__["Link"], {
         route: "/register",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 87
+          lineNumber: 103
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Button"], {
         primary: true,
         floated: "right",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 88
+          lineNumber: 104
         }
       }, "Register")))));
     }
