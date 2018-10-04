@@ -15,40 +15,23 @@ class Login extends Component {
       password: "",
       username: "",
       errorMessage: "",
-      errors: "",
       loading: false
     };
     this.login = e => this._login();
   }
 
   async _login() {
-    //let {username} = this.state;
-    //let {password} = this.state;
-
     const formData = new FormData();
     formData.append("username", this.state.username);
     formData.append("password", this.state.password);
+    formData.append("errorMessage", this.state.errorMessage);
 
     this.setState({ loading: true });
 
     try {
-      const response = await fetch("/authenticate", {
-        method: "POST",
-        body: formData
-      })
-        .then(res => {
-          if (res.status >= 400) {
-            return new Error("Bad response from server");
-          }
-          return res.json();
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-
       const res = await axios.post(
         window.location.origin + "/authenticate",
-        this.state
+        formData
       );
       if (res.data.success) {
         setCookie("x-access-token", res.data.token);

@@ -1,7 +1,7 @@
 module.exports =
 __NEXT_REGISTER_PAGE('/login', function() {
           var comp =
-      webpackJsonp([5],{
+      webpackJsonp([4],{
 
 /***/ "./components/HomeHeader.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -23672,7 +23672,7 @@ Table.Footer = __WEBPACK_IMPORTED_MODULE_9__TableFooter__["a" /* default */];
 Table.Header = __WEBPACK_IMPORTED_MODULE_10__TableHeader__["a" /* default */];
 Table.HeaderCell = __WEBPACK_IMPORTED_MODULE_11__TableHeaderCell__["a" /* default */];
 Table.Row = __WEBPACK_IMPORTED_MODULE_12__TableRow__["a" /* default */];
-/* unused harmony default export */ var _unused_webpack_default_export = (Table);
+/* harmony default export */ __webpack_exports__["a"] = (Table);
 
 /***/ }),
 
@@ -24122,7 +24122,7 @@ TableRow.create = Object(__WEBPACK_IMPORTED_MODULE_6__lib__["l" /* createShortha
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Table__ = __webpack_require__("./node_modules/semantic-ui-react/dist/es/collections/Table/Table.js");
-/* unused harmony reexport default */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__Table__["a"]; });
 
 
 
@@ -28389,7 +28389,7 @@ StepTitle.create = Object(__WEBPACK_IMPORTED_MODULE_4__lib__["l" /* createShorth
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__collections_Message_MessageList__ = __webpack_require__("./node_modules/semantic-ui-react/dist/es/collections/Message/MessageList.js");
 /* unused harmony reexport MessageList */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__collections_Table__ = __webpack_require__("./node_modules/semantic-ui-react/dist/es/collections/Table/index.js");
-/* unused harmony reexport Table */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_38__collections_Table__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__collections_Table_TableBody__ = __webpack_require__("./node_modules/semantic-ui-react/dist/es/collections/Table/TableBody.js");
 /* unused harmony reexport TableBody */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__collections_Table_TableCell__ = __webpack_require__("./node_modules/semantic-ui-react/dist/es/collections/Table/TableCell.js");
@@ -43141,7 +43141,6 @@ function (_Component) {
       password: "",
       username: "",
       errorMessage: "",
-      errors: "",
       loading: false
     };
 
@@ -43158,40 +43157,23 @@ function (_Component) {
       var _login2 = _asyncToGenerator(
       /*#__PURE__*/
       __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.mark(function _callee() {
-        var formData, response, res;
+        var formData, res;
         return __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                //let {username} = this.state;
-                //let {password} = this.state;
                 formData = new FormData();
                 formData.append("username", this.state.username);
                 formData.append("password", this.state.password);
+                formData.append("errorMessage", this.state.errorMessage);
                 this.setState({
                   loading: true
                 });
-                _context.prev = 4;
-                _context.next = 7;
-                return __WEBPACK_IMPORTED_MODULE_5_isomorphic_unfetch___default()("/authenticate", {
-                  method: "POST",
-                  body: formData
-                }).then(function (res) {
-                  if (res.status >= 400) {
-                    return new Error("Bad response from server");
-                  }
+                _context.prev = 5;
+                _context.next = 8;
+                return __WEBPACK_IMPORTED_MODULE_6_axios___default.a.post(window.location.origin + "/authenticate", formData);
 
-                  return res.json();
-                }).catch(function (err) {
-                  console.log(err);
-                });
-
-              case 7:
-                response = _context.sent;
-                _context.next = 10;
-                return __WEBPACK_IMPORTED_MODULE_6_axios___default.a.post(window.location.origin + "/authenticate", this.state);
-
-              case 10:
+              case 8:
                 res = _context.sent;
 
                 if (res.data.success) {
@@ -43199,27 +43181,27 @@ function (_Component) {
                   __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/profile");
                 }
 
-                _context.next = 17;
+                _context.next = 15;
                 break;
 
-              case 14:
-                _context.prev = 14;
-                _context.t0 = _context["catch"](4);
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context["catch"](5);
                 this.setState({
                   errorMessage: _context.t0.response.data.message
                 });
 
-              case 17:
+              case 15:
                 this.setState({
                   loading: false
                 });
 
-              case 18:
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[4, 14]]);
+        }, _callee, this, [[5, 12]]);
       }));
 
       return function _login() {
@@ -43234,17 +43216,17 @@ function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 68
+          lineNumber: 51
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__components_HomeHeader__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 69
+          lineNumber: 52
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_Layout__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 70
+          lineNumber: 53
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["d" /* Header */], {
         as: "h1",
@@ -43254,7 +43236,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 71
+          lineNumber: 54
         }
       }, "Welcome"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["d" /* Header */], {
         as: "h3",
@@ -43264,24 +43246,24 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 74
+          lineNumber: 57
         }
       }, "Please login or register"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["c" /* Form */], {
         onSubmit: this.login,
         error: this.state.errorMessage,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 77
+          lineNumber: 60
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["c" /* Form */].Field, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 78
+          lineNumber: 61
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 79
+          lineNumber: 62
         }
       }, " Username "), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
         placeholder: "Username",
@@ -43294,17 +43276,17 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 80
+          lineNumber: 63
         }
       })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["c" /* Form */].Field, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 89
+          lineNumber: 72
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 90
+          lineNumber: 73
         }
       }, "Password"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
         type: "password",
@@ -43318,7 +43300,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 91
+          lineNumber: 74
         }
       })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["g" /* Message */], {
         error: true,
@@ -43326,26 +43308,26 @@ function (_Component) {
         content: this.state.errorMessage,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 101
+          lineNumber: 84
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["a" /* Button */], {
         loading: this.state.loading,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 102
+          lineNumber: 85
         }
       }, "Login"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__routes__["Link"], {
         route: "/register",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 103
+          lineNumber: 86
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["a" /* Button */], {
         primary: true,
         floated: "right",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 104
+          lineNumber: 87
         }
       }, "Register")))));
     }
@@ -43438,7 +43420,7 @@ function getCurrentUser(currentUser) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./pages/login.js");
@@ -43446,7 +43428,7 @@ module.exports = __webpack_require__("./pages/login.js");
 
 /***/ })
 
-},[4])
+},[3])
           return { page: comp.default }
         })
       ;

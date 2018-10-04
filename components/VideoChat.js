@@ -47,7 +47,7 @@ export default class VideoChat extends Component {
 
       try {
         this.myVideo.srcObject = stream;
-      } catch {
+      } catch (e) {
         this.myVideo.src = URL.createObjectURL(stream);
       }
 
