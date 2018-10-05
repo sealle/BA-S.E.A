@@ -116,24 +116,47 @@ app
           if (res.length) {
             bcrypt.compare(body.password, res[0].password, function(err, res) {
               if (res) {
-                let token = jwt.sign(
-                  {
-                    username: body.username,
-                    xsrfToken: crypto
-                      .createHash("md5")
-                      .update(body.username)
-                      .digest("hex")
-                  },
-                  secret,
-                  {
-                    expiresIn: 60 * 60 //1h
-                  }
-                );
-                response.status(200).json({
-                  success: true,
-                  message: "Enjoy your token",
-                  token: token
-                });
+                if (body.username == "Admin") {
+                  let adminToken = jwt.sign(
+                    {
+                      username: body.username,
+                      role: ["admin", "user"],
+                      xsrfToken: crypto
+                        .createHash("md5")
+                        .update(body.username)
+                        .digest("hex")
+                    },
+                    secret,
+                    {
+                      expiresIn: 60 * 60 //1h
+                    }
+                  );
+                  response.status(200).json({
+                    success: true,
+                    message: "Enjoy your token",
+                    adminToken: adminToken
+                  });
+                } else {
+                  let token = jwt.sign(
+                    {
+                      username: body.username,
+                      role: "user",
+                      xsrfToken: crypto
+                        .createHash("md5")
+                        .update(body.username)
+                        .digest("hex")
+                    },
+                    secret,
+                    {
+                      expiresIn: 60 * 60 //1h
+                    }
+                  );
+                  response.status(200).json({
+                    success: true,
+                    message: "Enjoy your token",
+                    token: token
+                  });
+                }
               } else {
                 console.log(err);
                 response.status(400).json({
@@ -168,7 +191,7 @@ app
     });
 
     server.use(
-      unless(["/login", "/register", "/_next"], (req, res, next) => {
+      unless(["/login", "/register", "/error", "/_next"], (req, res, next) => {
         const token = req.cookies["x-access-token"];
         if (token) {
           jwt.verify(token, secret, (err, decoded) => {
@@ -221,15 +244,20 @@ app
       res.send(auth);
     });
 
-    /*server.get('/admin', urlEncodedParser, function (req, response) {
-            let body = req.body;
-            let sql = "SELECT * FROM testPics";
-            connection.query(sql, function (err, res, fields){
-                if (err) throw err;
-                response.send(JSON.stringify(res));
-                console.log(res);
-            })
-        })*/
+    server.get("/admin", function(req, response, next) {
+      const token = req.cookies["x-access-token"];
+      jwt.verify(token, secret, (err, decoded) => {
+        if (decoded.role[0] == "admin") {
+          return next();
+        } else {
+          /*response.status(400).json({
+            success: false,
+            message: "You are not entitled to see this page!"
+          });*/
+          response.redirect("/error");
+        }
+      });
+    });
 
     server.get("*", (req, res) => {
       return handle(req, res);
@@ -265,3 +293,17 @@ function unless(paths, middleware) {
     }
   };
 }
+
+/*function protectedPage(req, res, next) {
+  const token = req.cookies["x-access-token"];
+  jwt.verify(token, secret, (err, decoded) => {
+    if (decoded.role[0] == "admin") {
+      return next();
+    } else {
+      res.status(500).send({
+        success: false,
+        message: "You are not entitled to see this page!"
+      });
+    }
+  });
+}*/

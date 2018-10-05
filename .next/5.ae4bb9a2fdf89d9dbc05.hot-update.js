@@ -1,4 +1,4 @@
-webpackHotUpdate(4,{
+webpackHotUpdate(5,{
 
 /***/ "./components/ProfileHeader.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -12,6 +12,8 @@ webpackHotUpdate(4,{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes__ = __webpack_require__("./routes.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__routes__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_UserUtils__ = __webpack_require__("./utils/UserUtils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_jwt_decode__ = __webpack_require__("./node_modules/jwt-decode/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_jwt_decode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_jwt_decode__);
 var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/components/ProfileHeader.js";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -27,6 +29,8 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+
 
 
 
@@ -61,6 +65,17 @@ function (_Component) {
         __WEBPACK_IMPORTED_MODULE_3__routes__["Router"].pushRoute("/userdata");
       }
     });
+    Object.defineProperty(_assertThisInitialized(_this), "adminPage", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function value(e) {
+        __WEBPACK_IMPORTED_MODULE_3__routes__["Router"].pushRoute("/admin");
+      }
+    });
+    _this.state = {
+      isAdmin: false
+    };
 
     _this.logout = function (e) {
       return _this._logout();
@@ -71,6 +86,19 @@ function (_Component) {
   }
 
   _createClass(ProfileHeader, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var token = Object(__WEBPACK_IMPORTED_MODULE_2__utils_CookieUtils__["a" /* getCookie */])("x-access-token");
+      var decoded = __WEBPACK_IMPORTED_MODULE_5_jwt_decode___default()(token);
+      console.log(decoded.role);
+
+      if (decoded.role[0] == "admin") {
+        this.setState({
+          isAdmin: true
+        });
+      }
+    }
+  }, {
     key: "_logout",
     value: function _logout() {
       Object(__WEBPACK_IMPORTED_MODULE_2__utils_CookieUtils__["b" /* setCookie */])("x-access-token", "", -60 * 60);
@@ -82,64 +110,64 @@ function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 37
+          lineNumber: 55
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Menu */], {
         pointing: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 38
+          lineNumber: 56
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Menu */].Item, {
         name: "home",
         onClick: this.profileBack,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 39
+          lineNumber: 57
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["e" /* Icon */], {
         name: "home",
         size: "small",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 40
+          lineNumber: 58
         }
       })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Menu */].Item, {
         name: "view profile",
         onClick: this.userProfile,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 42
+          lineNumber: 60
         }
       }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Menu */].Menu, {
         position: "right",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 43
+          lineNumber: 61
         }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Menu */].Item, {
+      }, " ", __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Menu */].Item, {
         name: "logout",
         onClick: this.logout,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 44
+          lineNumber: 66
         }
       }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Menu */].Item, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 45
+          lineNumber: 67
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["e" /* Icon */], {
         name: "user",
         size: "small",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 46
+          lineNumber: 68
         }
       }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("p", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 47
+          lineNumber: 69
         }
       }, this.currentUser)))));
     }
@@ -153,4 +181,4 @@ function (_Component) {
 /***/ })
 
 })
-//# sourceMappingURL=4.3737b9f9d0e13a7b805e.hot-update.js.map
+//# sourceMappingURL=5.ae4bb9a2fdf89d9dbc05.hot-update.js.map

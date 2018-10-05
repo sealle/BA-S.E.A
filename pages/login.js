@@ -34,8 +34,13 @@ class Login extends Component {
         formData
       );
       if (res.data.success) {
-        setCookie("x-access-token", res.data.token);
-        Router.push("/profile");
+        if (res.data.token) {
+          setCookie("x-access-token", res.data.token);
+          Router.push("/profile");
+        } else {
+          setCookie("x-access-token", res.data.adminToken);
+          Router.push("/admin");
+        }
       }
     } catch (error) {
       this.setState({

@@ -10,13 +10,27 @@ import {
 import { setCookie } from "../utils/CookieUtils";
 import { Router, Link } from "../routes";
 import getCurrentUser from "../utils/UserUtils";
+import { getCookie } from "../utils/CookieUtils";
+import jwtDecode from "jwt-decode";
 
 export default class ProfileHeader extends Component {
   constructor() {
     super();
+    this.state = {
+      isAdmin: false
+    };
 
     this.logout = e => this._logout();
     this.currentUser = getCurrentUser();
+  }
+
+  componentDidMount() {
+    const token = getCookie("x-access-token");
+    const decoded = jwtDecode(token);
+    console.log(decoded.role);
+    if (decoded.role[0] == "admin") {
+      this.setState({ isAdmin: true });
+    }
   }
 
   _logout() {
@@ -32,6 +46,10 @@ export default class ProfileHeader extends Component {
     Router.pushRoute("/userdata");
   };
 
+  adminPage = e => {
+    Router.pushRoute("/admin");
+  };
+
   render() {
     return (
       <div>
@@ -41,6 +59,10 @@ export default class ProfileHeader extends Component {
           </Menu.Item>
           <Menu.Item name="view profile" onClick={this.userProfile} />
           <Menu.Menu position="right">
+            {/*}  {this.state.isAdmin ? (
+              <Menu.Item name="users" onClick={this.adminPage} />
+            ) : null}*/}{" "}
+            {/*TODO: Add view users profiles button/page*/}
             <Menu.Item name="logout" onClick={this.logout} />
             <Menu.Item>
               <Icon name="user" size="small" />
