@@ -188,6 +188,7 @@ app
 
     server.post("/api/preventCRSF", (req, res, next) => {
       if (req.decoded.xsrfToken === req.get("X-XSRF-TOKEN")) {
+        console.log(req.decoded.xsrfToken);
         res.status(200).json({
           success: true,
           message: "Yes, this api is protected by CRSF attack"

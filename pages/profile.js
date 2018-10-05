@@ -12,7 +12,7 @@ import {
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
-import { getCookie, setCookie } from "../utils/CookieUtils";
+import { getCookie } from "../utils/CookieUtils";
 import ProfileHeader from "../components/ProfileHeader";
 import jwtDecode from "jwt-decode";
 
@@ -28,6 +28,7 @@ class Profile extends Component {
   async _testCSRF() {
     const token = getCookie("x-access-token");
     const decoded = jwtDecode(token);
+    console.log(decoded.xsrfToken);
     try {
       const res = await axios.post(
         window.location.origin + "/api/preventCRSF",
@@ -36,13 +37,13 @@ class Profile extends Component {
         },
         {
           headers: {
-            "X-XSRF-TOKEN": decoded.xsrftoken
+            "X-XSRF-TOKEN": decoded.xsrfToken
           }
         }
       );
       if (res.data.success) {
         this.setState({
-          message: res.data.message
+          message: res.data.message //TODO: Fix!
         });
       }
     } catch (error) {

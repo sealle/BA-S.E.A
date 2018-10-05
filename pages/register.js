@@ -226,7 +226,6 @@ class Register extends Component {
                 name="file"
                 id="file"
                 multiple
-                required
                 onChange={this.handleFileChange}
               />
             </Form.Group>
@@ -278,7 +277,7 @@ class Register extends Component {
                             <Form.Input fluid type="file" width="eight"
                                         label="Provisions regulating the power to bind the legal entity"
                                         name="legalEnt"/>
-                        </Form.Group>*/}{" "}
+                        </Form.Group>*/}
             {/* TODO: how to handle company registrations... neccessary?*/}
             <Button
               style={{ marginLeft: 280 }}
