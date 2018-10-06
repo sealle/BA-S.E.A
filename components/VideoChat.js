@@ -8,6 +8,8 @@ const wrtc = require("wrtc");
 import getCurrentUser from "../utils/UserUtils";
 import { getCookie } from "../utils/CookieUtils";
 import jwtDecode from "jwt-decode";
+import { Header } from "semantic-ui-react";
+import Layout from "../components/Layout";
 
 export default class VideoChat extends Component {
   constructor() {
@@ -57,7 +59,7 @@ export default class VideoChat extends Component {
 
   setupPusher() {
     //TODO: Pusher only one way: User->Admin
-    //Pusher.logToConsole = true;
+    Pusher.logToConsole = true;
     this.pusher = new Pusher(APP_KEY, {
       authEndpoint: "/pusher/auth",
       cluster: "eu",
@@ -140,57 +142,61 @@ export default class VideoChat extends Component {
 
   render() {
     return (
-      <div className="VideoChat" style={{ textAlign: "center" }}>
-        <h1>VideoChat</h1>
-        {["Admin"].map(userName => {
-          return this.user.name !== userName ? (
-            <button key={userName} onClick={() => this.callTo(userName)}>
-              Call {userName}
-            </button>
-          ) : null;
-        })}
+      <div>
+        <Layout>
+          <Header as="h1" style={{ textAlign: "center", marginTop: "30px" }}>
+            Video Chat
+          </Header>
+          {["Admin"].map(userName => {
+            return this.user.name !== userName ? (
+              <button key={userName} onClick={() => this.callTo(userName)}>
+                Call {userName}
+              </button>
+            ) : null;
+          })}
 
-        <div
-          className="video-container"
-          style={{
-            width: "500px",
-            height: "380px",
-            margin: "0px auto",
-            position: "relative",
-            border: "6px solid #645cff"
-          }}
-        >
-          <video
-            className="my-video"
-            ref={ref => {
-              this.myVideo = ref;
-            }}
+          <div
+            className="video-container"
             style={{
-              width: "130px",
-              position: "absolute",
-              left: "10px",
-              bottom: "10px",
-              border: "6px solid #2196F3",
-              zIndex: "2"
+              width: "650px",
+              height: "380px",
+              margin: "0px auto",
+              position: "relative",
+              border: "3px solid #000"
             }}
-          />
-          <video
-            className="user-video"
-            ref={ref => {
-              this.userVideo = ref;
-            }}
-            style={{
-              position: "absolute",
-              left: "0",
-              right: "0",
-              bottom: "0",
-              top: "0",
-              width: "100%",
-              height: "100%",
-              zIndex: "1"
-            }}
-          />
-        </div>
+          >
+            <video
+              className="my-video"
+              ref={ref => {
+                this.myVideo = ref;
+              }}
+              style={{
+                width: "130px",
+                position: "absolute",
+                left: "10px",
+                bottom: "10px",
+                border: "3px solid #0061ff",
+                zIndex: "2"
+              }}
+            />
+            <video
+              className="user-video"
+              ref={ref => {
+                this.userVideo = ref;
+              }}
+              style={{
+                position: "absolute",
+                left: "0",
+                right: "0",
+                bottom: "0",
+                top: "0",
+                width: "100%",
+                height: "100%",
+                zIndex: "1"
+              }}
+            />
+          </div>
+        </Layout>
       </div>
     );
   }

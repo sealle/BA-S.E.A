@@ -42,9 +42,9 @@ export default class ProfileHeader extends Component {
     Router.pushRoute("/profile");
   };
 
-  userProfile = e => {
+  /*userProfile = e => {
     Router.pushRoute("/userdata");
-  };
+  };*/
 
   adminPage = e => {
     Router.pushRoute("/admin");
@@ -57,11 +57,11 @@ export default class ProfileHeader extends Component {
           <Menu.Item name="home" onClick={this.profileBack}>
             <Icon name="home" size="small" />
           </Menu.Item>
-          <Menu.Item name="view profile" onClick={this.userProfile} />
+          {/*<Menu.Item name="view profile" onClick={this.userProfile} />*/}
           <Menu.Menu position="right">
             {/*}  {this.state.isAdmin ? (
               <Menu.Item name="users" onClick={this.adminPage} />
-            ) : null}*/}{" "}
+            ) : null}*/}
             {/*TODO: Add view users profiles button/page*/}
             <Menu.Item name="logout" onClick={this.logout} />
             <Menu.Item>

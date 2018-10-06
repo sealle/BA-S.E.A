@@ -190,6 +190,17 @@ app
       });
     });
 
+    server.post("/userlist", function(req, response) {
+      let sql = "SELECT * FROM idTest";
+      database.connection.query(sql, function(err, res, fields) {
+        if (err) throw err;
+        response.status(200).json({
+          success: true,
+          userData: res
+        });
+      });
+    });
+
     server.use(
       unless(["/login", "/register", "/error", "/_next"], (req, res, next) => {
         const token = req.cookies["x-access-token"];

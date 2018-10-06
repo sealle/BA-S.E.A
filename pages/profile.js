@@ -15,6 +15,7 @@ import axios from "axios";
 import { getCookie } from "../utils/CookieUtils";
 import ProfileHeader from "../components/ProfileHeader";
 import jwtDecode from "jwt-decode";
+import UserData from "../components/UserData";
 
 class Profile extends Component {
   constructor(props) {
@@ -57,6 +58,7 @@ class Profile extends Component {
     return (
       <div>
         <ProfileHeader />
+        <UserData />
         <Layout>
           <Header as="h1" textAlign="center" style={{ marginTop: 60 }}>
             Hello
