@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Icon, Container, Table, Header, List, Grid } from "semantic-ui-react";
+import {
+  Icon,
+  Container,
+  Table,
+  Header,
+  List,
+  Grid,
+  Button
+} from "semantic-ui-react";
 import fetch from "isomorphic-unfetch";
 import ProfileHeader from "../components/ProfileHeader";
 import Layout from "../components/Layout";
@@ -13,9 +21,11 @@ export default class UserList extends Component {
       users: [],
       usrs: [],
       test: "",
-      isChosen: false
+      isChosen: false,
+      isPromoted: false
     };
     this.currentUser = getCurrentUser();
+    this.makeAdmin = e => this._makeAdmin();
   }
 
   async componentDidMount() {
@@ -44,6 +54,22 @@ export default class UserList extends Component {
       console.log(error);
     }
     this.setState({ isChosen: true });
+  }
+
+  async _makeAdmin() {
+    let currentUser = this.state.usrs[0].username;
+    try {
+      const response = await axios.post(window.location.origin + "/makeadmin", {
+        currentUser
+      });
+      if (response.data.success) {
+        this.setState({ successMessage: response.data.message });
+        console.log(this.state.successMessage);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    this.setState({ isPromoted: true });
   }
 
   //TODO: Create UserProfile component with default template
@@ -88,7 +114,7 @@ export default class UserList extends Component {
                             size="big"
                             style={{ align: "left" }}
                           />
-                          {this.state.usrs.lname},{this.state.usrs.fname}
+                          {this.state.usrs[0].lname},{this.state.usrs[0].fname}
                           {/*TODO: Make it work! :)*/}
                         </Header>
                         <Table>
@@ -130,6 +156,10 @@ export default class UserList extends Component {
                           }}
                         />
                       </Container>
+                      <Button primary onClick={this.makeAdmin}>
+                        Make Admin
+                      </Button>{" "}
+                      {/*TODO: disable button when user is already admin*/}
                     </Layout>
                   </div>
                 ) : null}

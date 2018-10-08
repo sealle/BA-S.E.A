@@ -52,29 +52,42 @@ app
 
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
-          image.mv("static/" + image.name, function(err) {
-            if (err) return response.status(500).send(err); //TODO: save AFTER success!!!
-          });
-          image2.mv("static/SebF" + image2.name, function(err) {
-            //TODO: save AFTER success!!!
-            if (err) return response.status(500).send(err);
-          });
           let body = req.body;
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
           //TODO:let date = new Date(); //wrong, insert timestamp!!
           //let currentDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(); //wrong date, insert timestamp!!
           let sql =
-            "INSERT INTO idTest(username, password, ID1, ID2, fname, lname) VALUES ('" +
+            "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2) VALUES ('" +
             body.username +
             "', '" +
             hash +
+            "', '" +
+            body.fname +
+            "', '" +
+            body.lname +
+            "', '" +
+            body.street +
+            "', '" +
+            body.houseNr +
+            "', '" +
+            body.postCode +
+            "', '" +
+            body.placeOfRes +
+            "', '" +
+            body.dateOfBirth +
+            "', '" +
+            body.nat +
+            "', '" +
+            body.email +
+            "', '" +
+            body.mobNr +
             "', '" +
             imageName +
             "', '" +
             imageName2 +
             "')";
           let searchSQL =
-            "SELECT * FROM idTest WHERE username='" + body.username + "'";
+            "SELECT * FROM users WHERE username='" + body.username + "'";
           database.connection.query(searchSQL, function(err, res) {
             if (err) {
               console.log("1.error");
@@ -88,8 +101,14 @@ app
               } else {
                 database.connection.query(sql, function(err, result) {
                   if (err) {
-                    console.log("2.error");
+                    console.log(err);
                   } else {
+                    image.mv("static/" + image.name, function(err) {
+                      if (err) return response.status(500).send(err);
+                    });
+                    image2.mv("static/" + image2.name, function(err) {
+                      if (err) return response.status(500).send(err);
+                    });
                     response.status(200).json({
                       success: true,
                       message: "successfully registered!"
@@ -106,17 +125,20 @@ app
 
     server.post("/authenticate", (req, response) => {
       let body = req.body; //TODO: prevent SQL injection!
-      let sql = "SELECT * FROM idTest WHERE username= '" + body.username + "'";
-      database.connection.query(sql, function(err, res, fields) {
+      let sql = "SELECT * FROM users WHERE username= '" + body.username + "'";
+      database.connection.query(sql, function(err, result, fields) {
         if (err) {
           response
             .status(400)
             .json({ message: "Username or Password is not correct!" });
         } else {
-          if (res.length) {
-            bcrypt.compare(body.password, res[0].password, function(err, res) {
+          if (result.length) {
+            bcrypt.compare(body.password, result[0].password, function(
+              err,
+              res
+            ) {
               if (res) {
-                if (body.username == "Admin") {
+                if (result[0].role == "admin") {
                   let adminToken = jwt.sign(
                     {
                       username: body.username,
@@ -178,7 +200,7 @@ app
 
     server.post("/users", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser; //TODO:prevent SQL injection
-      let sql = "SELECT * FROM idTest WHERE username = '" + currentUser + "'";
+      let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
       database.connection.query(sql, function(err, res, fields) {
         if (err) throw err;
         response.status(200).send({
@@ -190,8 +212,21 @@ app
       });
     });
 
+    server.post("/makeadmin", urlEncodedParser, function(req, response) {
+      let currentUser = req.body.currentUser;
+      let sql =
+        "UPDATE users SET role='admin' WHERE username='" + currentUser + "'";
+      database.connection.query(sql, function(err, res, fields) {
+        if (err) throw err;
+        response.status(200).json({
+          success: true,
+          message: "you have promoted this user to administrator"
+        });
+      });
+    });
+
     server.post("/userlist", function(req, response) {
-      let sql = "SELECT * FROM idTest";
+      let sql = "SELECT * FROM users";
       database.connection.query(sql, function(err, res, fields) {
         if (err) throw err;
         response.status(200).json({

@@ -27,7 +27,6 @@ export default class ProfileHeader extends Component {
   componentDidMount() {
     const token = getCookie("x-access-token");
     const decoded = jwtDecode(token);
-    console.log(decoded.role);
     if (decoded.role[0] == "admin") {
       this.setState({ isAdmin: true });
     }

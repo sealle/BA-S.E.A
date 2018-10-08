@@ -44,7 +44,7 @@ export default class UserData extends Component {
           <Container style={{ marginTop: "10px" }}>
             <Header as="h3" block style={{ backgroundColor: "#d9edf7" }}>
               <Icon name="user" size="big" style={{ align: "left" }} />
-              {this.state.users.lname}, {this.state.users.fname}
+              {this.state.users[0].lname}, {this.state.users[0].fname}
               {/*TODO: Make it work! :)*/}
             </Header>
             <Table>

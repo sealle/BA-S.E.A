@@ -198,7 +198,6 @@ function (_Component) {
     value: function componentDidMount() {
       var token = Object(__WEBPACK_IMPORTED_MODULE_2__utils_CookieUtils__["a" /* getCookie */])("x-access-token");
       var decoded = __WEBPACK_IMPORTED_MODULE_5_jwt_decode___default()(token);
-      console.log(decoded.role);
 
       if (decoded.role[0] == "admin") {
         this.setState({
@@ -218,57 +217,57 @@ function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 55
+          lineNumber: 54
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"], {
         pointing: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 56
+          lineNumber: 55
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"].Item, {
         name: "home",
         onClick: this.profileBack,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 57
+          lineNumber: 56
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Icon"], {
         name: "home",
         size: "small",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 58
+          lineNumber: 57
         }
       })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"].Menu, {
         position: "right",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 61
+          lineNumber: 60
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"].Item, {
         name: "logout",
         onClick: this.logout,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66
+          lineNumber: 65
         }
       }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Menu"].Item, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 67
+          lineNumber: 66
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["Icon"], {
         name: "user",
         size: "small",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 68
+          lineNumber: 67
         }
       }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("p", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 69
+          lineNumber: 68
         }
       }, this.currentUser)))));
     }
@@ -341,9 +340,15 @@ function (_Component) {
       users: [],
       usrs: [],
       test: "",
-      isChosen: false
+      isChosen: false,
+      isPromoted: false
     };
     _this.currentUser = Object(__WEBPACK_IMPORTED_MODULE_6__utils_UserUtils__["a" /* default */])();
+
+    _this.makeAdmin = function (e) {
+      return _this._makeAdmin();
+    };
+
     return _this;
   }
 
@@ -448,6 +453,59 @@ function (_Component) {
       return function selectUser(_x, _x2) {
         return _selectUser.apply(this, arguments);
       };
+    }()
+  }, {
+    key: "_makeAdmin",
+    value: function () {
+      var _makeAdmin2 = _asyncToGenerator(
+      /*#__PURE__*/
+      __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.mark(function _callee3() {
+        var currentUser, response;
+        return __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                currentUser = this.state.usrs[0].username;
+                _context3.prev = 1;
+                _context3.next = 4;
+                return __WEBPACK_IMPORTED_MODULE_7_axios___default.a.post(window.location.origin + "/makeadmin", {
+                  currentUser: currentUser
+                });
+
+              case 4:
+                response = _context3.sent;
+
+                if (response.data.success) {
+                  this.setState({
+                    successMessage: response.data.message
+                  });
+                  console.log(this.state.successMessage);
+                }
+
+                _context3.next = 11;
+                break;
+
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](1);
+                console.log(_context3.t0);
+
+              case 11:
+                this.setState({
+                  isPromoted: true
+                });
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[1, 8]]);
+      }));
+
+      return function _makeAdmin() {
+        return _makeAdmin2.apply(this, arguments);
+      };
     }() //TODO: Create UserProfile component with default template
 
   }, {
@@ -458,12 +516,12 @@ function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 52
+          lineNumber: 78
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__components_Layout__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 53
+          lineNumber: 79
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Header"], {
         as: "h1",
@@ -473,7 +531,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 54
+          lineNumber: 80
         }
       }, "List of all Users"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Container"], {
         style: {
@@ -481,66 +539,66 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 57
+          lineNumber: 83
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Grid"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 58
+          lineNumber: 84
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Grid"].Column, {
         width: 4,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 59
+          lineNumber: 85
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["List"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 60
+          lineNumber: 86
         }
       }, this.state.users.map(function (member) {
         return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["List"].Item, {
           key: member.id,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 62
+            lineNumber: 88
           }
         }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Icon"], {
           name: "user",
           size: "small",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 63
+            lineNumber: 89
           }
         }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["List"].Content, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 64
+            lineNumber: 90
           }
         }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["List"].Header, {
           as: "a",
           onClick: _this2.selectUser.bind(_this2, member),
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 65
+            lineNumber: 91
           }
         }, member.username)));
       }))), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Grid"].Column, {
         width: 12,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 76
+          lineNumber: 102
         }
       }, this.state.isChosen ? __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 78
+          lineNumber: 104
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__components_Layout__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 79
+          lineNumber: 105
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Container"], {
         style: {
@@ -548,7 +606,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 80
+          lineNumber: 106
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Header"], {
         as: "h3",
@@ -558,7 +616,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 81
+          lineNumber: 107
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Icon"], {
         name: "user",
@@ -568,47 +626,47 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 86
+          lineNumber: 112
         }
-      }), this.state.usrs.lname, ",", this.state.usrs.fname), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"], {
+      }), this.state.usrs[0].lname, ",", this.state.usrs[0].fname), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 94
+          lineNumber: 120
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"].Body, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 95
+          lineNumber: 121
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"].Row, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 96
+          lineNumber: 122
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"].Cell, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 97
+          lineNumber: 123
         }
       }, "Username: ", this.state.usrs[0].username), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"].Cell, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 100
+          lineNumber: 126
         }
       }, "ID: ", this.state.usrs[0].id)), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"].Row, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 104
+          lineNumber: 130
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"].Cell, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 105
+          lineNumber: 131
         }
       }, "First Name: ", this.state.usrs[0].fname), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Table"].Cell, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 108
+          lineNumber: 134
         }
       }, "Last Name: ", this.state.usrs[0].lname)))), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("img", {
         className: "img-responsive",
@@ -620,7 +678,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 114
+          lineNumber: 140
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("img", {
         className: "img-responsive",
@@ -632,9 +690,16 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 123
+          lineNumber: 149
         }
-      })))) : null)))));
+      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Button"], {
+        primary: true,
+        onClick: this.makeAdmin,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 159
+        }
+      }, "Make Admin"), " ")) : null)))));
     }
   }]);
 

@@ -40,11 +40,17 @@ export default class UserData extends Component {
             Your Profile
           </Header>
           <Container style={{ marginTop: "10px" }}>
-            <Header as="h3" block style={{ backgroundColor: "#d9edf7" }}>
-              <Icon name="user" size="big" style={{ align: "left" }} />
-              {this.state.users.lname}, {this.state.users.fname}
-              {/*TODO: Make it work! :)*/}
-            </Header>
+            {this.state.users.map(member => (
+              <Header
+                as="h3"
+                block
+                style={{ backgroundColor: "#d9edf7" }}
+                key={member.id}
+              >
+                <Icon name="user" size="big" style={{ align: "left" }} />
+                {member.lname}, {member.fname}
+              </Header>
+            ))}
             <Table>
               <Table.Body>
                 {this.state.users.map(member => (
@@ -55,7 +61,8 @@ export default class UserData extends Component {
                 ))}
                 {this.state.users.map(member => (
                   <Table.Row key={member.id} widths="equal">
-                    <Table.Cell>First Name: {member.fname}</Table.Cell>
+                    <Table.Cell>First Name: {member.fname}</Table.Cell>{" "}
+                    {/*TODO: show other data*/}
                     <Table.Cell>Last Name: {member.lname}</Table.Cell>
                   </Table.Row>
                 ))}

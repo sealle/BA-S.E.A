@@ -15,6 +15,16 @@ class Register extends Component {
     this.state = {
       username: "",
       password: "",
+      fname: "",
+      lname: "",
+      street: "",
+      houseNr: "",
+      postCode: "",
+      placeOfRes: "",
+      dateOfBirth: "",
+      nat: "",
+      email: "",
+      mobNr: "",
       errorMessage: "",
       successMessage: "",
       loading: false,
@@ -35,6 +45,16 @@ class Register extends Component {
     const formData = new FormData();
     formData.append("file1", this.state.file1);
     formData.append("file2", this.state.file2);
+    formData.append("fname", this.state.fname);
+    formData.append("lname", this.state.lname);
+    formData.append("street", this.state.street);
+    formData.append("houseNr", this.state.houseNr);
+    formData.append("postCode", this.state.postCode);
+    formData.append("placeOfRes", this.state.placeOfRes);
+    formData.append("dateOfBirth", this.state.dateOfBirth);
+    formData.append("nat", this.state.nat);
+    formData.append("email", this.state.email);
+    formData.append("mobNr", this.state.mobNr);
     formData.append("username", this.state.username);
     formData.append("password", this.state.password);
     formData.append("errorMessage", this.state.errorMessage);
@@ -181,8 +201,8 @@ class Register extends Component {
                 fluid
                 label="Date of Birth"
                 type="date"
-                placeholder="DD.MM.YYYY"
-                name="DateOfBirth"
+                placeholder="YYYY-MM-DD"
+                name="dateOfBirth"
                 value={this.state.DateOfBirth}
                 onChange={event =>
                   this.setState({ DateOfBirth: event.target.value })
