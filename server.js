@@ -138,7 +138,7 @@ app
               res
             ) {
               if (res) {
-                if (result[0].role == "admin") {
+                if (result[0].privileges == "admin") {
                   let adminToken = jwt.sign(
                     {
                       username: body.username,
@@ -215,7 +215,9 @@ app
     server.post("/makeadmin", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser;
       let sql =
-        "UPDATE users SET role='admin' WHERE username='" + currentUser + "'";
+        "UPDATE users SET privileges='admin' WHERE username='" +
+        currentUser +
+        "'";
       database.connection.query(sql, function(err, res, fields) {
         if (err) throw err;
         response.status(200).json({

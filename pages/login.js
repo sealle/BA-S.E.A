@@ -3,7 +3,6 @@ import { Link, Router } from "../routes";
 import { Form, Button, Message } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
-import fetch from "isomorphic-unfetch";
 import axios from "axios";
 import { setCookie } from "../utils/CookieUtils";
 import HomeHeader from "../components/HomeHeader";

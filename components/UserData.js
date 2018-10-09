@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Icon, Container, Table, Header } from "semantic-ui-react";
-import fetch from "isomorphic-unfetch";
-import ProfileHeader from "../components/ProfileHeader";
 import Layout from "../components/Layout";
 import getCurrentUser from "../utils/UserUtils";
 import axios from "axios";
@@ -52,21 +50,34 @@ export default class UserData extends Component {
               </Header>
             ))}
             <Table>
-              <Table.Body>
-                {this.state.users.map(member => (
-                  <Table.Row key={member.id}>
+              {this.state.users.map(member => (
+                <Table.Body key={member.id}>
+                  <Table.Row>
                     <Table.Cell>Username: {member.username}</Table.Cell>
                     <Table.Cell>ID: {member.id}</Table.Cell>
                   </Table.Row>
-                ))}
-                {this.state.users.map(member => (
-                  <Table.Row key={member.id} widths="equal">
-                    <Table.Cell>First Name: {member.fname}</Table.Cell>{" "}
-                    {/*TODO: show other data*/}
-                    <Table.Cell>Last Name: {member.lname}</Table.Cell>
+                  <Table.Row>
+                    <Table.Cell>street: {member.street}</Table.Cell>
+                    <Table.Cell>House Nr: {member.houseNr}</Table.Cell>
                   </Table.Row>
-                ))}
-              </Table.Body>
+                  <Table.Row>
+                    <Table.Cell>Postal Code: {member.postCode}</Table.Cell>
+                    <Table.Cell>Residence: {member.placeOfRes}</Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Birthday: {member.dateOfBirth}</Table.Cell>
+                    <Table.Cell>Nationality: {member.nat}</Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Email: {member.email}</Table.Cell>
+                    <Table.Cell>Mobile Number: {member.mobNr}</Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Role: {member.privileges}</Table.Cell>
+                    <Table.Cell />
+                  </Table.Row>
+                </Table.Body>
+              ))}
             </Table>
             <img
               className="img-responsive"

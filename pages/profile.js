@@ -52,6 +52,7 @@ class Profile extends Component {
         message: error.response.data.message
       });
     }
+    console.log("0x" + decoded.xsrfToken);
   } //!Only for test purposes
 
   render() {

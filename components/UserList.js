@@ -8,8 +8,6 @@ import {
   Grid,
   Button
 } from "semantic-ui-react";
-import fetch from "isomorphic-unfetch";
-import ProfileHeader from "../components/ProfileHeader";
 import Layout from "../components/Layout";
 import getCurrentUser from "../utils/UserUtils";
 import axios from "axios";
@@ -82,7 +80,7 @@ export default class UserList extends Component {
           </Header>
           <Container style={{ marginTop: "10px" }}>
             <Grid>
-              <Grid.Column width={4}>
+              <Grid.Column width={4} style={{ marginTop: "12px" }}>
                 <List>
                   {this.state.users.map(member => (
                     <List.Item key={member.id}>
@@ -114,8 +112,7 @@ export default class UserList extends Component {
                             size="big"
                             style={{ align: "left" }}
                           />
-                          {this.state.usrs[0].lname},{this.state.usrs[0].fname}
-                          {/*TODO: Make it work! :)*/}
+                          {this.state.usrs[0].lname}, {this.state.usrs[0].fname}
                         </Header>
                         <Table>
                           <Table.Body>
@@ -129,10 +126,65 @@ export default class UserList extends Component {
                             </Table.Row>
                             <Table.Row>
                               <Table.Cell>
-                                First Name: {this.state.usrs[0].fname}
+                                Street: {this.state.usrs[0].street}
                               </Table.Cell>
                               <Table.Cell>
-                                Last Name: {this.state.usrs[0].lname}
+                                House Nr: {this.state.usrs[0].houseNr}
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>
+                                Postal Code: {this.state.usrs[0].postCode}
+                              </Table.Cell>
+                              <Table.Cell>
+                                Residence: {this.state.usrs[0].placeOfRes}
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>
+                                Birthday: {this.state.usrs[0].dateOfBirth}
+                              </Table.Cell>
+                              <Table.Cell>
+                                Nationality: {this.state.usrs[0].nat}
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>
+                                Email: {this.state.usrs[0].email}
+                              </Table.Cell>
+                              <Table.Cell>
+                                Mobile Number: {this.state.usrs[0].mobNr}
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>
+                                Role: {this.state.usrs[0].privileges}
+                              </Table.Cell>
+                              <Table.Cell>
+                                {this.state.usrs[0].privileges == "user" ? (
+                                  <button
+                                    style={{
+                                      borderRadius: "4px",
+                                      backgroundColor: "#2985d0",
+                                      cursor: "pointer",
+                                      border: "none"
+                                    }}
+                                    onClick={this.makeAdmin}
+                                  >
+                                    Make Admin
+                                  </button>
+                                ) : (
+                                  <button
+                                    style={{
+                                      borderRadius: "4px",
+                                      backgroundColor: "#2985d0",
+                                      border: "none"
+                                    }}
+                                    disabled
+                                  >
+                                    Make Admin
+                                  </button>
+                                )}
                               </Table.Cell>
                             </Table.Row>
                           </Table.Body>
@@ -156,10 +208,6 @@ export default class UserList extends Component {
                           }}
                         />
                       </Container>
-                      <Button primary onClick={this.makeAdmin}>
-                        Make Admin
-                      </Button>{" "}
-                      {/*TODO: disable button when user is already admin*/}
                     </Layout>
                   </div>
                 ) : null}

@@ -3,7 +3,6 @@ import { Link, Router } from "../routes";
 import { Form, Button, Icon, Popup, Message } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
-import fetch from "isomorphic-unfetch";
 import HomeHeader from "../components/HomeHeader";
 import axios from "axios";
 
