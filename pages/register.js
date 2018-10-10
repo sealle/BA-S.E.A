@@ -58,6 +58,8 @@ class Register extends Component {
     formData.append("password", this.state.password);
     formData.append("errorMessage", this.state.errorMessage);
 
+    console.log(this.state.dateOfBirth);
+
     try {
       const response = await axios.post(
         window.location.origin + "/register",
@@ -73,11 +75,18 @@ class Register extends Component {
   }
 
   handleFileChange = e => {
-    this.setState({ file1: e.target.files[0] });
-    this.setState({ file2: e.target.files[1] });
-    this.setState({ prev1: URL.createObjectURL(e.target.files[0]) }); //image-preview
-    this.setState({ prev2: URL.createObjectURL(e.target.files[1]) }); //image-preview
-    this.setState({ showResults: true });
+    if (!e.target.files[0] || !e.target.files[1]) {
+      this.setState({ errorMessage: "You have to upload 2 images!" });
+    } else {
+      this.setState({
+        file1: e.target.files[0],
+        file2: e.target.files[1],
+        prev1: URL.createObjectURL(e.target.files[0]),
+        prev2: URL.createObjectURL(e.target.files[1]),
+        showResults: true,
+        errorMessage: ""
+      });
+    }
   };
 
   //check mrz code
@@ -202,9 +211,9 @@ class Register extends Component {
                 type="date"
                 placeholder="YYYY-MM-DD"
                 name="dateOfBirth"
-                value={this.state.DateOfBirth}
+                value={this.state.dateOfBirth}
                 onChange={event =>
-                  this.setState({ DateOfBirth: event.target.value })
+                  this.setState({ dateOfBirth: event.target.value })
                 }
               />
               <Form.Input
@@ -298,13 +307,19 @@ class Register extends Component {
                                         name="legalEnt"/>
                         </Form.Group>*/}
             {/* TODO: how to handle company registrations... neccessary?*/}
-            <Button
-              style={{ marginLeft: 280 }}
-              primary
-              loading={this.state.loading}
-            >
-              Submit
-            </Button>
+            {this.state.showResults ? (
+              <Button
+                style={{ marginLeft: 280 }}
+                primary
+                loading={this.state.loading}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button primary style={{ marginLeft: 280 }} disabled>
+                Submit
+              </Button>
+            )}
             <Message error header="Oops!" content={this.state.errorMessage} />
           </Form>
           <br />

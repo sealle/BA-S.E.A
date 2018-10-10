@@ -47,8 +47,16 @@ app
       let image = req.files.file1;
       let image2 = req.files.file2;
 
-      let imageName = image.name;
-      let imageName2 = image2.name;
+      let imageName = `${req.body.username}-${image.name}`;
+      let imageName2 = `${req.body.username}-${image2.name}`;
+
+
+      /*if (!image || !image2) {
+        response.status(400).json({
+          success: false,
+          message: "you have to upload 2 pictures!"
+        });
+      }*/
 
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
@@ -103,10 +111,10 @@ app
                   if (err) {
                     console.log(err);
                   } else {
-                    image.mv("static/" + image.name, function(err) {
+                    image.mv("static/" + imageName, function(err) {
                       if (err) return response.status(500).send(err);
                     });
-                    image2.mv("static/" + image2.name, function(err) {
+                    image2.mv("static/" + imageName2, function(err) {
                       if (err) return response.status(500).send(err);
                     });
                     response.status(200).json({
