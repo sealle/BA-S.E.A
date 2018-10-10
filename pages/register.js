@@ -69,7 +69,7 @@ class Register extends Component {
         Router.push("/login"); //TODO: add success popup
       }
     } catch (error) {
-      this.setState({ errorMessage: error.response.data.message }); //TODO: get errorMessage if only one or null pictures were uploaded! -> server
+      this.setState({ errorMessage: error.response.data.message });
     }
     this.setState({ loading: false });
   }

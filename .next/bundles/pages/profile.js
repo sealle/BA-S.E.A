@@ -1,59 +1,7 @@
 module.exports =
-__NEXT_REGISTER_PAGE('/login', function() {
+__NEXT_REGISTER_PAGE('/profile', function() {
           var comp =
-      webpackJsonp([5],{
-
-/***/ "./components/HomeHeader.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("./node_modules/react/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__ = __webpack_require__("./node_modules/semantic-ui-react/dist/es/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes__ = __webpack_require__("./routes.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__routes__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_next_head__ = __webpack_require__("./node_modules/next/head.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_next_head___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_next_head__);
-var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/components/HomeHeader.js";
-
-
-
-
-
-
-var HomeHeader = function HomeHeader() {
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */], {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 8
-    }
-  }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */].Menu, {
-    position: "right",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 9
-    }
-  }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */].Item, {
-    name: "login",
-    href: "/login",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 10
-    }
-  }, "Login"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */].Item, {
-    name: "register",
-    href: "/register",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 16
-    }
-  }, "Register")));
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (HomeHeader);
-
-/***/ }),
+      webpackJsonp([7],{
 
 /***/ "./components/Layout.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,6 +40,484 @@ var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/components/Layout.js";
     }
   })), props.children);
 });
+
+/***/ }),
+
+/***/ "./components/ProfileHeader.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileHeader; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("./node_modules/react/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__ = __webpack_require__("./node_modules/semantic-ui-react/dist/es/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes__ = __webpack_require__("./routes.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__routes__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_UserUtils__ = __webpack_require__("./utils/UserUtils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_jwt_decode__ = __webpack_require__("./node_modules/jwt-decode/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_jwt_decode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_jwt_decode__);
+var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/components/ProfileHeader.js";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+
+
+
+
+
+
+
+
+var ProfileHeader =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ProfileHeader, _Component);
+
+  function ProfileHeader() {
+    var _this;
+
+    _classCallCheck(this, ProfileHeader);
+
+    _this = _possibleConstructorReturn(this, (ProfileHeader.__proto__ || Object.getPrototypeOf(ProfileHeader)).call(this));
+    Object.defineProperty(_assertThisInitialized(_this), "profileBack", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function value(e) {
+        __WEBPACK_IMPORTED_MODULE_3__routes__["Router"].pushRoute("/profile");
+      }
+    });
+    Object.defineProperty(_assertThisInitialized(_this), "adminPage", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function value(e) {
+        __WEBPACK_IMPORTED_MODULE_3__routes__["Router"].pushRoute("/admin");
+      }
+    });
+    _this.state = {
+      isAdmin: false
+    };
+
+    _this.logout = function (e) {
+      return _this._logout();
+    };
+
+    _this.currentUser = Object(__WEBPACK_IMPORTED_MODULE_4__utils_UserUtils__["a" /* default */])();
+    return _this;
+  }
+  /*componentDidMount() {
+    const token = getCookie("x-access-token");
+    const decoded = jwtDecode(token);
+    if (decoded.role[0] == "admin") {
+      this.setState({ isAdmin: true });
+    }
+  }*/
+
+
+  _createClass(ProfileHeader, [{
+    key: "_logout",
+    value: function _logout() {
+      Object(__WEBPACK_IMPORTED_MODULE_2__utils_CookieUtils__["b" /* setCookie */])("x-access-token", "", -60 * 60);
+      __WEBPACK_IMPORTED_MODULE_3__routes__["Router"].pushRoute("/login");
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 54
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */], {
+        pointing: true,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 55
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */].Item, {
+        name: "home",
+        onClick: this.profileBack,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 56
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Icon */], {
+        name: "home",
+        size: "small",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 57
+        }
+      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */].Menu, {
+        position: "right",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 59
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */].Item, {
+        name: "logout",
+        onClick: this.logout,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 60
+        }
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["h" /* Menu */].Item, {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 61
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["f" /* Icon */], {
+        name: "user",
+        size: "small",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 62
+        }
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("p", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 63
+        }
+      }, this.currentUser)))));
+    }
+  }]);
+
+  return ProfileHeader;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+/***/ }),
+
+/***/ "./components/UserData.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserData; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator__ = __webpack_require__("./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__("./node_modules/react/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__ = __webpack_require__("./node_modules/semantic-ui-react/dist/es/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Layout__ = __webpack_require__("./components/Layout.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_UserUtils__ = __webpack_require__("./utils/UserUtils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_axios__ = __webpack_require__("./node_modules/axios/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_axios__);
+
+var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/components/UserData.js";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+var UserData =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(UserData, _Component);
+
+  function UserData() {
+    var _this;
+
+    _classCallCheck(this, UserData);
+
+    _this = _possibleConstructorReturn(this, (UserData.__proto__ || Object.getPrototypeOf(UserData)).call(this));
+    _this.state = {
+      users: []
+    };
+    _this.currentUser = Object(__WEBPACK_IMPORTED_MODULE_4__utils_UserUtils__["a" /* default */])();
+    return _this;
+  }
+
+  _createClass(UserData, [{
+    key: "componentDidMount",
+    value: function () {
+      var _componentDidMount = _asyncToGenerator(
+      /*#__PURE__*/
+      __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.mark(function _callee() {
+        var currentUser, response;
+        return __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                currentUser = this.currentUser;
+                _context.prev = 1;
+                _context.next = 4;
+                return __WEBPACK_IMPORTED_MODULE_5_axios___default.a.post(window.location.origin + "/users", {
+                  currentUser: currentUser
+                });
+
+              case 4:
+                response = _context.sent;
+
+                if (response.data.success) {
+                  this.setState({
+                    users: response.data.userData
+                  });
+                  this.setState({
+                    img1: response.data.pic1
+                  });
+                  this.setState({
+                    img2: response.data.pic2
+                  });
+                }
+
+                _context.next = 11;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](1);
+                console.log(_context.t0);
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 8]]);
+      }));
+
+      return function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      };
+    }() //TODO: Create UserProfile component with default template
+
+  }, {
+    key: "render",
+    value: function render() {
+      return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 35
+        }
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_Layout__["a" /* default */], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 36
+        }
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["e" /* Header */], {
+        as: "h1",
+        style: {
+          textAlign: "center",
+          marginTop: "30px"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 37
+        }
+      }, "Your Profile"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["b" /* Container */], {
+        style: {
+          marginTop: "10px"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 40
+        }
+      }, this.state.users.map(function (member) {
+        return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["e" /* Header */], {
+          as: "h3",
+          block: true,
+          style: {
+            backgroundColor: "#d9edf7"
+          },
+          key: member.id,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 42
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["f" /* Icon */], {
+          name: "user",
+          size: "big",
+          style: {
+            align: "left"
+          },
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 48
+          }
+        }), member.lname, ", ", member.fname);
+      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 52
+        }
+      }, this.state.users.map(function (member) {
+        return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Body, {
+          key: member.id,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 54
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Row, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 55
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 56
+          }
+        }, "Username: ", member.username), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 57
+          }
+        }, "ID: ", member.id)), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Row, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 59
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 60
+          }
+        }, "street: ", member.street), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 61
+          }
+        }, "House Nr: ", member.houseNr)), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Row, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 63
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 64
+          }
+        }, "Postal Code: ", member.postCode), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 65
+          }
+        }, "Residence: ", member.placeOfRes)), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Row, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 67
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 68
+          }
+        }, "Birthday: ", member.dateOfBirth), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 69
+          }
+        }, "Nationality: ", member.nat)), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Row, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 71
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 72
+          }
+        }, "Email: ", member.email), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 73
+          }
+        }, "Mobile Number: ", member.mobNr)), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Row, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 75
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 76
+          }
+        }, "Role: ", member.privileges), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 77
+          }
+        }, "isRegistered: ", member.isRegistered)), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Row, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 79
+          }
+        }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 80
+          }
+        }, "Hash: ", member.hash), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["j" /* Table */].Cell, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 81
+          }
+        })));
+      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("img", {
+        className: "img-responsive",
+        src: "../static/".concat(this.state.img1),
+        style: {
+          width: "200px",
+          height: "113px",
+          float: "left"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 86
+        }
+      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("img", {
+        className: "img-responsive",
+        src: "../static/".concat(this.state.img2),
+        style: {
+          width: "200px",
+          height: "113px",
+          float: "right"
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 91
+        }
+      }))));
+    }
+  }]);
+
+  return UserData;
+}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
+
+
 
 /***/ }),
 
@@ -2421,6 +2847,125 @@ function isBuffer (obj) {
 function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/jwt-decode/lib/atob.js":
+/***/ (function(module, exports) {
+
+/**
+ * The code was extracted from:
+ * https://github.com/davidchambers/Base64.js
+ */
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function InvalidCharacterError(message) {
+  this.message = message;
+}
+
+InvalidCharacterError.prototype = new Error();
+InvalidCharacterError.prototype.name = 'InvalidCharacterError';
+
+function polyfill (input) {
+  var str = String(input).replace(/=+$/, '');
+  if (str.length % 4 == 1) {
+    throw new InvalidCharacterError("'atob' failed: The string to be decoded is not correctly encoded.");
+  }
+  for (
+    // initialize result and counters
+    var bc = 0, bs, buffer, idx = 0, output = '';
+    // get next character
+    buffer = str.charAt(idx++);
+    // character found in table? initialize bit storage and add its ascii value;
+    ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+      // and if not first of each 4 characters,
+      // convert the first 8 bits to one ascii character
+      bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
+  ) {
+    // try to find character in table (0-63, not found => -1)
+    buffer = chars.indexOf(buffer);
+  }
+  return output;
+}
+
+
+module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
+
+
+/***/ }),
+
+/***/ "./node_modules/jwt-decode/lib/base64_url_decode.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var atob = __webpack_require__("./node_modules/jwt-decode/lib/atob.js");
+
+function b64DecodeUnicode(str) {
+  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
+    var code = p.charCodeAt(0).toString(16).toUpperCase();
+    if (code.length < 2) {
+      code = '0' + code;
+    }
+    return '%' + code;
+  }));
+}
+
+module.exports = function(str) {
+  var output = str.replace(/-/g, "+").replace(/_/g, "/");
+  switch (output.length % 4) {
+    case 0:
+      break;
+    case 2:
+      output += "==";
+      break;
+    case 3:
+      output += "=";
+      break;
+    default:
+      throw "Illegal base64url string!";
+  }
+
+  try{
+    return b64DecodeUnicode(output);
+  } catch (err) {
+    return atob(output);
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jwt-decode/lib/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var base64_url_decode = __webpack_require__("./node_modules/jwt-decode/lib/base64_url_decode.js");
+
+function InvalidTokenError(message) {
+  this.message = message;
+}
+
+InvalidTokenError.prototype = new Error();
+InvalidTokenError.prototype.name = 'InvalidTokenError';
+
+module.exports = function (token,options) {
+  if (typeof token !== 'string') {
+    throw new InvalidTokenError('Invalid token specified');
+  }
+
+  options = options || {};
+  var pos = options.header === true ? 0 : 1;
+  try {
+    return JSON.parse(base64_url_decode(token.split('.')[pos]));
+  } catch (e) {
+    throw new InvalidTokenError('Invalid token specified: ' + e.message);
+  }
+};
+
+module.exports.InvalidTokenError = InvalidTokenError;
 
 
 /***/ }),
@@ -42732,7 +43277,7 @@ module.exports = function shallowEqual(objA, objB, compare, compareContext) {
 
 /***/ }),
 
-/***/ "./pages/login.js":
+/***/ "./pages/profile.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -42748,9 +43293,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_axios__ = __webpack_require__("./node_modules/axios/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_HomeHeader__ = __webpack_require__("./components/HomeHeader.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_ProfileHeader__ = __webpack_require__("./components/ProfileHeader.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_jwt_decode__ = __webpack_require__("./node_modules/jwt-decode/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_jwt_decode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_jwt_decode__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_UserData__ = __webpack_require__("./components/UserData.js");
 
-var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/pages/login.js";
+var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/pages/profile.js";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -42777,227 +43325,144 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var Login =
+
+
+var Profile =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Login, _Component);
+  _inherits(Profile, _Component);
 
-  function Login(props) {
+  function Profile(props) {
     var _this;
 
-    _classCallCheck(this, Login);
+    _classCallCheck(this, Profile);
 
-    _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+    _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this, props));
     _this.state = {
-      password: "",
-      username: "",
-      errorMessage: "",
-      loading: false
+      message: ""
     };
 
-    _this.login = function (e) {
-      return _this._login();
+    _this.testCSRF = function (e) {
+      return _this._testCSRF();
     };
 
     return _this;
   }
 
-  _createClass(Login, [{
-    key: "_login",
+  _createClass(Profile, [{
+    key: "_testCSRF",
     value: function () {
-      var _login2 = _asyncToGenerator(
+      var _testCSRF2 = _asyncToGenerator(
       /*#__PURE__*/
       __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.mark(function _callee() {
-        var formData, res;
+        var token, decoded, res;
         return __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                formData = new FormData();
-                formData.append("username", this.state.username);
-                formData.append("password", this.state.password);
-                formData.append("errorMessage", this.state.errorMessage);
-                this.setState({
-                  loading: true
+                token = Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["a" /* getCookie */])("x-access-token");
+                decoded = __WEBPACK_IMPORTED_MODULE_8_jwt_decode___default()(token);
+                _context.prev = 2;
+                _context.next = 5;
+                return __WEBPACK_IMPORTED_MODULE_5_axios___default.a.post(window.location.origin + "/api/preventCRSF", {
+                  example: "data"
+                }, {
+                  headers: {
+                    "X-XSRF-TOKEN": decoded.xsrfToken
+                  }
                 });
-                _context.prev = 5;
-                _context.next = 8;
-                return __WEBPACK_IMPORTED_MODULE_5_axios___default.a.post(window.location.origin + "/authenticate", formData);
 
-              case 8:
+              case 5:
                 res = _context.sent;
 
                 if (res.data.success) {
-                  if (res.data.registerStatus == "yes") {
-                    if (res.data.token) {
-                      Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.token);
-                      __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/profile");
-                    } else {
-                      Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.adminToken);
-                      __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/admin");
-                    }
-                  } else {
-                    Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.token);
-                    __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/terms");
-                  }
+                  this.setState({
+                    message: res.data.message //TODO: Fix!
+
+                  });
                 }
 
-                _context.next = 15;
+                _context.next = 12;
                 break;
 
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](2);
+                this.setState({
+                  message: _context.t0.response.data.message
+                });
+
               case 12:
-                _context.prev = 12;
-                _context.t0 = _context["catch"](5);
-                this.setState({
-                  errorMessage: _context.t0.response.data.message
-                });
-
-              case 15:
-                this.setState({
-                  loading: false
-                });
-
-              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[5, 12]]);
+        }, _callee, this, [[2, 9]]);
       }));
 
-      return function _login() {
-        return _login2.apply(this, arguments);
+      return function _testCSRF() {
+        return _testCSRF2.apply(this, arguments);
       };
-    }()
+    }() //!Only for test purposes
+
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 58
+        }
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_ProfileHeader__["a" /* default */], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 59
+        }
+      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__components_UserData__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 60
         }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_HomeHeader__["a" /* default */], {
+      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_Layout__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 61
         }
-      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_Layout__["a" /* default */], {
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("br", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 62
         }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["e" /* Header */], {
-        as: "h1",
-        textAlign: "center",
-        style: {
-          marginTop: 60
-        },
+      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("br", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 63
         }
-      }, "Welcome"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["e" /* Header */], {
-        as: "h3",
+      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["b" /* Container */], {
         textAlign: "center",
-        style: {
-          marginBottom: 20
-        },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66
-        }
-      }, "Please login or register"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["c" /* Form */], {
-        onSubmit: this.login,
-        error: this.state.errorMessage,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 69
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["c" /* Form */].Field, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 70
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 71
-        }
-      }, " Username "), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
-        placeholder: "Username",
-        name: "username",
-        value: this.state.username,
-        onChange: function onChange(event) {
-          return _this2.setState({
-            username: event.target.value
-          });
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 72
-        }
-      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["c" /* Form */].Field, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 81
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 82
-        }
-      }, "Password"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
-        type: "password",
-        placeholder: "Password",
-        name: "password",
-        value: this.state.password,
-        onChange: function onChange(event) {
-          return _this2.setState({
-            password: event.target.value
-          });
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 83
-        }
-      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["i" /* Message */], {
-        error: true,
-        header: "Oops!",
-        content: this.state.errorMessage,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 93
-        }
-      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["a" /* Button */], {
-        loading: this.state.loading,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 94
-        }
-      }, "Login"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__routes__["Link"], {
-        route: "/register",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 95
+          lineNumber: 64
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["a" /* Button */], {
-        primary: true,
-        floated: "right",
+        onClick: this.testCSRF,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 96
+          lineNumber: 65
         }
-      }, "Register")))));
+      }, "Access API protected by CSFR"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("span", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 68
+        }
+      }, this.state.message))));
     }
   }]);
 
-  return Login;
+  return Profile;
 }(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Login);
+/* harmony default export */ __webpack_exports__["default"] = (Profile);
     (function (Component, route) {
       if(!Component) return
       if (false) return
@@ -43014,7 +43479,7 @@ function (_Component) {
           next.router.update(r, Component)
         }
       }
-    })(typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__.default : (module.exports.default || module.exports), "/login")
+    })(typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__.default : (module.exports.default || module.exports), "/profile")
   
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/next/node_modules/webpack/buildin/harmony-module.js")(module)))
 
@@ -43062,16 +43527,35 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 4:
+/***/ "./utils/UserUtils.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = getCurrentUser;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jwt_decode__ = __webpack_require__("./node_modules/jwt-decode/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jwt_decode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jwt_decode__);
+
+
+function getCurrentUser(currentUser) {
+  var token = Object(__WEBPACK_IMPORTED_MODULE_0__CookieUtils__["a" /* getCookie */])('x-access-token');
+  var decoded = __WEBPACK_IMPORTED_MODULE_1_jwt_decode___default()(token);
+  currentUser = decoded.username;
+  return currentUser;
+}
+
+/***/ }),
+
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("./pages/login.js");
+module.exports = __webpack_require__("./pages/profile.js");
 
 
 /***/ })
 
-},[4])
+},[8])
           return { page: comp.default }
         })
       ;
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=profile.js.map

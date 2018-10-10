@@ -33,12 +33,17 @@ class Login extends Component {
         formData
       );
       if (res.data.success) {
-        if (res.data.token) {
-          setCookie("x-access-token", res.data.token);
-          Router.push("/profile");
+        if (res.data.registerStatus == "yes") {
+          if (res.data.token) {
+            setCookie("x-access-token", res.data.token);
+            Router.push("/profile");
+          } else {
+            setCookie("x-access-token", res.data.adminToken);
+            Router.push("/admin");
+          }
         } else {
-          setCookie("x-access-token", res.data.adminToken);
-          Router.push("/admin");
+          setCookie("x-access-token", res.data.token);
+          Router.push("/terms");
         }
       }
     } catch (error) {

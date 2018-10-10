@@ -67,7 +67,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -166,30 +166,22 @@ var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/components/Layout.js";
 
 /***/ }),
 
-/***/ "./pages/login.js":
+/***/ "./pages/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator__ = __webpack_require__("@babel/runtime/regenerator");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__("react");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes__ = __webpack_require__("./routes.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__routes__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__ = __webpack_require__("semantic-ui-react");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_semantic_ui_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Layout__ = __webpack_require__("./components/Layout.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_axios__ = __webpack_require__("axios");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_HomeHeader__ = __webpack_require__("./components/HomeHeader.js");
-
-var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/pages/login.js";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("react");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__routes__ = __webpack_require__("./routes.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__routes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__routes__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__ = __webpack_require__("semantic-ui-react");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_semantic_ui_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Layout__ = __webpack_require__("./components/Layout.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_HomeHeader__ = __webpack_require__("./components/HomeHeader.js");
+var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/pages/index.js";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -210,121 +202,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-
-
-var Login =
+var Index =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Login, _Component);
+  _inherits(Index, _Component);
 
-  function Login(props) {
-    var _this;
+  function Index() {
+    _classCallCheck(this, Index);
 
-    _classCallCheck(this, Login);
-
-    _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
-    _this.state = {
-      password: "",
-      username: "",
-      errorMessage: "",
-      loading: false
-    };
-
-    _this.login = function (e) {
-      return _this._login();
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, (Index.__proto__ || Object.getPrototypeOf(Index)).apply(this, arguments));
   }
 
-  _createClass(Login, [{
-    key: "_login",
-    value: function () {
-      var _login2 = _asyncToGenerator(
-      /*#__PURE__*/
-      __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.mark(function _callee() {
-        var formData, res;
-        return __WEBPACK_IMPORTED_MODULE_0__babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                formData = new FormData();
-                formData.append("username", this.state.username);
-                formData.append("password", this.state.password);
-                formData.append("errorMessage", this.state.errorMessage);
-                this.setState({
-                  loading: true
-                });
-                _context.prev = 5;
-                _context.next = 8;
-                return __WEBPACK_IMPORTED_MODULE_5_axios___default.a.post(window.location.origin + "/authenticate", formData);
-
-              case 8:
-                res = _context.sent;
-
-                if (res.data.success) {
-                  if (res.data.registerStatus == "yes") {
-                    if (res.data.token) {
-                      Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.token);
-                      __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/profile");
-                    } else {
-                      Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.adminToken);
-                      __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/admin");
-                    }
-                  } else {
-                    Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.token);
-                    __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/terms");
-                  }
-                }
-
-                _context.next = 15;
-                break;
-
-              case 12:
-                _context.prev = 12;
-                _context.t0 = _context["catch"](5);
-                this.setState({
-                  errorMessage: _context.t0.response.data.message
-                });
-
-              case 15:
-                this.setState({
-                  loading: false
-                });
-
-              case 16:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[5, 12]]);
-      }));
-
-      return function _login() {
-        return _login2.apply(this, arguments);
-      };
-    }()
-  }, {
+  _createClass(Index, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 60
+          lineNumber: 18
         }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_HomeHeader__["a" /* default */], {
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_HomeHeader__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 61
+          lineNumber: 19
         }
-      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_Layout__["a" /* default */], {
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_Layout__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 62
+          lineNumber: 20
         }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Header"], {
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Header"], {
         as: "h1",
         textAlign: "center",
         style: {
@@ -332,9 +239,9 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 63
+          lineNumber: 21
         }
-      }, "Welcome"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Header"], {
+      }, "Welcome back"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_semantic_ui_react__["Header"], {
         as: "h3",
         textAlign: "center",
         style: {
@@ -342,97 +249,16 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66
+          lineNumber: 24
         }
-      }, "Please login or register"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"], {
-        onSubmit: this.login,
-        error: this.state.errorMessage,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 69
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"].Field, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 70
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 71
-        }
-      }, " Username "), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
-        placeholder: "Username",
-        name: "username",
-        value: this.state.username,
-        onChange: function onChange(event) {
-          return _this2.setState({
-            username: event.target.value
-          });
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 72
-        }
-      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"].Field, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 81
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 82
-        }
-      }, "Password"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
-        type: "password",
-        placeholder: "Password",
-        name: "password",
-        value: this.state.password,
-        onChange: function onChange(event) {
-          return _this2.setState({
-            password: event.target.value
-          });
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 83
-        }
-      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Message"], {
-        error: true,
-        header: "Oops!",
-        content: this.state.errorMessage,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 93
-        }
-      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Button"], {
-        loading: this.state.loading,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 94
-        }
-      }, "Login"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__routes__["Link"], {
-        route: "/register",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 95
-        }
-      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Button"], {
-        primary: true,
-        floated: "right",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 96
-        }
-      }, "Register")))));
+      }, "...")));
     }
   }]);
 
-  return Login;
-}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
+  return Index;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Login);
+/* harmony default export */ __webpack_exports__["default"] = (Index);
 
 /***/ }),
 
@@ -478,25 +304,11 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("./pages/login.js");
+module.exports = __webpack_require__("./pages/index.js");
 
-
-/***/ }),
-
-/***/ "@babel/runtime/regenerator":
-/***/ (function(module, exports) {
-
-module.exports = require("@babel/runtime/regenerator");
-
-/***/ }),
-
-/***/ "axios":
-/***/ (function(module, exports) {
-
-module.exports = require("axios");
 
 /***/ }),
 
@@ -529,4 +341,4 @@ module.exports = require("semantic-ui-react");
 /***/ })
 
 /******/ });
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=index.js.map

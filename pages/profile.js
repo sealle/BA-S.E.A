@@ -29,7 +29,6 @@ class Profile extends Component {
   async _testCSRF() {
     const token = getCookie("x-access-token");
     const decoded = jwtDecode(token);
-    console.log(decoded.xsrfToken);
     try {
       const res = await axios.post(
         window.location.origin + "/api/preventCRSF",
@@ -44,7 +43,7 @@ class Profile extends Component {
       );
       if (res.data.success) {
         this.setState({
-          message: res.data.message //TODO: Fix!
+          message: res.data.message
         });
       }
     } catch (error) {
@@ -52,7 +51,6 @@ class Profile extends Component {
         message: error.response.data.message
       });
     }
-    console.log("0x" + decoded.xsrfToken);
   } //!Only for test purposes
 
   render() {
@@ -61,23 +59,13 @@ class Profile extends Component {
         <ProfileHeader />
         <UserData />
         <Layout>
-          <Header as="h1" textAlign="center" style={{ marginTop: 60 }}>
-            Hello
-          </Header>
-          <Header as="h3" textAlign="center" style={{ marginBottom: 20 }}>
-            you can view and edit your data here
-          </Header>
+          <br />
+          <br />
           <Container textAlign="center">
             <Button onClick={this.testCSRF}>
               Access API protected by CSFR
             </Button>
             <span>{this.state.message}</span>
-            <Link route="/videochat">
-              <Button primary icon labelPosition="right">
-                Next
-                <Icon name="right arrow" />
-              </Button>
-            </Link>
           </Container>
         </Layout>
       </div>

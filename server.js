@@ -50,7 +50,6 @@ app
       let imageName = `${req.body.username}-${image.name}`;
       let imageName2 = `${req.body.username}-${image2.name}`;
 
-
       /*if (!image || !image2) {
         response.status(400).json({
           success: false,
@@ -164,7 +163,8 @@ app
                   response.status(200).json({
                     success: true,
                     message: "Enjoy your token",
-                    adminToken: adminToken
+                    adminToken: adminToken,
+                    registerStatus: result[0].isRegistered
                   });
                 } else {
                   let token = jwt.sign(
@@ -184,7 +184,8 @@ app
                   response.status(200).json({
                     success: true,
                     message: "Enjoy your token",
-                    token: token
+                    token: token,
+                    registerStatus: result[0].isRegistered
                   });
                 }
               } else {
@@ -267,7 +268,6 @@ app
 
     server.post("/api/preventCRSF", (req, res, next) => {
       if (req.decoded.xsrfToken === req.get("X-XSRF-TOKEN")) {
-        console.log(req.decoded.xsrfToken);
         res.status(200).json({
           success: true,
           message: "Yes, this api is protected by CRSF attack"

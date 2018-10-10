@@ -161,31 +161,31 @@ export default class UserList extends Component {
                                 Role: {this.state.usrs[0].privileges}
                               </Table.Cell>
                               <Table.Cell>
-                                {this.state.usrs[0].privileges == "user" ? (
-                                  <button
-                                    style={{
-                                      borderRadius: "4px",
-                                      backgroundColor: "#2985d0",
-                                      cursor: "pointer",
-                                      border: "none"
-                                    }}
-                                    onClick={this.makeAdmin}
-                                  >
+                                {this.state.usrs[0].privileges == "user" &&
+                                this.state.usrs[0].isRegistered == "yes" ? (
+                                  <Button primary onClick={this.makeAdmin}>
                                     Make Admin
-                                  </button>
+                                  </Button>
                                 ) : (
-                                  <button
-                                    style={{
-                                      borderRadius: "4px",
-                                      backgroundColor: "#2985d0",
-                                      border: "none"
-                                    }}
-                                    disabled
-                                  >
+                                  <Button primary disabled>
                                     Make Admin
-                                  </button>
+                                  </Button>
                                 )}
                               </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>
+                                isRegistered: {this.state.usrs[0].isRegistered}
+                              </Table.Cell>
+                              <Table.Cell>
+                                Registration Date: {this.state.usrs[0].regDate}
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>
+                                Hash: {this.state.usrs[0].hash}
+                              </Table.Cell>
+                              <Table.Cell />
                             </Table.Row>
                           </Table.Body>
                         </Table>
