@@ -5,7 +5,6 @@ import Peer from "simple-peer";
 
 const APP_KEY = "0f924dcd44dc93a88aa7";
 const wrtc = require("wrtc");
-import getCurrentUser from "../utils/UserUtils";
 import { getCookie } from "../utils/CookieUtils";
 import jwtDecode from "jwt-decode";
 import { Header } from "semantic-ui-react";
@@ -23,7 +22,7 @@ export default class VideoChat extends Component {
     const token = getCookie("x-access-token");
     const decoded = jwtDecode(token);
 
-    let userName = getCurrentUser();
+    //let userName = getCurrentUser(); //TODO: Get currentUser from Server!!!
 
     window.user = {
       name: userName
@@ -132,7 +131,6 @@ export default class VideoChat extends Component {
 
       this.peers[userName] = undefined;
     });
-
     return peer;
   }
 
@@ -195,6 +193,7 @@ export default class VideoChat extends Component {
                 zIndex: "1"
               }}
             />
+            {/*TODO: Who are you connected with?*/}
           </div>
         </Layout>
       </div>

@@ -1,24 +1,19 @@
 import React, { Component } from "react";
 import { Icon, Container, Table, Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
-import getCurrentUser from "../utils/UserUtils";
 import axios from "axios";
 
 export default class UserData extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       users: []
     };
-    this.currentUser = getCurrentUser();
   }
 
   async componentDidMount() {
-    let currentUser = this.currentUser;
     try {
-      const response = await axios.post(window.location.origin + "/users", {
-        currentUser
-      });
+      const response = await axios.post(window.location.origin + "/users");
       if (response.data.success) {
         this.setState({ users: response.data.userData });
         this.setState({ img1: response.data.pic1 });

@@ -9,8 +9,8 @@ class Error extends Component {
     super();
   }
 
-  backToProfile() {
-    Router.pushRoute("/profile");
+  backToLogin() {
+    Router.pushRoute("/login");
   }
   //error page if someone tries to access Admin page
   render() {
@@ -25,9 +25,7 @@ class Error extends Component {
             You are not entitled to see this page!
           </Header>
           <Container textAlign="center">
-            <Button href="/profile" onClick={this.backToProfile}>
-              Back to profile
-            </Button>
+            <Button onClick={this.backToLogin}>Back to Login</Button>
           </Container>
         </Layout>
       </div>

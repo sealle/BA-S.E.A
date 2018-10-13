@@ -1,36 +1,31 @@
 import React, { Component } from "react";
-import {
-  Menu,
-  Segment,
-  Icon,
-  Button,
-  Form,
-  Container
-} from "semantic-ui-react";
+import { Menu, Icon } from "semantic-ui-react";
 import { setCookie } from "../utils/CookieUtils";
 import { Router, Link } from "../routes";
-import getCurrentUser from "../utils/UserUtils";
-import { getCookie } from "../utils/CookieUtils";
-import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 export default class ProfileHeader extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      isAdmin: false
+      isAdmin: false,
+      currentUser: ""
     };
-
     this.logout = e => this._logout();
-    this.currentUser = getCurrentUser();
   }
 
-  /*componentDidMount() {
-    const token = getCookie("x-access-token");
-    const decoded = jwtDecode(token);
-    if (decoded.role[0] == "admin") {
-      this.setState({ isAdmin: true });
+  async componentDidMount() {
+    try {
+      const response = await axios.post(
+        window.location.origin + "/currentuser"
+      );
+      if (response.data.success) {
+        this.setState({ currentUser: response.data.currentUser });
+      }
+    } catch (err) {
+      console.log(err);
     }
-  }*/
+  }
 
   _logout() {
     setCookie("x-access-token", "", -60 * 60);
@@ -40,10 +35,6 @@ export default class ProfileHeader extends Component {
   profileBack = e => {
     Router.pushRoute("/profile");
   };
-
-  /*userProfile = e => {
-    Router.pushRoute("/userdata");
-  };*/
 
   adminPage = e => {
     Router.pushRoute("/admin");
@@ -60,7 +51,7 @@ export default class ProfileHeader extends Component {
             <Menu.Item name="logout" onClick={this.logout} />
             <Menu.Item>
               <Icon name="user" size="small" />
-              <p>{this.currentUser}</p>
+              <p>{this.state.currentUser}</p>
             </Menu.Item>
           </Menu.Menu>
         </Menu>

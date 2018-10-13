@@ -5,6 +5,7 @@ import { Header, Container, Grid, Segment, Menu } from "semantic-ui-react";
 import axios from "axios";
 import VideoChat from "../components/VideoChat";
 import UserList from "../components/UserList";
+import Approval from "../components/Approval";
 import Head from "next/head";
 
 class adminPage extends Component {
@@ -61,7 +62,12 @@ class adminPage extends Component {
             <Grid.Column stretched width={14}>
               <Container>
                 {this.state.activeItem === "userlist" ? <UserList /> : null}
-                {this.state.activeItem === "videochat" ? <VideoChat /> : null}
+                {this.state.activeItem === "videochat" ? (
+                  <div>
+                    <VideoChat />
+                    <Approval />
+                  </div>
+                ) : null}
                 {this.state.activeItem === "home" ? (
                   <Layout>
                     <Header

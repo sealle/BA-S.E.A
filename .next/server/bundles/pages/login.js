@@ -67,7 +67,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -184,6 +184,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__ = __webpack_require__("./utils/CookieUtils.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_HomeHeader__ = __webpack_require__("./components/HomeHeader.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_jwt_decode__ = __webpack_require__("jwt-decode");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_jwt_decode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_jwt_decode__);
 
 var _jsxFileName = "/Users/SebastianAllemann/BA-S.E.A/pages/login.js";
 
@@ -202,6 +204,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -263,16 +266,14 @@ function (_Component) {
                 res = _context.sent;
 
                 if (res.data.success) {
-                  if (res.data.registerStatus == "yes") {
-                    if (res.data.token) {
-                      Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.token);
-                      __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/profile");
-                    } else {
-                      Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.adminToken);
-                      __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/admin");
-                    }
+                  if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
+                    Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.adminToken);
+                    __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/admin");
+                  } else if (res.data.registerStatus == "yes" && res.data.privileg == "user") {
+                    Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.userToken);
+                    __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/profile");
                   } else {
-                    Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.token);
+                    Object(__WEBPACK_IMPORTED_MODULE_6__utils_CookieUtils__["b" /* setCookie */])("x-access-token", res.data.registerToken);
                     __WEBPACK_IMPORTED_MODULE_2__routes__["Router"].push("/terms");
                   }
                 }
@@ -312,17 +313,17 @@ function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 60
+          lineNumber: 62
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_HomeHeader__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 61
+          lineNumber: 63
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_Layout__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 62
+          lineNumber: 64
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Header"], {
         as: "h1",
@@ -332,7 +333,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 63
+          lineNumber: 65
         }
       }, "Welcome"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Header"], {
         as: "h3",
@@ -342,24 +343,24 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66
+          lineNumber: 68
         }
       }, "Please login or register"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"], {
         onSubmit: this.login,
         error: this.state.errorMessage,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 69
+          lineNumber: 71
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"].Field, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 70
+          lineNumber: 72
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 71
+          lineNumber: 73
         }
       }, " Username "), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
         placeholder: "Username",
@@ -372,17 +373,17 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 72
+          lineNumber: 74
         }
       })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Form"].Field, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 81
+          lineNumber: 83
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 82
+          lineNumber: 84
         }
       }, "Password"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("input", {
         type: "password",
@@ -396,7 +397,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 83
+          lineNumber: 85
         }
       })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Message"], {
         error: true,
@@ -404,26 +405,26 @@ function (_Component) {
         content: this.state.errorMessage,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 93
+          lineNumber: 95
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Button"], {
         loading: this.state.loading,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 94
+          lineNumber: 96
         }
       }, "Login"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__routes__["Link"], {
         route: "/register",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 95
+          lineNumber: 97
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_semantic_ui_react__["Button"], {
         primary: true,
         floated: "right",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 96
+          lineNumber: 98
         }
       }, "Register")))));
     }
@@ -459,12 +460,12 @@ function setCookie(cname, cvalue, exdays) {
 }
 function getCookie(cname) {
   var name = cname + "=";
-  var ca = document.cookie.split(';');
+  var ca = document.cookie.split(";");
 
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
 
-    while (c.charAt(0) === ' ') {
+    while (c.charAt(0) === " ") {
       c = c.substring(1);
     }
 
@@ -478,7 +479,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./pages/login.js");
@@ -497,6 +498,13 @@ module.exports = require("@babel/runtime/regenerator");
 /***/ (function(module, exports) {
 
 module.exports = require("axios");
+
+/***/ }),
+
+/***/ "jwt-decode":
+/***/ (function(module, exports) {
+
+module.exports = require("jwt-decode");
 
 /***/ }),
 

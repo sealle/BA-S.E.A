@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt-nodejs");
 const saltRounds = 10;
 const fs = require("fs");
 const path = require("path");
+const jwtDecode = require("jwt-decode");
 //const https = require('https');
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -135,9 +136,7 @@ app
       let sql = "SELECT * FROM users WHERE username= '" + body.username + "'";
       database.connection.query(sql, function(err, result, fields) {
         if (err) {
-          response
-            .status(400)
-            .json({ message: "Username or Password is not correct!" });
+          response.status(400).json({ message: "Database Server is not" });
         } else {
           if (result.length) {
             bcrypt.compare(body.password, result[0].password, function(
@@ -157,17 +156,21 @@ app
                     },
                     secret,
                     {
-                      expiresIn: 60 * 60 //1h
+                      expiresIn: 36000 //1h
                     }
                   );
                   response.status(200).json({
                     success: true,
                     message: "Enjoy your token",
                     adminToken: adminToken,
-                    registerStatus: result[0].isRegistered
+                    registerStatus: result[0].isRegistered,
+                    privileg: result[0].privileges
                   });
-                } else {
-                  let token = jwt.sign(
+                } else if (
+                  result[0].privileges == "user" &&
+                  result[0].isRegistered == "yes"
+                ) {
+                  let userToken = jwt.sign(
                     {
                       username: body.username,
                       role: "user",
@@ -178,14 +181,37 @@ app
                     },
                     secret,
                     {
-                      expiresIn: 60 * 60 //1h
+                      expiresIn: 36000 //1h
                     }
                   );
                   response.status(200).json({
                     success: true,
                     message: "Enjoy your token",
-                    token: token,
-                    registerStatus: result[0].isRegistered
+                    userToken: userToken,
+                    registerStatus: result[0].isRegistered,
+                    privileg: result[0].privileges
+                  });
+                } else {
+                  let registerToken = jwt.sign(
+                    {
+                      username: body.username,
+                      role: "user",
+                      xsrfToken: crypto
+                        .createHash("md5")
+                        .update(body.username)
+                        .digest("hex")
+                    },
+                    secret,
+                    {
+                      expiresIn: 36000 //1h
+                    }
+                  );
+                  response.status(200).json({
+                    success: true,
+                    message: "Enjoy your token",
+                    registerToken: registerToken,
+                    registerStatus: result[0].isRegistered,
+                    privileg: result[0].privileges
                   });
                 }
               } else {
@@ -207,7 +233,34 @@ app
       });
     });
 
+    server.post("/currentuser", urlEncodedParser, function(req, response) {
+      let cookie = req.cookies["x-access-token"];
+      let decoded = jwtDecode(cookie);
+      let currentUser = decoded.username;
+      response.status(200).json({
+        success: true,
+        currentUser: currentUser
+      });
+    });
+
     server.post("/users", urlEncodedParser, function(req, response) {
+      //TODO:prevent SQL injection
+      let cookie = req.cookies["x-access-token"];
+      let decoded = jwtDecode(cookie);
+      let currentUser = decoded.username;
+      let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
+      database.connection.query(sql, function(err, res, fields) {
+        if (err) throw err;
+        response.status(200).send({
+          success: true,
+          userData: res,
+          pic1: res[0].ID1,
+          pic2: res[0].ID2
+        });
+      });
+    });
+
+    server.post("/usersx", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser; //TODO:prevent SQL injection
       let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
       database.connection.query(sql, function(err, res, fields) {
@@ -253,7 +306,8 @@ app
         if (token) {
           jwt.verify(token, secret, (err, decoded) => {
             if (err) {
-              res.redirect("/login");
+              console.log(err);
+              res.redirect("/login"); //TODO:profile page lands here when refreshing: token expired
             } else {
               // if everything is good, save to request for use in other routes
               req.decoded = decoded;
@@ -306,10 +360,6 @@ app
         if (decoded.role[0] == "admin") {
           return next();
         } else {
-          /*response.status(400).json({
-            success: false,
-            message: "You are not entitled to see this page!"
-          });*/
           response.redirect("/error");
         }
       });

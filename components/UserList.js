@@ -9,7 +9,7 @@ import {
   Button
 } from "semantic-ui-react";
 import Layout from "../components/Layout";
-import getCurrentUser from "../utils/UserUtils";
+// import getCurrentUser from "../utils/UserUtils";
 import axios from "axios";
 
 export default class UserList extends Component {
@@ -22,7 +22,7 @@ export default class UserList extends Component {
       isChosen: false,
       isPromoted: false
     };
-    this.currentUser = getCurrentUser();
+    //this.currentUser = getCurrentUser();
     this.makeAdmin = e => this._makeAdmin();
   }
 
@@ -40,7 +40,7 @@ export default class UserList extends Component {
   async selectUser(member, e) {
     let currentUser = member.username;
     try {
-      const response = await axios.post(window.location.origin + "/users", {
+      const response = await axios.post(window.location.origin + "/usersx", {
         currentUser
       });
       if (response.data.success) {

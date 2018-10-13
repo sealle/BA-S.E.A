@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import { Link, Router } from "../routes";
-import {
-  Button,
-  Table,
-  Container,
-  Divider,
-  Icon,
-  Form,
-  Message
-} from "semantic-ui-react";
+import { Button, Container } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
@@ -18,8 +10,8 @@ import jwtDecode from "jwt-decode";
 import UserData from "../components/UserData";
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       message: ""
     };

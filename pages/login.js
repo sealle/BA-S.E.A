@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 import axios from "axios";
 import { setCookie } from "../utils/CookieUtils";
 import HomeHeader from "../components/HomeHeader";
+import jwtDecode from "jwt-decode";
 
 class Login extends Component {
   constructor(props) {
@@ -33,16 +34,17 @@ class Login extends Component {
         formData
       );
       if (res.data.success) {
-        if (res.data.registerStatus == "yes") {
-          if (res.data.token) {
-            setCookie("x-access-token", res.data.token);
-            Router.push("/profile");
-          } else {
-            setCookie("x-access-token", res.data.adminToken);
-            Router.push("/admin");
-          }
+        if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
+          setCookie("x-access-token", res.data.adminToken);
+          Router.push("/admin");
+        } else if (
+          res.data.registerStatus == "yes" &&
+          res.data.privileg == "user"
+        ) {
+          setCookie("x-access-token", res.data.userToken);
+          Router.push("/profile");
         } else {
-          setCookie("x-access-token", res.data.token);
+          setCookie("x-access-token", res.data.registerToken);
           Router.push("/terms");
         }
       }
