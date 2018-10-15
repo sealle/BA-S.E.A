@@ -283,7 +283,7 @@ app
     });
 
     server.post("/hash", urlEncodedParser, function(req, response) {
-      //let currentUser = req.body.currentUser; //TODO:prevent SQL injection
+      let currentUser = req.body.currentUser; //TODO:prevent SQL injection
       let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
       database.connection.query(sql, function(err, res, fields) {
         if (err) throw err;
@@ -335,6 +335,50 @@ app
           success: true,
           userData: res
         });
+      });
+    });
+
+    server.get("/admin", (req, response) => {
+      const token = req.cookies["x-access-token"];
+      jwt.verify(token, secret, (err, decoded) => {
+        if (decoded.role[0] == "admin") {
+          return next();
+        } else {
+          response.redirect("/error");
+        }
+      });
+    });
+
+    server.get("/terms", (req, response) => {
+      const token = req.cookies["x-access-token"];
+      jwt.verify(token, secret, (err, decoded) => {
+        if (decoded.role[0] == "user" && decoded.reg[0] == "no") {
+          return next();
+        } else {
+          response.redirect("/error");
+        }
+      });
+    });
+
+    server.get("/videochat", (req, response) => {
+      const token = req.cookies["x-access-token"];
+      jwt.verify(token, secret, (err, decoded) => {
+        if (decoded.role[0] == "user" && decoded.reg[0] == "no") {
+          return next();
+        } else {
+          response.redirect("/error");
+        }
+      });
+    });
+
+    server.get("/profile", (req, response) => {
+      const token = req.cookies["x-access-token"];
+      jwt.verify(token, secret, (err, decoded) => {
+        if (decoded.role[0] == "user" && decoded.reg[0] == "yes") {
+          return next();
+        } else {
+          response.redirect("/error");
+        }
       });
     });
 
@@ -435,10 +479,7 @@ function unless(paths, middleware) {
     if (decoded.role[0] == "admin") {
       return next();
     } else {
-      res.status(500).send({
-        success: false,
-        message: "You are not entitled to see this page!"
-      });
+      res.redirect('/error');
     }
   });
 }*/

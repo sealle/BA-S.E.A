@@ -3,6 +3,7 @@ import { Button, Message, Form } from "semantic-ui-react";
 import users from "../ethereum/src/users";
 import web3 from "../ethereum/src/web3";
 import axios from "axios";
+import getCurrentUser from "../utils/UserUtils";
 
 export default class Approval extends Component {
   constructor() {
@@ -16,11 +17,15 @@ export default class Approval extends Component {
   }
 
   async componentDidMount() {
-    const response = await axios.post(window.location.origin + "/hash");
+    let currentUser = getCurrentUser();
+    const response = await axios.post(window.location.origin + "/hash", {
+      currentUser
+    });
+    console.log(this.currentUser);
     if (response.data.success) {
-      this.setState({ hash: response.data.userHash });
+      this.setState({ hash: response.data.hash });
+      console.log(this.state.hash);
     }
-
     //Get signal.userName from Server or VideoChat
     //receive Hash from server
   }
@@ -50,7 +55,12 @@ export default class Approval extends Component {
     return (
       <div style={{ margin: "auto", width: "650px", marginTop: "15px" }}>
         <Form onSubmit={this.onSubmit} success={this.state.errorMessage}>
-          <Button loading={this.state.loading} primary floated="right">
+          <Button
+            loading={this.state.loading}
+            type="submit"
+            primary
+            floated="right"
+          >
             Approve
           </Button>
           <Button floated="left">Decline</Button>

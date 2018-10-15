@@ -35,16 +35,16 @@ class Login extends Component {
       );
       if (res.data.success) {
         if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
-          setCookie("x-access-token", res.data.adminToken);
+          setCookie("x-access-token", res.data.adminToken, 1);
           Router.push("/admin");
         } else if (
           res.data.registerStatus == "yes" &&
           res.data.privileg == "user"
         ) {
-          setCookie("x-access-token", res.data.userToken);
+          setCookie("x-access-token", res.data.userToken, 1);
           Router.push("/profile");
         } else {
-          setCookie("x-access-token", res.data.registerToken);
+          setCookie("x-access-token", res.data.registerToken, 1);
           Router.push("/terms");
         }
       }

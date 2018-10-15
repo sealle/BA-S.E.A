@@ -1,6 +1,6 @@
-import web3 from "./web3";
+// import web3 from "./web3";
 
-const address = ""; //address of SC
-const abi = ""; //Copy/Paste ABI of SC
+// const address = ""; //address of SC
+// const abi = ""; //Copy/Paste ABI of SC
 
-export default new web3.eth.Contract(abi, address);
+// export default new web3.eth.Contract(abi, address);

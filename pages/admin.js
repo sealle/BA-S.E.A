@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ProfileHeader from "../components/ProfileHeader";
 import Layout from "../components/Layout";
-import { Header, Container, Grid, Segment, Menu } from "semantic-ui-react";
+import { Header, Container, Grid, Menu, Message } from "semantic-ui-react";
 import axios from "axios";
 import VideoChat from "../components/VideoChat";
 import UserList from "../components/UserList";

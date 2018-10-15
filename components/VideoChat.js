@@ -6,8 +6,8 @@ import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
-import { getCookie } from "../utils/CookieUtils";
-import jwtDecode from "jwt-decode";
+import getCookie from "../utils/UserUtils";
+import jwtDecode from "../utils/CookieUtils";
 
 export default class VideoChat extends Component {
   constructor() {
@@ -20,8 +20,7 @@ export default class VideoChat extends Component {
 
     const token = getCookie("x-access-token");
     const decoded = jwtDecode(token);
-    let userName = decoded.username; //currentUser
-    //let userName = getCurrentUser(); //TODO: Get currentUser from Server!!!
+    let userName = decoded.username;
 
     window.user = {
       name: userName
@@ -194,6 +193,7 @@ export default class VideoChat extends Component {
             />
             {/*TODO: Who are you connected with?*/}
           </div>
+          {/* <Message success header="You are connected to" content={...peers[userName]} /> */}
         </Layout>
       </div>
     );

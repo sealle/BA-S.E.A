@@ -21,7 +21,7 @@
     "mocha": "^5.2.0",
     "mrz": "^3.1.0",
     "mysql": "^2.16.0",
-    "next": "^6.1.2",
+    "next": "^7.0.2",
     "next-express": "^1.0.0",
     "next-images": "^1.0.1",
     "next-routes": "^1.4.2",
@@ -63,7 +63,7 @@
     "file-loader": "^2.0.0",
     "style-loader": "^0.23.0",
     "url-loader": "^1.1.1",
-    "webpack": "^1.15.0",
+    "webpack": "^4.3.0",
     "webpack-dev-middleware": "latest",
     "webpack-dev-server": "^3.1.9"
   }

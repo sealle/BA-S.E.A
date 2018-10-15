@@ -1,1 +1,39 @@
-{"pages":{},"css":[],"main.js":["static/commons/main.js"],"bundles/pages/_error.js":["bundles/pages/_error.js"],"bundles/pages/_app.js":["bundles/pages/_app.js"],"manifest.js":["static/commons/manifest.js"],"bundles/pages/login.js":["bundles/pages/login.js"]}
+{
+  "devFiles": [
+    "static/development/dll/dll_94094bf638cc2860a2b0.js"
+  ],
+  "pages": {
+    "/_app": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/_error": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/index": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/login": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/profile": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/terms": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/admin": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ]
+  }
+}
