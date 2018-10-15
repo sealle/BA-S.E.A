@@ -12,7 +12,7 @@ const saltRounds = 10;
 const fs = require("fs");
 const path = require("path");
 const jwtDecode = require("jwt-decode");
-//const https = require('https');
+// const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
@@ -25,10 +25,10 @@ const secret = "iliketurtles";
 
 const express = require("express");
 
-/*const certOptions = {
-    key: fs.readFileSync(path.resolve('cert/server.key')),
-    cert: fs.readFileSync(path.resolve('cert/server.crt'))
-}*/
+// const certOptions = {
+//   key: fs.readFileSync(path.resolve("cert/server.key")),
+//   cert: fs.readFileSync(path.resolve("cert/server.crt"))
+// };
 
 app
   .prepare()
@@ -60,12 +60,13 @@ app
 
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
+          let date = new Date();
           let body = req.body;
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
           //TODO:let date = new Date(); //wrong, insert timestamp!!
           //let currentDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(); //wrong date, insert timestamp!!
           let sql =
-            "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2) VALUES ('" +
+            "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate) VALUES ('" +
             body.username +
             "', '" +
             hash +
@@ -93,6 +94,8 @@ app
             imageName +
             "', '" +
             imageName2 +
+            "', '" +
+            date +
             "')";
           let searchSQL =
             "SELECT * FROM users WHERE username='" + body.username + "'";
@@ -136,7 +139,9 @@ app
       let sql = "SELECT * FROM users WHERE username= '" + body.username + "'";
       database.connection.query(sql, function(err, result, fields) {
         if (err) {
-          response.status(400).json({ message: "Database Server is not" });
+          response
+            .status(400)
+            .json({ message: "Database Server is not connected!" });
         } else {
           if (result.length) {
             bcrypt.compare(body.password, result[0].password, function(
@@ -149,6 +154,7 @@ app
                     {
                       username: body.username,
                       role: ["admin", "user"],
+                      reg: "yes",
                       xsrfToken: crypto
                         .createHash("md5")
                         .update(body.username)
@@ -174,6 +180,7 @@ app
                     {
                       username: body.username,
                       role: "user",
+                      reg: "yes",
                       xsrfToken: crypto
                         .createHash("md5")
                         .update(body.username)
@@ -196,6 +203,7 @@ app
                     {
                       username: body.username,
                       role: "user",
+                      reg: "no",
                       xsrfToken: crypto
                         .createHash("md5")
                         .update(body.username)
@@ -274,6 +282,36 @@ app
       });
     });
 
+    server.post("/hash", urlEncodedParser, function(req, response) {
+      //let currentUser = req.body.currentUser; //TODO:prevent SQL injection
+      let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
+      database.connection.query(sql, function(err, res, fields) {
+        if (err) throw err;
+        let data = JSON.stringify(res[0]);
+        let hash = crypto
+          .createHash("sha256")
+          .update(data)
+          .digest("hex");
+        console.log("0x" + hash);
+        let hashPref = `0x${hash}`;
+        console.log(hashPref);
+        let sqlInsert =
+          "UPDATE users SET hash ='" +
+          hashPref +
+          "', isRegistered = 'yes' WHERE username = '" +
+          currentUser +
+          "'";
+        database.connection.query(sqlInsert, function(err, res, fields) {
+          if (err) throw err;
+          console.log("hash saved and changed isRegistered to yes");
+          response.status(200).json({
+            success: true,
+            hash: hashPref
+          });
+        });
+      });
+    });
+
     server.post("/makeadmin", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser;
       let sql =
@@ -301,7 +339,7 @@ app
     });
 
     server.use(
-      unless(["/login", "/register", "/error", "/_next"], (req, res, next) => {
+      unless(["/login", "/register", "/_next"], (req, res, next) => {
         const token = req.cookies["x-access-token"];
         if (token) {
           jwt.verify(token, secret, (err, decoded) => {
@@ -335,7 +373,9 @@ app
     });
 
     server.post("/pusher/auth", urlEncodedParser, function(req, res) {
-      let currentUser = req.decoded.username;
+      let cookie = req.cookies["x-access-token"];
+      let decoded = jwtDecode(cookie);
+      let currentUser = decoded.username;
       let socketId = req.body.socket_id;
       let channel = req.body.channel_name;
       let presenceData = {
@@ -354,25 +394,14 @@ app
       res.send(auth);
     });
 
-    server.get("/admin", function(req, response, next) {
-      const token = req.cookies["x-access-token"];
-      jwt.verify(token, secret, (err, decoded) => {
-        if (decoded.role[0] == "admin") {
-          return next();
-        } else {
-          response.redirect("/error");
-        }
-      });
-    });
-
     server.get("*", (req, res) => {
       return handle(req, res);
     });
 
-    /*https.createServer(certOptions, server).listen(3000, certOptions, (err) => {
-            if (err) throw err;
-            console.log('Listening on Port 3000')
-        })*/
+    // https.createServer(certOptions, server).listen(3000, certOptions, err => {
+    //   if (err) throw err;
+    //   console.log("Listening on Port 3000");
+    // });
     server.listen(3000, err => {
       if (err) throw err;
       console.log("> Listening on Port 3000");

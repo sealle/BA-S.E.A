@@ -17,13 +17,6 @@ class adminPage extends Component {
     };
   }
 
-  async componentDidMount() {
-    const response = await axios.get(window.location.origin, "/admin");
-    if (response.data.success == false) {
-      Router.push("/profile");
-    }
-  }
-
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {

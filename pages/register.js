@@ -58,8 +58,6 @@ class Register extends Component {
     formData.append("password", this.state.password);
     formData.append("errorMessage", this.state.errorMessage);
 
-    console.log(this.state.dateOfBirth);
-
     try {
       const response = await axios.post(
         window.location.origin + "/register",

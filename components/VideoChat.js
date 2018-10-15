@@ -3,12 +3,11 @@ import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
 
-const APP_KEY = "0f924dcd44dc93a88aa7";
-const wrtc = require("wrtc");
-import { getCookie } from "../utils/CookieUtils";
-import jwtDecode from "jwt-decode";
+const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
+import { getCookie } from "../utils/CookieUtils";
+import jwtDecode from "jwt-decode";
 
 export default class VideoChat extends Component {
   constructor() {
@@ -21,7 +20,7 @@ export default class VideoChat extends Component {
 
     const token = getCookie("x-access-token");
     const decoded = jwtDecode(token);
-
+    let userName = decoded.username; //currentUser
     //let userName = getCurrentUser(); //TODO: Get currentUser from Server!!!
 
     window.user = {
