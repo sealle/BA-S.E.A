@@ -11,27 +11,11 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/index": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
     "/login": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/profile": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/terms": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
     "/admin": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

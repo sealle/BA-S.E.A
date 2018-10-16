@@ -185,7 +185,6 @@ export default class UserList extends Component {
                               <Table.Cell>
                                 Hash: {this.state.usrs[0].hash}
                               </Table.Cell>
-                              <Table.Cell />
                             </Table.Row>
                           </Table.Body>
                         </Table>

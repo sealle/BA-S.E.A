@@ -16,22 +16,18 @@ export default class Approval extends Component {
     };
   }
 
-  async componentDidMount() {
-    let currentUser = getCurrentUser();
+  onSubmit = async event => {
+    event.preventDefault();
+
+    let currentUser = getCurrentUser(); //TODO: this is always Admin... get connected User!
     const response = await axios.post(window.location.origin + "/hash", {
       currentUser
     });
-    console.log(this.currentUser);
+    console.log(currentUser);
     if (response.data.success) {
       this.setState({ hash: response.data.hash });
       console.log(this.state.hash);
     }
-    //Get signal.userName from Server or VideoChat
-    //receive Hash from server
-  }
-
-  onSubmit = async event => {
-    event.preventDefault();
 
     const accounts = await web3.eth.getAccounts();
     this.setState({
@@ -51,6 +47,19 @@ export default class Approval extends Component {
   };
   //Send Hash to Rinkeby
 
+  onDecline = async event => {
+    event.preventDefault();
+
+    let currentUser = getCurrentUser(); //TODO: this is always Admin... get connected User!
+    const response = await axios.post(window.location.origin + "/hash", {
+      currentUser
+    });
+    if (response.data.success) {
+      this.setState({ message: response.data.message });
+      console.log(this.state.message);
+    }
+  };
+
   render() {
     return (
       <div style={{ margin: "auto", width: "650px", marginTop: "15px" }}>
@@ -63,7 +72,9 @@ export default class Approval extends Component {
           >
             Approve
           </Button>
-          <Button floated="left">Decline</Button>
+          <Button floated="left" onClick={this.onDecline}>
+            Decline
+          </Button>
           <Message success header="Congrats" content={this.state.message} />
         </Form>
       </div>

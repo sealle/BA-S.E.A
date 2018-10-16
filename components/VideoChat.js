@@ -6,29 +6,24 @@ import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
-import getCookie from "../utils/UserUtils";
-import jwtDecode from "../utils/CookieUtils";
+import { getCookie } from "../utils/CookieUtils";
+import jwtDecode from "jwt-decode";
+import getCurrentUser from "../utils/UserUtils";
+import axios from "axios";
 
 export default class VideoChat extends Component {
   constructor() {
     super();
-
     this.state = {
       hasMedia: false,
-      otherUserName: ""
+      otherUserName: "",
+      userName: "",
+      xsrf: ""
     };
 
-    const token = getCookie("x-access-token");
-    const decoded = jwtDecode(token);
-    let userName = decoded.username;
+    //use window object!!
 
-    window.user = {
-      name: userName
-    };
-    window.xsrftoken = decoded.xsrftoken;
-
-    this.user = window.user;
-    this.user.stream = null;
+    this.user = { name: this.state.userName, stream: null };
     this.peers = {};
 
     this.mediaHandler = new MediaHandler();
@@ -39,10 +34,16 @@ export default class VideoChat extends Component {
     this.startPeer = this.startPeer.bind(this);
   }
 
-  componentWillMount() {
+  async componentDidMount() {
+    const res = await axios.post(window.location.origin + "/currentUser");
+    if (res.data.success) {
+      this.setState({ xsrf: res.data.token, userName: res.data.currentUser });
+    }
+
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
       this.user.stream = stream;
+      console.log(this.user.stream);
 
       try {
         this.myVideo.srcObject = stream;
@@ -63,20 +64,22 @@ export default class VideoChat extends Component {
       auth: {
         params: this.user.name,
         headers: {
-          "X-XSRF-Token": window.xsrfToken
+          "X-XSRF-Token": this.state.xsrf
         }
       }
     });
 
+    console.log(this.user.name);
+
     this.channel = this.pusher.subscribe("presence-video-channel"); //presence: requires auth!
 
     this.channel.bind(`client-signal-${this.user.name}`, signal => {
-      let peer = this.peers[signal.userName];
+      let peer = this.peers[signal.this.state.userName];
 
       // if peer does not already exist, we got an incoming call
       if (peer === undefined) {
-        this.setState({ otherUserName: signal.userName });
-        peer = this.startPeer(signal.userName, false);
+        this.setState({ otherUserName: signal.this.state.userName });
+        peer = this.startPeer(signal.this.state.userName, false);
       }
 
       peer.signal(signal.data);
@@ -93,7 +96,7 @@ export default class VideoChat extends Component {
     });
 
     peer.on("signal", data => {
-      this.channel.trigger(`client-signal-${userName}`, {
+      this.channel.trigger(`client-signal-${this.state.userName}`, {
         type: "signal",
         userName: this.user.name,
         data: data
@@ -122,12 +125,12 @@ export default class VideoChat extends Component {
     });
 
     peer.on("close", () => {
-      let peer = this.peers[userName];
+      let peer = this.peers[this.state.userName];
       if (peer !== undefined) {
         peer.destroy(err);
       }
 
-      this.peers[userName] = undefined;
+      this.peers[this.state.userName] = undefined;
     });
     return peer;
   }
@@ -135,6 +138,10 @@ export default class VideoChat extends Component {
   callTo(userName) {
     this.peers[userName] = this.startPeer(userName);
   }
+
+  // componentWillUnmount() {
+  //   MediaStreamTrack.stop();
+  // }
 
   render() {
     return (
@@ -145,7 +152,10 @@ export default class VideoChat extends Component {
           </Header>
           {["Admin"].map(userName => {
             return this.user.name !== userName ? (
-              <button key={userName} onClick={() => this.callTo(userName)}>
+              <button
+                key={this.state.userName}
+                onClick={() => this.callTo(this.state.userName)}
+              >
                 Call {userName}
               </button>
             ) : null;

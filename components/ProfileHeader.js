@@ -32,10 +32,6 @@ export default class ProfileHeader extends Component {
     Router.pushRoute("/login");
   }
 
-  profileBack = e => {
-    Router.pushRoute("/profile");
-  };
-
   adminPage = e => {
     Router.pushRoute("/admin");
   };
@@ -44,7 +40,7 @@ export default class ProfileHeader extends Component {
     return (
       <div>
         <Menu pointing>
-          <Menu.Item name="home" onClick={this.profileBack}>
+          <Menu.Item name="home">
             <Icon name="home" size="small" />
           </Menu.Item>
           <Menu.Menu position="right">

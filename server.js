@@ -153,8 +153,8 @@ app
                   let adminToken = jwt.sign(
                     {
                       username: body.username,
-                      role: ["admin", "user"],
-                      reg: "yes",
+                      role: 1,
+                      reg: 1,
                       xsrfToken: crypto
                         .createHash("md5")
                         .update(body.username)
@@ -179,8 +179,8 @@ app
                   let userToken = jwt.sign(
                     {
                       username: body.username,
-                      role: "user",
-                      reg: "yes",
+                      role: 0, //user
+                      reg: 1, //registered
                       xsrfToken: crypto
                         .createHash("md5")
                         .update(body.username)
@@ -202,8 +202,8 @@ app
                   let registerToken = jwt.sign(
                     {
                       username: body.username,
-                      role: "user",
-                      reg: "no",
+                      role: 0,
+                      reg: 0,
                       xsrfToken: crypto
                         .createHash("md5")
                         .update(body.username)
@@ -245,9 +245,12 @@ app
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
+      let token = decoded.xsrfToken;
       response.status(200).json({
         success: true,
-        currentUser: currentUser
+        currentUser: currentUser,
+        token: token,
+        cookie: cookie
       });
     });
 
@@ -312,6 +315,18 @@ app
       });
     });
 
+    server.post("/deleteuser", urlEncodedParser, function(req, response) {
+      let currentUser = req.body.currentUser;
+      let sql = "DELETE FROM users WHERE username = '" + currentUser + "'";
+      database.connection.query(sql, function(err, res, fields) {
+        if (err) throw err;
+        response.status(200).json({
+          success: true,
+          message: "User deleted!"
+        });
+      });
+    });
+
     server.post("/makeadmin", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser;
       let sql =
@@ -338,50 +353,6 @@ app
       });
     });
 
-    server.get("/admin", (req, response) => {
-      const token = req.cookies["x-access-token"];
-      jwt.verify(token, secret, (err, decoded) => {
-        if (decoded.role[0] == "admin") {
-          return next();
-        } else {
-          response.redirect("/error");
-        }
-      });
-    });
-
-    server.get("/terms", (req, response) => {
-      const token = req.cookies["x-access-token"];
-      jwt.verify(token, secret, (err, decoded) => {
-        if (decoded.role[0] == "user" && decoded.reg[0] == "no") {
-          return next();
-        } else {
-          response.redirect("/error");
-        }
-      });
-    });
-
-    server.get("/videochat", (req, response) => {
-      const token = req.cookies["x-access-token"];
-      jwt.verify(token, secret, (err, decoded) => {
-        if (decoded.role[0] == "user" && decoded.reg[0] == "no") {
-          return next();
-        } else {
-          response.redirect("/error");
-        }
-      });
-    });
-
-    server.get("/profile", (req, response) => {
-      const token = req.cookies["x-access-token"];
-      jwt.verify(token, secret, (err, decoded) => {
-        if (decoded.role[0] == "user" && decoded.reg[0] == "yes") {
-          return next();
-        } else {
-          response.redirect("/error");
-        }
-      });
-    });
-
     server.use(
       unless(["/login", "/register", "/_next"], (req, res, next) => {
         const token = req.cookies["x-access-token"];
@@ -401,6 +372,22 @@ app
         }
       })
     );
+
+    server.get("/admin", protectedAdminPage, (req, response, next) => {
+      return next();
+    });
+
+    server.get(
+      ["/terms", "/videochat"],
+      protectedRegPage,
+      (req, response, next) => {
+        return next();
+      }
+    );
+
+    server.get("/profile", protectedUserPage, (req, response, next) => {
+      return next();
+    });
 
     server.post("/api/preventCRSF", (req, res, next) => {
       if (req.decoded.xsrfToken === req.get("X-XSRF-TOKEN")) {
@@ -473,13 +460,59 @@ function unless(paths, middleware) {
   };
 }
 
-/*function protectedPage(req, res, next) {
+function protectedAdminPage(req, res, next) {
   const token = req.cookies["x-access-token"];
-  jwt.verify(token, secret, (err, decoded) => {
-    if (decoded.role[0] == "admin") {
-      return next();
-    } else {
-      res.redirect('/error');
-    }
-  });
-}*/
+  if (token) {
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (decoded.role !== 1) {
+          res.redirect("/error");
+        } else {
+          return next();
+        }
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+}
+
+function protectedUserPage(req, res, next) {
+  const token = req.cookies["x-access-token"];
+  if (token) {
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (decoded.role !== 0 || decoded.reg !== 1) {
+          res.redirect("/error");
+        } else {
+          return next();
+        }
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+}
+
+function protectedRegPage(req, res, next) {
+  const token = req.cookies["x-access-token"];
+  if (token) {
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (decoded.role !== 0 || decoded.reg !== 0) {
+          res.redirect("/error");
+        } else {
+          return next();
+        }
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+}

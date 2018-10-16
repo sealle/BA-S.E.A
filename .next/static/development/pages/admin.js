@@ -73,16 +73,35 @@ function (_Component) {
       var _ref = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
-        var accounts;
+        var currentUser, response, accounts;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 event.preventDefault();
-                _context.next = 3;
+                currentUser = Object(_utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__["default"])(); //TODO: this is always Admin... get connected User!
+
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/hash", {
+                  currentUser: currentUser
+                });
+
+              case 4:
+                response = _context.sent;
+                console.log(currentUser);
+
+                if (response.data.success) {
+                  _this.setState({
+                    hash: response.data.hash
+                  });
+
+                  console.log(_this.state.hash);
+                }
+
+                _context.next = 9;
                 return _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4___default.a.eth.getAccounts();
 
-              case 3:
+              case 9:
                 accounts = _context.sent;
 
                 _this.setState({
@@ -90,19 +109,19 @@ function (_Component) {
                   loading: true
                 });
 
-                _context.next = 7;
+                _context.next = 13;
                 return _ethereum_src_users__WEBPACK_IMPORTED_MODULE_3___default.a.methods.saveUser().send({
                   from: accounts[0],
                   value: _this.state.hash
                 });
 
-              case 7:
+              case 13:
                 _this.setState({
                   message: "You have successfully sent the transaction!",
                   loading: false
                 });
 
-              case 8:
+              case 14:
               case "end":
                 return _context.stop();
             }
@@ -112,6 +131,49 @@ function (_Component) {
 
       return function (_x) {
         return _ref.apply(this, arguments);
+      };
+    }());
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onDecline",
+    /*#__PURE__*/
+    function () {
+      var _ref2 = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(event) {
+        var currentUser, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                event.preventDefault();
+                currentUser = Object(_utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__["default"])(); //TODO: this is always Admin... get connected User!
+
+                _context2.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/hash", {
+                  currentUser: currentUser
+                });
+
+              case 4:
+                response = _context2.sent;
+
+                if (response.data.success) {
+                  _this.setState({
+                    message: response.data.message
+                  });
+
+                  console.log(_this.state.message);
+                }
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      return function (_x2) {
+        return _ref2.apply(this, arguments);
       };
     }());
 
@@ -125,50 +187,7 @@ function (_Component) {
   }
 
   _createClass(Approval, [{
-    key: "componentDidMount",
-    value: function () {
-      var _componentDidMount = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var currentUser, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                currentUser = Object(_utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__["default"])();
-                _context2.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/hash", {
-                  currentUser: currentUser
-                });
-
-              case 3:
-                response = _context2.sent;
-                console.log(this.currentUser);
-
-                if (response.data.success) {
-                  this.setState({
-                    hash: response.data.hash
-                  });
-                  console.log(this.state.hash);
-                } //Get signal.userName from Server or VideoChat
-                //receive Hash from server
-
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      return function componentDidMount() {
-        return _componentDidMount.apply(this, arguments);
-      };
-    }()
-  }, {
     key: "render",
-    //Send Hash to Rinkeby
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         style: {
@@ -185,7 +204,8 @@ function (_Component) {
         primary: true,
         floated: "right"
       }, "Approve"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-        floated: "left"
+        floated: "left",
+        onClick: this.onDecline
       }, "Decline"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Message"], {
         success: true,
         header: "Congrats",
@@ -296,10 +316,6 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ProfileHeader).call(this, props));
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "profileBack", function (e) {
-      _routes__WEBPACK_IMPORTED_MODULE_4__["Router"].pushRoute("/profile");
-    });
-
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "adminPage", function (e) {
       _routes__WEBPACK_IMPORTED_MODULE_4__["Router"].pushRoute("/admin");
     });
@@ -372,8 +388,7 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Menu"], {
         pointing: true
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Menu"].Item, {
-        name: "home",
-        onClick: this.profileBack
+        name: "home"
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Icon"], {
         name: "home",
         size: "small"
@@ -680,7 +695,7 @@ function (_Component) {
       }, "Make Admin") : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], {
         primary: true,
         disabled: true
-      }, "Make Admin"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "isRegistered: ", this.state.usrs[0].isRegistered), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Registration Date: ", this.state.usrs[0].regDate)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Hash: ", this.state.usrs[0].hash), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      }, "Make Admin"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "isRegistered: ", this.state.usrs[0].isRegistered), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Registration Date: ", this.state.usrs[0].regDate)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Hash: ", this.state.usrs[0].hash)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
         className: "img-responsive",
         src: "../static/".concat(this.state.img1),
         style: {
@@ -717,18 +732,30 @@ function (_Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoChat; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../webrtc/MediaHandler */ "./webrtc/MediaHandler.js");
-/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! simple-peer */ "./node_modules/simple-peer/index.js");
-/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.js");
-/* harmony import */ var _utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/UserUtils */ "./utils/UserUtils.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../webrtc/MediaHandler */ "./webrtc/MediaHandler.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! simple-peer */ "./node_modules/simple-peer/index.js");
+/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.js");
 /* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
+/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! jwt-decode */ "./node_modules/jwt-decode/lib/index.js");
+/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(jwt_decode__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _utils_UserUtils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/UserUtils */ "./utils/UserUtils.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_10__);
+
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -757,6 +784,8 @@ var APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 
 
 
+
+
 var VideoChat =
 /*#__PURE__*/
 function (_Component) {
@@ -770,19 +799,17 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(VideoChat).call(this));
     _this.state = {
       hasMedia: false,
-      otherUserName: ""
+      otherUserName: "",
+      userName: "",
+      xsrf: ""
+    }; //use window object!!
+
+    _this.user = {
+      name: _this.state.userName,
+      stream: null
     };
-    var token = Object(_utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__["default"])("x-access-token");
-    var decoded = Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__["default"])(token);
-    var userName = decoded.username;
-    window.user = {
-      name: userName
-    };
-    window.xsrftoken = decoded.xsrftoken;
-    _this.user = window.user;
-    _this.user.stream = null;
     _this.peers = {};
-    _this.mediaHandler = new _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    _this.mediaHandler = new _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_2__["default"]();
 
     _this.setupPusher();
 
@@ -793,54 +820,89 @@ function (_Component) {
   }
 
   _createClass(VideoChat, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      var _this2 = this;
+    key: "componentDidMount",
+    value: function () {
+      var _componentDidMount = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this2 = this;
 
-      this.mediaHandler.getPermissions().then(function (stream) {
-        _this2.setState({
-          hasMedia: true
-        });
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_10___default.a.post(window.location.origin + "/currentUser");
 
-        _this2.user.stream = stream;
+              case 2:
+                res = _context.sent;
 
-        try {
-          _this2.myVideo.srcObject = stream;
-        } catch (e) {
-          _this2.myVideo.src = URL.createObjectURL(stream);
-        }
+                if (res.data.success) {
+                  this.setState({
+                    xsrf: res.data.token,
+                    userName: res.data.currentUser
+                  });
+                }
 
-        _this2.myVideo.play();
-      });
-    }
+                this.mediaHandler.getPermissions().then(function (stream) {
+                  _this2.setState({
+                    hasMedia: true
+                  });
+
+                  _this2.user.stream = stream;
+                  console.log(_this2.user.stream);
+
+                  try {
+                    _this2.myVideo.srcObject = stream;
+                  } catch (e) {
+                    _this2.myVideo.src = URL.createObjectURL(stream);
+                  }
+
+                  _this2.myVideo.play();
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      return function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      };
+    }()
   }, {
     key: "setupPusher",
     value: function setupPusher() {
       var _this3 = this;
 
       //TODO: Pusher only one way: User->Admin
-      pusher_js__WEBPACK_IMPORTED_MODULE_2___default.a.logToConsole = true;
-      this.pusher = new pusher_js__WEBPACK_IMPORTED_MODULE_2___default.a(APP_KEY, {
+      pusher_js__WEBPACK_IMPORTED_MODULE_3___default.a.logToConsole = true;
+      this.pusher = new pusher_js__WEBPACK_IMPORTED_MODULE_3___default.a(APP_KEY, {
         authEndpoint: "/pusher/auth",
         cluster: "eu",
         auth: {
           params: this.user.name,
           headers: {
-            "X-XSRF-Token": window.xsrfToken
+            "X-XSRF-Token": this.state.xsrf
           }
         }
       });
+      console.log(this.user.name);
       this.channel = this.pusher.subscribe("presence-video-channel"); //presence: requires auth!
 
       this.channel.bind("client-signal-".concat(this.user.name), function (signal) {
-        var peer = _this3.peers[signal.userName]; // if peer does not already exist, we got an incoming call
+        var peer = _this3.peers[signal.this.state.userName]; // if peer does not already exist, we got an incoming call
 
         if (peer === undefined) {
           _this3.setState({
-            otherUserName: signal.userName
+            otherUserName: signal.this.state.userName
           });
 
-          peer = _this3.startPeer(signal.userName, false);
+          peer = _this3.startPeer(signal.this.state.userName, false);
         }
 
         peer.signal(signal.data);
@@ -854,14 +916,14 @@ function (_Component) {
       var initiator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var wrtc = arguments.length > 2 ? arguments[2] : undefined;
       //TODO: initiator is always user!
-      var peer = new simple_peer__WEBPACK_IMPORTED_MODULE_3___default.a({
+      var peer = new simple_peer__WEBPACK_IMPORTED_MODULE_4___default.a({
         initiator: initiator,
         stream: this.user.stream,
         trickle: false,
         wrtc: wrtc
       });
       peer.on("signal", function (data) {
-        _this4.channel.trigger("client-signal-".concat(userName), {
+        _this4.channel.trigger("client-signal-".concat(_this4.state.userName), {
           type: "signal",
           userName: _this4.user.name,
           data: data
@@ -887,13 +949,13 @@ function (_Component) {
         }
       });
       peer.on("close", function () {
-        var peer = _this4.peers[userName];
+        var peer = _this4.peers[_this4.state.userName];
 
         if (peer !== undefined) {
           peer.destroy(err);
         }
 
-        _this4.peers[userName] = undefined;
+        _this4.peers[_this4.state.userName] = undefined;
       });
       return peer;
     }
@@ -901,26 +963,29 @@ function (_Component) {
     key: "callTo",
     value: function callTo(userName) {
       this.peers[userName] = this.startPeer(userName);
-    }
+    } // componentWillUnmount() {
+    //   MediaStreamTrack.stop();
+    // }
+
   }, {
     key: "render",
     value: function render() {
       var _this5 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_5__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_4__["Header"], {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_6__["default"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_5__["Header"], {
         as: "h1",
         style: {
           textAlign: "center",
           marginTop: "30px"
         }
       }, "Video Chat"), ["Admin"].map(function (userName) {
-        return _this5.user.name !== userName ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          key: userName,
+        return _this5.user.name !== userName ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+          key: _this5.state.userName,
           onClick: function onClick() {
-            return _this5.callTo(userName);
+            return _this5.callTo(_this5.state.userName);
           }
         }, "Call ", userName) : null;
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "video-container",
         style: {
           width: "650px",
@@ -929,7 +994,7 @@ function (_Component) {
           position: "relative",
           border: "3px solid #000"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
         className: "my-video",
         ref: function ref(_ref) {
           _this5.myVideo = _ref;
@@ -942,7 +1007,7 @@ function (_Component) {
           border: "3px solid #0061ff",
           zIndex: "2"
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
         className: "user-video",
         ref: function ref(_ref2) {
           _this5.userVideo = _ref2;
@@ -962,7 +1027,7 @@ function (_Component) {
   }]);
 
   return VideoChat;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
 
 
@@ -41824,7 +41889,7 @@ util.inherits = __webpack_require__(/*! inherits */ "./node_modules/inherits/inh
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(/*! util */ 8);
+var debugUtil = __webpack_require__(/*! util */ 7);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -43713,7 +43778,7 @@ Writable.prototype._destroy = function (err, cb) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(/*! safe-buffer */ "./node_modules/safe-buffer/index.js").Buffer;
-var util = __webpack_require__(/*! util */ 9);
+var util = __webpack_require__(/*! util */ 8);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -73496,7 +73561,7 @@ function () {
 
 /***/ }),
 
-/***/ 7:
+/***/ 10:
 /*!******************************!*\
   !*** multi ./pages/admin.js ***!
   \******************************/
@@ -73510,7 +73575,7 @@ return { page: module.exports.default }});
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /*!**********************!*\
   !*** util (ignored) ***!
   \**********************/
@@ -73521,7 +73586,7 @@ return { page: module.exports.default }});
 
 /***/ }),
 
-/***/ 9:
+/***/ 8:
 /*!**********************!*\
   !*** util (ignored) ***!
   \**********************/
@@ -73543,5 +73608,5 @@ module.exports = dll_34718705b6f81f095be8;
 
 /***/ })
 
-},[[7,"static/runtime/webpack.js"]]]));;
+},[[10,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=admin.js.map
