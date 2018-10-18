@@ -20,7 +20,8 @@ export default class UserList extends Component {
       usrs: [],
       test: "",
       isChosen: false,
-      isPromoted: false
+      isPromoted: false,
+      isComp: ""
     };
     //this.currentUser = getCurrentUser();
     this.makeAdmin = e => this._makeAdmin();
@@ -40,13 +41,18 @@ export default class UserList extends Component {
   async selectUser(member, e) {
     let currentUser = member.username;
     try {
-      const response = await axios.post(window.location.origin + "/usersx", {
+      const response = await axios.post(window.location.origin + "/usrs", {
         currentUser
       });
       if (response.data.success) {
-        this.setState({ usrs: response.data.userData });
-        this.setState({ img1: response.data.pic1 });
-        this.setState({ img2: response.data.pic2 });
+        this.setState({
+          usrs: response.data.userData,
+          isComp: response.data.isComp,
+          img1: response.data.pic1,
+          img2: response.data.pic2,
+          doc1: response.data.doc1,
+          doc2: response.data.doc2
+        });
       }
     } catch (error) {
       console.log(error);
@@ -188,24 +194,84 @@ export default class UserList extends Component {
                             </Table.Row>
                           </Table.Body>
                         </Table>
-                        <img
-                          className="img-responsive"
-                          src={`../static/${this.state.img1}`}
-                          style={{
-                            width: "200px",
-                            height: "113px",
-                            float: "left"
-                          }}
-                        />
-                        <img
-                          className="img-responsive"
-                          src={`../static/${this.state.img2}`}
-                          style={{
-                            width: "200px",
-                            height: "113px",
-                            float: "right"
-                          }}
-                        />
+                        <Grid>
+                          <Grid.Column width={8}>
+                            <img
+                              className="img-responsive"
+                              src={`../static/${this.state.img1}`}
+                              style={{
+                                width: "200px",
+                                height: "113px",
+                                float: "left"
+                              }}
+                            />
+                          </Grid.Column>
+                          <Grid.Column width={8}>
+                            <img
+                              className="img-responsive"
+                              src={`../static/${this.state.img2}`}
+                              style={{
+                                width: "200px",
+                                height: "113px",
+                                float: "right"
+                              }}
+                            />
+                          </Grid.Column>
+                        </Grid>
+
+                        {this.state.isComp === 1 ? (
+                          <Table>
+                            <Table.Body>
+                              <Table.Row>
+                                <Table.Cell>
+                                  Company Name: {this.state.usrs[0].compName}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  Registration Number:{" "}
+                                  {this.state.usrs[0].regNr}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell>
+                                  Place of registration:{" "}
+                                  {this.state.usrs[0].placeOfReg}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  Residence: {this.state.usrs[0].residence}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell>
+                                  Business Address:{" "}
+                                  {this.state.usrs[0].businessAd}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  House Nr: {this.state.usrs[0].compHouseNr}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell>
+                                  <a
+                                    href={`../static/${this.state.doc1}`}
+                                    target="_blank"
+                                  >
+                                    View excerpt of commercial register
+                                  </a>
+                                </Table.Cell>
+                                <Table.Cell>
+                                  <a
+                                    href={`../static/${this.state.doc2}`}
+                                    type="application/pdf"
+                                    target="_blank"
+                                  >
+                                    View Provisions regulating the power to bind
+                                    the legal entity
+                                  </a>
+                                </Table.Cell>
+                              </Table.Row>
+                            </Table.Body>
+                          </Table>
+                        ) : null}
                       </Container>
                     </Layout>
                   </div>

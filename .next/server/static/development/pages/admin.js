@@ -88,232 +88,10 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./components/Approval.js":
-/*!********************************!*\
-  !*** ./components/Approval.js ***!
-  \********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Approval; });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _ethereum_src_users__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ethereum/src/users */ "./ethereum/src/users.js");
-/* harmony import */ var _ethereum_src_users__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_ethereum_src_users__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ethereum/src/web3 */ "./ethereum/src/web3.js");
-/* harmony import */ var _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "axios");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/UserUtils */ "./utils/UserUtils.js");
-
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-
-
-
-var Approval =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Approval, _Component);
-
-  function Approval() {
-    var _this;
-
-    _classCallCheck(this, Approval);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Approval).call(this));
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onSubmit",
-    /*#__PURE__*/
-    function () {
-      var _ref = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
-        var currentUser, response, accounts;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                event.preventDefault();
-                currentUser = Object(_utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__["default"])(); //TODO: this is always Admin... get connected User!
-
-                _context.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/hash", {
-                  currentUser: currentUser
-                });
-
-              case 4:
-                response = _context.sent;
-                console.log(currentUser);
-
-                if (response.data.success) {
-                  _this.setState({
-                    hash: response.data.hash
-                  });
-
-                  console.log(_this.state.hash);
-                }
-
-                _context.next = 9;
-                return _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4___default.a.eth.getAccounts();
-
-              case 9:
-                accounts = _context.sent;
-
-                _this.setState({
-                  waitingMessage: "Waiting on transaction success...",
-                  loading: true
-                });
-
-                _context.next = 13;
-                return _ethereum_src_users__WEBPACK_IMPORTED_MODULE_3___default.a.methods.saveUser().send({
-                  from: accounts[0],
-                  value: _this.state.hash
-                });
-
-              case 13:
-                _this.setState({
-                  message: "You have successfully sent the transaction!",
-                  loading: false
-                });
-
-              case 14:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      return function (_x) {
-        return _ref.apply(this, arguments);
-      };
-    }());
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onDecline",
-    /*#__PURE__*/
-    function () {
-      var _ref2 = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(event) {
-        var currentUser, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                event.preventDefault();
-                currentUser = Object(_utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__["default"])(); //TODO: this is always Admin... get connected User!
-
-                _context2.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/hash", {
-                  currentUser: currentUser
-                });
-
-              case 4:
-                response = _context2.sent;
-
-                if (response.data.success) {
-                  _this.setState({
-                    message: response.data.message
-                  });
-
-                  console.log(_this.state.message);
-                }
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      return function (_x2) {
-        return _ref2.apply(this, arguments);
-      };
-    }());
-
-    _this.state = {
-      hash: "",
-      message: "",
-      waitingMessage: "",
-      loading: false
-    };
-    return _this;
-  }
-
-  _createClass(Approval, [{
-    key: "render",
-    value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        style: {
-          margin: "auto",
-          width: "650px",
-          marginTop: "15px"
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Form"], {
-        onSubmit: this.onSubmit,
-        success: this.state.errorMessage
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-        loading: this.state.loading,
-        type: "submit",
-        primary: true,
-        floated: "right"
-      }, "Approve"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-        floated: "left",
-        onClick: this.onDecline
-      }, "Decline"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Message"], {
-        success: true,
-        header: "Congrats",
-        content: this.state.message
-      })));
-    }
-  }]);
-
-  return Approval;
-}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
-
-
-
-/***/ }),
 
 /***/ "./components/Layout.js":
 /*!******************************!*\
@@ -507,6 +285,229 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./components/UserApproval.js":
+/*!************************************!*\
+  !*** ./components/UserApproval.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UserApproval; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
+/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _ethereum_src_users__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ethereum/src/users */ "./ethereum/src/users.js");
+/* harmony import */ var _ethereum_src_users__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_ethereum_src_users__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ethereum/src/web3 */ "./ethereum/src/web3.js");
+/* harmony import */ var _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/UserUtils */ "./utils/UserUtils.js");
+
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+var UserApproval =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(UserApproval, _Component);
+
+  function UserApproval() {
+    var _this;
+
+    _classCallCheck(this, UserApproval);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(UserApproval).call(this));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onSubmit",
+    /*#__PURE__*/
+    function () {
+      var _ref = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
+        var currentUser, response, accounts;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                event.preventDefault();
+                currentUser = Object(_utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__["default"])(); //TODO: this is always Admin... get connected User!
+
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/hash", {
+                  currentUser: currentUser
+                });
+
+              case 4:
+                response = _context.sent;
+                console.log(currentUser);
+
+                if (response.data.success) {
+                  _this.setState({
+                    hash: response.data.hash
+                  });
+
+                  console.log(_this.state.hash);
+                }
+
+                _context.next = 9;
+                return _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_4___default.a.eth.getAccounts();
+
+              case 9:
+                accounts = _context.sent;
+
+                _this.setState({
+                  waitingMessage: "Waiting on transaction success...",
+                  loading: true
+                }); //Send Hash to Rinkeby
+
+
+                _context.next = 13;
+                return _ethereum_src_users__WEBPACK_IMPORTED_MODULE_3___default.a.methods.saveUser().send({
+                  from: accounts[0],
+                  value: _this.state.hash
+                });
+
+              case 13:
+                _this.setState({
+                  message: "You have successfully sent the transaction!",
+                  loading: false
+                });
+
+              case 14:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onDecline",
+    /*#__PURE__*/
+    function () {
+      var _ref2 = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(event) {
+        var currentUser, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                event.preventDefault();
+                currentUser = Object(_utils_UserUtils__WEBPACK_IMPORTED_MODULE_6__["default"])(); //TODO: this is always Admin... get connected User (presenceChannel: memberId)
+
+                _context2.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/hash", {
+                  currentUser: currentUser
+                });
+
+              case 4:
+                response = _context2.sent;
+
+                if (response.data.success) {
+                  _this.setState({
+                    message: response.data.message
+                  });
+
+                  console.log(_this.state.message);
+                }
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      return function (_x2) {
+        return _ref2.apply(this, arguments);
+      };
+    }());
+
+    _this.state = {
+      hash: "",
+      message: "",
+      waitingMessage: "",
+      loading: false
+    };
+    return _this;
+  }
+
+  _createClass(UserApproval, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        style: {
+          margin: "auto",
+          width: "650px",
+          marginTop: "15px"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Form"], {
+        onSubmit: this.onSubmit,
+        success: this.state.errorMessage
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+        loading: this.state.loading,
+        type: "submit",
+        primary: true,
+        floated: "right"
+      }, "Approve"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+        floated: "left",
+        onClick: this.onDecline
+      }, "Decline"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Message"], {
+        success: true,
+        header: "Congrats",
+        content: this.state.message
+      })));
+    }
+  }]);
+
+  return UserApproval;
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+
+
+
+/***/ }),
+
 /***/ "./components/UserList.js":
 /*!********************************!*\
   !*** ./components/UserList.js ***!
@@ -572,7 +573,8 @@ function (_Component) {
       usrs: [],
       test: "",
       isChosen: false,
-      isPromoted: false
+      isPromoted: false,
+      isComp: ""
     }; //this.currentUser = getCurrentUser();
 
     _this.makeAdmin = function (e) {
@@ -640,7 +642,7 @@ function (_Component) {
                 currentUser = member.username;
                 _context2.prev = 1;
                 _context2.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(window.location.origin + "/usersx", {
+                return axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(window.location.origin + "/usrs", {
                   currentUser: currentUser
                 });
 
@@ -649,13 +651,12 @@ function (_Component) {
 
                 if (response.data.success) {
                   this.setState({
-                    usrs: response.data.userData
-                  });
-                  this.setState({
-                    img1: response.data.pic1
-                  });
-                  this.setState({
-                    img2: response.data.pic2
+                    usrs: response.data.userData,
+                    isComp: response.data.isComp,
+                    img1: response.data.pic1,
+                    img2: response.data.pic2,
+                    doc1: response.data.doc1,
+                    doc2: response.data.doc2
                   });
                 }
 
@@ -792,7 +793,9 @@ function (_Component) {
       }, "Make Admin") : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], {
         primary: true,
         disabled: true
-      }, "Make Admin"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "isRegistered: ", this.state.usrs[0].isRegistered), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Registration Date: ", this.state.usrs[0].regDate)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Hash: ", this.state.usrs[0].hash)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      }, "Make Admin"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "isRegistered: ", this.state.usrs[0].isRegistered), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Registration Date: ", this.state.usrs[0].regDate)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Hash: ", this.state.usrs[0].hash)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Grid"].Column, {
+        width: 8
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
         className: "img-responsive",
         src: "../static/".concat(this.state.img1),
         style: {
@@ -800,7 +803,9 @@ function (_Component) {
           height: "113px",
           float: "left"
         }
-      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Grid"].Column, {
+        width: 8
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
         className: "img-responsive",
         src: "../static/".concat(this.state.img2),
         style: {
@@ -808,7 +813,14 @@ function (_Component) {
           height: "113px",
           float: "right"
         }
-      })))) : null)))));
+      }))), this.state.isComp === 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Body, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Company Name: ", this.state.usrs[0].compName), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Registration Number:", " ", this.state.usrs[0].regNr)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Place of registration:", " ", this.state.usrs[0].placeOfReg), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Residence: ", this.state.usrs[0].residence)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "Business Address:", " ", this.state.usrs[0].businessAd), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, "House Nr: ", this.state.usrs[0].compHouseNr)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "../static/".concat(this.state.doc1),
+        target: "_blank"
+      }, "View excerpt of commercial register")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "../static/".concat(this.state.doc2),
+        type: "application/pdf",
+        target: "_blank"
+      }, "View Provisions regulating the power to bind the legal entity"))))) : null))) : null)))));
     }
   }]);
 
@@ -899,7 +911,8 @@ function (_Component) {
       hasMedia: false,
       otherUserName: "",
       userName: "",
-      xsrf: ""
+      xsrf: "",
+      memberId: ""
     }; //use window object!!
 
     _this.user = {
@@ -989,7 +1002,6 @@ function (_Component) {
           }
         }
       });
-      console.log(this.user.name);
       this.channel = this.pusher.subscribe("presence-video-channel"); //presence: requires auth!
 
       this.channel.bind("client-signal-".concat(this.user.name), function (signal) {
@@ -1021,12 +1033,15 @@ function (_Component) {
         wrtc: wrtc
       });
       peer.on("signal", function (data) {
-        _this4.channel.trigger("client-signal-".concat(_this4.state.userName), {
+        _this4.channel.trigger("client-signal-".concat(userName), {
           type: "signal",
           userName: _this4.user.name,
           data: data
         });
-      });
+      }); // presenceChannel.members.each(member => {
+      //   this.setState({ memberId: member.userId }); //show who you are connected to!
+      // });
+
       peer.on("stream", function (stream) {
         /*try {
           this.myVideo.srcObject = stream; //bug -> why is the stream reloading?
@@ -1177,7 +1192,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _components_VideoChat__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/VideoChat */ "./components/VideoChat.js");
 /* harmony import */ var _components_UserList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/UserList */ "./components/UserList.js");
-/* harmony import */ var _components_Approval__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/Approval */ "./components/Approval.js");
+/* harmony import */ var _components_UserApproval__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/UserApproval */ "./components/UserApproval.js");
 /* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! next/head */ "next/head");
 /* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(next_head__WEBPACK_IMPORTED_MODULE_8__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1268,7 +1283,7 @@ function (_Component) {
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Grid"].Column, {
         stretched: true,
         width: 14
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Container"], null, this.state.activeItem === "userlist" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_UserList__WEBPACK_IMPORTED_MODULE_6__["default"], null) : null, this.state.activeItem === "videochat" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_VideoChat__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Approval__WEBPACK_IMPORTED_MODULE_7__["default"], null)) : null, this.state.activeItem === "home" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Container"], null, this.state.activeItem === "userlist" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_UserList__WEBPACK_IMPORTED_MODULE_6__["default"], null) : null, this.state.activeItem === "videochat" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_VideoChat__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_UserApproval__WEBPACK_IMPORTED_MODULE_7__["default"], null)) : null, this.state.activeItem === "home" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
         as: "h1",
         style: {
           textAlign: "center",
@@ -1406,7 +1421,7 @@ function () {
 
 /***/ }),
 
-/***/ 8:
+/***/ 5:
 /*!******************************!*\
   !*** multi ./pages/admin.js ***!
   \******************************/

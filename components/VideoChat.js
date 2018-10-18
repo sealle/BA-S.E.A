@@ -4,7 +4,7 @@ import Pusher from "pusher-js";
 import Peer from "simple-peer";
 
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
-import { Header } from "semantic-ui-react";
+import { Header, Message } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import { getCookie } from "../utils/CookieUtils";
 import jwtDecode from "jwt-decode";
@@ -18,7 +18,8 @@ export default class VideoChat extends Component {
       hasMedia: false,
       otherUserName: "",
       userName: "",
-      xsrf: ""
+      xsrf: "",
+      memberId: ""
     };
 
     //use window object!!
@@ -69,8 +70,6 @@ export default class VideoChat extends Component {
       }
     });
 
-    console.log(this.user.name);
-
     this.channel = this.pusher.subscribe("presence-video-channel"); //presence: requires auth!
 
     this.channel.bind(`client-signal-${this.user.name}`, signal => {
@@ -96,12 +95,16 @@ export default class VideoChat extends Component {
     });
 
     peer.on("signal", data => {
-      this.channel.trigger(`client-signal-${this.state.userName}`, {
+      this.channel.trigger(`client-signal-${userName}`, {
         type: "signal",
         userName: this.user.name,
         data: data
       });
     });
+
+    // presenceChannel.members.each(member => {
+    //   this.setState({ memberId: member.userId }); //show who you are connected to!
+    // });
 
     peer.on("stream", stream => {
       /*try {
@@ -203,7 +206,11 @@ export default class VideoChat extends Component {
             />
             {/*TODO: Who are you connected with?*/}
           </div>
-          {/* <Message success header="You are connected to" content={...peers[userName]} /> */}
+          {/* <Message
+            success
+            header="You are connected to"
+            content={this.state.memberId}
+          /> */}
         </Layout>
       </div>
     );

@@ -5,7 +5,7 @@ import { Header, Container, Grid, Menu, Message } from "semantic-ui-react";
 import axios from "axios";
 import VideoChat from "../components/VideoChat";
 import UserList from "../components/UserList";
-import Approval from "../components/Approval";
+import UserApproval from "../components/UserApproval";
 import Head from "next/head";
 
 class adminPage extends Component {
@@ -58,7 +58,7 @@ class adminPage extends Component {
                 {this.state.activeItem === "videochat" ? (
                   <div>
                     <VideoChat />
-                    <Approval />
+                    <UserApproval />
                   </div>
                 ) : null}
                 {this.state.activeItem === "home" ? (

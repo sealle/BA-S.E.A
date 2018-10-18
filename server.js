@@ -51,22 +51,13 @@ app
       let imageName = `${req.body.username}-${image.name}`;
       let imageName2 = `${req.body.username}-${image2.name}`;
 
-      /*if (!image || !image2) {
-        response.status(400).json({
-          success: false,
-          message: "you have to upload 2 pictures!"
-        });
-      }*/
-
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
           let date = new Date();
           let body = req.body;
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
-          //TODO:let date = new Date(); //wrong, insert timestamp!!
-          //let currentDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(); //wrong date, insert timestamp!!
           let sql =
-            "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate) VALUES ('" +
+            "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate, isComp) VALUES ('" +
             body.username +
             "', '" +
             hash +
@@ -96,6 +87,8 @@ app
             imageName2 +
             "', '" +
             date +
+            "', '" +
+            0 +
             "')";
           let searchSQL =
             "SELECT * FROM users WHERE username='" + body.username + "'";
@@ -118,6 +111,115 @@ app
                       if (err) return response.status(500).send(err);
                     });
                     image2.mv("static/" + imageName2, function(err) {
+                      if (err) return response.status(500).send(err);
+                    });
+                    response.status(200).json({
+                      success: true,
+                      message: "successfully registered!"
+                    });
+                    console.log("1 record inserted");
+                  }
+                });
+              }
+            }
+          });
+        });
+      });
+    });
+
+    server.post("/companyregister", urlEncodedParser, function(req, response) {
+      let image = req.files.file1;
+      let image2 = req.files.file2;
+      let doc = req.files.doc1;
+      let doc2 = req.files.doc2;
+
+      let imageName = `${req.body.username}-${image.name}`;
+      let imageName2 = `${req.body.username}-${image2.name}`;
+      let docName = `${req.body.compName}-${doc.name}`;
+      let docName2 = `${req.body.compName}-${doc2.name}`;
+
+      bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(req.body.password, salt, null, function(err, hash) {
+          let date = new Date();
+          let body = req.body;
+          //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
+          let sql =
+            "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate, compName, regNr, placeOfReg, residence, businessAd, compHouseNr, doc1, doc2, isComp) VALUES ('" +
+            body.username +
+            "', '" +
+            hash +
+            "', '" +
+            body.fname +
+            "', '" +
+            body.lname +
+            "', '" +
+            body.street +
+            "', '" +
+            body.houseNr +
+            "', '" +
+            body.postCode +
+            "', '" +
+            body.placeOfRes +
+            "', '" +
+            body.dateOfBirth +
+            "', '" +
+            body.nat +
+            "', '" +
+            body.email +
+            "', '" +
+            body.mobNr +
+            "', '" +
+            imageName +
+            "', '" +
+            imageName2 +
+            "', '" +
+            date +
+            "', '" +
+            body.compName +
+            "', '" +
+            body.regNr +
+            "', '" +
+            body.placeOfReg +
+            "', '" +
+            body.residence +
+            "', '" +
+            body.businessAd +
+            "', '" +
+            body.compHouseNr +
+            "', '" +
+            docName +
+            "', '" +
+            docName2 +
+            "', '" +
+            1 +
+            "')";
+          let searchSQL =
+            "SELECT * FROM users WHERE username='" + body.username + "'";
+          database.connection.query(searchSQL, function(err, res) {
+            if (err) {
+              console.log("1.error");
+            } else {
+              if (res.length) {
+                response.status(400).json({
+                  success: false,
+                  message: "Username already exists! Choose a different one."
+                });
+                console.log("User already exists");
+              } else {
+                database.connection.query(sql, function(err, result) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    image.mv("static/" + imageName, function(err) {
+                      if (err) return response.status(500).send(err);
+                    });
+                    image2.mv("static/" + imageName2, function(err) {
+                      if (err) return response.status(500).send(err);
+                    });
+                    doc.mv("static/" + docName, function(err) {
+                      if (err) return response.status(500).send(err);
+                    });
+                    doc2.mv("static/" + docName2, function(err) {
                       if (err) return response.status(500).send(err);
                     });
                     response.status(200).json({
@@ -262,16 +364,24 @@ app
       let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
       database.connection.query(sql, function(err, res, fields) {
         if (err) throw err;
+        response.setHeader("Content-Type", "application/pdf");
+        response.setHeader(
+          "Content-Disposition",
+          `attachment; filename=${res[0].doc1}`
+        );
         response.status(200).send({
           success: true,
           userData: res,
           pic1: res[0].ID1,
-          pic2: res[0].ID2
+          pic2: res[0].ID2,
+          doc1: res[0].doc1,
+          doc2: res[0].doc2,
+          isComp: res[0].isComp
         });
       });
     });
 
-    server.post("/usersx", urlEncodedParser, function(req, response) {
+    server.post("/usrs", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser; //TODO:prevent SQL injection
       let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
       database.connection.query(sql, function(err, res, fields) {
@@ -280,7 +390,10 @@ app
           success: true,
           userData: res,
           pic1: res[0].ID1,
-          pic2: res[0].ID2
+          pic2: res[0].ID2,
+          doc1: res[0].doc1,
+          doc2: res[0].doc2,
+          isComp: res[0].isComp
         });
       });
     });
