@@ -253,6 +253,7 @@ export default class UserList extends Component {
                                 <Table.Cell>
                                   <a
                                     href={`../static/${this.state.doc1}`}
+                                    type="application/pdf"
                                     target="_blank"
                                   >
                                     View excerpt of commercial register

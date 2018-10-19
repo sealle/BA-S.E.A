@@ -57,7 +57,7 @@ class adminPage extends Component {
                 {this.state.activeItem === "userlist" ? <UserList /> : null}
                 {this.state.activeItem === "videochat" ? (
                   <div>
-                    <VideoChat />
+                    {/* <VideoChat /> */}
                     <UserApproval />
                   </div>
                 ) : null}

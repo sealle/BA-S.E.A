@@ -8,7 +8,8 @@ export default class UserData extends Component {
     super(props);
     this.state = {
       users: [],
-      isComp: ""
+      isComp: "",
+      fileURL: ""
     };
   }
 
@@ -128,6 +129,7 @@ export default class UserData extends Component {
                       <Table.Cell>
                         <a
                           href={`../static/${this.state.doc1}`}
+                          type="application/pdf"
                           target="_blank"
                         >
                           View excerpt of commercial register

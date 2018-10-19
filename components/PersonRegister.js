@@ -220,6 +220,7 @@ class PersonRegister extends Component {
                 fluid
                 label="Email"
                 type="email"
+                required
                 placeholder="email@email.com"
                 name="email"
                 value={this.state.email}

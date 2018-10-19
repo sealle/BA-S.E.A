@@ -2,7 +2,7 @@ export default class MediaHandler {
   getPermissions() {
     return new Promise((resolve, rej) => {
       navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
+        .getUserMedia({ video: true, audio: false }) //TODO: change to true
         .then(stream => {
           resolve(stream);
         })

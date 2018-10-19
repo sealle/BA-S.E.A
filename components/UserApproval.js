@@ -19,7 +19,7 @@ export default class UserApproval extends Component {
   onSubmit = async event => {
     event.preventDefault();
 
-    let currentUser = getCurrentUser(); //TODO: this is always Admin... get connected User!
+    let currentUser = "blabla"; //TODO: this is always Admin... get connected User!
     const response = await axios.post(window.location.origin + "/hash", {
       currentUser
     });
@@ -50,8 +50,8 @@ export default class UserApproval extends Component {
   onDecline = async event => {
     event.preventDefault();
 
-    let currentUser = getCurrentUser(); //TODO: this is always Admin... get connected User (presenceChannel: memberId)
-    const response = await axios.post(window.location.origin + "/hash", {
+    //TODO: this is always Admin... get connected User (presenceChannel: memberId)
+    const response = await axios.post(window.location.origin + "/deleteuser", {
       currentUser
     });
     if (response.data.success) {

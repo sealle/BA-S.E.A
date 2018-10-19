@@ -17,15 +17,20 @@ export default class VideoChat extends Component {
     this.state = {
       hasMedia: false,
       otherUserName: "",
-      userName: "",
       xsrf: "",
+      currentUser: "",
       memberId: ""
     };
 
-    //use window object!!
+    let user = {
+      name: userName
+    };
+    this.xsrftoken = this.state.xsrf;
 
-    this.user = { name: this.state.userName, stream: null };
+    this.user = user;
+    this.user.stream = null;
     this.peers = {};
+    let userName = this.state.currentUser;
 
     this.mediaHandler = new MediaHandler();
     this.setupPusher();
@@ -35,16 +40,18 @@ export default class VideoChat extends Component {
     this.startPeer = this.startPeer.bind(this);
   }
 
-  async componentDidMount() {
-    const res = await axios.post(window.location.origin + "/currentUser");
-    if (res.data.success) {
-      this.setState({ xsrf: res.data.token, userName: res.data.currentUser });
-    }
+  componentDidMount() {
+    const response = axios.post(window.location.origin + "/currentuser");
+    this.setState({
+      currentUser: response.data.currentUser,
+      xsrf: response.data.token
+    });
+
+    console.log(this.xsrfToken);
 
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
       this.user.stream = stream;
-      console.log(this.user.stream);
 
       try {
         this.myVideo.srcObject = stream;
@@ -65,7 +72,7 @@ export default class VideoChat extends Component {
       auth: {
         params: this.user.name,
         headers: {
-          "X-XSRF-Token": this.state.xsrf
+          "X-XSRF-Token": this.xsrfToken
         }
       }
     });
@@ -73,12 +80,15 @@ export default class VideoChat extends Component {
     this.channel = this.pusher.subscribe("presence-video-channel"); //presence: requires auth!
 
     this.channel.bind(`client-signal-${this.user.name}`, signal => {
-      let peer = this.peers[signal.this.state.userName];
+      let peer = this.peers[signal.userName];
+
+      // this.setState({ memberId: this.channel.member });
+      // console.log(this.state.memberId); //who am i connected with (receiver side)
 
       // if peer does not already exist, we got an incoming call
       if (peer === undefined) {
-        this.setState({ otherUserName: signal.this.state.userName });
-        peer = this.startPeer(signal.this.state.userName, false);
+        this.setState({ otherUserName: signal.userName });
+        peer = this.startPeer(signal.userName, false);
       }
 
       peer.signal(signal.data);
@@ -102,10 +112,6 @@ export default class VideoChat extends Component {
       });
     });
 
-    // presenceChannel.members.each(member => {
-    //   this.setState({ memberId: member.userId }); //show who you are connected to!
-    // });
-
     peer.on("stream", stream => {
       /*try {
         this.myVideo.srcObject = stream; //bug -> why is the stream reloading?
@@ -128,12 +134,12 @@ export default class VideoChat extends Component {
     });
 
     peer.on("close", () => {
-      let peer = this.peers[this.state.userName];
+      let peer = this.peers[userName];
       if (peer !== undefined) {
         peer.destroy(err);
       }
 
-      this.peers[this.state.userName] = undefined;
+      this.peers[userName] = undefined;
     });
     return peer;
   }
@@ -142,10 +148,6 @@ export default class VideoChat extends Component {
     this.peers[userName] = this.startPeer(userName);
   }
 
-  // componentWillUnmount() {
-  //   MediaStreamTrack.stop();
-  // }
-
   render() {
     return (
       <div>
@@ -153,17 +155,13 @@ export default class VideoChat extends Component {
           <Header as="h1" style={{ textAlign: "center", marginTop: "30px" }}>
             Video Chat
           </Header>
-          {["Admin"].map(userName => {
+          {["Sebster"].map(userName => {
             return this.user.name !== userName ? (
-              <button
-                key={this.state.userName}
-                onClick={() => this.callTo(this.state.userName)}
-              >
+              <button key={userName} onClick={() => this.callTo(userName)}>
                 Call {userName}
               </button>
             ) : null;
           })}
-
           <div
             className="video-container"
             style={{
@@ -206,11 +204,11 @@ export default class VideoChat extends Component {
             />
             {/*TODO: Who are you connected with?*/}
           </div>
-          {/* <Message
+          <Message
             success
             header="You are connected to"
             content={this.state.memberId}
-          /> */}
+          />
         </Layout>
       </div>
     );

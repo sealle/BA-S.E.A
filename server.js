@@ -490,13 +490,13 @@ app
       return next();
     });
 
-    server.get(
-      ["/terms", "/videochat"],
-      protectedRegPage,
-      (req, response, next) => {
-        return next();
-      }
-    );
+    // server.get(
+    //   ["/terms", "/videochat"],
+    //   protectedRegPage,
+    //   (req, response, next) => {
+    //     return next();
+    //   }
+    // );
 
     server.get("/profile", protectedUserPage, (req, response, next) => {
       return next();

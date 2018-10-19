@@ -248,6 +248,7 @@ class CompanyRegister extends Component {
                 fluid
                 label="Email"
                 type="email"
+                required
                 placeholder="email@email.com"
                 name="email"
                 value={this.state.email}
@@ -305,6 +306,7 @@ class CompanyRegister extends Component {
                 width="ten"
                 fluid
                 name="compName"
+                required
                 label="Company Name"
                 placeholder="Company Name"
                 value={this.state.compName}
@@ -316,6 +318,7 @@ class CompanyRegister extends Component {
                 width="eight"
                 fluid
                 name="regNr"
+                required
                 label="Registration Number"
                 placeholder="Registration Number"
                 value={this.state.regNr}
@@ -327,6 +330,7 @@ class CompanyRegister extends Component {
                 fluid
                 label="Place of Registration"
                 name="placeOfReg"
+                required
                 placeholder="Place of Registration"
                 value={this.state.placeOfReg}
                 onChange={event =>
@@ -337,6 +341,7 @@ class CompanyRegister extends Component {
                 fluid
                 label="Residence"
                 name="residence"
+                required
                 placeholder="Residence"
                 value={this.state.residence}
                 onChange={event =>
@@ -347,6 +352,7 @@ class CompanyRegister extends Component {
             <Form.Group>
               <Form.Input
                 width="eleven"
+                required
                 fluid
                 name="businessAd"
                 label="Business Address"
@@ -360,6 +366,7 @@ class CompanyRegister extends Component {
                 width="five"
                 fluid
                 type="number"
+                required
                 name="compHouseNr"
                 label="House Number"
                 placeholder="House Number"
@@ -374,18 +381,20 @@ class CompanyRegister extends Component {
                 fluid
                 name="doc1"
                 id="doc1"
+                required
                 type="file"
                 width="eight"
-                label="Excerpt of commercial register"
+                label="Excerpt of commercial register (1 page only!)"
                 onChange={this.handleDocFileChange}
               />
               <Form.Input
                 fluid
                 name="doc2"
                 id="doc2"
+                required
                 type="file"
                 width="eight"
-                label="Provisions regulating the power to bind the legal entity"
+                label="Provisions regulating the power to bind the legal entity (1 page only!)"
                 onChange={this.handleDoc2FileChange}
               />
             </Form.Group>
