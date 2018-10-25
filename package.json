@@ -42,17 +42,20 @@
     "redux": "^4.0.0",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.82.4",
-    "simple-peer": "^9.1.2",
+    "simple-peer": "^9.0.0",
     "solc": "^0.4.25",
+    "stop-media-stream": "0.0.2",
     "sweetalert2": "^7.28.6",
     "truffle-hdwallet-provider": "0.0.3",
+    "video.js": "^7.2.3",
     "web3": "^1.0.0-beta.36",
     "wrtc": "^0.2.1"
   },
   "scripts": {
     "start": "babel-node server.js",
     "dev": "babel-node server.js",
-    "test": "mocha ./ethereum/test"
+    "test": "mocha ./ethereum/test",
+    "build": "next build"
   },
   "devDependencies": {
     "@types/node": "^10.9.4",

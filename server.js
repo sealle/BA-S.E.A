@@ -23,6 +23,14 @@ const secret = "iliketurtles";
 
 //app.use(fileUpload());
 
+const pusher = new Pusher({
+  appId: "601383",
+  key: "0f924dcd44dc93a88aa7",
+  secret: "2d7e81c42956ced982b5",
+  cluster: "eu",
+  encrypted: true
+});
+
 const express = require("express");
 
 // const certOptions = {
@@ -516,6 +524,17 @@ app
       }
     });
 
+    server.post("/videochat/stream", urlEncodedParser, (req, res) => {
+      let cookie = req.cookies["x-access-token"];
+      let decoded = jwtDecode(cookie);
+      let currentUser = decoded.username;
+      let token = decoded.xsrfToken;
+      res.status(200).send({
+        currentUser,
+        token: token
+      });
+    });
+
     server.post("/pusher/auth", urlEncodedParser, function(req, res) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
@@ -525,14 +544,6 @@ app
       let presenceData = {
         user_id: currentUser
       };
-
-      let pusher = new Pusher({
-        appId: "601383",
-        key: "0f924dcd44dc93a88aa7",
-        secret: "2d7e81c42956ced982b5",
-        cluster: "eu",
-        encrypted: true
-      });
 
       let auth = pusher.authenticate(socketId, channel, presenceData);
       res.send(auth);

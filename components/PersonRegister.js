@@ -63,7 +63,7 @@ class PersonRegister extends Component {
         formData
       );
       if (response.data.success) {
-        swal("Congratulations!", "You have successfully registered", "success");
+        swal("Congratulations!", "You have successfully registered. Now please login to complete the process", "success");
         Router.push("/login"); //TODO: add success popup
       }
     } catch (error) {

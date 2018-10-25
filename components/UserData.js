@@ -79,10 +79,12 @@ export default class UserData extends Component {
                     <Table.Cell>isRegistered: {member.isRegistered}</Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell>Hash: {member.hash}</Table.Cell>
+                    <Table.Cell colSpan={2}>Hash: {member.hash}</Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell>Registration Date: {member.regDate}</Table.Cell>
+                    <Table.Cell colSpan={2}>
+                      Registration Date: {member.regDate}
+                    </Table.Cell>
                   </Table.Row>
                 </Table.Body>
               ))}

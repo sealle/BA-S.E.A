@@ -1,151 +1,197 @@
 import React, { Component } from "react";
+import ProfileHeader from "../components/ProfileHeader";
+import Layout from "../components/Layout";
 import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
-
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import { Header, Message } from "semantic-ui-react";
-import Layout from "../components/Layout";
 import { getCookie } from "../utils/CookieUtils";
 import jwtDecode from "jwt-decode";
 import getCurrentUser from "../utils/UserUtils";
 import axios from "axios";
+import { Router } from "../routes";
+
+let xsrfToken = "";
+let pusher;
+let channelName;
 
 export default class VideoChat extends Component {
   constructor() {
     super();
+
     this.state = {
       hasMedia: false,
-      otherUserName: "",
-      xsrf: "",
-      currentUser: "",
-      memberId: ""
+      userName: "",
+      otherUserId: null,
+      connectedTo: ""
     };
 
-    let user = {
-      name: userName
+    this.currentUser = {
+      id: "",
+      stream: undefined
     };
-    this.xsrftoken = this.state.xsrf;
 
-    this.user = user;
-    this.user.stream = null;
-    this.peers = {};
-    let userName = this.state.currentUser;
+    this.peers = [];
 
     this.mediaHandler = new MediaHandler();
-    this.setupPusher();
+    // this.setupPusher();
 
     this.callTo = this.callTo.bind(this);
     this.setupPusher = this.setupPusher.bind(this);
     this.startPeer = this.startPeer.bind(this);
   }
 
-  componentDidMount() {
-    const response = axios.post(window.location.origin + "/currentuser");
-    this.setState({
-      currentUser: response.data.currentUser,
-      xsrf: response.data.token
-    });
+  async componentWillMount() {
+    try {
+      const response = await axios.post(
+        window.location.origin + "/videochat/stream",
+        { timeout: 60 * 4 * 1000 }
+      );
+      this.setState({ userName: response.data.currentUser });
+      this.currentUser.id = this.state.userName;
+      xsrfToken = response.data.token;
+    } catch (e) {
+      console.log(e);
+    }
 
-    console.log(this.xsrfToken);
+    // this.currentUser.id = getCurrentUser();
+
+    console.log(this.currentUser.id);
 
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
-      this.user.stream = stream;
-
+      this.currentUser.stream = stream;
+      console.log(stream);
       try {
-        this.myVideo.srcObject = stream;
-      } catch (e) {
-        this.myVideo.src = URL.createObjectURL(stream);
-      }
+        let myVideo = document.getElementById("my-video");
+        myVideo.srcObject = stream;
+        const playPromise = myVideo.play();
 
-      this.myVideo.play();
+        if (playPromise !== null) {
+          playPromise
+            .then(() => {
+              return myVideo.play();
+            })
+            .catch(e => {
+              console.log(e);
+            });
+        }
+      } catch (e) {
+        console.log(e.stack);
+      }
     });
+
+    this.setupPusher();
+    return;
   }
 
-  setupPusher() {
-    //TODO: Pusher only one way: User->Admin
+  async setupPusher() {
     Pusher.logToConsole = true;
-    this.pusher = new Pusher(APP_KEY, {
+    pusher = new Pusher(APP_KEY, {
       authEndpoint: "/pusher/auth",
       cluster: "eu",
       auth: {
-        params: this.user.name,
+        params: this.currentUser.id,
         headers: {
-          "X-XSRF-Token": this.xsrfToken
+          "X-XSRF-Token": xsrfToken
         }
       }
     });
 
-    this.channel = this.pusher.subscribe("presence-video-channel"); //presence: requires auth!
+    channelName = pusher.subscribe("presence-video-channel"); //requires auth
 
-    this.channel.bind(`client-signal-${this.user.name}`, signal => {
-      let peer = this.peers[signal.userName];
+    channelName.bind("pusher:subscription_succeeded", () => {
+      console.log(channelName.members);
+    });
 
-      // this.setState({ memberId: this.channel.member });
-      // console.log(this.state.memberId); //who am i connected with (receiver side)
-
+    channelName.bind("pusher:member_added", member => {
+      this.setState({ connectedTo: member.id });
+      console.log(member.id);
+    });
+    await channelName.bind(`client-signal-${this.currentUser.id}`, signal => {
+      let peer = this.peers[signal.userId];
       // if peer does not already exist, we got an incoming call
       if (peer === undefined) {
-        this.setState({ otherUserName: signal.userName });
-        peer = this.startPeer(signal.userName, false);
-      }
+        this.setState({ otherUserId: signal.userId });
+        peer = this.startPeer(signal.userId, false);
 
+        //callee //if offer is sent, stop!
+      }
+      // setTimeout(function() {
       peer.signal(signal.data);
+      console.log("fuckfuckfuck");
+      // }, 5000);
     });
+    return;
   }
 
-  startPeer(userName, initiator = true, wrtc) {
+  startPeer(userId, initiator = true) {
+    //caller
     //TODO: initiator is always user!
     const peer = new Peer({
       initiator,
-      stream: this.user.stream,
-      trickle: false,
-      wrtc: wrtc
+      stream: this.currentUser.stream,
+      trickle: false
     });
+    console.log("creating new peer");
+    console.log(peer);
+    console.log(initiator);
 
     peer.on("signal", data => {
-      this.channel.trigger(`client-signal-${userName}`, {
+      //initiator
+      channelName.trigger(`client-signal-${userId}`, {
         type: "signal",
-        userName: this.user.name,
-        data: data
+        userId: this.currentUser.id, //send event to callee from caller, caller receives event
+        data: data,
+        renegotiate: false,
       });
+      console.log("sending offer"); //callee: sends offer instead of answer!!!
+      console.log(data);
     });
 
     peer.on("stream", stream => {
-      /*try {
-        this.myVideo.srcObject = stream; //bug -> why is the stream reloading?
+      try {
+        let userVideo = document.getElementById("user-video");
+        userVideo.srcObject = stream;
+        console.log("users mediastream");
+        console.log(stream);
+        const playPromise = userVideo.play();
+
+        if (playPromise !== null) {
+          playPromise
+            .then(() => {
+              return userVideo.play();
+            })
+            .catch(e => {
+              console.log(e);
+            });
+        }
       } catch (e) {
-        this.myVideo.src = URL.createObjectURL(stream);
-        console.log(e);
-      }
-
-      this.myVideo.play();
-    });*/
-
-      this.userVideo.srcObject = stream; //bug -> why is the stream reloading?
-      const playPromise = this.userVideo.play();
-
-      if (playPromise !== null) {
-        playPromise.catch(() => {
-          this.userVideo.play();
-        });
+        console.log(e.stack);
       }
     });
 
-    peer.on("close", () => {
-      let peer = this.peers[userName];
-      if (peer !== undefined) {
-        peer.destroy(err);
+    peer.on("close", function() {
+      let peer = this.peers[userId];
+      if (peer) {
+        peer.destroy();
       }
-
-      this.peers[userName] = undefined;
+      this.peers[UserId] = undefined;
     });
     return peer;
   }
 
-  callTo(userName) {
-    this.peers[userName] = this.startPeer(userName);
+  callTo(userId) {
+    console.log(`starting Pusher: ${userId}`);
+    this.peers[userId] = this.startPeer(userId);
+  }
+
+  endCall() {
+    channelName.unbind();
+    this.setState({ hasMedia: false });
+    pusher.disconnect;
+    Router.push("/login");
   }
 
   render() {
@@ -155,13 +201,15 @@ export default class VideoChat extends Component {
           <Header as="h1" style={{ textAlign: "center", marginTop: "30px" }}>
             Video Chat
           </Header>
-          {["Sebster"].map(userName => {
-            return this.user.name !== userName ? (
-              <button key={userName} onClick={() => this.callTo(userName)}>
-                Call {userName}
+          {["Sebster", "sdfg", "Admin", "qwsdfg"].map(userId => {
+            return this.currentUser.id !== userId ? (
+              <button key={userId} onClick={() => this.callTo(userId)}>
+                Call {userId}
               </button>
             ) : null;
           })}
+          <button onClick={this.endCall.bind(this)}>end call</button>
+
           <div
             className="video-container"
             style={{
@@ -174,9 +222,10 @@ export default class VideoChat extends Component {
           >
             <video
               className="my-video"
-              ref={ref => {
-                this.myVideo = ref;
-              }}
+              id="my-video"
+              // ref={ref => {
+              //   this.myVideo = ref;
+              // }}
               style={{
                 width: "130px",
                 position: "absolute",
@@ -188,9 +237,10 @@ export default class VideoChat extends Component {
             />
             <video
               className="user-video"
-              ref={ref => {
-                this.userVideo = ref;
-              }}
+              id="user-video"
+              // ref={ref => {
+              //   this.userVideo = ref;
+              // }}
               style={{
                 position: "absolute",
                 left: "0",
@@ -207,7 +257,7 @@ export default class VideoChat extends Component {
           <Message
             success
             header="You are connected to"
-            content={this.state.memberId}
+            content={this.state.connectedTo}
           />
         </Layout>
       </div>

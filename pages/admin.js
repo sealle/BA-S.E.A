@@ -3,7 +3,7 @@ import ProfileHeader from "../components/ProfileHeader";
 import Layout from "../components/Layout";
 import { Header, Container, Grid, Menu, Message } from "semantic-ui-react";
 import axios from "axios";
-import VideoChat from "../components/VideoChat";
+// import VideoChat from "../components/VideoChat";
 import UserList from "../components/UserList";
 import UserApproval from "../components/UserApproval";
 import Head from "next/head";
@@ -46,8 +46,9 @@ class adminPage extends Component {
                 />
                 <Menu.Item
                   name="videochat"
-                  active={activeItem === "videochat"}
-                  onClick={this.handleItemClick}
+                  href="/videochat"
+                  // active={activeItem === "videochat"}
+                  // onClick={this.handleItemClick}
                 />
               </Menu>
             </Grid.Column>

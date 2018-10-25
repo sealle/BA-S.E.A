@@ -15,11 +15,7 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/terms": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/videochat": [
+    "/profile": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]
