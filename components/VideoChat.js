@@ -5,7 +5,7 @@ import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
-import { Header, Message } from "semantic-ui-react";
+import { Header, Message, Segment, Button, Icon } from "semantic-ui-react";
 import { getCookie } from "../utils/CookieUtils";
 import jwtDecode from "jwt-decode";
 import getCurrentUser from "../utils/UserUtils";
@@ -144,7 +144,7 @@ export default class VideoChat extends Component {
         type: "signal",
         userId: this.currentUser.id, //send event to callee from caller, caller receives event
         data: data,
-        renegotiate: false,
+        renegotiate: false
       });
       console.log("sending offer"); //callee: sends offer instead of answer!!!
       console.log(data);
@@ -198,67 +198,89 @@ export default class VideoChat extends Component {
     return (
       <div>
         <Layout>
-          <Header as="h1" style={{ textAlign: "center", marginTop: "30px" }}>
-            Video Chat
-          </Header>
-          {["Sebster", "sdfg", "Admin", "qwsdfg"].map(userId => {
-            return this.currentUser.id !== userId ? (
-              <button key={userId} onClick={() => this.callTo(userId)}>
-                Call {userId}
-              </button>
-            ) : null;
-          })}
-          <button onClick={this.endCall.bind(this)}>end call</button>
-
-          <div
-            className="video-container"
-            style={{
-              width: "650px",
-              height: "380px",
-              margin: "0px auto",
-              position: "relative",
-              border: "3px solid #000"
-            }}
-          >
-            <video
-              className="my-video"
-              id="my-video"
-              // ref={ref => {
-              //   this.myVideo = ref;
-              // }}
+          <Segment style={{ marginTop: "50px" }}>
+            <br />
+            <Header as="h1" textAlign="center" style={{ color: "#2985d0" }}>
+              Video Chat
+            </Header>
+            {["Admin"].map(userId => {
+              return this.currentUser.id !== userId ? (
+                <Button
+                  fluid
+                  icon
+                  key={userId}
+                  onClick={() => this.callTo(userId)}
+                  style={{
+                    backgroundColor: "#2985d0",
+                    color: "white",
+                    marginTop: 40
+                  }}
+                >
+                  Call {userId}
+                  <Icon name="phone" />
+                </Button>
+              ) : null;
+            })}
+            <br />
+            <div
+              className="video-container"
               style={{
-                width: "130px",
-                position: "absolute",
-                left: "10px",
-                bottom: "10px",
-                border: "3px solid #0061ff",
-                zIndex: "2"
-              }}
-            />
-            <video
-              className="user-video"
-              id="user-video"
-              // ref={ref => {
-              //   this.userVideo = ref;
-              // }}
-              style={{
-                position: "absolute",
-                left: "0",
-                right: "0",
-                bottom: "0",
-                top: "0",
                 width: "100%",
-                height: "100%",
-                zIndex: "1"
+                height: "380px",
+                margin: "0px auto",
+                position: "relative",
+                border: "3px solid #000"
               }}
+            >
+              <video
+                className="my-video"
+                id="my-video"
+                // ref={ref => {
+                //   this.myVideo = ref;
+                // }}
+                style={{
+                  width: "130px",
+                  position: "absolute",
+                  left: "10px",
+                  bottom: "10px",
+                  border: "3px solid #0061ff",
+                  zIndex: "2"
+                }}
+              />
+              <video
+                className="user-video"
+                id="user-video"
+                // ref={ref => {
+                //   this.userVideo = ref;
+                // }}
+                style={{
+                  // position: "absolute",
+                  margin: "auto",
+                  // left: "0",
+                  // right: "0",
+                  // bottom: "0",
+                  // top: "0",
+                  width: "100%",
+                  height: "100%",
+                  zIndex: "1"
+                }}
+              />
+              {/*TODO: Who are you connected with?*/}
+            </div>
+            <br />
+            <Button
+              onClick={this.endCall.bind(this)}
+              fluid
+              style={{ color: "white", backgroundColor: "#ff3344" }}
+            >
+              end call
+            </Button>
+            <Message
+              success
+              header="You are connected to"
+              content={this.state.connectedTo}
             />
-            {/*TODO: Who are you connected with?*/}
-          </div>
-          <Message
-            success
-            header="You are connected to"
-            content={this.state.connectedTo}
-          />
+          </Segment>
         </Layout>
       </div>
     );

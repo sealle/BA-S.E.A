@@ -63,7 +63,11 @@ class PersonRegister extends Component {
         formData
       );
       if (response.data.success) {
-        swal("Congratulations!", "You have successfully registered. Now please login to complete the process", "success");
+        swal(
+          "Congratulations!",
+          "You have successfully registered. Now please login to complete the process",
+          "success"
+        );
         Router.push("/login"); //TODO: add success popup
       }
     } catch (error) {
@@ -251,28 +255,42 @@ class PersonRegister extends Component {
               />
             </Form.Group>
             {this.state.showResults ? (
-              <div className="image-preview">
+              <div className="image-preview" style={{ marginBottom: "10px" }}>
                 <img
                   src={this.state.prev1}
-                  style={{ width: "200px", height: "113px", float: "left" }}
+                  style={{
+                    width: "200px",
+                    height: "113px",
+                    float: "left",
+                    marginBottom: "12px"
+                  }}
                 />
                 <img
                   src={this.state.prev2}
-                  style={{ width: "200px", height: "113px", float: "right" }}
+                  style={{
+                    width: "200px",
+                    height: "113px",
+                    float: "right",
+                    marginBottom: "12px"
+                  }}
                 />
               </div>
             ) : null}
             {this.state.showResults ? (
               <Button
-                style={{ marginLeft: 280 }}
-                primary
+                icon
                 loading={this.state.loading}
+                fluid
+                size="large"
+                color="blue"
               >
                 Submit
+                <Icon name="signup" />
               </Button>
             ) : (
-              <Button primary style={{ marginLeft: 280 }} disabled>
+              <Button icon disabled fluid size="large" color="blue">
                 Submit
+                <Icon name="signup" />
               </Button>
             )}
             <Message error header="Oops!" content={this.state.errorMessage} />

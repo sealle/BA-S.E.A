@@ -15,42 +15,42 @@ class Profile extends Component {
     this.state = {
       message: ""
     };
-    this.testCSRF = e => this._testCSRF();
+    // this.testCSRF = e => this._testCSRF();
   }
 
-  async _testCSRF() {
-    const token = getCookie("x-access-token");
-    const decoded = jwtDecode(token);
-    try {
-      const res = await axios.post(
-        window.location.origin + "/api/preventCRSF",
-        {
-          example: "data"
-        },
-        {
-          headers: {
-            "X-XSRF-TOKEN": decoded.xsrfToken
-          }
-        }
-      );
-      if (res.data.success) {
-        this.setState({
-          message: res.data.message
-        });
-      }
-    } catch (error) {
-      this.setState({
-        message: error.response.data.message
-      });
-    }
-  } //!Only for test purposes
+  // async _testCSRF() {
+  //   const token = getCookie("x-access-token");
+  //   const decoded = jwtDecode(token);
+  //   try {
+  //     const res = await axios.post(
+  //       window.location.origin + "/api/preventCRSF",
+  //       {
+  //         example: "data"
+  //       },
+  //       {
+  //         headers: {
+  //           "X-XSRF-TOKEN": decoded.xsrfToken
+  //         }
+  //       }
+  //     );
+  //     if (res.data.success) {
+  //       this.setState({
+  //         message: res.data.message
+  //       });
+  //     }
+  //   } catch (error) {
+  //     this.setState({
+  //       message: error.response.data.message
+  //     });
+  //   }
+  // } //!Only for test purposes
 
   render() {
     return (
       <div>
         <ProfileHeader />
         <UserData />
-        <Layout>
+        {/* <Layout>
           <br />
           <br />
           <Container textAlign="center">
@@ -59,7 +59,7 @@ class Profile extends Component {
             </Button>
             <span>{this.state.message}</span>
           </Container>
-        </Layout>
+        </Layout> */}
       </div>
     );
   }

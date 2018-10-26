@@ -31,6 +31,7 @@
     "react": "^16.5.0",
     "react-cookie": "^3.0.4",
     "react-dom": "^16.5.0",
+    "react-helmet": "^5.2.0",
     "react-image": "^1.5.1",
     "react-notifications": "^1.4.3",
     "react-pdf": "^3.0.5",

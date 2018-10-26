@@ -387,32 +387,38 @@ class CompanyRegister extends Component {
                 id="doc1"
                 required
                 type="file"
-                width="eight"
+                width="sixteen"
                 label="Excerpt of commercial register (1 page only!)"
                 onChange={this.handleDocFileChange}
               />
+            </Form.Group>
+            <Form.Group>
               <Form.Input
                 fluid
                 name="doc2"
                 id="doc2"
                 required
                 type="file"
-                width="eight"
+                width="sixteen"
                 label="Provisions regulating the power to bind the legal entity (1 page only!)"
                 onChange={this.handleDoc2FileChange}
               />
             </Form.Group>
             {this.state.showResults ? (
               <Button
-                style={{ marginLeft: 280 }}
-                primary
+                icon
+                fluid
+                size="large"
                 loading={this.state.loading}
+                color="blue"
               >
                 Submit
+                <Icon name="signup" />
               </Button>
             ) : (
-              <Button primary style={{ marginLeft: 280 }} disabled>
+              <Button icon fluid size="large" disabled color="blue">
                 Submit
+                <Icon name="signup" />
               </Button>
             )}
             <Message error header="Oops!" content={this.state.errorMessage} />

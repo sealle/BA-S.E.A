@@ -183,13 +183,15 @@ export default class UserList extends Component {
                               <Table.Cell>
                                 isRegistered: {this.state.usrs[0].isRegistered}
                               </Table.Cell>
-                              <Table.Cell>
-                                Registration Date: {this.state.usrs[0].regDate}
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell colSpan={2}>
+                                Hash: {this.state.usrs[0].hash}
                               </Table.Cell>
                             </Table.Row>
                             <Table.Row>
-                              <Table.Cell>
-                                Hash: {this.state.usrs[0].hash}
+                              <Table.Cell colSpan={2}>
+                                Registration Date: {this.state.usrs[0].regDate}
                               </Table.Cell>
                             </Table.Row>
                           </Table.Body>
