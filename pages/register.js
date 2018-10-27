@@ -28,7 +28,11 @@ export default class RegisterPage extends Component {
             }}
           >
             <br />
-            <Header as="h1" textAlign="center" style={{ color: "#2985d0" }}>
+            <Header
+              as="h1"
+              textAlign="center"
+              style={{ color: "#2985d0", marginTop: "10px" }}
+            >
               Registration
             </Header>
             <Menu pointing secondary>

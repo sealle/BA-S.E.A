@@ -11,27 +11,33 @@ import Head from "next/head";
 class adminPage extends Component {
   constructor() {
     super();
-    this.state = {
-      errorMessage: "",
-      activeItem: "home"
-    };
+    // this.state = {
+    // errorMessage: "",
+    // activeItem: "home"
+    // };
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-    const { activeItem } = this.state;
+    // const { activeItem } = this.state;
     return (
       <div>
         <ProfileHeader />
-        <Container style={{ width: "100%" }}>
-          <Head>
-            <link
-              rel="stylesheet"
-              href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"
-            />
-          </Head>
-          <Grid>
+        <Layout>
+          <Container style={{ width: "100%" }}>
+            <Head>
+              <link
+                rel="stylesheet"
+                href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"
+              />
+            </Head>
+            <style>{`
+        body {
+          background: #e6e6e6;
+        }
+      `}</style>
+            {/* <Grid>
             <Grid.Column width={2}>
               <Menu fluid vertical tabular="left">
                 <Menu.Item
@@ -59,8 +65,8 @@ class adminPage extends Component {
                 {this.state.activeItem === "videochat" ? (
                   <div>
                     <VideoChat />
-                    <UserApproval />
-                  </div>
+                     <UserApproval />
+          </div>
                 ) : null}
                 {this.state.activeItem === "home" ? (
                   <Layout>
@@ -72,10 +78,11 @@ class adminPage extends Component {
                     </Header>
                   </Layout>
                 ) : null}
-              </Container>
+          </Container>
             </Grid.Column>
-          </Grid>
-        </Container>
+          </Grid> */}
+          </Container>
+        </Layout>
       </div>
     );
   }

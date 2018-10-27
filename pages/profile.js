@@ -50,16 +50,21 @@ class Profile extends Component {
       <div>
         <ProfileHeader />
         <UserData />
-        {/* <Layout>
-          <br />
+        <Layout>
+          <style>{`
+        body {
+          background: #e6e6e6;
+        }
+      `}</style>
+          {/* <br />
           <br />
           <Container textAlign="center">
             <Button onClick={this.testCSRF}>
               Access API protected by CSFR
             </Button>
             <span>{this.state.message}</span>
-          </Container>
-        </Layout> */}
+          </Container> */}
+        </Layout>
       </div>
     );
   }

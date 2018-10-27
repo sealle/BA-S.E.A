@@ -48,7 +48,7 @@ export default class UserData extends Component {
               as="h1"
               style={{
                 textAlign: "center",
-                marginTop: "30px",
+                marginTop: "10px",
                 color: "#2985d0"
               }}
             >
@@ -70,37 +70,187 @@ export default class UserData extends Component {
                 {this.state.users.map(member => (
                   <Table.Body key={member.id}>
                     <Table.Row>
-                      <Table.Cell>Username: {member.username}</Table.Cell>
-                      <Table.Cell>ID: {member.id}</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Street: {member.street}</Table.Cell>
-                      <Table.Cell>House Nr: {member.houseNr}</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Postal Code: {member.postCode}</Table.Cell>
-                      <Table.Cell>Residence: {member.placeOfRes}</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Birthday: {member.dateOfBirth}</Table.Cell>
-                      <Table.Cell>Nationality: {member.nat}</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Email: {member.email}</Table.Cell>
-                      <Table.Cell>Mobile Number: {member.mobNr}</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Role: {member.privileges}</Table.Cell>
                       <Table.Cell>
-                        isRegistered: {member.isRegistered}
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Username:
+                        </p>
+                        {member.username}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          ID:
+                        </p>
+                        {member.id}
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={2}>Hash: {member.hash}</Table.Cell>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Street:
+                        </p>
+                        {member.street}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          House Nr:
+                        </p>
+                        {member.houseNr}
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Postal Code:
+                        </p>
+                        {member.postCode}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Residence:
+                        </p>
+                        {member.placeOfRes}
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Birthday:
+                        </p>
+                        {member.dateOfBirth}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Nationality:
+                        </p>
+                        {member.nat}
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Email:
+                        </p>
+                        {member.email}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Mobile Number:
+                        </p>
+                        {member.mobNr}
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Role:
+                        </p>
+                        {member.privileges}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          is Registered:
+                        </p>
+                        {member.isRegistered}
+                      </Table.Cell>
                     </Table.Row>
                     <Table.Row>
                       <Table.Cell colSpan={2}>
-                        Registration Date: {member.regDate}
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Hash:
+                        </p>
+                        {member.hash}
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell colSpan={2}>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          Registration Date:
+                        </p>
+                        {member.regDate}
                       </Table.Cell>
                     </Table.Row>
                   </Table.Body>
@@ -127,25 +277,85 @@ export default class UserData extends Component {
                   {this.state.users.map(member => (
                     <Table.Body key={member.id}>
                       <Table.Row>
-                        <Table.Cell>Company Name: {member.compName}</Table.Cell>
                         <Table.Cell>
-                          Registration Number: {member.regNr}
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              display: "inline-block",
+                              paddingRight: "10px"
+                            }}
+                          >
+                            Company Name:
+                          </p>
+                          {member.compName}
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              display: "inline-block",
+                              paddingRight: "10px"
+                            }}
+                          >
+                            Registration Number:
+                          </p>
+                          {member.regNr}
                         </Table.Cell>
                       </Table.Row>
                       <Table.Row>
                         <Table.Cell>
-                          Place of registration: {member.placeOfReg}
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              display: "inline-block",
+                              paddingRight: "10px"
+                            }}
+                          >
+                            Place of registration:
+                          </p>
+                          {member.placeOfReg}
                         </Table.Cell>
-                        <Table.Cell>Residence: {member.residence}</Table.Cell>
+                        <Table.Cell>
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              display: "inline-block",
+                              paddingRight: "10px"
+                            }}
+                          >
+                            Residence:
+                          </p>
+                          {member.residence}
+                        </Table.Cell>
                       </Table.Row>
                       <Table.Row>
                         <Table.Cell>
-                          Business Address: {member.businessAd}
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              display: "inline-block",
+                              paddingRight: "10px"
+                            }}
+                          >
+                            Business Address:
+                          </p>
+                          {member.businessAd}
                         </Table.Cell>
-                        <Table.Cell>House Nr: {member.compHouseNr}</Table.Cell>
+                        <Table.Cell>
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              display: "inline-block",
+                              paddingRight: "10px"
+                            }}
+                          >
+                            House Nr:
+                          </p>
+                          {member.compHouseNr}
+                        </Table.Cell>
                       </Table.Row>
                       <Table.Row>
-                        <Table.Cell>
+                        <Table.Cell colSpan={2}>
                           <a
                             href={`../static/${this.state.doc1}`}
                             type="application/pdf"
@@ -154,7 +364,9 @@ export default class UserData extends Component {
                             View excerpt of commercial register
                           </a>
                         </Table.Cell>
-                        <Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell colSpan={2}>
                           <a
                             href={`../static/${this.state.doc2}`}
                             type="application/pdf"

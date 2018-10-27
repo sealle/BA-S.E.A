@@ -6,7 +6,8 @@ import {
   Message,
   Segment,
   Icon,
-  Checkbox
+  Checkbox,
+  Grid
 } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
@@ -131,18 +132,26 @@ class Login extends Component {
                 Login
                 <Icon name="sign-in" />
               </Button>
-              {/* <Form.Field> //TODO: make Grid!
-                <Checkbox
-                  fluid
-                  label="Remember me"
-                  style={{ marginTop: "10px" }}
-                >
-                  Remember me
-                </Checkbox>
-                <a href="#" sytle={{ textAlign: "right" }}>
-                  Forgot Password
-                </a>
-              </Form.Field> */}
+              <Form.Field>
+                <Grid>
+                  <Grid.Column width={8}>
+                    <Checkbox
+                      fluid
+                      label="Remember me"
+                      style={{ marginTop: "10px" }}
+                    >
+                      Remember me
+                    </Checkbox>
+                  </Grid.Column>
+                  <Grid.Column
+                    width={8}
+                    style={{ textAlign: "right", marginTop: "10px" }}
+                  >
+                    <a href="#">Forgot Password</a>
+                    {/* TODO: To be implemented */}
+                  </Grid.Column>
+                </Grid>
+              </Form.Field>
             </Form>
           </Segment>
           <br />
@@ -159,12 +168,6 @@ class Login extends Component {
               Register
             </a>
           </Message>
-
-          {/* <Link route="/register">
-              <Button primary fluid>
-                Register
-              </Button>
-            </Link> */}
         </Layout>
       </div>
     );

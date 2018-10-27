@@ -11,6 +11,7 @@ import jwtDecode from "jwt-decode";
 import getCurrentUser from "../utils/UserUtils";
 import axios from "axios";
 import { Router } from "../routes";
+import swal from "sweetalert2";
 
 let xsrfToken = "";
 let pusher;
@@ -40,6 +41,7 @@ export default class VideoChat extends Component {
     this.callTo = this.callTo.bind(this);
     this.setupPusher = this.setupPusher.bind(this);
     this.startPeer = this.startPeer.bind(this);
+    this.endCall = this.endCall.bind(this);
   }
 
   async componentWillMount() {
@@ -57,12 +59,9 @@ export default class VideoChat extends Component {
 
     // this.currentUser.id = getCurrentUser();
 
-    console.log(this.currentUser.id);
-
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
       this.currentUser.stream = stream;
-      console.log(stream);
       try {
         let myVideo = document.getElementById("my-video");
         myVideo.srcObject = stream;
@@ -86,8 +85,8 @@ export default class VideoChat extends Component {
     return;
   }
 
-  async setupPusher() {
-    Pusher.logToConsole = true;
+  setupPusher() {
+    //Pusher.logToConsole = true;
     pusher = new Pusher(APP_KEY, {
       authEndpoint: "/pusher/auth",
       cluster: "eu",
@@ -107,9 +106,14 @@ export default class VideoChat extends Component {
 
     channelName.bind("pusher:member_added", member => {
       this.setState({ connectedTo: member.id });
-      console.log(member.id);
+      swal("You are conneted to", `${member.id}`, "success");
     });
-    await channelName.bind(`client-signal-${this.currentUser.id}`, signal => {
+
+    channelName.bind("pusher:member_removed", member => {
+      swal("Removed member", `${member.id}`, "success");
+    });
+
+    channelName.bind(`client-signal-${this.currentUser.id}`, signal => {
       let peer = this.peers[signal.userId];
       // if peer does not already exist, we got an incoming call
       if (peer === undefined) {
@@ -118,10 +122,7 @@ export default class VideoChat extends Component {
 
         //callee //if offer is sent, stop!
       }
-      // setTimeout(function() {
       peer.signal(signal.data);
-      console.log("fuckfuckfuck");
-      // }, 5000);
     });
     return;
   }
@@ -146,16 +147,12 @@ export default class VideoChat extends Component {
         data: data,
         renegotiate: false
       });
-      console.log("sending offer"); //callee: sends offer instead of answer!!!
-      console.log(data);
     });
 
     peer.on("stream", stream => {
       try {
         let userVideo = document.getElementById("user-video");
         userVideo.srcObject = stream;
-        console.log("users mediastream");
-        console.log(stream);
         const playPromise = userVideo.play();
 
         if (playPromise !== null) {
@@ -172,13 +169,13 @@ export default class VideoChat extends Component {
       }
     });
 
-    peer.on("close", function() {
-      let peer = this.peers[userId];
-      if (peer) {
-        peer.destroy();
-      }
-      this.peers[UserId] = undefined;
-    });
+    // peer.on("close", function() {
+    //   let peer = this.peers[userId];
+    //   if (peer) {
+    //     peer.destroy();
+    //   }
+    //   this.peers[UserId] = undefined;
+    // });
     return peer;
   }
 
@@ -187,10 +184,12 @@ export default class VideoChat extends Component {
     this.peers[userId] = this.startPeer(userId);
   }
 
-  endCall() {
-    channelName.unbind();
-    this.setState({ hasMedia: false });
-    pusher.disconnect;
+  // componentWillUnmount() {
+  //   window.location.href;
+  // }
+
+  endCall(userId) {
+    window.location.href = "/login";
     Router.push("/login");
   }
 
@@ -198,9 +197,19 @@ export default class VideoChat extends Component {
     return (
       <div>
         <Layout>
-          <Segment style={{ marginTop: "50px" }}>
-            <br />
-            <Header as="h1" textAlign="center" style={{ color: "#2985d0" }}>
+          <style>{`
+        body {
+          background: #e6e6e6;
+        }
+      `}</style>
+          <Segment
+            style={{ marginTop: "50px", marginLeft: "-126px", width: "900px" }}
+          >
+            <Header
+              as="h1"
+              textAlign="center"
+              style={{ color: "#2985d0", marginTop: "10px" }}
+            >
               Video Chat
             </Header>
             {["Admin"].map(userId => {
@@ -269,17 +278,19 @@ export default class VideoChat extends Component {
             </div>
             <br />
             <Button
-              onClick={this.endCall.bind(this)}
+              onClick={this.endCall}
               fluid
               style={{ color: "white", backgroundColor: "#ff3344" }}
             >
               end call
             </Button>
-            <Message
-              success
-              header="You are connected to"
-              content={this.state.connectedTo}
-            />
+            {this.currentUser.id === "Admin" ? (
+              <Message
+                success
+                header="You are connected to"
+                content={this.state.connectedTo}
+              />
+            ) : null}
           </Segment>
         </Layout>
       </div>

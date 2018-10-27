@@ -6,7 +6,8 @@ import {
   Header,
   List,
   Grid,
-  Button
+  Button,
+  Segment
 } from "semantic-ui-react";
 import Layout from "../components/Layout";
 // import getCurrentUser from "../utils/UserUtils";
@@ -81,207 +82,403 @@ export default class UserList extends Component {
     return (
       <div>
         <Layout>
-          <Header as="h1" style={{ textAlign: "center", marginTop: "30px" }}>
-            List of all Users
-          </Header>
-          <Container style={{ marginTop: "10px" }}>
-            <Grid>
-              <Grid.Column width={4} style={{ marginTop: "12px" }}>
-                <List>
-                  {this.state.users.map(member => (
-                    <List.Item key={member.id}>
-                      <Icon name="user" size="small" />
-                      <List.Content>
-                        <List.Header
-                          as="a"
-                          onClick={this.selectUser.bind(this, member)}
-                        >
-                          {member.username}
-                        </List.Header>
-                      </List.Content>
-                    </List.Item>
-                  ))}
-                </List>
-              </Grid.Column>
-              <Grid.Column width={12}>
-                {this.state.isChosen ? (
-                  <div>
-                    <Layout>
-                      <Container style={{ marginTop: "10px" }}>
-                        <Header
-                          as="h3"
-                          block
-                          style={{ backgroundColor: "#d9edf7" }}
-                        >
-                          <Icon
-                            name="user"
-                            size="big"
-                            style={{ align: "left" }}
-                          />
-                          {this.state.usrs[0].lname}, {this.state.usrs[0].fname}
-                        </Header>
-                        <Table>
-                          <Table.Body>
-                            <Table.Row>
-                              <Table.Cell>
-                                Username: {this.state.usrs[0].username}
-                              </Table.Cell>
-                              <Table.Cell>
-                                ID: {this.state.usrs[0].id}
-                              </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell>
-                                Street: {this.state.usrs[0].street}
-                              </Table.Cell>
-                              <Table.Cell>
-                                House Nr: {this.state.usrs[0].houseNr}
-                              </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell>
-                                Postal Code: {this.state.usrs[0].postCode}
-                              </Table.Cell>
-                              <Table.Cell>
-                                Residence: {this.state.usrs[0].placeOfRes}
-                              </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell>
-                                Birthday: {this.state.usrs[0].dateOfBirth}
-                              </Table.Cell>
-                              <Table.Cell>
-                                Nationality: {this.state.usrs[0].nat}
-                              </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell>
-                                Email: {this.state.usrs[0].email}
-                              </Table.Cell>
-                              <Table.Cell>
-                                Mobile Number: {this.state.usrs[0].mobNr}
-                              </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell>
-                                Role: {this.state.usrs[0].privileges}
-                              </Table.Cell>
-                              <Table.Cell>
-                                {this.state.usrs[0].privileges == "user" &&
-                                this.state.usrs[0].isRegistered == "yes" ? (
-                                  <Button primary onClick={this.makeAdmin}>
-                                    Make Admin
-                                  </Button>
-                                ) : (
-                                  <Button primary disabled>
-                                    Make Admin
-                                  </Button>
-                                )}
-                              </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell>
-                                isRegistered: {this.state.usrs[0].isRegistered}
-                              </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell colSpan={2}>
-                                Hash: {this.state.usrs[0].hash}
-                              </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell colSpan={2}>
-                                Registration Date: {this.state.usrs[0].regDate}
-                              </Table.Cell>
-                            </Table.Row>
-                          </Table.Body>
-                        </Table>
-                        <Grid>
-                          <Grid.Column width={8}>
-                            <img
-                              className="img-responsive"
-                              src={`../static/${this.state.img1}`}
-                              style={{
-                                width: "200px",
-                                height: "113px",
-                                float: "left"
-                              }}
+          <Segment
+            style={{ marginTop: "50px", marginLeft: "-126px", width: "900px" }}
+          >
+            <Header
+              as="h1"
+              style={{
+                textAlign: "center",
+                marginTop: "10px",
+                color: "#2985d0"
+              }}
+            >
+              List of all Users
+            </Header>
+            <Container style={{ marginTop: "10px" }}>
+              <Grid>
+                <Grid.Column width={4} style={{ marginTop: "12px" }}>
+                  <List divided relaxed>
+                    {this.state.users.map(member => (
+                      <List.Item
+                        key={member.id}
+                        onClick={this.selectUser.bind(this, member)}
+                      >
+                        <Icon name="user" size="large" verticalAlign="middle" />
+                        <List.Content>
+                          <List.Header as="a">{member.username}</List.Header>
+                          <List.Description as="a">
+                            {member.lname}, {member.fname}
+                          </List.Description>
+                        </List.Content>
+                      </List.Item>
+                    ))}
+                  </List>
+                </Grid.Column>
+                <Grid.Column width={12}>
+                  {this.state.isChosen ? (
+                    <div>
+                      <Layout>
+                        <Container style={{ marginTop: "10px" }}>
+                          <Header
+                            as="h3"
+                            block
+                            style={{ backgroundColor: "#d9edf7" }}
+                          >
+                            <Icon
+                              name="user"
+                              size="big"
+                              style={{ align: "left" }}
                             />
-                          </Grid.Column>
-                          <Grid.Column width={8}>
-                            <img
-                              className="img-responsive"
-                              src={`../static/${this.state.img2}`}
-                              style={{
-                                width: "200px",
-                                height: "113px",
-                                float: "right"
-                              }}
-                            />
-                          </Grid.Column>
-                        </Grid>
-
-                        {this.state.isComp === 1 ? (
+                            {this.state.usrs[0].lname},{" "}
+                            {this.state.usrs[0].fname}
+                          </Header>
                           <Table>
                             <Table.Body>
                               <Table.Row>
                                 <Table.Cell>
-                                  Company Name: {this.state.usrs[0].compName}
-                                </Table.Cell>
-                                <Table.Cell>
-                                  Registration Number:{" "}
-                                  {this.state.usrs[0].regNr}
-                                </Table.Cell>
-                              </Table.Row>
-                              <Table.Row>
-                                <Table.Cell>
-                                  Place of registration:{" "}
-                                  {this.state.usrs[0].placeOfReg}
-                                </Table.Cell>
-                                <Table.Cell>
-                                  Residence: {this.state.usrs[0].residence}
-                                </Table.Cell>
-                              </Table.Row>
-                              <Table.Row>
-                                <Table.Cell>
-                                  Business Address:{" "}
-                                  {this.state.usrs[0].businessAd}
-                                </Table.Cell>
-                                <Table.Cell>
-                                  House Nr: {this.state.usrs[0].compHouseNr}
-                                </Table.Cell>
-                              </Table.Row>
-                              <Table.Row>
-                                <Table.Cell>
-                                  <a
-                                    href={`../static/${this.state.doc1}`}
-                                    type="application/pdf"
-                                    target="_blank"
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
                                   >
-                                    View excerpt of commercial register
-                                  </a>
+                                    Username:
+                                  </p>
+                                  {this.state.usrs[0].username}
                                 </Table.Cell>
                                 <Table.Cell>
-                                  <a
-                                    href={`../static/${this.state.doc2}`}
-                                    type="application/pdf"
-                                    target="_blank"
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
                                   >
-                                    View Provisions regulating the power to bind
-                                    the legal entity
-                                  </a>
+                                    ID:
+                                  </p>
+                                  {this.state.usrs[0].id}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Street:
+                                  </p>
+                                  {this.state.usrs[0].street}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    House Nr:
+                                  </p>
+                                  {this.state.usrs[0].houseNr}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Postal Code:
+                                  </p>
+                                  {this.state.usrs[0].postCode}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Residence:
+                                  </p>
+                                  {this.state.usrs[0].placeOfRes}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Birthday:
+                                  </p>
+                                  {this.state.usrs[0].dateOfBirth}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Nationality:
+                                  </p>
+                                  {this.state.usrs[0].nat}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Email:
+                                  </p>
+                                  {this.state.usrs[0].email}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Mobile Nr:
+                                  </p>
+                                  {this.state.usrs[0].mobNr}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Role:
+                                  </p>
+                                  {this.state.usrs[0].privileges}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    is Registered:
+                                  </p>
+                                  {this.state.usrs[0].isRegistered}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell colSpan={2}>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Hash:
+                                  </p>
+                                  {this.state.usrs[0].hash}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell colSpan={2}>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      display: "inline-block",
+                                      paddingRight: "10px"
+                                    }}
+                                  >
+                                    Registration Date:
+                                  </p>
+                                  {this.state.usrs[0].regDate}
+                                </Table.Cell>
+                              </Table.Row>
+                              <Table.Row>
+                                <Table.Cell colSpan={2}>
+                                  {this.state.usrs[0].privileges == "user" &&
+                                  this.state.usrs[0].isRegistered == "yes" ? (
+                                    <Button
+                                      primary
+                                      onClick={this.makeAdmin}
+                                      fluid
+                                    >
+                                      Make Admin
+                                    </Button>
+                                  ) : (
+                                    <Button primary disabled fluid>
+                                      Make Admin
+                                    </Button>
+                                  )}
                                 </Table.Cell>
                               </Table.Row>
                             </Table.Body>
                           </Table>
-                        ) : null}
-                      </Container>
-                    </Layout>
-                  </div>
-                ) : null}
-              </Grid.Column>
-            </Grid>
-          </Container>
+                          <Grid>
+                            <Grid.Column width={8}>
+                              <img
+                                className="img-responsive"
+                                src={`../static/${this.state.img1}`}
+                                style={{
+                                  width: "200px",
+                                  height: "113px",
+                                  float: "left"
+                                }}
+                              />
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                              <img
+                                className="img-responsive"
+                                src={`../static/${this.state.img2}`}
+                                style={{
+                                  width: "200px",
+                                  height: "113px",
+                                  float: "right"
+                                }}
+                              />
+                            </Grid.Column>
+                          </Grid>
+
+                          {this.state.isComp === 1 ? (
+                            <Table>
+                              <Table.Body>
+                                <Table.Row>
+                                  <Table.Cell>
+                                    <p
+                                      style={{
+                                        fontWeight: "bold",
+                                        display: "inline-block",
+                                        paddingRight: "10px"
+                                      }}
+                                    >
+                                      Company Name:
+                                    </p>
+                                    {this.state.usrs[0].compName}
+                                  </Table.Cell>
+                                  <Table.Cell>
+                                    <p
+                                      style={{
+                                        fontWeight: "bold",
+                                        display: "inline-block",
+                                        paddingRight: "10px"
+                                      }}
+                                    >
+                                      Registration Number:
+                                    </p>
+                                    {this.state.usrs[0].regNr}
+                                  </Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                  <Table.Cell>
+                                    <p
+                                      style={{
+                                        fontWeight: "bold",
+                                        display: "inline-block",
+                                        paddingRight: "10px"
+                                      }}
+                                    >
+                                      Place of Registration:
+                                    </p>
+                                    {this.state.usrs[0].placeOfReg}
+                                  </Table.Cell>
+                                  <Table.Cell>
+                                    <p
+                                      style={{
+                                        fontWeight: "bold",
+                                        display: "inline-block",
+                                        paddingRight: "10px"
+                                      }}
+                                    >
+                                      Residence:
+                                    </p>
+                                    {this.state.usrs[0].residence}
+                                  </Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                  <Table.Cell>
+                                    <p
+                                      style={{
+                                        fontWeight: "bold",
+                                        display: "inline-block",
+                                        paddingRight: "10px"
+                                      }}
+                                    >
+                                      Business Address:
+                                    </p>
+                                    {this.state.usrs[0].businessAd}
+                                  </Table.Cell>
+                                  <Table.Cell>
+                                    <p
+                                      style={{
+                                        fontWeight: "bold",
+                                        display: "inline-block",
+                                        paddingRight: "10px"
+                                      }}
+                                    >
+                                      House Nr:
+                                    </p>
+                                    {this.state.usrs[0].compHouseNr}
+                                  </Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                  <Table.Cell colSpan={2}>
+                                    <a
+                                      href={`../static/${this.state.doc1}`}
+                                      type="application/pdf"
+                                      target="_blank"
+                                    >
+                                      View excerpt of commercial register
+                                    </a>
+                                  </Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                  <Table.Cell colSpan={2}>
+                                    <a
+                                      href={`../static/${this.state.doc2}`}
+                                      type="application/pdf"
+                                      target="_blank"
+                                    >
+                                      View provisions regulating the power to
+                                      bind the legal entity
+                                    </a>
+                                  </Table.Cell>
+                                </Table.Row>
+                              </Table.Body>
+                            </Table>
+                          ) : null}
+                        </Container>
+                      </Layout>
+                    </div>
+                  ) : null}
+                </Grid.Column>
+              </Grid>
+            </Container>
+          </Segment>
         </Layout>
       </div>
     );

@@ -16,11 +16,20 @@ class Terms extends Component {
   render() {
     return (
       <div>
-        <ProfileHeader />
+        {/* <ProfileHeader /> */}
         <Layout>
+          <style>{`
+        body {
+          background: #e6e6e6;
+        }
+      `}</style>
           <Segment style={{ marginTop: "50px" }}>
             <br />
-            <Header as="h1" textAlign="center" style={{ color: "#2985d0" }}>
+            <Header
+              as="h1"
+              textAlign="center"
+              style={{ color: "#2985d0", marginTop: "10px" }}
+            >
               Terms and Conditions
             </Header>
             <Header as="h3" textAlign="center" style={{ marginBottom: 20 }}>
