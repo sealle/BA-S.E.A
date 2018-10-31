@@ -5,22 +5,15 @@ import { Header, Container, Grid, Menu, Message } from "semantic-ui-react";
 import axios from "axios";
 import VideoChat from "../components/VideoChat";
 import UserList from "../components/UserList";
-import UserApproval from "../components/UserApproval";
+// import UserApproval from "../components/UserApproval";
 import Head from "next/head";
 
 class adminPage extends Component {
   constructor() {
     super();
-    // this.state = {
-    // errorMessage: "",
-    // activeItem: "home"
-    // };
   }
 
-  // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
   render() {
-    // const { activeItem } = this.state;
     return (
       <div>
         <ProfileHeader />
@@ -37,50 +30,6 @@ class adminPage extends Component {
           background: #e6e6e6;
         }
       `}</style>
-            {/* <Grid>
-            <Grid.Column width={2}>
-              <Menu fluid vertical tabular="left">
-                <Menu.Item
-                  name="home"
-                  active={activeItem === "home"}
-                  onClick={this.handleItemClick}
-                />
-                <Menu.Item
-                  name="userlist"
-                  active={activeItem === "userlist"}
-                  onClick={this.handleItemClick}
-                />
-                <Menu.Item
-                  name="videochat"
-                  // href="/videochat"
-                  active={activeItem === "videochat"}
-                  onClick={this.handleItemClick}
-                />
-              </Menu>
-            </Grid.Column>
-
-            <Grid.Column stretched width={14}>
-              <Container>
-                {this.state.activeItem === "userlist" ? <UserList /> : null}
-                {this.state.activeItem === "videochat" ? (
-                  <div>
-                    <VideoChat />
-                     <UserApproval />
-          </div>
-                ) : null}
-                {this.state.activeItem === "home" ? (
-                  <Layout>
-                    <Header
-                      as="h1"
-                      style={{ textAlign: "center", marginTop: "30px" }}
-                    >
-                      Welcome to the Admin Page
-                    </Header>
-                  </Layout>
-                ) : null}
-          </Container>
-            </Grid.Column>
-          </Grid> */}
           </Container>
         </Layout>
       </div>

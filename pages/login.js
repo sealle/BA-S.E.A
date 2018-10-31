@@ -134,18 +134,9 @@ class Login extends Component {
               </Button>
               <Form.Field>
                 <Grid>
-                  <Grid.Column width={8}>
-                    <Checkbox
-                      fluid
-                      label="Remember me"
-                      style={{ marginTop: "10px" }}
-                    >
-                      Remember me
-                    </Checkbox>
-                  </Grid.Column>
                   <Grid.Column
-                    width={8}
-                    style={{ textAlign: "right", marginTop: "10px" }}
+                    width={16}
+                    style={{ textAlign: "center", marginTop: "10px" }}
                   >
                     <a href="#">Forgot Password</a>
                     {/* TODO: To be implemented */}

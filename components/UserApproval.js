@@ -42,9 +42,9 @@ export default class UserApproval extends Component {
     });
 
     this.setState({
-      message: "You have successfully sent the transaction!",
       loading: false
     });
+    swal("Congrats", "You have successfully sent the transaction!", "success");
   };
 
   onDecline = async event => {
@@ -55,8 +55,7 @@ export default class UserApproval extends Component {
       currentUser
     });
     if (response.data.success) {
-      this.setState({ message: response.data.message });
-      console.log(this.state.message);
+      swal("Congrats", "You have successfully deleted the user!", "success");
     }
   };
 

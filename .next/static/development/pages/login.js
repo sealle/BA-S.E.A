@@ -58578,17 +58578,9 @@ function (_Component) {
       }, "Login", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
         name: "sign-in"
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Field, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Grid"].Column, {
-        width: 8
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Checkbox"], {
-        fluid: true,
-        label: "Remember me",
+        width: 16,
         style: {
-          marginTop: "10px"
-        }
-      }, "Remember me")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Grid"].Column, {
-        width: 8,
-        style: {
-          textAlign: "right",
+          textAlign: "center",
           marginTop: "10px"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {

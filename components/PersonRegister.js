@@ -6,6 +6,7 @@ import Layout from "./Layout";
 import HomeHeader from "./HomeHeader";
 import axios from "axios";
 import swal from "sweetalert2";
+import { setCookie } from "../utils/CookieUtils";
 
 class PersonRegister extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class PersonRegister extends Component {
       if (response.data.success) {
         swal(
           "Congratulations!",
-          "You have successfully registered. Now please login to complete the process",
+          "An email has been sent to you. Please confirm your email address and login to proceed",
           "success"
         );
         Router.push("/login"); //TODO: add success popup

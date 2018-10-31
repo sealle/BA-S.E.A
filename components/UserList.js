@@ -108,7 +108,7 @@ export default class UserList extends Component {
                         <List.Content>
                           <List.Header as="a">{member.username}</List.Header>
                           <List.Description as="a">
-                            {member.lname}, {member.fname}
+                            {member.lname},{" "} {member.fname}
                           </List.Description>
                         </List.Content>
                       </List.Item>

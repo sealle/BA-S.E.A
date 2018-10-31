@@ -12,6 +12,7 @@ const saltRounds = 10;
 const fs = require("fs");
 const path = require("path");
 const jwtDecode = require("jwt-decode");
+const nodemailer = require("nodemailer");
 // const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -20,8 +21,15 @@ const bodyParser = require("body-parser");
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
 const secret = "iliketurtles";
+const EMAIL_SECRET = "yello15873";
 
-//app.use(fileUpload());
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "no.reply.sealle@gmail.com",
+    pass: "iLikeTurtles"
+  }
+});
 
 const pusher = new Pusher({
   appId: "601383",
@@ -52,7 +60,7 @@ app
     server.use(fileUpload());
     //server.use(express.static(path.join(__dirname, "/public")));
 
-    server.post("/register", urlEncodedParser, function(req, response) {
+    server.post("/register", urlEncodedParser, (req, response) => {
       let image = req.files.file1;
       let image2 = req.files.file2;
 
@@ -63,6 +71,32 @@ app
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
           let date = new Date();
           let body = req.body;
+
+          jwt.sign(
+            {
+              username: body.username,
+              emailToken: crypto
+                .createHash("md5")
+                .update(body.username)
+                .digest("hex")
+            },
+            EMAIL_SECRET,
+            {
+              expiresIn: 36000 //1h
+            },
+            (err, emailToken) => {
+              const url = `http://localhost:3000/activate/${emailToken}`;
+              transporter.sendMail({
+                from: "no.reply.sealle@gmail.com",
+                to: body.email,
+                subject: "Confirm Email",
+                html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
+              });
+            }
+          );
+
+          // console.log(activationToken);
+
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
           let sql =
             "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate, isComp) VALUES ('" +
@@ -100,9 +134,14 @@ app
             "')";
           let searchSQL =
             "SELECT * FROM users WHERE username='" + body.username + "'";
+          let searchEmail =
+            "SELECT * FROM users WHERE email='" + body.email + "'";
           database.connection.query(searchSQL, function(err, res) {
+            //check if username exists
             if (err) {
-              console.log("1.error");
+              response
+                .status(400)
+                .json({ message: "Database Server is not connected!" });
             } else {
               if (res.length) {
                 response.status(400).json({
@@ -111,9 +150,25 @@ app
                 });
                 console.log("User already exists");
               } else {
+                // database.connection.query(searchEmail, function(err, res) { TODO: Enable once finished!
+                //   //check if email exists
+                //   if (err) {
+                //     response
+                //       .status(400)
+                //       .json({ message: "Database Server is not connected!" });
+                //   } else {
+                //     if (res.length) {
+                //       response.status(400).json({
+                //         success: false,
+                //         message: "Email already exists! Choose a different one."
+                //       });
+                //       console.log("Email already exists");
+                //     } else {
                 database.connection.query(sql, function(err, result) {
                   if (err) {
-                    console.log(err);
+                    response.status(400).json({
+                      message: "Database Server is not connected!"
+                    });
                   } else {
                     image.mv("static/" + imageName, function(err) {
                       if (err) return response.status(500).send(err);
@@ -129,6 +184,9 @@ app
                   }
                 });
               }
+              //     }
+              //   });
+              // }
             }
           });
         });
@@ -145,6 +203,29 @@ app
       let imageName2 = `${req.body.username}-${image2.name}`;
       let docName = `${req.body.compName}-${doc.name}`;
       let docName2 = `${req.body.compName}-${doc2.name}`;
+
+      jwt.sign(
+        {
+          username: body.username,
+          emailToken: crypto
+            .createHash("md5")
+            .update(body.username)
+            .digest("hex")
+        },
+        EMAIL_SECRET,
+        {
+          expiresIn: 36000 //1h
+        },
+        (err, emailToken) => {
+          const url = `http://localhost:3000/activate/${emailToken}`;
+          transporter.sendMail({
+            from: "no.reply.sealle@gmail.com",
+            to: body.email,
+            subject: "Confirm Email",
+            html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
+          });
+        }
+      );
 
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
@@ -203,9 +284,13 @@ app
             "')";
           let searchSQL =
             "SELECT * FROM users WHERE username='" + body.username + "'";
+          let searchEmail =
+            "SELECT * FROM users WHERE email='" + body.email + "'";
           database.connection.query(searchSQL, function(err, res) {
             if (err) {
-              console.log("1.error");
+              response
+                .status(400)
+                .json({ message: "Database Server is not connected!" });
             } else {
               if (res.length) {
                 response.status(400).json({
@@ -214,9 +299,24 @@ app
                 });
                 console.log("User already exists");
               } else {
+                // database.connection.query(searchEmail, function(err, res) {
+                //   if (err) {
+                //     response
+                //       .status(400)
+                //       .json({ message: "Database Server is not connected!" });
+                //   } else {
+                //     if (res.length) {
+                //       response.status(400).json({
+                //         success: false,
+                //         message: "Email already exists! Choose a different one."
+                //       });
+                //       console.log("Email already exists");
+                //     } else {
                 database.connection.query(sql, function(err, result) {
                   if (err) {
-                    console.log(err);
+                    response.status(400).json({
+                      message: "Database Server is not connected!"
+                    });
                   } else {
                     image.mv("static/" + imageName, function(err) {
                       if (err) return response.status(500).send(err);
@@ -238,6 +338,9 @@ app
                   }
                 });
               }
+              //     }
+              //   });
+              // }
             }
           });
         });
@@ -252,6 +355,10 @@ app
           response
             .status(400)
             .json({ message: "Database Server is not connected!" });
+        } else if (result[0].active == "0") {
+          response
+            .status(400)
+            .json({ message: "You have not confirmed your Email address!" });
         } else {
           if (result.length) {
             bcrypt.compare(body.password, result[0].password, function(
@@ -349,6 +456,29 @@ app
           }
         }
       });
+    });
+
+    server.get("/activate/:token", urlEncodedParser, (req, response) => {
+      try {
+        jwt.verify(req.params.token, EMAIL_SECRET, async (err, decoded) => {
+          if (err) {
+            console.log("error");
+          } else {
+            let username = decoded.username;
+            let sql =
+              "UPDATE users SET active='1' WHERE username='" + username + "'";
+            await database.connection.query(sql, function(err, req, res) {
+              if (err) {
+                response.send("error");
+              } else {
+                response.redirect("/login");
+              }
+            });
+          }
+        });
+      } catch (e) {
+        console.log(e);
+      }
     });
 
     server.post("/currentuser", urlEncodedParser, function(req, response) {
@@ -498,13 +628,13 @@ app
       return next();
     });
 
-    // server.get(
-    //   ["/terms", "/videochat"],
-    //   protectedRegPage,
-    //   (req, response, next) => {
-    //     return next();
-    //   }
-    // );
+    server.get(
+      ["/terms", "/videochat"],
+      protectedRegPage,
+      (req, response, next) => {
+        return next();
+      }
+    );
 
     server.get("/profile", protectedUserPage, (req, response, next) => {
       return next();
@@ -529,11 +659,41 @@ app
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
       let token = decoded.xsrfToken;
+      let role = decoded.role;
       res.status(200).send({
         currentUser,
-        token: token
+        token: token,
+        role: role
       });
     });
+
+    server.post("/pusher/count", (req, res) => {
+      let newConnect = req.body.newConnect;
+      console.log(newConnect);
+      server.post("/pusher/members", (req, res) => {
+        res.status(200).json({
+          success: true,
+          newConnect: newConnect
+        });
+      });
+    }); //TODO: fix
+
+    // pusher.get(
+    //   {
+    //     path: "/apps/601383/channels/presence-video-channel",
+    //     params: {}
+    //   },
+    //   function(error, request, response) {
+    //     if (response.statusCode === 200) {
+    //       var result = JSON.parse(response.body);
+    //       var channelsInfo = result.channels;
+    //       console.log(channelsInfo);
+    //     }
+    //   }
+    // );
+
+    // let response = pusher.get("https://endpoint.com/webhook15873");
+    // console.log(response);
 
     server.post("/pusher/auth", urlEncodedParser, function(req, res) {
       let cookie = req.cookies["x-access-token"];

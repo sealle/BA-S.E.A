@@ -13,7 +13,7 @@ export default class ProfileHeader extends Component {
     this.state = {
       isAdmin: false,
       currentUser: "",
-      activeItem: "home"
+      activeItem: "videochat"
     };
     this.logout = e => this._logout();
   }
@@ -95,7 +95,7 @@ export default class ProfileHeader extends Component {
                   {/* <UserApproval /> */}
                 </div>
               ) : null}
-              {this.state.activeItem === "home" ? (
+              {/* {this.state.activeItem === "home" ? (
                 <Segment
                   style={{
                     marginTop: "50px",
@@ -115,7 +115,7 @@ export default class ProfileHeader extends Component {
                     Welcome to the Admin Page
                   </Header>
                 </Segment>
-              ) : null}
+              ) : null} */}
             </div>
           ) : null}
         </Layout>
