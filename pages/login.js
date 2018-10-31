@@ -138,7 +138,9 @@ class Login extends Component {
                     width={16}
                     style={{ textAlign: "center", marginTop: "10px" }}
                   >
-                    <a href="#">Forgot Password</a>
+                    <a href="/passwordreset" style={{ color: "#2985d0" }}>
+                      Forgot Password
+                    </a>
                     {/* TODO: To be implemented */}
                   </Grid.Column>
                 </Grid>

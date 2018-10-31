@@ -481,6 +481,100 @@ app
       }
     });
 
+    //enter email to receive email
+    server.post("/passwordreset", async (req, res) => {
+      let body = req.body;
+      let sql = "SELECT * FROM users WHERE username= '" + body.username + "'";
+      await database.connection.query(sql, async (err, result, fields) => {
+        if (err) {
+          res
+            .status(400)
+            .json({ message: "Database Server is not connected!" });
+        } else {
+          if (result.length && result[0].email == body.email) {
+            await jwt.sign(
+              {
+                username: body.username,
+                pwResetToken: crypto
+                  .createHash("md5")
+                  .update(body.username)
+                  .digest("hex")
+              },
+              EMAIL_SECRET,
+              {
+                expiresIn: 36000 //1h
+              },
+              (err, pwResetToken) => {
+                const url = `http://localhost:3000/passwordchange/${pwResetToken}`;
+                transporter.sendMail({
+                  from: "no.reply.sealle@gmail.com",
+                  to: body.email,
+                  subject: "Password Reset",
+                  html: `Please click on the link to reset your password: <br/><a href="${url}">${url}</a>`
+                });
+              }
+            );
+            setTimeout(function() {
+              res.status(200).json({
+                success: true
+              });
+            }, 3000);
+          } else {
+            res
+              .status(400)
+              .json({ message: "Username and Email do not match!" });
+          }
+        }
+      });
+    });
+
+    //change password
+    server.post("/changepw", (req, response) => {
+      let searchSQL =
+        "SELECT * FROM users WHERE username = '" + req.body.username + "'";
+      database.connection.query(searchSQL, (err, result) => {
+        if (result.length) {
+          bcrypt.genSalt(saltRounds, function(err, salt) {
+            bcrypt.hash(req.body.password, salt, null, function(err, hash) {
+              let sql =
+                "UPDATE users SET password = '" +
+                hash +
+                "' WHERE username='" +
+                req.body.username +
+                "'";
+              database.connection.query(sql, (err, res) => {
+                if (err) {
+                  response.status(400).json({
+                    message: "Database Server is not connected!"
+                  });
+                } else {
+                  response.status(200).json({
+                    success: true
+                  });
+                }
+              });
+            });
+          });
+        } else {
+          console.log("Error /changepw");
+        }
+      });
+    });
+
+    server.get("/passwordchange/:id", (req, res, next) => {
+      try {
+        jwt.verify(req.params.id, EMAIL_SECRET, (err, decoded) => {
+          if (err) {
+            console.log("error");
+          } else {
+            next();
+          }
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
     server.post("/currentuser", urlEncodedParser, function(req, response) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
@@ -605,23 +699,26 @@ app
     });
 
     server.use(
-      unless(["/login", "/register", "/_next"], (req, res, next) => {
-        const token = req.cookies["x-access-token"];
-        if (token) {
-          jwt.verify(token, secret, (err, decoded) => {
-            if (err) {
-              console.log(err);
-              res.redirect("/login"); //TODO:profile page lands here when refreshing: token expired
-            } else {
-              // if everything is good, save to request for use in other routes
-              req.decoded = decoded;
-              next();
-            }
-          });
-        } else {
-          res.redirect("/login");
+      unless(
+        ["/login", "/register", "/_next", "/passwordreset", "/passwordchange"],
+        (req, res, next) => {
+          const token = req.cookies["x-access-token"];
+          if (token) {
+            jwt.verify(token, secret, (err, decoded) => {
+              if (err) {
+                console.log(err);
+                res.redirect("/login"); //TODO:profile page lands here when refreshing: token expired
+              } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;
+                next();
+              }
+            });
+          } else {
+            res.redirect("/login");
+          }
         }
-      })
+      )
     );
 
     server.get("/admin", protectedAdminPage, (req, response, next) => {
@@ -667,16 +764,16 @@ app
       });
     });
 
-    server.post("/pusher/count", (req, res) => {
-      let newConnect = req.body.newConnect;
-      console.log(newConnect);
-      server.post("/pusher/members", (req, res) => {
-        res.status(200).json({
-          success: true,
-          newConnect: newConnect
-        });
-      });
-    }); //TODO: fix
+    // server.post("/pusher/count", (req, res) => {
+    //   let newConnect = req.body.newConnect;
+    //   console.log(newConnect);
+    //   server.post("/pusher/members", (req, res) => {
+    //     res.status(200).json({
+    //       success: true,
+    //       newConnect: newConnect
+    //     });
+    //   });
+    // }); //TODO: fix
 
     // pusher.get(
     //   {

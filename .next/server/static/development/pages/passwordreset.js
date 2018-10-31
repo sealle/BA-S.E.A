@@ -88,50 +88,10 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./components/HomeHeader.js":
-/*!**********************************!*\
-  !*** ./components/HomeHeader.js ***!
-  \**********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../routes */ "./routes.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next/head */ "next/head");
-/* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_head__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-
-var HomeHeader = function HomeHeader() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_1__["Menu"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_1__["Menu"].Menu, {
-    position: "right"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_1__["Menu"].Item, {
-    name: "login",
-    href: "/login"
-  }, "Login"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_1__["Menu"].Item, {
-    name: "register",
-    href: "/register"
-  }, "Register")));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (HomeHeader);
-
-/***/ }),
 
 /***/ "./components/Layout.js":
 /*!******************************!*\
@@ -172,10 +132,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./pages/login.js":
-/*!************************!*\
-  !*** ./pages/login.js ***!
-  \************************/
+/***/ "./pages/passwordreset.js":
+/*!********************************!*\
+  !*** ./pages/passwordreset.js ***!
+  \********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -192,12 +152,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "axios");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
-/* harmony import */ var _components_HomeHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/HomeHeader */ "./components/HomeHeader.js");
-/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! jwt-decode */ "jwt-decode");
-/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(jwt_decode__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react_helmet__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-helmet */ "react-helmet");
-/* harmony import */ var react_helmet__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_helmet__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2 */ "sweetalert2");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_6__);
 
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -229,39 +185,34 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-
-
-
-
-var Login =
+var PwReset =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Login, _Component);
+  _inherits(PwReset, _Component);
 
-  function Login(props) {
+  function PwReset() {
     var _this;
 
-    _classCallCheck(this, Login);
+    _classCallCheck(this, PwReset);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PwReset).call(this));
     _this.state = {
-      password: "",
-      username: "",
       errorMessage: "",
-      loading: false
+      username: "",
+      email: ""
     };
 
-    _this.login = function (e) {
-      return _this._login();
+    _this.pwReset = function (e) {
+      return _this._pwReset();
     };
 
     return _this;
   }
 
-  _createClass(Login, [{
-    key: "_login",
+  _createClass(PwReset, [{
+    key: "_pwReset",
     value: function () {
-      var _login2 = _asyncToGenerator(
+      var _pwReset2 = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var formData, res;
@@ -271,29 +222,22 @@ function (_Component) {
               case 0:
                 formData = new FormData();
                 formData.append("username", this.state.username);
-                formData.append("password", this.state.password);
+                formData.append("email", this.state.email);
                 formData.append("errorMessage", this.state.errorMessage);
                 this.setState({
                   loading: true
                 });
                 _context.prev = 5;
                 _context.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/authenticate", formData);
+                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/passwordreset", formData);
 
               case 8:
                 res = _context.sent;
 
                 if (res.data.success) {
-                  if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
-                    Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.adminToken, 1);
-                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/admin");
-                  } else if (res.data.registerStatus == "yes" && res.data.privileg == "user") {
-                    Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.userToken, 1);
-                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/profile");
-                  } else {
-                    Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.registerToken, 1);
-                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/terms");
-                  }
+                  setTimeout(function () {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()("Congratulations!", "An email has been sent to you. Please click on the link in the email to proceed", "success");
+                  }, 3000);
                 }
 
                 _context.next = 15;
@@ -319,8 +263,8 @@ function (_Component) {
         }, _callee, this, [[5, 12]]);
       }));
 
-      return function _login() {
-        return _login2.apply(this, arguments);
+      return function _pwReset() {
+        return _pwReset2.apply(this, arguments);
       };
     }()
   }, {
@@ -328,33 +272,27 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
         style: {
           maxWidth: "450px",
           margin: "auto",
-          // backgroundColor: "#2985d0",
           marginTop: "50px"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        style: {
-          textAlign: "center",
-          marginBottom: "-50px"
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
-        circular: true,
-        name: "users",
-        size: "huge",
-        fluid: true,
-        color: "blue"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
         as: "h1",
         textAlign: "center",
         style: {
-          marginTop: 60,
-          color: "#2985d0"
+          color: "#2985d0",
+          marginTop: "10px"
         }
-      }, "Member Login"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"], {
-        onSubmit: this.login,
+      }, "Password Reset"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
+        as: "h3",
+        textAlign: "center",
+        style: {
+          marginBottom: 20
+        }
+      }, "Please enter your username and your email address"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"], {
+        onSubmit: this.pwReset,
         error: this.state.errorMessage
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Field, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         icon: "user",
@@ -368,15 +306,15 @@ function (_Component) {
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Field, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
-        icon: "lock",
+        icon: "mail",
         iconPosition: "left",
-        type: "password",
-        placeholder: "Password",
-        name: "password",
-        value: this.state.password,
+        type: "email",
+        placeholder: "Email",
+        name: "email",
+        value: this.state.email,
         onChange: function onChange(event) {
           return _this2.setState({
-            password: event.target.value
+            email: event.target.value
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Message"], {
@@ -389,39 +327,14 @@ function (_Component) {
         size: "large",
         color: "blue",
         loading: this.state.loading
-      }, "Login", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
-        name: "sign-in"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Field, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Grid"].Column, {
-        width: 16,
-        style: {
-          textAlign: "center",
-          marginTop: "10px"
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-        href: "/passwordreset",
-        style: {
-          color: "#2985d0"
-        }
-      }, "Forgot Password")))))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Message"], {
-        style: {
-          maxWidth: "450px",
-          margin: "auto",
-          textAlign: "center",
-          backgroundColor: "white"
-        }
-      }, "New to us?", " ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-        href: "/register",
-        style: {
-          color: "#2985d0"
-        }
-      }, "Register"))));
+      }, "Submit")))));
     }
   }]);
 
-  return Login;
+  return PwReset;
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Login);
+/* harmony default export */ __webpack_exports__["default"] = (PwReset);
 
 /***/ }),
 
@@ -439,52 +352,14 @@ routes.add("passwordchange", "/passwordchange/:id", "passwordchange");
 
 /***/ }),
 
-/***/ "./utils/CookieUtils.js":
-/*!******************************!*\
-  !*** ./utils/CookieUtils.js ***!
-  \******************************/
-/*! exports provided: setCookie, getCookie */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCookie", function() { return setCookie; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookie", function() { return getCookie; });
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-  var expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + "HttpOnly;" + ";path=/";
-}
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(";");
-
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-
-    while (c.charAt(0) === " ") {
-      c = c.substring(1);
-    }
-
-    if (c.indexOf(name) === 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-
-  return "";
-}
-
-/***/ }),
-
-/***/ 3:
-/*!******************************!*\
-  !*** multi ./pages/login.js ***!
-  \******************************/
+/***/ 4:
+/*!**************************************!*\
+  !*** multi ./pages/passwordreset.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./pages/login.js */"./pages/login.js");
+module.exports = __webpack_require__(/*! ./pages/passwordreset.js */"./pages/passwordreset.js");
 
 
 /***/ }),
@@ -508,17 +383,6 @@ module.exports = require("@babel/runtime/regenerator");
 /***/ (function(module, exports) {
 
 module.exports = require("axios");
-
-/***/ }),
-
-/***/ "jwt-decode":
-/*!*****************************!*\
-  !*** external "jwt-decode" ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("jwt-decode");
 
 /***/ }),
 
@@ -555,17 +419,6 @@ module.exports = require("react");
 
 /***/ }),
 
-/***/ "react-helmet":
-/*!*******************************!*\
-  !*** external "react-helmet" ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("react-helmet");
-
-/***/ }),
-
 /***/ "semantic-ui-react":
 /*!************************************!*\
   !*** external "semantic-ui-react" ***!
@@ -586,7 +439,18 @@ module.exports = require("semantic-ui-react");
 
 module.exports = require("styled-jsx/style");
 
+/***/ }),
+
+/***/ "sweetalert2":
+/*!******************************!*\
+  !*** external "sweetalert2" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("sweetalert2");
+
 /***/ })
 
 /******/ });
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=passwordreset.js.map

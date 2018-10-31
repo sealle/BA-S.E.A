@@ -125,11 +125,11 @@ export default class VideoChat extends Component {
     channelName.bind("pusher:member_added", member => {
       this.setState({ connectedTo: member.id });
       swal("You are conneted to", `${member.id}`, "success");
-      let newConnect = member.id;
-      // swal("Attention", "Admin is occupied, please wait...", "warning");
-      axios.post(window.location.origin + "/pusher/count", {
-        newConnect
-      });
+      // let newConnect = member.id;
+      // // swal("Attention", "Admin is occupied, please wait...", "warning");
+      // axios.post(window.location.origin + "/pusher/count", {
+      //   newConnect
+      // });
     });
 
     channelName.bind("pusher:member_removed", member => {
