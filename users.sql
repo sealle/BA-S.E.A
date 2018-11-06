@@ -1,3 +1,6 @@
+CREATE DATABASE MyDatabase;
+use MyDatabase;
+
 CREATE TABLE users (
     id int AUTO_INCREMENT PRIMARY KEY,
     username varchar(255),
@@ -14,9 +17,20 @@ CREATE TABLE users (
     mobNr int,
     ID1 varchar(255),
     ID2 varchar(255),
-    timeOfReg datetime,
-    role varchar(255) DEFAULT 'user'
-)
+    regDate varchar(255),
+    isComp int(1),
+    active int(1) DEFAULT "0",
+    privileges varchar(255) DEFAULT "user",
+    isRegistered varchar(255) DEFAULT "no",
+    compName varchar(255)
+    regNr bigint,
+    placeOfReg varchar(255),
+    residence varchar(255),
+    businessAd varchar(255),
+    compHouseNr varchar(255),
+    doc1 varchar(255),
+    doc2 varchar(255),
+ )
 
 UPDATE users
 SET role='admin'

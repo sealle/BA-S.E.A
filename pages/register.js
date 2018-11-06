@@ -22,10 +22,7 @@ export default class RegisterPage extends Component {
         {/* <HomeHeader /> */}
         <Layout>
           <Segment
-            style={{
-              // backgroundColor: "#2985d0",
-              marginTop: "50px"
-            }}
+            style={{ marginTop: "50px", marginLeft: "-126px", width: "900px" }}
           >
             <br />
             <Header

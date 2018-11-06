@@ -95,8 +95,6 @@ app
             }
           );
 
-          // console.log(activationToken);
-
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
           let sql =
             "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate, isComp) VALUES ('" +
@@ -137,12 +135,12 @@ app
           let searchEmail =
             "SELECT * FROM users WHERE email='" + body.email + "'";
           database.connection.query(searchSQL, function(err, res) {
-            //check if username exists
             if (err) {
               response
                 .status(400)
                 .json({ message: "Database Server is not connected!" });
             } else {
+              //check if username exists
               if (res.length) {
                 response.status(400).json({
                   success: false,
@@ -204,34 +202,36 @@ app
       let docName = `${req.body.compName}-${doc.name}`;
       let docName2 = `${req.body.compName}-${doc2.name}`;
 
-      jwt.sign(
-        {
-          username: body.username,
-          emailToken: crypto
-            .createHash("md5")
-            .update(body.username)
-            .digest("hex")
-        },
-        EMAIL_SECRET,
-        {
-          expiresIn: 36000 //1h
-        },
-        (err, emailToken) => {
-          const url = `http://localhost:3000/activate/${emailToken}`;
-          transporter.sendMail({
-            from: "no.reply.sealle@gmail.com",
-            to: body.email,
-            subject: "Confirm Email",
-            html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
-          });
-        }
-      );
-
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
           let date = new Date();
           let body = req.body;
+
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
+
+          jwt.sign(
+            {
+              username: body.username,
+              emailToken: crypto
+                .createHash("md5")
+                .update(body.username)
+                .digest("hex")
+            },
+            EMAIL_SECRET,
+            {
+              expiresIn: 36000 //1h
+            },
+            (err, emailToken) => {
+              const url = `http://localhost:3000/activate/${emailToken}`;
+              transporter.sendMail({
+                from: "no.reply.sealle@gmail.com",
+                to: body.email,
+                subject: "Confirm Email",
+                html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
+              });
+            }
+          );
+
           let sql =
             "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate, compName, regNr, placeOfReg, residence, businessAd, compHouseNr, doc1, doc2, isComp) VALUES ('" +
             body.username +
@@ -355,6 +355,10 @@ app
           response
             .status(400)
             .json({ message: "Database Server is not connected!" });
+        } else if(!result.length) {
+          response
+            .status(400)
+            .json({ message: "Please register to login!" });
         } else if (result[0].active == "0") {
           response
             .status(400)

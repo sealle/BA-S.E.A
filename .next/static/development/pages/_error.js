@@ -6142,7 +6142,7 @@ module.exports = (__webpack_require__(/*! dll-reference dll_34718705b6f81f095be8
 /***/ (function(module, exports, __webpack_require__) {
 
 __NEXT_REGISTER_PAGE('/_error', function() {
-module.exports = __webpack_require__(/*! /Users/SebastianAllemann/BA-S.E.A/node_modules/next/dist/pages/_error.js */"./node_modules/next/dist/pages/_error.js");
+module.exports = __webpack_require__(/*! /Users/sebastianemmanuelallemann/BA-S.E.A/node_modules/next/dist/pages/_error.js */"./node_modules/next/dist/pages/_error.js");
 
 return { page: module.exports.default }});
 

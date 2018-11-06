@@ -241,7 +241,7 @@ class CompanyRegister extends Component {
                 fluid
                 label="Nationality"
                 required
-                placeholder="Switzerland"
+                placeholder="i.e. Switzerland"
                 name="nat"
                 value={this.state.nat}
                 onChange={event => this.setState({ nat: event.target.value })}
@@ -263,7 +263,7 @@ class CompanyRegister extends Component {
                 label="Mobile Number"
                 type="number"
                 required
-                placeholder="079 246 1102"
+                placeholder="+4* ** *** ** **"
                 name="mobNr"
                 value={this.state.mobNr}
                 onChange={event => this.setState({ mobNr: event.target.value })}

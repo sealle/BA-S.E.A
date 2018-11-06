@@ -291,7 +291,7 @@ export default class UserList extends Component {
                                   {this.state.usrs[0].isRegistered}
                                 </Table.Cell>
                               </Table.Row>
-                              <Table.Row>
+                              {/* <Table.Row>
                                 <Table.Cell colSpan={2}>
                                   <p
                                     style={{
@@ -304,7 +304,7 @@ export default class UserList extends Component {
                                   </p>
                                   {this.state.usrs[0].hash}
                                 </Table.Cell>
-                              </Table.Row>
+                              </Table.Row> */}
                               <Table.Row>
                                 <Table.Cell colSpan={2}>
                                   <p

@@ -225,7 +225,7 @@ export default class UserData extends Component {
                         {member.isRegistered}
                       </Table.Cell>
                     </Table.Row>
-                    <Table.Row>
+                    {/* <Table.Row>
                       <Table.Cell colSpan={2}>
                         <p
                           style={{
@@ -238,7 +238,7 @@ export default class UserData extends Component {
                         </p>
                         {member.hash}
                       </Table.Cell>
-                    </Table.Row>
+                    </Table.Row> */}
                     <Table.Row>
                       <Table.Cell colSpan={2}>
                         <p

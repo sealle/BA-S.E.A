@@ -11,15 +11,19 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
+    "/register": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/login": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/passwordreset": [
+    "/terms": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/passwordchange": [
+    "/admin": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

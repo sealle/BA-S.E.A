@@ -37,6 +37,7 @@ export default class ProfileHeader extends Component {
   _logout() {
     setCookie("x-access-token", "", -60 * 60);
     Router.pushRoute("/login");
+    window.location.href = "/login";
   }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -51,12 +52,12 @@ export default class ProfileHeader extends Component {
           </Menu.Item>
           {this.state.currentUser === "Admin" ? (
             <Menu.Menu>
-              <Menu.Item
+              {/* <Menu.Item
                 color="blue"
                 name="home"
                 active={activeItem === "home"}
                 onClick={this.handleItemClick}
-              />
+              /> */}
               <Menu.Item
                 name="userlist"
                 active={activeItem === "userlist"}
