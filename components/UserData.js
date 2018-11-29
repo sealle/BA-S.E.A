@@ -361,7 +361,7 @@ export default class UserData extends Component {
                             type="application/pdf"
                             target="_blank"
                           >
-                            View excerpt of commercial register
+                            View extract of the relevant registration authority
                           </a>
                         </Table.Cell>
                       </Table.Row>
@@ -372,8 +372,7 @@ export default class UserData extends Component {
                             type="application/pdf"
                             target="_blank"
                           >
-                            View Provisions regulating the power to bind the
-                            legal entity
+                            View copy of the power of attorney
                           </a>
                         </Table.Cell>
                       </Table.Row>

@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -283,6 +283,7 @@ function (_Component) {
               case 8:
                 res = _context.sent;
 
+                //Set cookies and place token in it
                 if (res.data.success) {
                   if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.adminToken, 1);
@@ -332,7 +333,6 @@ function (_Component) {
         style: {
           maxWidth: "450px",
           margin: "auto",
-          // backgroundColor: "#2985d0",
           marginTop: "50px"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -450,12 +450,14 @@ routes.add("passwordchange", "/passwordchange/:id", "passwordchange");
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCookie", function() { return setCookie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookie", function() { return getCookie; });
+//set cookie function
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   var expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + "HttpOnly;" + ";path=/";
-}
+} //get cookie function
+
 function getCookie(cname) {
   var name = cname + "=";
   var ca = document.cookie.split(";");
@@ -477,7 +479,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/

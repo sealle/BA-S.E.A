@@ -16,12 +16,14 @@ class Error extends Component {
     };
   }
 
+  //landing page if unauthorized user tries to access page
   async componentDidMount() {
     const res = await axios.post(window.location.origin + "/currentuser");
     if (res.data.success) {
       this.setState({ cookie: res.data.cookie });
     }
     let decoded = jwtDecode(this.state.cookie);
+    //get role of user to redirect them to their page
     if (decoded.role === 1) {
       this.setState({ isAdmin: true });
     } else if (decoded.role === 0 && decoded.reg === 1) {

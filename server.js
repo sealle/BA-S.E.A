@@ -23,6 +23,7 @@ const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 const secret = "iliketurtles";
 const EMAIL_SECRET = "yello15873";
 
+//Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -31,6 +32,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+//Pusher setup
 const pusher = new Pusher({
   appId: "601383",
   key: "0f924dcd44dc93a88aa7",
@@ -40,11 +42,6 @@ const pusher = new Pusher({
 });
 
 const express = require("express");
-
-// const certOptions = {
-//   key: fs.readFileSync(path.resolve("cert/server.key")),
-//   cert: fs.readFileSync(path.resolve("cert/server.crt"))
-// };
 
 app
   .prepare()
@@ -58,8 +55,8 @@ app
 
     server.use(cookieParser());
     server.use(fileUpload());
-    //server.use(express.static(path.join(__dirname, "/public")));
 
+    //Registration 
     server.post("/register", urlEncodedParser, (req, response) => {
       let image = req.files.file1;
       let image2 = req.files.file2;
@@ -72,28 +69,6 @@ app
           let date = new Date();
           let body = req.body;
 
-          jwt.sign(
-            {
-              username: body.username,
-              emailToken: crypto
-                .createHash("md5")
-                .update(body.username)
-                .digest("hex")
-            },
-            EMAIL_SECRET,
-            {
-              expiresIn: 36000 //1h
-            },
-            (err, emailToken) => {
-              const url = `http://localhost:3000/activate/${emailToken}`;
-              transporter.sendMail({
-                from: "no.reply.sealle@gmail.com",
-                to: body.email,
-                subject: "Confirm Email",
-                html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
-              });
-            }
-          );
 
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
           let sql =
@@ -168,6 +143,28 @@ app
                       message: "Database Server is not connected!"
                     });
                   } else {
+                    jwt.sign(
+                      {
+                        username: body.username,
+                        emailToken: crypto
+                          .createHash("sha256")
+                          .update(body.username)
+                          .digest("hex")
+                      },
+                      EMAIL_SECRET,
+                      {
+                        expiresIn: 36000 //1h
+                      },
+                      (err, emailToken) => {
+                        const url = `http://localhost:3000/activate/${emailToken}`;
+                        transporter.sendMail({
+                          from: "no.reply.sealle@gmail.com",
+                          to: body.email,
+                          subject: "Confirm Email",
+                          html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
+                        });
+                      }
+                    );
                     image.mv("static/" + imageName, function(err) {
                       if (err) return response.status(500).send(err);
                     });
@@ -191,6 +188,7 @@ app
       });
     });
 
+    //Registration for companies
     server.post("/companyregister", urlEncodedParser, function(req, response) {
       let image = req.files.file1;
       let image2 = req.files.file2;
@@ -208,29 +206,6 @@ app
           let body = req.body;
 
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
-
-          jwt.sign(
-            {
-              username: body.username,
-              emailToken: crypto
-                .createHash("md5")
-                .update(body.username)
-                .digest("hex")
-            },
-            EMAIL_SECRET,
-            {
-              expiresIn: 36000 //1h
-            },
-            (err, emailToken) => {
-              const url = `http://localhost:3000/activate/${emailToken}`;
-              transporter.sendMail({
-                from: "no.reply.sealle@gmail.com",
-                to: body.email,
-                subject: "Confirm Email",
-                html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
-              });
-            }
-          );
 
           let sql =
             "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate, compName, regNr, placeOfReg, residence, businessAd, compHouseNr, doc1, doc2, isComp) VALUES ('" +
@@ -318,6 +293,28 @@ app
                       message: "Database Server is not connected!"
                     });
                   } else {
+                    jwt.sign(
+                      {
+                        username: body.username,
+                        emailToken: crypto
+                          .createHash("sha256")
+                          .update(body.username)
+                          .digest("hex")
+                      },
+                      EMAIL_SECRET,
+                      {
+                        expiresIn: 36000 //1h
+                      },
+                      (err, emailToken) => {
+                        const url = `http://localhost:3000/activate/${emailToken}`;
+                        transporter.sendMail({
+                          from: "no.reply.sealle@gmail.com",
+                          to: body.email,
+                          subject: "Confirm Email",
+                          html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
+                        });
+                      }
+                    );
                     image.mv("static/" + imageName, function(err) {
                       if (err) return response.status(500).send(err);
                     });
@@ -347,6 +344,7 @@ app
       });
     });
 
+    //Login
     server.post("/authenticate", (req, response) => {
       let body = req.body; //TODO: prevent SQL injection!
       let sql = "SELECT * FROM users WHERE username= '" + body.username + "'";
@@ -377,7 +375,7 @@ app
                       role: 1,
                       reg: 1,
                       xsrfToken: crypto
-                        .createHash("md5")
+                        .createHash("sha256")
                         .update(body.username)
                         .digest("hex")
                     },
@@ -403,7 +401,7 @@ app
                       role: 0, //user
                       reg: 1, //registered
                       xsrfToken: crypto
-                        .createHash("md5")
+                        .createHash("sha256")
                         .update(body.username)
                         .digest("hex")
                     },
@@ -426,7 +424,7 @@ app
                       role: 0,
                       reg: 0,
                       xsrfToken: crypto
-                        .createHash("md5")
+                        .createHash("sha256")
                         .update(body.username)
                         .digest("hex")
                     },
@@ -462,6 +460,7 @@ app
       });
     });
 
+    //Account activation from email
     server.get("/activate/:token", urlEncodedParser, (req, response) => {
       try {
         jwt.verify(req.params.token, EMAIL_SECRET, async (err, decoded) => {
@@ -500,7 +499,7 @@ app
               {
                 username: body.username,
                 pwResetToken: crypto
-                  .createHash("md5")
+                  .createHash("sha256")
                   .update(body.username)
                   .digest("hex")
               },
@@ -565,6 +564,7 @@ app
       });
     });
 
+    //Verify password reset link
     server.get("/passwordchange/:id", (req, res, next) => {
       try {
         jwt.verify(req.params.id, EMAIL_SECRET, (err, decoded) => {
@@ -579,6 +579,7 @@ app
       }
     });
 
+    //Get current user 
     server.post("/currentuser", urlEncodedParser, function(req, response) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
@@ -592,6 +593,7 @@ app
       });
     });
 
+    //Gets list of users from cookies
     server.post("/users", urlEncodedParser, function(req, response) {
       //TODO:prevent SQL injection
       let cookie = req.cookies["x-access-token"];
@@ -617,6 +619,7 @@ app
       });
     });
 
+    //Gets list of users from Client
     server.post("/usrs", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser; //TODO:prevent SQL injection
       let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
@@ -634,48 +637,51 @@ app
       });
     });
 
-    server.post("/hash", urlEncodedParser, function(req, response) {
-      let currentUser = req.body.currentUser; //TODO:prevent SQL injection
-      let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
-      database.connection.query(sql, function(err, res, fields) {
-        if (err) throw err;
-        let data = JSON.stringify(res[0]);
-        let hash = crypto
-          .createHash("sha256")
-          .update(data)
-          .digest("hex");
-        console.log("0x" + hash);
-        let hashPref = `0x${hash}`;
-        console.log(hashPref);
-        let sqlInsert =
-          "UPDATE users SET hash ='" +
-          hashPref +
-          "', isRegistered = 'yes' WHERE username = '" +
-          currentUser +
-          "'";
-        database.connection.query(sqlInsert, function(err, res, fields) {
-          if (err) throw err;
-          console.log("hash saved and changed isRegistered to yes");
-          response.status(200).json({
-            success: true,
-            hash: hashPref
-          });
-        });
-      });
-    });
+    //Creates users sha256-Hash
+    // server.post("/hash", urlEncodedParser, function(req, response) {
+    //   let currentUser = req.body.currentUser; //TODO:prevent SQL injection
+    //   let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
+    //   database.connection.query(sql, function(err, res, fields) {
+    //     if (err) throw err;
+    //     let data = JSON.stringify(res[0]);
+    //     let hash = crypto
+    //       .createHash("sha256")
+    //       .update(data)
+    //       .digest("hex");
+    //     console.log("0x" + hash);
+    //     let hashPref = `0x${hash}`;
+    //     console.log(hashPref);
+    //     let sqlInsert =
+    //       "UPDATE users SET hash ='" +
+    //       hashPref +
+    //       "', isRegistered = 'yes' WHERE username = '" +
+    //       currentUser +
+    //       "'";
+    //     database.connection.query(sqlInsert, function(err, res, fields) {
+    //       if (err) throw err;
+    //       console.log("hash saved and changed isRegistered to yes");
+    //       response.status(200).json({
+    //         success: true,
+    //         hash: hashPref
+    //       });
+    //     });
+    //   });
+    // });
 
-    server.post("/deleteuser", urlEncodedParser, function(req, response) {
-      let currentUser = req.body.currentUser;
-      let sql = "DELETE FROM users WHERE username = '" + currentUser + "'";
-      database.connection.query(sql, function(err, res, fields) {
-        if (err) throw err;
-        response.status(200).json({
-          success: true,
-          message: "User deleted!"
-        });
-      });
-    });
+    //Deletes a user, necessary?
+    // server.post("/deleteuser", urlEncodedParser, function(req, response) {
+    //   let currentUser = req.body.currentUser;
+    //   let sql = "DELETE FROM users WHERE username = '" + currentUser + "'";
+    //   database.connection.query(sql, function(err, res, fields) {
+    //     if (err) throw err;
+    //     response.status(200).json({
+    //       success: true,
+    //       message: "User deleted!"
+    //     });
+    //   });
+    // });
 
+    //Make a user admin
     server.post("/makeadmin", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser;
       let sql =
@@ -691,6 +697,7 @@ app
       });
     });
 
+    //User list
     server.post("/userlist", function(req, response) {
       let sql = "SELECT * FROM users";
       database.connection.query(sql, function(err, res, fields) {
@@ -702,6 +709,7 @@ app
       });
     });
 
+    //protects pages from unauthorized users
     server.use(
       unless(
         ["/login", "/register", "/_next", "/passwordreset", "/passwordchange"],
@@ -725,10 +733,12 @@ app
       )
     );
 
+    //Protect Admin page
     server.get("/admin", protectedAdminPage, (req, response, next) => {
       return next();
     });
 
+    //Protect terms and videochat
     server.get(
       ["/terms", "/videochat"],
       protectedRegPage,
@@ -737,24 +747,12 @@ app
       }
     );
 
+    //Protect profile view 
     server.get("/profile", protectedUserPage, (req, response, next) => {
       return next();
     });
 
-    server.post("/api/preventCRSF", (req, res, next) => {
-      if (req.decoded.xsrfToken === req.get("X-XSRF-TOKEN")) {
-        res.status(200).json({
-          success: true,
-          message: "Yes, this api is protected by CRSF attack"
-        });
-      } else {
-        res.status(400).json({
-          success: false,
-          message: "CRSF attack is useless"
-        });
-      }
-    });
-
+    //User details for videochat
     server.post("/videochat/stream", urlEncodedParser, (req, res) => {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
@@ -796,6 +794,7 @@ app
     // let response = pusher.get("https://endpoint.com/webhook15873");
     // console.log(response);
 
+    //Pusher endpoint
     server.post("/pusher/auth", urlEncodedParser, function(req, res) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
@@ -814,10 +813,7 @@ app
       return handle(req, res);
     });
 
-    // https.createServer(certOptions, server).listen(3000, certOptions, err => {
-    //   if (err) throw err;
-    //   console.log("Listening on Port 3000");
-    // });
+    //listen on port 3000
     server.listen(3000, err => {
       if (err) throw err;
       console.log("> Listening on Port 3000");
@@ -828,6 +824,7 @@ app
     process.exit(1);
   });
 
+// function to protect all pages
 function unless(paths, middleware) {
   return function(req, res, next) {
     let isHave = false;
@@ -845,6 +842,7 @@ function unless(paths, middleware) {
   };
 }
 
+//protect admin page
 function protectedAdminPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
@@ -864,6 +862,7 @@ function protectedAdminPage(req, res, next) {
   }
 }
 
+//protect user page
 function protectedUserPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
@@ -883,6 +882,7 @@ function protectedUserPage(req, res, next) {
   }
 }
 
+//protect registration page
 function protectedRegPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {

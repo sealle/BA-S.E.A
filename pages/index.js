@@ -13,6 +13,13 @@ import Layout from "../components/Layout";
 import HomeHeader from "../components/HomeHeader";
 
 class Index extends Component {
+
+  componentDidMount() {
+    Router.push('/login');
+  }
+
+  //No user for this page, delete?
+
   render() {
     return (
       <div>

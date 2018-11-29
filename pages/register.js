@@ -62,6 +62,7 @@ export default class RegisterPage extends Component {
                 Back to Login
               </Menu.Item>
             </Menu>
+            {/* Rendering the active component */}
             {this.state.activeItem === "person" ? <PersonRegister /> : null}
             {this.state.activeItem === "company" ? <CompanyRegister /> : null}
           </Segment>

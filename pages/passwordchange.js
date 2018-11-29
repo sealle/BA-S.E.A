@@ -28,6 +28,7 @@ class PwChange extends Component {
     this.confirmP = e => this._confirmP();
   }
 
+  //decode token in link to receive username
   componentDidMount() {
     let token = window.location.pathname.split("/");
     console.log(token[2]);
@@ -36,6 +37,7 @@ class PwChange extends Component {
     this.setState({ username: decoded.username });
   }
 
+  //send new password to server
   async _confirmP() {
     if (this.state.password == this.state.confirmPassword) {
       const formData = new FormData();

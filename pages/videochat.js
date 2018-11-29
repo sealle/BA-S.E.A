@@ -16,7 +16,6 @@ export default class VideoChatPage extends Component {
   render() {
     return (
       <div>
-        {/* <ProfileHeader /> */}
         <Layout>
           <VideoChat />
         </Layout>

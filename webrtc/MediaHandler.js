@@ -1,3 +1,4 @@
+//Function to get the users media
 export default class MediaHandler {
   getPermissions() {
     return new Promise((resolve, rej) => {

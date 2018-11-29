@@ -140,7 +140,7 @@ export default class VideoChat extends Component {
       let peer = this.peers[signal.userId];
       // if peer does not already exist, we got an incoming call
       if (peer === undefined) {
-        this.setState({ otherUserId: signal.userId });
+        // this.setState({ otherUserId: signal.userId });
         peer = this.startPeer(signal.userId, false);
 
         //callee //if offer is sent, stop!
@@ -159,12 +159,10 @@ export default class VideoChat extends Component {
     });
 
     peer.on("signal", data => {
-      //initiator
       channelName.trigger(`client-signal-${userId}`, {
         type: "signal",
-        userId: this.currentUser.id, //send event to callee from caller, caller receives event
+        userId: this.currentUser.id, 
         data: data,
-        renegotiate: false
       });
     });
 
@@ -230,7 +228,7 @@ export default class VideoChat extends Component {
             <div
               className="video-container"
               style={{
-                width: "100%",
+                width: "60%",
                 height: "380px",
                 margin: "0px auto",
                 position: "relative",

@@ -42,6 +42,7 @@ class Login extends Component {
         window.location.origin + "/authenticate",
         formData
       );
+      //Set cookies and place token in it
       if (res.data.success) {
         if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
           setCookie("x-access-token", res.data.adminToken, 1);
@@ -69,16 +70,11 @@ class Login extends Component {
   render() {
     return (
       <div>
-        {/* <HomeHeader /> */}
         <Layout>
-          {/* <Header as="h3" textAlign="center" style={{ marginBottom: 20 }}>
-            Please login or register
-          </Header> */}
           <Segment
             style={{
               maxWidth: "450px",
               margin: "auto",
-              // backgroundColor: "#2985d0",
               marginTop: "50px"
             }}
           >

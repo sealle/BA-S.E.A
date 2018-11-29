@@ -677,13 +677,13 @@ function (_Component) {
         href: "../static/".concat(this.state.doc1),
         type: "application/pdf",
         target: "_blank"
-      }, "View excerpt of commercial register"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, {
+      }, "View extract of the relevant registration authority"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Table"].Cell, {
         colSpan: 2
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         href: "../static/".concat(this.state.doc2),
         type: "application/pdf",
         target: "_blank"
-      }, "View provisions regulating the power to bind the legal entity"))))) : null))) : null))))));
+      }, "View electronic copy of the power of attorney"))))) : null))) : null))))));
     }
   }]);
 
@@ -922,10 +922,7 @@ function (_Component) {
         var peer = _this3.peers[signal.userId]; // if peer does not already exist, we got an incoming call
 
         if (peer === undefined) {
-          _this3.setState({
-            otherUserId: signal.userId
-          });
-
+          // this.setState({ otherUserId: signal.userId });
           peer = _this3.startPeer(signal.userId, false); //callee //if offer is sent, stop!
         }
 
@@ -946,13 +943,10 @@ function (_Component) {
         trickle: false
       });
       peer.on("signal", function (data) {
-        //initiator
         channelName.trigger("client-signal-".concat(userId), {
           type: "signal",
           userId: _this4.currentUser.id,
-          //send event to callee from caller, caller receives event
-          data: data,
-          renegotiate: false
+          data: data
         });
       });
       peer.on("stream", function (stream) {
@@ -1016,7 +1010,7 @@ function (_Component) {
       }, "Video Chat"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "video-container",
         style: {
-          width: "100%",
+          width: "60%",
           height: "380px",
           margin: "0px auto",
           position: "relative",
@@ -41931,7 +41925,7 @@ util.inherits = __webpack_require__(/*! inherits */ "./node_modules/inherits/inh
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(/*! util */ 7);
+var debugUtil = __webpack_require__(/*! util */ 5);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -43820,7 +43814,7 @@ Writable.prototype._destroy = function (err, cb) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(/*! safe-buffer */ "./node_modules/safe-buffer/index.js").Buffer;
-var util = __webpack_require__(/*! util */ 8);
+var util = __webpack_require__(/*! util */ 6);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -77812,12 +77806,14 @@ routes.add("passwordchange", "/passwordchange/:id", "passwordchange");
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCookie", function() { return setCookie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookie", function() { return getCookie; });
+//set cookie function
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   var expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + "HttpOnly;" + ";path=/";
-}
+} //get cookie function
+
 function getCookie(cname) {
   var name = cname + "=";
   var ca = document.cookie.split(";");
@@ -77879,6 +77875,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+//Function to get the users media
 var MediaHandler =
 /*#__PURE__*/
 function () {
@@ -77910,7 +77907,7 @@ function () {
 
 /***/ }),
 
-/***/ 6:
+/***/ 4:
 /*!******************************!*\
   !*** multi ./pages/admin.js ***!
   \******************************/
@@ -77924,7 +77921,7 @@ return { page: module.exports.default }});
 
 /***/ }),
 
-/***/ 7:
+/***/ 5:
 /*!**********************!*\
   !*** util (ignored) ***!
   \**********************/
@@ -77935,7 +77932,7 @@ return { page: module.exports.default }});
 
 /***/ }),
 
-/***/ 8:
+/***/ 6:
 /*!**********************!*\
   !*** util (ignored) ***!
   \**********************/
@@ -77957,5 +77954,5 @@ module.exports = dll_34718705b6f81f095be8;
 
 /***/ })
 
-},[[6,"static/runtime/webpack.js"]]]));;
+},[[4,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=admin.js.map

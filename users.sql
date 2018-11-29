@@ -1,6 +1,8 @@
+--Creating a database
 CREATE DATABASE MyDatabase;
 use MyDatabase;
 
+--Creating a table
 CREATE TABLE users (
     id int AUTO_INCREMENT PRIMARY KEY,
     username varchar(255),

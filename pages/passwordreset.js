@@ -23,6 +23,7 @@ class PwReset extends Component {
     this.pwReset = e => this._pwReset();
   }
 
+  //send username and email to server
   async _pwReset() {
     const formData = new FormData();
     formData.append("username", this.state.username);

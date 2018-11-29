@@ -29,7 +29,7 @@ class Terms extends Component {
       checked5: false,
       countMembers: ""
     };
-    this.getMembersCount();
+    // this.getMembersCount();
     this.toVideo = this.toVideo.bind(this);
     this.handleCheck1 = this.handleCheck1.bind(this);
     this.handleCheck2 = this.handleCheck2.bind(this);
@@ -38,7 +38,7 @@ class Terms extends Component {
     this.handleCheck5 = this.handleCheck5.bind(this);
   }
 
-  async getMembersCount() {
+  // async getMembersCount() {
     // const response = await axios.post(
     //   window.location.origin + "/pusher/members"
     // );
@@ -52,28 +52,35 @@ class Terms extends Component {
     // // } else {
     // //   this.setState({ loading: false });
     // // }
-  }
-
+  // }
+  
+  //handling checkbox input
   handleCheck1() {
     this.setState({ checked1: !this.state.checked1 });
   }
 
+  //handling checkbox input
   handleCheck2() {
     this.setState({ checked2: !this.state.checked2 });
   }
 
+  //handling checkbox input
   handleCheck3() {
     this.setState({ checked3: !this.state.checked3 });
   }
 
+  //handling checkbox input
   handleCheck4() {
     this.setState({ checked4: !this.state.checked4 });
   }
 
+  //handling checkbox input
   handleCheck5() {
     this.setState({ checked5: !this.state.checked5 });
   }
 
+  //Submit to next page
+  //TODO: Use tokens to protect videochat (only if agreed terms and only if channel count == 1)
   toVideo() {
     // if (this.state.countMembers !== undefined) {
     //   // swal("Attention", "Admin is occupied, please wait...", "warning");
@@ -87,7 +94,6 @@ class Terms extends Component {
   render() {
     return (
       <div>
-        {/* <ProfileHeader /> */}
         <Layout>
           {/* <p>{this.state.moreThanTwo}</p> */}
           <style>{`
@@ -111,7 +117,6 @@ class Terms extends Component {
               Make sure you accept all terms and conditions
             </Header>
             <Container textAlign="center">
-              {/* <p>aklshdflakjsdhfkahsdf</p> */}
               <Checkbox
                 label="I confirm to have my identity card ready"
                 required
@@ -127,7 +132,6 @@ class Terms extends Component {
                 />
               ) : null}
               <Divider />
-              {/* <p>aksjdgfljhasdfsdfljasldkjhf</p> */}
               <Checkbox
                 label="I agree that the audio line is beeing recorded"
                 required
@@ -143,7 +147,6 @@ class Terms extends Component {
                 />
               ) : null}
               <Divider />
-              {/* <p>aksjdgfljhasdfsdfljasldkjhf</p> */}
               <Checkbox
                 label="I confirm that I have a good internet connection"
                 required

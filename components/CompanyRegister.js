@@ -307,7 +307,7 @@ class CompanyRegister extends Component {
             <Form.Group />
             <Form.Group>
               <Form.Input
-                width="ten"
+                width="eight"
                 fluid
                 name="compName"
                 required
@@ -385,10 +385,9 @@ class CompanyRegister extends Component {
                 fluid
                 name="doc1"
                 id="doc1"
-                required
                 type="file"
                 width="sixteen"
-                label="Excerpt of commercial register (1 page only!)"
+                label="Electronic extract of the relevant registration authority"
                 onChange={this.handleDocFileChange}
               />
             </Form.Group>
@@ -400,7 +399,7 @@ class CompanyRegister extends Component {
                 required
                 type="file"
                 width="sixteen"
-                label="Provisions regulating the power to bind the legal entity (1 page only!)"
+                label="Electronic copy of the power of attorney"
                 onChange={this.handleDoc2FileChange}
               />
             </Form.Group>
