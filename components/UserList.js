@@ -7,7 +7,9 @@ import {
   List,
   Grid,
   Button,
-  Segment
+  Segment,
+  Form,
+  Message
 } from "semantic-ui-react";
 import Layout from "../components/Layout";
 // import getCurrentUser from "../utils/UserUtils";
@@ -22,10 +24,13 @@ export default class UserList extends Component {
       test: "",
       isChosen: false,
       isPromoted: false,
-      isComp: ""
+      isComp: "",
+      inEdit: false,
     };
     //this.currentUser = getCurrentUser();
     this.makeAdmin = e => this._makeAdmin();
+    this.toEdit = this.toEdit.bind(this);
+    this.backEdit = this.backEdit.bind(this);
   }
 
   async componentDidMount() {
@@ -75,6 +80,14 @@ export default class UserList extends Component {
       console.log(error);
     }
     this.setState({ isPromoted: true });
+  }
+
+  toEdit() {
+    this.setState({inEdit: "true"})
+  }
+
+  backEdit() {
+    this.setState({inEdit: "false"})
   }
 
   //TODO: Create UserProfile component with default template
@@ -133,6 +146,7 @@ export default class UserList extends Component {
                             {this.state.usrs[0].lname},{" "}
                             {this.state.usrs[0].fname}
                           </Header>
+                          {this.state.inEdit === false ?
                           <Table>
                             <Table.Body>
                               <Table.Row>
@@ -147,7 +161,7 @@ export default class UserList extends Component {
                                     Username:
                                   </p>
                                   {this.state.usrs[0].username}
-                                </Table.Cell>
+                                  </Table.Cell>
                                 <Table.Cell>
                                   <p
                                     style={{
@@ -337,8 +351,138 @@ export default class UserList extends Component {
                                   )}
                                 </Table.Cell>
                               </Table.Row>
+                              <Table.Row>
+                                <Table.Cell colSpan={2}>
+                                  <Button 
+                                    primary 
+                                    fluid 
+                                    onClick={()=> {this.setState({inEdit: true})}}>
+                                  Edit
+                                  </Button>
+                                </Table.Cell>
+                              </Table.Row>
                             </Table.Body>
                           </Table>
+                          : <Form onSubmit={this.handleSubmit} error={this.state.errorMessage}>
+                          <Button primary style={{backgroundColor: "white", marginLeft:"92%", width: "10px"}} onClick={()=> {this.setState({inEdit: false})}}>
+                          <Icon name="close" size="large" color="blue"></Icon>
+                          </Button>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="Username"
+                              placeholder={this.state.usrs[0].username}
+                              name="username"
+                            />
+                            <Form.Input
+                              fluid
+                              label="ID"
+                              placeholder={this.state.usrs[0].id}
+                            />
+                          </Form.Group>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="First Name"
+                              placeholder={this.state.usrs[0].fname}
+                              name="fname"
+                            />
+                            <Form.Input
+                              fluid
+                              label="Last Name"
+                              placeholder={this.state.usrs[0].lname}
+                              name="lname"
+                              value={this.state.lname}
+                              onChange={event => this.setState({ lname: event.target.value })}
+                            />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.Input
+                              width="eleven"
+                              fluid
+                              label="Street"
+                              placeholder={this.state.usrs[0].street}
+                              name="street"
+                              value={this.state.street}
+                              onChange={event =>
+                                this.setState({ street: event.target.value })
+                              }
+                            />
+                            <Form.Input
+                              width="five"
+                              type="number"
+                              fluid
+                              label="House Number"
+                              placeholder={this.state.usrs[0].houseNr}
+                              name="houseNr"
+                              value={this.state.houseNr}
+                              onChange={event =>
+                                this.setState({ houseNr: event.target.value })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.Input
+                              width="six"
+                              fluid
+                              type="number"
+                              label="Postal Code"
+                              placeholder={this.state.usrs[0].postCode}
+                              name="postCode"
+                              value={this.state.postCode}
+                              onChange={event =>
+                                this.setState({ postCode: event.target.value })
+                              }
+                            />
+                            <Form.Input
+                              width="ten"
+                              fluid
+                              label="Place of Residence"
+                              placeholder={this.state.usrs[0].placeOfRes}
+                              name="placeOfRes"
+                              value={this.state.placeOfRes}
+                              onChange={event =>
+                                this.setState({ placeOfRes: event.target.value })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="Date of Birth"
+                              placeholder={this.state.usrs[0].dateOfBirth}
+                            />
+                            <Form.Input
+                              fluid
+                              label="Nationality"
+                              placeholder={this.state.usrs[0].nat}
+                              name="nat"
+                              value={this.state.nat}
+                              onChange={event => this.setState({ nat: event.target.value })}
+                            />
+                          </Form.Group>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="Email"
+                              type="email"
+                              placeholder={this.state.usrs[0].email}
+                              name="email"
+                              value={this.state.email}
+                              onChange={event => this.setState({ email: event.target.value })}
+                            />
+                            <Form.Input
+                              fluid
+                              label="Mobile Number"
+                              type="number"
+                              placeholder={this.state.usrs[0].mobNr}
+                              name="mobNr"
+                              value={this.state.mobNr}
+                              onChange={event => this.setState({ mobNr: event.target.value })}
+                            />
+                          </Form.Group>
+                            </Form> }
+                          {this.state.inEdit === false ? 
                           <Grid>
                             <Grid.Column width={8}>
                               <img
@@ -362,7 +506,7 @@ export default class UserList extends Component {
                                 }}
                               />
                             </Grid.Column>
-                          </Grid>
+                          </Grid> : null }
 
                           {this.state.isComp === 1 ? (
                             <Table>
