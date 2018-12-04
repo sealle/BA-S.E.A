@@ -117,7 +117,7 @@ export default class UserList extends Component {
                         key={member.id}
                         onClick={this.selectUser.bind(this, member)}
                       >
-                        <Icon name="user" size="large" verticalAlign="middle" />
+                        <Icon name="user" size="large" style={{paddingTop: "5px"}} />
                         <List.Content>
                           <List.Header as="a">{member.username}</List.Header>
                           <List.Description as="a">

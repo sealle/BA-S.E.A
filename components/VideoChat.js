@@ -134,6 +134,7 @@ export default class VideoChat extends Component {
 
     channelName.bind("pusher:member_removed", member => {
       swal("Removed member", `${member.id}`, "success");
+      //reload admin page?
     });
 
     channelName.bind(`client-signal-${this.currentUser.id}`, signal => {

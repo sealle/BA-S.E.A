@@ -1,0 +1,6 @@
+import web3 from "./web3";
+
+const address = "0x277E282E415F991a5f3D066bEaAF59c37Df6b6e6"; //address of SC
+const abi = [{"constant":false,"inputs":[{"name":"newConfirmation","type":"bool"}],"name":"answer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"kycAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newMessage","type":"string"}],"name":"transfer","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[],"name":"payKYC","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"platformAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"kycKey","type":"string"}],"name":"KycListen","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"confirmed","type":"bool"}],"name":"PlatformListen","type":"event"}]
+
+export default new web3.eth.Contract(abi, address);

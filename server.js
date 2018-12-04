@@ -56,7 +56,7 @@ app
     server.use(cookieParser());
     server.use(fileUpload());
 
-    //Registration 
+    //Registration
     server.post("/register", urlEncodedParser, (req, response) => {
       let image = req.files.file1;
       let image2 = req.files.file2;
@@ -68,7 +68,6 @@ app
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
           let date = new Date();
           let body = req.body;
-
 
           //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
           let sql =
@@ -353,10 +352,10 @@ app
           response
             .status(400)
             .json({ message: "Database Server is not connected!" });
-        } else if(!result.length) {
+        } else if (!result.length) {
           response
             .status(400)
-            .json({ message: "Please register to login!" });
+            .json({ message: "Username or password is incorrect!" });
         } else if (result[0].active == "0") {
           response
             .status(400)
@@ -579,7 +578,7 @@ app
       }
     });
 
-    //Get current user 
+    //Get current user
     server.post("/currentuser", urlEncodedParser, function(req, response) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
@@ -747,7 +746,7 @@ app
       }
     );
 
-    //Protect profile view 
+    //Protect profile view
     server.get("/profile", protectedUserPage, (req, response, next) => {
       return next();
     });
@@ -807,6 +806,46 @@ app
 
       let auth = pusher.authenticate(socketId, channel, presenceData);
       res.send(auth);
+    });
+
+    server.post("/verify", urlEncodedParser, function(req, response) {
+      let body = req.body;
+      let checkKycKey = "SELECT * FROM users WHERE kycKey= '" + body.kycKey + "'";
+      database.connection.query(checkKycKey, function(err, result, fields) {
+        if (err) {
+          console.log("error")
+        } else {
+          if (result.length) {
+            response.status(200).json({
+              confirmed: true,
+              success: true
+            });
+            let storeAddress =
+              "UPDATE users SET ethAddress='" +
+              body.toAddress +
+              "' WHERE kycKey= '" +
+              body.kycKey +
+              "'";
+            database.connection.query(storeAddress, function(
+              err,
+              result,
+              fields
+            ) {
+              //do table ethAddresses innerjoin users
+              if (err) {
+                throw err;
+              } else {
+                console.log("address saved in db");
+              }
+            });
+          } else {
+            response.status(500).json({
+              success: false,
+              confirmed: false
+            });
+          }
+        }
+      });
     });
 
     server.get("*", (req, res) => {
