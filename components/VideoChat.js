@@ -13,9 +13,6 @@ import {
   Icon,
   Form
 } from "semantic-ui-react";
-import { getCookie } from "../utils/CookieUtils";
-import jwtDecode from "jwt-decode";
-import getCurrentUser from "../utils/UserUtils";
 import axios from "axios";
 import { Router } from "../routes";
 import swal from "sweetalert2";

@@ -839,8 +839,8 @@ app
               }
             });
           } else {
-            response.status(500).json({
-              success: false,
+            response.status(200).json({
+              success: true,
               confirmed: false
             });
           }

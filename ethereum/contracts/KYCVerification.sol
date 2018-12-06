@@ -1,7 +1,7 @@
 pragma solidity ^0.4.17;
 
 contract KYCVerification {
-    address public kycAddress = 0x4399C3daed9b7cce56b7Edd4157FA3bDe3385d2A;
+    address private kycAddress = 0x4399C3daed9b7cce56b7Edd4157FA3bDe3385d2A;
     
     event KycListen(
         string kycKey,

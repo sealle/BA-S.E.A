@@ -30,7 +30,7 @@ class Terms extends Component {
       countMembers: ""
     };
     // this.getMembersCount();
-    this.toVideo = this.toVideo.bind(this);
+    this.toPayment = this.toPayment.bind(this);
     this.handleCheck1 = this.handleCheck1.bind(this);
     this.handleCheck2 = this.handleCheck2.bind(this);
     this.handleCheck3 = this.handleCheck3.bind(this);
@@ -81,13 +81,13 @@ class Terms extends Component {
 
   //Submit to next page
   //TODO: Use tokens to protect videochat (only if agreed terms and only if channel count == 1)
-  toVideo() {
+  toPayment() {
     // if (this.state.countMembers !== undefined) {
     //   // swal("Attention", "Admin is occupied, please wait...", "warning");
     //   this.setState({ loading: true });
     // } else {
     this.setState({ loading: false });
-    Router.push("/videochat");
+    Router.push("/payment");
     // }
   }
 
@@ -201,7 +201,7 @@ class Terms extends Component {
                   primary
                   icon
                   labelPosition="right"
-                  onClick={this.toVideo}
+                  onClick={this.toPayment}
                 >
                   Next
                   <Icon name="right arrow" />
