@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -143,7 +143,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _web3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./web3 */ "./ethereum/src/web3.js");
 
-var contractAddress = "0x7bef31F17d4305A7f0AEdDC64feF61Dd6C0620C6"; //address of SC
+var contractAddress = "0xe78285A95542F415A20c46933544b0bDfCC3263B"; //address of SC
 
 var contractABI = [{
   constant: false,
@@ -158,14 +158,6 @@ var contractABI = [{
   type: "function"
 }, {
   constant: false,
-  inputs: [],
-  name: "payKYC",
-  outputs: [],
-  payable: true,
-  stateMutability: "payable",
-  type: "function"
-}, {
-  constant: false,
   inputs: [{
     name: "kycKey",
     type: "string"
@@ -173,7 +165,15 @@ var contractABI = [{
     name: "platformAddress",
     type: "address"
   }],
-  name: "transfer",
+  name: "verify",
+  outputs: [],
+  payable: true,
+  stateMutability: "payable",
+  type: "function"
+}, {
+  constant: false,
+  inputs: [],
+  name: "payKYC",
   outputs: [],
   payable: true,
   stateMutability: "payable",
@@ -187,6 +187,10 @@ var contractABI = [{
   }, {
     indexed: false,
     name: "platformAddress",
+    type: "address"
+  }, {
+    indexed: false,
+    name: "sender",
     type: "address"
   }],
   name: "KycListen",
@@ -341,24 +345,10 @@ function (_Component) {
       var _componentWillMount = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _this2 = this;
-
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                setInterval(function () {
-                  _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_7__["default"].eth.getAccounts(function (err, accounts) {
-                    if (err != null) console.error("An error occurred: " + err);else if (accounts.length == 0) _this2.setState({
-                      metaMask: false
-                    });else _this2.setState({
-                      metaMask: true,
-                      myAddress: accounts[0]
-                    });
-                  });
-                }, 500);
-
-              case 1:
               case "end":
                 return _context.stop();
             }
@@ -475,17 +465,58 @@ function (_Component) {
       var _ownerFormSubmit2 = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var formData;
+        var formData, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                this.setState({
+                  loading: true
+                });
                 formData = new FormData();
-                formData.append("ownerName", this.state.ownerFname);
-                console.log(this.state.ownerFname);
-                console.log(formData);
+                formData.append("ownerFname", this.state.ownerFname);
+                formData.append("ownerLname", this.state.ownerLname);
+                formData.append("ownerStreet", this.state.ownerStreet);
+                formData.append("ownerHouseNr", this.state.ownerHouseNr);
+                formData.append("ownerPostCode", this.state.ownerPostCode);
+                formData.append("ownerPlaceOfRes", this.state.ownerPlaceOfRes);
+                formData.append("ownerDateOfBirth", this.state.ownerDateOfBirth);
 
-              case 4:
+                if (this.state.ownerFname2 && this.state.ownerLname2 && this.state.ownerStreet2 && this.state.ownerHouseNr2 && this.state.ownerPostCode2 && this.state.ownerPlaceOfRes2 && this.state.ownerDateOfBirth2) {
+                  formData.append("ownerFname2", this.state.ownerFname2);
+                  formData.append("ownerLname2", this.state.ownerLname2);
+                  formData.append("ownerStreet2", this.state.ownerStreet2);
+                  formData.append("ownerHouseNr2", this.state.ownerHouseNr2);
+                  formData.append("ownerPostCode2", this.state.ownerPostCode2);
+                  formData.append("ownerPlaceOfRes2", this.state.ownerPlaceOfRes2);
+                  formData.append("ownerDateOfBirth2", this.state.ownerDateOfBirth2);
+                }
+
+                if (this.state.ownerFname3 && this.state.ownerLname3 && this.state.ownerStreet3 && this.state.ownerHouseNr3 && this.state.ownerPostCode3 && this.state.ownerPlaceOfRes3 && this.state.ownerDateOfBirth3) {
+                  formData.append("ownerFname3", this.state.ownerFname3);
+                  formData.append("ownerLname3", this.state.ownerLname3);
+                  formData.append("ownerStreet3", this.state.ownerStreet3);
+                  formData.append("ownerHouseNr3", this.state.ownerHouseNr3);
+                  formData.append("ownerPostCode3", this.state.ownerPostCode3);
+                  formData.append("ownerPlaceOfRes3", this.state.ownerPlaceOfRes3);
+                  formData.append("ownerDateOfBirth3", this.state.ownerDateOfBirth3);
+                }
+
+                _context2.next = 13;
+                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/assets", formData);
+
+              case 13:
+                response = _context2.sent;
+
+                if (response.data.success) {
+                  this.setState({
+                    loading: false,
+                    terms: true,
+                    pay: false
+                  });
+                }
+
+              case 15:
               case "end":
                 return _context2.stop();
             }
@@ -554,7 +585,7 @@ function (_Component) {
                 break;
 
               case 14:
-                if (this.state.value == 0) {
+                if (this.state.value === 0) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
                     title: "Congratulations!",
                     text: "You have paid. You will be redirected to the video identification",
@@ -591,7 +622,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       var _ref,
-          _this3 = this,
+          _this2 = this,
           _ref2,
           _ref3;
 
@@ -599,9 +630,7 @@ function (_Component) {
         style: {
           marginTop: "50px"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Dimmer"], {
-        active: this.state.loading
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Loader"], null, "Admin is in a Call...")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
         as: "h1",
         textAlign: "center",
         style: {
@@ -653,11 +682,11 @@ function (_Component) {
           fontWeight: "bold"
         }, _defineProperty(_ref, "fontWeight", "900"), _defineProperty(_ref, "fontSize", "17px"), _defineProperty(_ref, "borderRadius", "100%"), _defineProperty(_ref, "display", "inline"), _defineProperty(_ref, "paddingLeft", "6px"), _defineProperty(_ref, "paddingRight", "7px"), _defineProperty(_ref, "backgroundColor", "black"), _defineProperty(_ref, "color", "white"), _ref)
       }, "1"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"], {
-        onSubmit: this.ownerFormSubmit(),
+        onSubmit: this.ownerFormSubmit,
         style: {
           marginTop: "1%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         widths: "equal"
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         fluid: true,
@@ -667,7 +696,7 @@ function (_Component) {
         name: "ownerFname",
         value: this.state.ownerFname,
         onChange: function onChange(event) {
-          return _this3.setState({
+          return _this2.setState({
             ownerFname: event.target.value
           });
         }
@@ -676,10 +705,10 @@ function (_Component) {
         label: "Last Name",
         placeholder: "Last Name",
         required: true,
-        name: "ownerLastName",
+        name: "ownerlastName",
         value: this.state.ownerLname,
         onChange: function onChange(event) {
-          return _this3.setState({
+          return _this2.setState({
             ownerLname: event.target.value
           });
         }
@@ -692,13 +721,12 @@ function (_Component) {
         name: "ownerStreet",
         value: this.state.ownerStreet,
         onChange: function onChange(event) {
-          return _this3.setState({
+          return _this2.setState({
             ownerStreet: event.target.value
           });
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         width: "five",
-        type: "number",
         fluid: true,
         label: "House Number",
         required: true,
@@ -706,7 +734,7 @@ function (_Component) {
         name: "ownerHouseNr",
         value: this.state.ownerHouseNr,
         onChange: function onChange(event) {
-          return _this3.setState({
+          return _this2.setState({
             ownerHouseNr: event.target.value
           });
         }
@@ -720,7 +748,7 @@ function (_Component) {
         name: "ownerPostCode",
         value: this.state.ownerPostCode,
         onChange: function onChange(event) {
-          return _this3.setState({
+          return _this2.setState({
             ownerPostCode: event.target.value
           });
         }
@@ -733,7 +761,7 @@ function (_Component) {
         name: "ownerPlaceOfRes",
         value: this.state.ownerPlaceOfRes,
         onChange: function onChange(event) {
-          return _this3.setState({
+          return _this2.setState({
             ownerPlaceOfRes: event.target.value
           });
         }
@@ -745,47 +773,44 @@ function (_Component) {
         type: "date",
         required: true,
         placeholder: "YYYY-MM-DD",
-        name: "dateOfBirth",
-        value: this.state.dateOfBirth,
+        name: "ownerDateOfBirth",
+        value: this.state.ownerDateOfBirth,
         onChange: function onChange(event) {
-          return _this3.setState({
-            dateOfBirth: event.target.value
+          return _this2.setState({
+            ownerDateOfBirth: event.target.value
           });
         }
-      })))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
         style: {
-          textAlign: "left"
+          textAlign: "left",
+          marginTop: "1%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
         style: (_ref2 = {
           fontWeight: "bold"
         }, _defineProperty(_ref2, "fontWeight", "900"), _defineProperty(_ref2, "fontSize", "17px"), _defineProperty(_ref2, "borderRadius", "100%"), _defineProperty(_ref2, "display", "inline"), _defineProperty(_ref2, "paddingLeft", "6px"), _defineProperty(_ref2, "paddingRight", "7px"), _defineProperty(_ref2, "backgroundColor", "black"), _defineProperty(_ref2, "color", "white"), _ref2)
-      }, "2"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"], {
-        style: {
-          marginTop: "1%"
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+      }, "2"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         widths: "equal"
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         fluid: true,
         label: "First Name",
         placeholder: "First Name",
-        name: "fname",
-        value: this.state.fname,
+        name: "ownerFname2",
+        value: this.state.ownerFname2,
         onChange: function onChange(event) {
-          return _this3.setState({
-            fname: event.target.value
+          return _this2.setState({
+            ownerFname2: event.target.value
           });
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         fluid: true,
         label: "Last Name",
         placeholder: "Last Name",
-        name: "lname",
-        value: this.state.lname,
+        name: "ownerLname2",
+        value: this.state.ownerLname2,
         onChange: function onChange(event) {
-          return _this3.setState({
-            lname: event.target.value
+          return _this2.setState({
+            ownerLname2: event.target.value
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
@@ -793,24 +818,23 @@ function (_Component) {
         fluid: true,
         label: "Street",
         placeholder: "Street",
-        name: "street",
-        value: this.state.street,
+        name: "ownerStreet2",
+        value: this.state.ownerStreet2,
         onChange: function onChange(event) {
-          return _this3.setState({
-            street: event.target.value
+          return _this2.setState({
+            ownerStreet2: event.target.value
           });
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         width: "five",
-        type: "number",
         fluid: true,
         label: "House Number",
         placeholder: "House Number",
-        name: "houseNr",
-        value: this.state.houseNr,
+        name: "ownerHouseNr2",
+        value: this.state.ownerHouseNr2,
         onChange: function onChange(event) {
-          return _this3.setState({
-            houseNr: event.target.value
+          return _this2.setState({
+            ownerHouseNr2: event.target.value
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
@@ -819,11 +843,11 @@ function (_Component) {
         type: "number",
         label: "Postal Code",
         placeholder: "Postal Code",
-        name: "postCode",
-        value: this.state.postCode,
+        name: "ownerPostCode2",
+        value: this.state.ownerPostCode2,
         onChange: function onChange(event) {
-          return _this3.setState({
-            postCode: event.target.value
+          return _this2.setState({
+            ownerPostCode2: event.target.value
           });
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
@@ -831,11 +855,11 @@ function (_Component) {
         fluid: true,
         label: "Place of Residenz",
         placeholder: "Place of Residence",
-        name: "placeOfRes",
-        value: this.state.placeOfRes,
+        name: "ownerPlaceOfRes2",
+        value: this.state.ownerPlaceOfRes2,
         onChange: function onChange(event) {
-          return _this3.setState({
-            placeOfRes: event.target.value
+          return _this2.setState({
+            ownerPlaceOfRes2: event.target.value
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -845,49 +869,44 @@ function (_Component) {
         label: "Date of Birth",
         type: "date",
         placeholder: "YYYY-MM-DD",
-        name: "dateOfBirth",
-        value: this.state.dateOfBirth,
+        name: "ownerDateOfBirth2",
+        value: this.state.ownerDateOfBirth2,
         onChange: function onChange(event) {
-          return _this3.setState({
-            dateOfBirth: event.target.value
+          return _this2.setState({
+            ownerDateOfBirth2: event.target.value
           });
         }
-      })))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
         style: {
-          textAlign: "left"
+          textAlign: "left",
+          marginTop: "1%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
         style: (_ref3 = {
           fontWeight: "bold"
         }, _defineProperty(_ref3, "fontWeight", "900"), _defineProperty(_ref3, "fontSize", "17px"), _defineProperty(_ref3, "borderRadius", "100%"), _defineProperty(_ref3, "display", "inline"), _defineProperty(_ref3, "paddingLeft", "6px"), _defineProperty(_ref3, "paddingRight", "7px"), _defineProperty(_ref3, "backgroundColor", "black"), _defineProperty(_ref3, "color", "white"), _ref3)
-      }, "3"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"], {
-        style: {
-          marginTop: "1%"
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+      }, "3"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         widths: "equal"
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         fluid: true,
         label: "First Name",
         placeholder: "First Name",
-        required: true,
-        name: "fname",
-        value: this.state.fname,
+        name: "ownerFname3",
+        value: this.state.ownerFname3,
         onChange: function onChange(event) {
-          return _this3.setState({
-            fname: event.target.value
+          return _this2.setState({
+            ownerFname3: event.target.value
           });
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         fluid: true,
         label: "Last Name",
         placeholder: "Last Name",
-        required: true,
-        name: "lname",
-        value: this.state.lname,
+        name: "ownerLname3",
+        value: this.state.ownerLname3,
         onChange: function onChange(event) {
-          return _this3.setState({
-            lname: event.target.value
+          return _this2.setState({
+            ownerLname3: event.target.value
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
@@ -895,26 +914,23 @@ function (_Component) {
         fluid: true,
         label: "Street",
         placeholder: "Street",
-        required: true,
-        name: "street",
-        value: this.state.street,
+        name: "ownerStreet3",
+        value: this.state.ownerStreet3,
         onChange: function onChange(event) {
-          return _this3.setState({
-            street: event.target.value
+          return _this2.setState({
+            ownerStreet3: event.target.value
           });
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         width: "five",
-        type: "number",
         fluid: true,
         label: "House Number",
-        required: true,
         placeholder: "House Number",
-        name: "houseNr",
-        value: this.state.houseNr,
+        name: "ownerHouseNr3",
+        value: this.state.ownerHouseNr3,
         onChange: function onChange(event) {
-          return _this3.setState({
-            houseNr: event.target.value
+          return _this2.setState({
+            ownerHouseNr3: event.target.value
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
@@ -922,26 +938,24 @@ function (_Component) {
         fluid: true,
         type: "number",
         label: "Postal Code",
-        required: true,
         placeholder: "Postal Code",
-        name: "postCode",
-        value: this.state.postCode,
+        name: "ownerPostCode3",
+        value: this.state.ownerPostCode3,
         onChange: function onChange(event) {
-          return _this3.setState({
-            postCode: event.target.value
+          return _this2.setState({
+            ownerPostCode3: event.target.value
           });
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
         width: "ten",
         fluid: true,
         label: "Place of Residenz",
-        required: true,
         placeholder: "Place of Residence",
-        name: "placeOfRes",
-        value: this.state.placeOfRes,
+        name: "ownerPlaceOfRes3",
+        value: this.state.ownerPlaceOfRes3,
         onChange: function onChange(event) {
-          return _this3.setState({
-            placeOfRes: event.target.value
+          return _this2.setState({
+            ownerPlaceOfRes3: event.target.value
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -950,36 +964,51 @@ function (_Component) {
         fluid: true,
         label: "Date of Birth",
         type: "date",
-        required: true,
         placeholder: "YYYY-MM-DD",
-        name: "dateOfBirth",
-        value: this.state.dateOfBirth,
+        name: "ownerDateOfBirth3",
+        value: this.state.ownerDateOfBirth3,
         onChange: function onChange(event) {
-          return _this3.setState({
-            dateOfBirth: event.target.value
+          return _this2.setState({
+            ownerDateOfBirth3: event.target.value
           });
         }
-      }))))) : null, this.state.checkedAssets1 || this.state.checkedAssets2 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Container"], {
+        style: {
+          display: "inline-block"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         primary: true,
         icon: true,
+        floated: "right",
+        labelPosition: "right" // onClick={this.toTerms}
+
+      }, "Next", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
+        name: "right arrow"
+      })))))) : null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Container"], {
+        style: {
+          display: "inline-block"
+        }
+      }, this.state.checkedAssets1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        primary: true,
+        icon: true,
+        floated: "right",
         labelPosition: "right",
         onClick: this.toTerms
       }, "Next", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
         name: "right arrow"
-      })) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+      })) : !this.state.checkedAssets1 && !this.state.checkedAssets2 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         primary: true,
         icon: true,
+        floated: "right",
         labelPosition: "right",
         disabled: true
       }, "Next", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
         name: "right arrow"
-      })))) : this.state.terms == true && this.state.pay == false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
+      })) : null)) : this.state.terms == true && this.state.pay == false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
         style: {
           marginTop: "50px"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Dimmer"], {
-        active: this.state.loading
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Loader"], null, "Admin is in a Call...")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
         as: "h1",
         textAlign: "center",
         style: {
@@ -1143,7 +1172,7 @@ function (_Component) {
         id: "value",
         value: this.state.value,
         onChange: function onChange(event) {
-          return _this3.setState({
+          return _this2.setState({
             value: event.target.value
           });
         }
@@ -1233,7 +1262,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!************************************!*\
   !*** multi ./pages/clickandpay.js ***!
   \************************************/

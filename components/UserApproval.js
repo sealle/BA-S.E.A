@@ -3,7 +3,6 @@ import { Button, Message, Form } from "semantic-ui-react";
 import users from "../ethereum/src/users";
 import web3 from "../ethereum/src/web3";
 import axios from "axios";
-import getCurrentUser from "../utils/UserUtils";
 
 export default class UserApproval extends Component {
   constructor() {

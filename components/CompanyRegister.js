@@ -185,7 +185,6 @@ class CompanyRegister extends Component {
               />
               <Form.Input
                 width="five"
-                type="number"
                 fluid
                 label="House Number"
                 required

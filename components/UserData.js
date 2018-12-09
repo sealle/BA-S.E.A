@@ -253,6 +253,20 @@ export default class UserData extends Component {
                         {member.regDate}
                       </Table.Cell>
                     </Table.Row>
+                    <Table.Row>
+                      <Table.Cell colSpan={2}>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            display: "inline-block",
+                            paddingRight: "10px"
+                          }}
+                        >
+                          KYC Key:
+                        </p>
+                        {member.kycKey}
+                      </Table.Cell>
+                    </Table.Row>
                   </Table.Body>
                 ))}
               </Table>

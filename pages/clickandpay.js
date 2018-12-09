@@ -60,13 +60,13 @@ class Assets extends Component {
   }
 
   async componentWillMount() {
-    setInterval(() => {
-      web3.eth.getAccounts((err, accounts) => {
-        if (err != null) console.error("An error occurred: " + err);
-        else if (accounts.length == 0) this.setState({ metaMask: false });
-        else this.setState({ metaMask: true, myAddress: accounts[0] });
-      });
-    }, 500);
+    // setInterval(() => {
+    //   web3.eth.getAccounts((err, accounts) => {
+    //     if (err != null) console.error("An error occurred: " + err);
+    //     else if (accounts.length == 0) this.setState({ metaMask: false });
+    //     else this.setState({ metaMask: true, myAddress: accounts[0] });
+    //   });
+    // }, 500);
   }
 
   handleCheckAssets1() {
@@ -126,10 +126,61 @@ class Assets extends Component {
 
   //send beneficial owner data to server
   async _ownerFormSubmit() {
+    this.setState({ loading: true });
+
     const formData = new FormData();
-    formData.append("ownerName", this.state.ownerFname);
-    console.log(this.state.ownerFname);
-    console.log(formData);
+
+    formData.append("ownerFname", this.state.ownerFname);
+    formData.append("ownerLname", this.state.ownerLname);
+    formData.append("ownerStreet", this.state.ownerStreet);
+    formData.append("ownerHouseNr", this.state.ownerHouseNr);
+    formData.append("ownerPostCode", this.state.ownerPostCode);
+    formData.append("ownerPlaceOfRes", this.state.ownerPlaceOfRes);
+    formData.append("ownerDateOfBirth", this.state.ownerDateOfBirth);
+
+    if (
+      this.state.ownerFname2 &&
+      this.state.ownerLname2 &&
+      this.state.ownerStreet2 &&
+      this.state.ownerHouseNr2 &&
+      this.state.ownerPostCode2 &&
+      this.state.ownerPlaceOfRes2 &&
+      this.state.ownerDateOfBirth2
+    ) {
+      formData.append("ownerFname2", this.state.ownerFname2);
+      formData.append("ownerLname2", this.state.ownerLname2);
+      formData.append("ownerStreet2", this.state.ownerStreet2);
+      formData.append("ownerHouseNr2", this.state.ownerHouseNr2);
+      formData.append("ownerPostCode2", this.state.ownerPostCode2);
+      formData.append("ownerPlaceOfRes2", this.state.ownerPlaceOfRes2);
+      formData.append("ownerDateOfBirth2", this.state.ownerDateOfBirth2);
+    } 
+
+    if(
+      this.state.ownerFname3 &&
+      this.state.ownerLname3 &&
+      this.state.ownerStreet3 &&
+      this.state.ownerHouseNr3 &&
+      this.state.ownerPostCode3 &&
+      this.state.ownerPlaceOfRes3 &&
+      this.state.ownerDateOfBirth3
+    ) {
+      formData.append("ownerFname3", this.state.ownerFname3);
+      formData.append("ownerLname3", this.state.ownerLname3);
+      formData.append("ownerStreet3", this.state.ownerStreet3);
+      formData.append("ownerHouseNr3", this.state.ownerHouseNr3);
+      formData.append("ownerPostCode3", this.state.ownerPostCode3);
+      formData.append("ownerPlaceOfRes3", this.state.ownerPlaceOfRes3);
+      formData.append("ownerDateOfBirth3", this.state.ownerDateOfBirth3);
+    }
+
+    let response = await axios.post(
+      window.location.origin + "/assets",
+      formData
+    );
+    if (response.data.success) {
+      this.setState({ loading: false, terms: true, pay: false });
+    }
   }
 
   //execute ether payment
@@ -156,7 +207,7 @@ class Assets extends Component {
           Router.push("/videochat");
         }
       });
-    } else if (this.state.value == 0) {
+    } else if (this.state.value === 0) {
       swal({
         title: "Congratulations!",
         text:
@@ -184,9 +235,9 @@ class Assets extends Component {
       `}</style>
           {this.state.terms == false && this.state.pay == false ? (
             <Segment style={{ marginTop: "50px" }}>
-              <Dimmer active={this.state.loading}>
+              {/* <Dimmer active={this.state.loading}>
                 <Loader>Admin is in a Call...</Loader>
-              </Dimmer>
+              </Dimmer> */}
               <br />
               <Header
                 as="h1"
@@ -250,349 +301,394 @@ class Assets extends Component {
                         1
                       </p>
                       <Form
-                        onSubmit={this.ownerFormSubmit()}
+                        onSubmit={this.ownerFormSubmit}
                         style={{ marginTop: "1%" }}
                       >
-                        <Form.Group widths="equal">
-                          <Form.Input
-                            fluid
-                            label="First Name"
-                            placeholder="First Name"
-                            required
-                            name="ownerFname"
-                            value={this.state.ownerFname}
-                            onChange={event =>
-                              this.setState({ ownerFname: event.target.value })
-                            }
-                          />
-                          <Form.Input
-                            fluid
-                            label="Last Name"
-                            placeholder="Last Name"
-                            required
-                            name="ownerLastName"
-                            value={this.state.ownerLname}
-                            onChange={event =>
-                              this.setState({ ownerLname: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Input
-                            width="eleven"
-                            fluid
-                            label="Street"
-                            placeholder="Street"
-                            required
-                            name="ownerStreet"
-                            value={this.state.ownerStreet}
-                            onChange={event =>
-                              this.setState({ ownerStreet: event.target.value })
-                            }
-                          />
-                          <Form.Input
-                            width="five"
-                            type="number"
-                            fluid
-                            label="House Number"
-                            required
-                            placeholder="House Number"
-                            name="ownerHouseNr"
-                            value={this.state.ownerHouseNr}
-                            onChange={event =>
-                              this.setState({
-                                ownerHouseNr: event.target.value
-                              })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Input
-                            width="six"
-                            fluid
-                            type="number"
-                            label="Postal Code"
-                            required
-                            placeholder="Postal Code"
-                            name="ownerPostCode"
-                            value={this.state.ownerPostCode}
-                            onChange={event =>
-                              this.setState({
-                                ownerPostCode: event.target.value
-                              })
-                            }
-                          />
-                          <Form.Input
-                            width="ten"
-                            fluid
-                            label="Place of Residenz"
-                            required
-                            placeholder="Place of Residence"
-                            name="ownerPlaceOfRes"
-                            value={this.state.ownerPlaceOfRes}
-                            onChange={event =>
-                              this.setState({
-                                ownerPlaceOfRes: event.target.value
-                              })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group widths="equal">
-                          <Form.Input
-                            fluid
-                            label="Date of Birth"
-                            type="date"
-                            required
-                            placeholder="YYYY-MM-DD"
-                            name="dateOfBirth"
-                            value={this.state.dateOfBirth}
-                            onChange={event =>
-                              this.setState({ dateOfBirth: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                      </Form>
-                    </Segment>
-                    <Segment style={{ textAlign: "left" }}>
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          fontWeight: "900",
-                          fontSize: "17px",
-                          borderRadius: "100%",
-                          display: "inline",
-                          paddingLeft: "6px",
-                          paddingRight: "7px",
-                          backgroundColor: "black",
-                          color: "white"
-                        }}
-                      >
-                        2
-                      </p>
-                      <Form style={{ marginTop: "1%" }}>
-                        <Form.Group widths="equal">
-                          <Form.Input
-                            fluid
-                            label="First Name"
-                            placeholder="First Name"
-                            name="fname"
-                            value={this.state.fname}
-                            onChange={event =>
-                              this.setState({ fname: event.target.value })
-                            }
-                          />
-                          <Form.Input
-                            fluid
-                            label="Last Name"
-                            placeholder="Last Name"
-                            name="lname"
-                            value={this.state.lname}
-                            onChange={event =>
-                              this.setState({ lname: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Input
-                            width="eleven"
-                            fluid
-                            label="Street"
-                            placeholder="Street"
-                            name="street"
-                            value={this.state.street}
-                            onChange={event =>
-                              this.setState({ street: event.target.value })
-                            }
-                          />
-                          <Form.Input
-                            width="five"
-                            type="number"
-                            fluid
-                            label="House Number"
-                            placeholder="House Number"
-                            name="houseNr"
-                            value={this.state.houseNr}
-                            onChange={event =>
-                              this.setState({ houseNr: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Input
-                            width="six"
-                            fluid
-                            type="number"
-                            label="Postal Code"
-                            placeholder="Postal Code"
-                            name="postCode"
-                            value={this.state.postCode}
-                            onChange={event =>
-                              this.setState({ postCode: event.target.value })
-                            }
-                          />
-                          <Form.Input
-                            width="ten"
-                            fluid
-                            label="Place of Residenz"
-                            placeholder="Place of Residence"
-                            name="placeOfRes"
-                            value={this.state.placeOfRes}
-                            onChange={event =>
-                              this.setState({ placeOfRes: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group widths="equal">
-                          <Form.Input
-                            fluid
-                            label="Date of Birth"
-                            type="date"
-                            placeholder="YYYY-MM-DD"
-                            name="dateOfBirth"
-                            value={this.state.dateOfBirth}
-                            onChange={event =>
-                              this.setState({ dateOfBirth: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                      </Form>
-                    </Segment>
-                    <Segment style={{ textAlign: "left" }}>
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          fontWeight: "900",
-                          fontSize: "17px",
-                          borderRadius: "100%",
-                          display: "inline",
-                          paddingLeft: "6px",
-                          paddingRight: "7px",
-                          backgroundColor: "black",
-                          color: "white"
-                        }}
-                      >
-                        3
-                      </p>
-                      <Form style={{ marginTop: "1%" }}>
-                        <Form.Group widths="equal">
-                          <Form.Input
-                            fluid
-                            label="First Name"
-                            placeholder="First Name"
-                            required
-                            name="fname"
-                            value={this.state.fname}
-                            onChange={event =>
-                              this.setState({ fname: event.target.value })
-                            }
-                          />
-                          <Form.Input
-                            fluid
-                            label="Last Name"
-                            placeholder="Last Name"
-                            required
-                            name="lname"
-                            value={this.state.lname}
-                            onChange={event =>
-                              this.setState({ lname: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Input
-                            width="eleven"
-                            fluid
-                            label="Street"
-                            placeholder="Street"
-                            required
-                            name="street"
-                            value={this.state.street}
-                            onChange={event =>
-                              this.setState({ street: event.target.value })
-                            }
-                          />
-                          <Form.Input
-                            width="five"
-                            type="number"
-                            fluid
-                            label="House Number"
-                            required
-                            placeholder="House Number"
-                            name="houseNr"
-                            value={this.state.houseNr}
-                            onChange={event =>
-                              this.setState({ houseNr: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Input
-                            width="six"
-                            fluid
-                            type="number"
-                            label="Postal Code"
-                            required
-                            placeholder="Postal Code"
-                            name="postCode"
-                            value={this.state.postCode}
-                            onChange={event =>
-                              this.setState({ postCode: event.target.value })
-                            }
-                          />
-                          <Form.Input
-                            width="ten"
-                            fluid
-                            label="Place of Residenz"
-                            required
-                            placeholder="Place of Residence"
-                            name="placeOfRes"
-                            value={this.state.placeOfRes}
-                            onChange={event =>
-                              this.setState({ placeOfRes: event.target.value })
-                            }
-                          />
-                        </Form.Group>
-                        <Form.Group widths="equal">
-                          <Form.Input
-                            fluid
-                            label="Date of Birth"
-                            type="date"
-                            required
-                            placeholder="YYYY-MM-DD"
-                            name="dateOfBirth"
-                            value={this.state.dateOfBirth}
-                            onChange={event =>
-                              this.setState({ dateOfBirth: event.target.value })
-                            }
-                          />
-                        </Form.Group>
+                        <Segment>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="First Name"
+                              placeholder="First Name"
+                              required
+                              name="ownerFname"
+                              value={this.state.ownerFname}
+                              onChange={event =>
+                                this.setState({
+                                  ownerFname: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              fluid
+                              label="Last Name"
+                              placeholder="Last Name"
+                              required
+                              name="ownerlastName"
+                              value={this.state.ownerLname}
+                              onChange={event =>
+                                this.setState({
+                                  ownerLname: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.Input
+                              width="eleven"
+                              fluid
+                              label="Street"
+                              placeholder="Street"
+                              required
+                              name="ownerStreet"
+                              value={this.state.ownerStreet}
+                              onChange={event =>
+                                this.setState({
+                                  ownerStreet: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              width="five"
+                              fluid
+                              label="House Number"
+                              required
+                              placeholder="House Number"
+                              name="ownerHouseNr"
+                              value={this.state.ownerHouseNr}
+                              onChange={event =>
+                                this.setState({
+                                  ownerHouseNr: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.Input
+                              width="six"
+                              fluid
+                              type="number"
+                              label="Postal Code"
+                              required
+                              placeholder="Postal Code"
+                              name="ownerPostCode"
+                              value={this.state.ownerPostCode}
+                              onChange={event =>
+                                this.setState({
+                                  ownerPostCode: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              width="ten"
+                              fluid
+                              label="Place of Residenz"
+                              required
+                              placeholder="Place of Residence"
+                              name="ownerPlaceOfRes"
+                              value={this.state.ownerPlaceOfRes}
+                              onChange={event =>
+                                this.setState({
+                                  ownerPlaceOfRes: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="Date of Birth"
+                              type="date"
+                              required
+                              placeholder="YYYY-MM-DD"
+                              name="ownerDateOfBirth"
+                              value={this.state.ownerDateOfBirth}
+                              onChange={event =>
+                                this.setState({
+                                  ownerDateOfBirth: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                        </Segment>
+                        <Segment style={{ textAlign: "left", marginTop: "1%" }}>
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              fontWeight: "900",
+                              fontSize: "17px",
+                              borderRadius: "100%",
+                              display: "inline",
+                              paddingLeft: "6px",
+                              paddingRight: "7px",
+                              backgroundColor: "black",
+                              color: "white"
+                            }}
+                          >
+                            2
+                          </p>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="First Name"
+                              placeholder="First Name"
+                              name="ownerFname2"
+                              value={this.state.ownerFname2}
+                              onChange={event =>
+                                this.setState({
+                                  ownerFname2: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              fluid
+                              label="Last Name"
+                              placeholder="Last Name"
+                              name="ownerLname2"
+                              value={this.state.ownerLname2}
+                              onChange={event =>
+                                this.setState({
+                                  ownerLname2: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.Input
+                              width="eleven"
+                              fluid
+                              label="Street"
+                              placeholder="Street"
+                              name="ownerStreet2"
+                              value={this.state.ownerStreet2}
+                              onChange={event =>
+                                this.setState({
+                                  ownerStreet2: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              width="five"
+                              fluid
+                              label="House Number"
+                              placeholder="House Number"
+                              name="ownerHouseNr2"
+                              value={this.state.ownerHouseNr2}
+                              onChange={event =>
+                                this.setState({
+                                  ownerHouseNr2: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.Input
+                              width="six"
+                              fluid
+                              type="number"
+                              label="Postal Code"
+                              placeholder="Postal Code"
+                              name="ownerPostCode2"
+                              value={this.state.ownerPostCode2}
+                              onChange={event =>
+                                this.setState({
+                                  ownerPostCode2: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              width="ten"
+                              fluid
+                              label="Place of Residenz"
+                              placeholder="Place of Residence"
+                              name="ownerPlaceOfRes2"
+                              value={this.state.ownerPlaceOfRes2}
+                              onChange={event =>
+                                this.setState({
+                                  ownerPlaceOfRes2: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="Date of Birth"
+                              type="date"
+                              placeholder="YYYY-MM-DD"
+                              name="ownerDateOfBirth2"
+                              value={this.state.ownerDateOfBirth2}
+                              onChange={event =>
+                                this.setState({
+                                  ownerDateOfBirth2: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                        </Segment>
+                        <Segment style={{ textAlign: "left", marginTop: "1%" }}>
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              fontWeight: "900",
+                              fontSize: "17px",
+                              borderRadius: "100%",
+                              display: "inline",
+                              paddingLeft: "6px",
+                              paddingRight: "7px",
+                              backgroundColor: "black",
+                              color: "white"
+                            }}
+                          >
+                            3
+                          </p>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="First Name"
+                              placeholder="First Name"
+                              name="ownerFname3"
+                              value={this.state.ownerFname3}
+                              onChange={event =>
+                                this.setState({
+                                  ownerFname3: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              fluid
+                              label="Last Name"
+                              placeholder="Last Name"
+                              name="ownerLname3"
+                              value={this.state.ownerLname3}
+                              onChange={event =>
+                                this.setState({
+                                  ownerLname3: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.Input
+                              width="eleven"
+                              fluid
+                              label="Street"
+                              placeholder="Street"
+                              name="ownerStreet3"
+                              value={this.state.ownerStreet3}
+                              onChange={event =>
+                                this.setState({
+                                  ownerStreet3: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              width="five"
+                              fluid
+                              label="House Number"
+                              placeholder="House Number"
+                              name="ownerHouseNr3"
+                              value={this.state.ownerHouseNr3}
+                              onChange={event =>
+                                this.setState({
+                                  ownerHouseNr3: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.Input
+                              width="six"
+                              fluid
+                              type="number"
+                              label="Postal Code"
+                              placeholder="Postal Code"
+                              name="ownerPostCode3"
+                              value={this.state.ownerPostCode3}
+                              onChange={event =>
+                                this.setState({
+                                  ownerPostCode3: event.target.value
+                                })
+                              }
+                            />
+                            <Form.Input
+                              width="ten"
+                              fluid
+                              label="Place of Residenz"
+                              placeholder="Place of Residence"
+                              name="ownerPlaceOfRes3"
+                              value={this.state.ownerPlaceOfRes3}
+                              onChange={event =>
+                                this.setState({
+                                  ownerPlaceOfRes3: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              fluid
+                              label="Date of Birth"
+                              type="date"
+                              placeholder="YYYY-MM-DD"
+                              name="ownerDateOfBirth3"
+                              value={this.state.ownerDateOfBirth3}
+                              onChange={event =>
+                                this.setState({
+                                  ownerDateOfBirth3: event.target.value
+                                })
+                              }
+                            />
+                          </Form.Group>
+                        </Segment>
+                        <Container style={{ display: "inline-block" }}>
+                          <Button
+                            primary
+                            icon
+                            floated="right"
+                            labelPosition="right"
+                            // onClick={this.toTerms}
+                          >
+                            Next
+                            <Icon name="right arrow" />
+                          </Button>
+                        </Container>
                       </Form>
                     </Segment>
                   </div>
                 ) : null}
-                {this.state.checkedAssets1 || this.state.checkedAssets2 ? (
+              </Container>
+              <Container style={{ display: "inline-block" }}>
+                {this.state.checkedAssets1 ? (
                   <Button
                     primary
                     icon
+                    floated="right"
                     labelPosition="right"
                     onClick={this.toTerms}
                   >
                     Next
                     <Icon name="right arrow" />
                   </Button>
-                ) : (
-                  <Button primary icon labelPosition="right" disabled>
+                ) : !this.state.checkedAssets1 && !this.state.checkedAssets2 ? (
+                  <Button
+                    primary
+                    icon
+                    floated="right"
+                    labelPosition="right"
+                    disabled
+                  >
                     Next
                     <Icon name="right arrow" />
                   </Button>
-                )}
+                ) : null}
               </Container>
             </Segment>
           ) : this.state.terms == true && this.state.pay == false ? (
             <Segment style={{ marginTop: "50px" }}>
-              <Dimmer active={this.state.loading}>
+              {/* <Dimmer active={this.state.loading}>
                 <Loader>Admin is in a Call...</Loader>
-              </Dimmer>
+              </Dimmer> */}
               <br />
               <Header
                 as="h1"

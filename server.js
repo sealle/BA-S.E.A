@@ -13,6 +13,7 @@ const fs = require("fs");
 const path = require("path");
 const jwtDecode = require("jwt-decode");
 const nodemailer = require("nodemailer");
+const SqlString = require('sqlstring');
 // const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -599,8 +600,12 @@ app
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
-      let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
-      database.connection.query(sql, function(err, res, fields) {
+      // let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
+      let join =
+        "SELECT DISTINCT * FROM users JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE users.username='" +
+        currentUser +
+        "'";
+      database.connection.query(join, function(err, res, fields) {
         if (err) throw err;
         response.setHeader("Content-Type", "application/pdf");
         response.setHeader(
@@ -637,36 +642,23 @@ app
       });
     });
 
-    //Creates users sha256-Hash
-    // server.post("/hash", urlEncodedParser, function(req, response) {
-    //   let currentUser = req.body.currentUser; //TODO:prevent SQL injection
-    //   let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
-    //   database.connection.query(sql, function(err, res, fields) {
-    //     if (err) throw err;
-    //     let data = JSON.stringify(res[0]);
-    //     let hash = crypto
-    //       .createHash("sha256")
-    //       .update(data)
-    //       .digest("hex");
-    //     console.log("0x" + hash);
-    //     let hashPref = `0x${hash}`;
-    //     console.log(hashPref);
-    //     let sqlInsert =
-    //       "UPDATE users SET hash ='" +
-    //       hashPref +
-    //       "', isRegistered = 'yes' WHERE username = '" +
-    //       currentUser +
-    //       "'";
-    //     database.connection.query(sqlInsert, function(err, res, fields) {
-    //       if (err) throw err;
-    //       console.log("hash saved and changed isRegistered to yes");
-    //       response.status(200).json({
-    //         success: true,
-    //         hash: hashPref
-    //       });
-    //     });
-    //   });
-    // });
+    //Store kycKey into db
+    server.post("/approval", urlEncodedParser, function(req, response) {
+      let body = req.body;
+      console.log(body.userName);
+      let storekycKey =
+        "UPDATE users SET kycKey='" +
+        body.newKycKey +
+        "', isRegistered='yes' WHERE username='" +
+        body.userName +
+        "'";
+      database.connection.query(storekycKey, function(err, res, fields) {
+        if (err) throw err;
+        response.status(200).json({
+          success: true
+        });
+      });
+    });
 
     //Deletes a user, necessary?
     // server.post("/deleteuser", urlEncodedParser, function(req, response) {
@@ -680,6 +672,8 @@ app
     //     });
     //   });
     // });
+
+    //Admin can edit data
 
     //Make a user admin
     server.post("/makeadmin", urlEncodedParser, function(req, response) {
@@ -710,11 +704,92 @@ app
     });
 
     server.post("/assets", urlEncodedParser, function(req, response) {
-      //does not work!
-      //handle db query
-      response.status(200).json({
-        success: true,
-        assetCookie: assetCookie
+      let body = req.body;
+      let cookie = req.cookies["x-access-token"];
+      let decoded = jwtDecode(cookie);
+      let userName = decoded.username;
+      let insertFirst =
+        "INSERT INTO beneficialOwners(username, ownerName, ownerLastName, ownerStreet, ownerHouseNr, ownerPostCode, ownerPlaceOfRes, ownerDateOfBirth) VALUES ('" +
+        userName +
+        "', '" +
+        body.ownerFname +
+        "', '" +
+        body.ownerLname +
+        "', '" +
+        body.ownerStreet +
+        "', '" +
+        body.ownerHouseNr +
+        "', '" +
+        body.ownerPostCode +
+        "', '" +
+        body.ownerPlaceOfRes +
+        "', '" +
+        body.ownerDateOfBirth +
+        "')";
+      let insertSecond =
+        "INSERT INTO beneficialOwners(username, ownerName, ownerLastName, ownerStreet, ownerHouseNr, ownerPostCode, ownerPlaceOfRes, ownerDateOfBirth) VALUES ('" +
+        userName +
+        "', '" +
+        body.ownerFname2 +
+        "', '" +
+        body.ownerLname2 +
+        "', '" +
+        body.ownerStreet2 +
+        "', '" +
+        body.ownerHouseNr2 +
+        "', '" +
+        body.ownerPostCode2 +
+        "', '" +
+        body.ownerPlaceOfRes2 +
+        "', '" +
+        body.ownerDateOfBirth2 +
+        "')";
+      let insertThird =
+        "INSERT INTO beneficialOwners(username, ownerName, ownerLastName, ownerStreet, ownerHouseNr, ownerPostCode, ownerPlaceOfRes, ownerDateOfBirth) VALUES ('" +
+        userName +
+        "', '" +
+        body.ownerFname3 +
+        "', '" +
+        body.ownerLname3 +
+        "', '" +
+        body.ownerStreet3 +
+        "', '" +
+        body.ownerHouseNr3 +
+        "', '" +
+        body.ownerPostCode3 +
+        "', '" +
+        body.ownerPlaceOfRes3 +
+        "', '" +
+        body.ownerDateOfBirth3 +
+        "')";
+      database.connection.query(insertFirst, function(err, res, fields) {
+        if (err) {
+          console.log(err, "1");
+        } else {
+          if (body.ownerFname2) {
+            database.connection.query(insertSecond, function(err, res, fields) {
+              if (err) {
+                console.log(err, "2"); //TODO: FIX!
+              } else {
+                if (body.ownerFname3) {
+                  database.connection.query(insertThird, function(
+                    err,
+                    res,
+                    fields
+                  ) {
+                    if (err) {
+                      console.log(err, "3");
+                    } else {
+                    }
+                  });
+                }
+              }
+            });
+          }
+          response.status(200).json({
+            success: true
+          });
+        }
       });
     });
 
@@ -856,18 +931,18 @@ app
               confirmed: true,
               success: true
             });
-            let storeAddress = //insert into ethAddresses
-              "UPDATE users SET ethAddress='" +
-              body.toAddress +
-              "' WHERE kycKey= '" +
+            //insert into ethAddresses
+            let storeAddress =
+              "INSERT INTO ethAddresses(kycKey, ethAddress) VALUES ('" +
               body.kycKey +
-              "'";
+              "', '" +
+              body.platformAddress +
+              "')";
             database.connection.query(storeAddress, function(
               err,
               result,
               fields
             ) {
-              //do table ethAddresses innerjoin users
               if (err) {
                 throw err;
               } else {
@@ -986,8 +1061,8 @@ function protectedVideochatPage(req, res, next) {
       } else {
         if (decoded.role !== 0 || decoded.reg !== 0) {
           res.redirect("/error");
-        } else if(decoded.paid === 0) {
-          res.redirect("/clickandpay")
+        } else if (decoded.paid === 0) {
+          res.redirect("/clickandpay");
         } else {
           return next();
         }

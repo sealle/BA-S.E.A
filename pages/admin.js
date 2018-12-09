@@ -25,27 +25,16 @@ class adminPage extends Component {
       });
     }, 3000);
 
-    console.log(contract)
-    // let accounts = await web3.eth.getAccounts();
-    // let myAddress = accounts[0];
-    // let confirmed = true;
-
-    // contract.methods.answer(confirmed).send({
-    //   from: this.state.myAddress,
-    //   to: 0xa9c3f40905a01240f63aa2b27375b5d43dcd64e5
-    // });
-
     contract.events.KycListen({}, async (err, result) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(result);
         let kycKey = result.returnValues.kycKey;
-        let toAddress = result.returnValues.platformAddress;
-        console.log(kycKey, toAddress);
+        let platformAddress = result.returnValues.platformAddress;
+        let toAddress = result.returnValues.sender;
         let response = await axios.post(window.location.origin + "/verify", {
           kycKey,
-          toAddress
+          platformAddress
         });
         try {
           if (response.data.success) {

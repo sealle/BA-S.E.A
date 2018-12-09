@@ -6,13 +6,15 @@ import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import {setCookie} from "../utils/CookieUtils";
+import web3 from "../ethereum/src/web3";
 import {
   Header,
   Message,
   Segment,
   Button,
   Icon,
-  Form
+  Form,
+  Modal
 } from "semantic-ui-react";
 import axios from "axios";
 import { Router } from "../routes";
@@ -21,6 +23,7 @@ import swal from "sweetalert2";
 let xsrfToken = "";
 let pusher;
 let channelName;
+let userName;
 
 export default class VideoChat extends Component {
   constructor() {
@@ -37,7 +40,8 @@ export default class VideoChat extends Component {
       message: "",
       waitingMessage: "",
       loading: false,
-      countMembers: ""
+      countMembers: "",
+      open: false,
     };
 
     this.currentUser = {
@@ -54,6 +58,9 @@ export default class VideoChat extends Component {
     this.setupPusher = this.setupPusher.bind(this);
     this.startPeer = this.startPeer.bind(this);
     this.endCall = this.endCall.bind(this);
+    this.approval = this.approval.bind(this);
+    this.show = this.show.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   async componentWillMount() {
@@ -123,6 +130,7 @@ export default class VideoChat extends Component {
     channelName.bind("pusher:member_added", member => {
       this.setState({ connectedTo: member.id });
       swal("You are conneted to", `${member.id}`, "success");
+      userName = member.id;
       // let newConnect = member.id;
       // // swal("Attention", "Admin is occupied, please wait...", "warning");
       // axios.post(window.location.origin + "/pusher/count", {
@@ -131,7 +139,8 @@ export default class VideoChat extends Component {
     });
 
     channelName.bind("pusher:member_removed", member => {
-      swal("Removed member", `${member.id}`, "success");
+      this.show();
+      // swal("Removed `${member.id}`", "Please press End Call to approve or decline the user" , "success");
       //reload admin page?
     });
 
@@ -200,11 +209,27 @@ export default class VideoChat extends Component {
     Router.push("/login");
   }
 
-  reloadAfterCall() {
+  async approval() {
+    let newAccount = web3.eth.accounts.create();
+    let newKycKey = newAccount.address;
+    let response = await axios.post(window.location.origin + "/approval", {newKycKey, userName})
+    if(response.data.success) {
+      this.closeModal();
+    } else {
+      console.log("error")
+    }
     window.location.href = "/admin";
   }
 
+  show(dimmer) {
+    this.setState({ dimmer, open: true })
+  } 
+  closeModal() {
+    this.setState({ open: false })
+  }
+
   render() {
+    const { open, dimmer } = this.state
     return (
       <div>
         <Layout>
@@ -294,24 +319,17 @@ export default class VideoChat extends Component {
               {/*TODO: Who are you connected with?*/}
             </div>
             <br />
-            {this.state.role == 1 ? (
-              <Button
-                onClick={this.reloadAfterCall}
-                fluid
-                style={{ color: "white", backgroundColor: "#ff3344" }}
-              >
-                end call
-              </Button>
-            ) : (
-              <Button
-                onClick={this.endCall}
-                fluid
-                style={{ color: "white", backgroundColor: "#ff3344" }}
-              >
-                end call
-              </Button>
-            )}
-            {this.state.role == 1 ? (
+            {this.state.role != 1 ? (
+              // <Button
+              //   onClick={this.reloadAfterCall}
+              //   fluid
+              //   style={{ color: "white", backgroundColor: "#ff3344" }}
+              // >
+              //   end call
+              // </Button>
+               <Button style={{ color: "white", backgroundColor: "#ff3344", width: "60%", margin:"0px auto" }} fluid onClick={this.endCall}>End Call</Button>
+            ) : null }
+            {this.state.role == 1 && this.state.connectedTo ? (
               <Message
                 success
                 header="You are connected to"
@@ -319,6 +337,28 @@ export default class VideoChat extends Component {
               />
             ) : null}
           </Segment>
+          <Modal dimmer={dimmer} open={open} onClose={this.closeModal}>
+          <Modal.Header>User Approval</Modal.Header>
+          <Modal.Content image>
+            <Modal.Description>
+              <Header>{userName} removed successfully!</Header>
+              <p>Please select whether the user identification was successful. If yes, he will be assigned a kycKey, if no, the user will be deleted.</p>
+              <p>Will you approve?</p>
+            </Modal.Description>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color='black' floated="left" onClick={this.closeModal}>
+              Decline
+            </Button>
+            <Button
+              positive
+              icon='checkmark'
+              labelPosition='right'
+              content="Approve"
+              onClick={this.approval}
+            />
+          </Modal.Actions>
+        </Modal>
         </Layout>
       </div>
     );

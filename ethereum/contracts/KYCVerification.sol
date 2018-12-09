@@ -5,15 +5,16 @@ contract KYCVerification {
     
     event KycListen(
         string kycKey,
-        address platformAddress
+        address platformAddress,
+        address sender
     );
     
     event PlatformListen(
         bool confirmed
     );
     
-    function transfer(string kycKey, address platformAddress) public payable {
-        emit KycListen(kycKey, platformAddress);
+    function verify(string kycKey, address platformAddress) public payable {
+        emit KycListen(kycKey, platformAddress, msg.sender);
         kycAddress.transfer(msg.value);
     }
     

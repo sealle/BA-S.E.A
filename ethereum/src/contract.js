@@ -1,6 +1,6 @@
 import web3 from "./web3";
 
-const contractAddress = "0x7bef31F17d4305A7f0AEdDC64feF61Dd6C0620C6"; //address of SC
+const contractAddress = "0xe78285A95542F415A20c46933544b0bDfCC3263B"; //address of SC
 const contractABI = [
   {
     constant: false,
@@ -13,8 +13,11 @@ const contractABI = [
   },
   {
     constant: false,
-    inputs: [],
-    name: "payKYC",
+    inputs: [
+      { name: "kycKey", type: "string" },
+      { name: "platformAddress", type: "address" }
+    ],
+    name: "verify",
     outputs: [],
     payable: true,
     stateMutability: "payable",
@@ -22,11 +25,8 @@ const contractABI = [
   },
   {
     constant: false,
-    inputs: [
-      { name: "kycKey", type: "string" },
-      { name: "platformAddress", type: "address" }
-    ],
-    name: "transfer",
+    inputs: [],
+    name: "payKYC",
     outputs: [],
     payable: true,
     stateMutability: "payable",
@@ -36,7 +36,8 @@ const contractABI = [
     anonymous: false,
     inputs: [
       { indexed: false, name: "kycKey", type: "string" },
-      { indexed: false, name: "platformAddress", type: "address" }
+      { indexed: false, name: "platformAddress", type: "address" },
+      { indexed: false, name: "sender", type: "address" }
     ],
     name: "KycListen",
     type: "event"
