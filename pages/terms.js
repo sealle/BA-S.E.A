@@ -14,6 +14,7 @@ import {
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
+import { setCookie } from "../utils/CookieUtils";
 
 class Terms extends Component {
   constructor() {
@@ -27,6 +28,7 @@ class Terms extends Component {
       checked3: false,
       checked4: false,
       checked5: false,
+      checked6: false,
       countMembers: ""
     };
     // this.getMembersCount();
@@ -36,24 +38,25 @@ class Terms extends Component {
     this.handleCheck3 = this.handleCheck3.bind(this);
     this.handleCheck4 = this.handleCheck4.bind(this);
     this.handleCheck5 = this.handleCheck5.bind(this);
+    this.handleCheck6 = this.handleCheck6.bind(this);
   }
 
   // async getMembersCount() {
-    // const response = await axios.post(
-    //   window.location.origin + "/pusher/members"
-    // );
-    // if (response.data.success) {
-    //   this.setState({ countMembers: response.data.newConnect });
-    //   console.log(this.state.countMembers);
-    // }
-    // // if (this.state.countMembers == "2") {
-    // //   swal("Attention", "Admin is occupied, please wait...", "warning");
-    // //   this.setState({ loading: true });
-    // // } else {
-    // //   this.setState({ loading: false });
-    // // }
+  // const response = await axios.post(
+  //   window.location.origin + "/pusher/members"
+  // );
+  // if (response.data.success) {
+  //   this.setState({ countMembers: response.data.newConnect });
+  //   console.log(this.state.countMembers);
   // }
-  
+  // // if (this.state.countMembers == "2") {
+  // //   swal("Attention", "Admin is occupied, please wait...", "warning");
+  // //   this.setState({ loading: true });
+  // // } else {
+  // //   this.setState({ loading: false });
+  // // }
+  // }
+
   //handling checkbox input
   handleCheck1() {
     this.setState({ checked1: !this.state.checked1 });
@@ -79,15 +82,24 @@ class Terms extends Component {
     this.setState({ checked5: !this.state.checked5 });
   }
 
+  handleCheck6() {
+    this.setState({ checked6: !this.state.checked6 });
+  }
+
   //Submit to next page
   //TODO: Use tokens to protect videochat (only if agreed terms and only if channel count == 1)
-  toPayment() {
+  async toPayment() {
+    this.setState({ loading: false });
+    let response = await axios.post(window.location.origin + "/terms");
+    if(response.data.success) {
+      //update cookie
+      setCookie("x-access-token", response.data.termsCookie, 1);
+      Router.push("/payment");
+    }
     // if (this.state.countMembers !== undefined) {
     //   // swal("Attention", "Admin is occupied, please wait...", "warning");
     //   this.setState({ loading: true });
     // } else {
-    this.setState({ loading: false });
-    Router.push("/payment");
     // }
   }
 
@@ -192,11 +204,27 @@ class Terms extends Component {
                 />
               ) : null}
               <Divider />
+              <Checkbox
+                label="I agree to pay a fee for the video identification"
+                required
+                checked={this.state.checked6}
+                onChange={this.handleCheck6}
+              />
+              {this.state.checked6 ? (
+                <Icon
+                  name="check circle"
+                  color="green"
+                  size="large"
+                  style={{ float: "right" }}
+                />
+              ) : null}
+              <Divider />
               {this.state.checked1 &&
               this.state.checked2 &&
               this.state.checked3 &&
               this.state.checked4 &&
-              this.state.checked5 ? (
+              this.state.checked5 &&
+              this.state.checked6 ? (
                 <Button
                   primary
                   icon

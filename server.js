@@ -422,6 +422,7 @@ app
                       username: body.username,
                       role: 0,
                       reg: 0,
+                      paid: 0,
                       xsrfToken: crypto
                         .createHash("sha256")
                         .update(body.username)
@@ -708,6 +709,40 @@ app
       });
     });
 
+    server.post("/assets", urlEncodedParser, function(req, response) {
+      //does not work!
+      //handle db query
+      response.status(200).json({
+        success: true,
+        assetCookie: assetCookie
+      });
+    });
+
+    server.post("/clickandpay", urlEncodedParser, function(req, response) {
+      let cookie = req.cookies["x-access-token"];
+      let decoded = jwtDecode(cookie);
+      let videoCookie = jwt.sign(
+        {
+          username: decoded.username,
+          role: 0, //user
+          reg: 0, //registered
+          paid: 1,
+          xsrfToken: crypto
+            .createHash("sha256")
+            .update(decoded.username)
+            .digest("hex")
+        },
+        secret,
+        {
+          expiresIn: 36000 //1h
+        }
+      );
+      response.status(200).json({
+        success: true,
+        videoCookie: videoCookie
+      });
+    });
+
     //protects pages from unauthorized users
     server.use(
       unless(
@@ -737,14 +772,14 @@ app
       return next();
     });
 
-    //Protect terms and videochat
-    server.get(
-      ["/terms", "/videochat"],
-      protectedRegPage,
-      (req, response, next) => {
-        return next();
-      }
-    );
+    //Protect clickandpay
+    server.get("/clickandpay", protectedRegPage, (req, response, next) => {
+      return next();
+    });
+
+    server.get("/videochat", protectedVideochatPage, (req, response, next) => {
+      return next;
+    });
 
     //Protect profile view
     server.get("/profile", protectedUserPage, (req, response, next) => {
@@ -810,17 +845,18 @@ app
 
     server.post("/verify", urlEncodedParser, function(req, response) {
       let body = req.body;
-      let checkKycKey = "SELECT * FROM users WHERE kycKey= '" + body.kycKey + "'";
+      let checkKycKey =
+        "SELECT * FROM users WHERE kycKey= '" + body.kycKey + "'";
       database.connection.query(checkKycKey, function(err, result, fields) {
         if (err) {
-          console.log("error")
+          console.log("error");
         } else {
           if (result.length) {
             response.status(200).json({
               confirmed: true,
               success: true
             });
-            let storeAddress =
+            let storeAddress = //insert into ethAddresses
               "UPDATE users SET ethAddress='" +
               body.toAddress +
               "' WHERE kycKey= '" +
@@ -931,6 +967,27 @@ function protectedRegPage(req, res, next) {
       } else {
         if (decoded.role !== 0 || decoded.reg !== 0) {
           res.redirect("/error");
+        } else {
+          return next();
+        }
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+}
+
+function protectedVideochatPage(req, res, next) {
+  const token = req.cookies["x-access-token"];
+  if (token) {
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (decoded.role !== 0 || decoded.reg !== 0) {
+          res.redirect("/error");
+        } else if(decoded.paid === 0) {
+          res.redirect("/clickandpay")
         } else {
           return next();
         }

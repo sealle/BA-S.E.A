@@ -12,12 +12,13 @@ class Error extends Component {
       isAdmin: false,
       isUser: false,
       isReg: false,
+      inVideochat: false,
       cookie: ""
     };
   }
 
   //landing page if unauthorized user tries to access page
-  async componentDidMount() {
+  async componentWillMount() {
     const res = await axios.post(window.location.origin + "/currentuser");
     if (res.data.success) {
       this.setState({ cookie: res.data.cookie });
@@ -28,11 +29,11 @@ class Error extends Component {
       this.setState({ isAdmin: true });
     } else if (decoded.role === 0 && decoded.reg === 1) {
       this.setState({ isUser: true });
+    } else if(decoded.paid === 1) {
+      this.setState({inVideochat: true})
     } else {
       this.setState({ isReg: true });
     }
-    console.log(decoded.role);
-    console.log(decoded.reg);
   }
 
   //error page if someone tries to access Admin page
@@ -63,7 +64,14 @@ class Error extends Component {
           ) : null}
           {this.state.isReg ? (
             <Container textAlign="center">
-              <Link route="/terms">
+              <Link route="/clickandpay">
+                <Button primary>Back</Button>
+              </Link>
+            </Container>
+          ) : null}
+            {this.state.inVideochat ? (
+            <Container textAlign="center">
+              <Link route="/videochat">
                 <Button primary>Back</Button>
               </Link>
             </Container>

@@ -14,7 +14,6 @@ contract KYCVerification {
     
     function transfer(string kycKey, address platformAddress) public payable {
         emit KycListen(kycKey, platformAddress);
-        // platformAddress = msg.sender;
         kycAddress.transfer(msg.value);
     }
     

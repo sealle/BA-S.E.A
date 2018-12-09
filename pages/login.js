@@ -55,7 +55,7 @@ class Login extends Component {
           Router.push("/profile");
         } else {
           setCookie("x-access-token", res.data.registerToken, 1);
-          Router.push("/assets");
+          Router.push("/clickandpay");
         }
       }
     } catch (error) {

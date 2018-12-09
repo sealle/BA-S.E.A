@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -293,7 +293,7 @@ function (_Component) {
                     _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/profile");
                   } else {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.registerToken, 1);
-                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/assets");
+                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/clickandpay");
                   }
                 }
 
@@ -479,7 +479,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 5:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/

@@ -15,6 +15,8 @@ import Layout from "../components/Layout";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
 import swal from "sweetalert2";
+import { setCookie } from "../utils/CookieUtils";
+import axios from "axios";
 
 class Login extends Component {
   constructor(props) {
@@ -26,7 +28,6 @@ class Login extends Component {
       error: false
     };
     this.submit = e => this._submit();
-    this.toVideo = this.toVideo.bind(this);
   }
 
   async componentWillMount() {
@@ -42,27 +43,30 @@ class Login extends Component {
   async _submit() {
     let accounts = await web3.eth.getAccounts();
 
-    if (this.state.value) {
+    if (this.state.value > 0) {
       this.setState({ loading: true, error: false });
       await contract.methods.payKYC().send({
         from: accounts[0],
         value: web3.utils.toWei(this.state.value, "ether")
       });
+      let response = await axios.post(window.location.origin + "/payment");
+      swal({
+        title: "Congratulations!",
+        text:
+          "You have paid. You will be redirected to the video identification",
+        type: "success",
+        onClose: () => {
+          setCookie("x-access-token", response.data.paymentCookie, 1);
+          Router.push("/videochat");
+        }
+      });
+    } else if (this.state.value == 0) {
+      setCookie("x-access-token", response.data.paymentCookie, 1);
+      Router.push("/videochat");
     } else {
       this.setState({ error: true });
     }
-    //success message and routing
     this.setState({ loading: false });
-    swal(
-      "Congratulations!",
-      "You have paid. You will be redirected to the video identification",
-      "success"
-    );
-    Router.push("/videochat");
-  }
-
-  toVideo() {
-    Router.push("/videochat");
   }
 
   render() {

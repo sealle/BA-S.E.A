@@ -58479,7 +58479,7 @@ function (_Component) {
                     _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/profile");
                   } else {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.registerToken, 1);
-                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/assets");
+                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/clickandpay");
                   }
                 }
 
@@ -58684,7 +58684,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 9:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/
@@ -58709,5 +58709,5 @@ module.exports = dll_34718705b6f81f095be8;
 
 /***/ })
 
-},[[3,"static/runtime/webpack.js"]]]));;
+},[[9,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=login.js.map

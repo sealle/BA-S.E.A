@@ -5,6 +5,7 @@ import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
+import {setCookie} from "../utils/CookieUtils";
 import {
   Header,
   Message,
@@ -194,6 +195,7 @@ export default class VideoChat extends Component {
   }
 
   endCall() {
+    setCookie("x-access-token", "", -60 * 60);
     window.location.href = "/login";
     Router.push("/login");
   }
