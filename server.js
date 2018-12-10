@@ -13,7 +13,7 @@ const fs = require("fs");
 const path = require("path");
 const jwtDecode = require("jwt-decode");
 const nodemailer = require("nodemailer");
-const SqlString = require('sqlstring');
+const SqlString = require("sqlstring");
 // const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -70,45 +70,36 @@ app
           let date = new Date();
           let body = req.body;
 
-          //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
-          let sql =
-            "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate, isComp) VALUES ('" +
-            body.username +
-            "', '" +
-            hash +
-            "', '" +
-            body.fname +
-            "', '" +
-            body.lname +
-            "', '" +
-            body.street +
-            "', '" +
-            body.houseNr +
-            "', '" +
-            body.postCode +
-            "', '" +
-            body.placeOfRes +
-            "', '" +
-            body.dateOfBirth +
-            "', '" +
-            body.nat +
-            "', '" +
-            body.email +
-            "', '" +
-            body.mobNr +
-            "', '" +
-            imageName +
-            "', '" +
-            imageName2 +
-            "', '" +
-            date +
-            "', '" +
-            0 +
-            "')";
-          let searchSQL =
-            "SELECT * FROM users WHERE username='" + body.username + "'";
-          let searchEmail =
-            "SELECT * FROM users WHERE email='" + body.email + "'";
+          //prevent sql injection by escaping user input (format())
+          let insertSQL = SqlString.format(
+            "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, isComp=?",
+            [
+              body.username,
+              hash,
+              body.fname,
+              body.lname,
+              body.street,
+              body.houseNr,
+              body.postCode,
+              body.placeOfRes,
+              body.dateOfBirth,
+              body.nat,
+              body.email,
+              body.mobNr,
+              imageName,
+              imageName2,
+              date,
+              0
+            ]
+          );
+          let searchSQL = SqlString.format(
+            "SELECT * FROM users WHERE username=?",
+            [body.username]
+          );
+          let searchEmail = SqlString.format(
+            "SELECT * FROM users WHERE email=?",
+            [body.email]
+          );
           database.connection.query(searchSQL, function(err, res) {
             if (err) {
               response
@@ -137,7 +128,7 @@ app
                 //       });
                 //       console.log("Email already exists");
                 //     } else {
-                database.connection.query(sql, function(err, result) {
+                database.connection.query(insertSQL, function(err, result) {
                   if (err) {
                     response.status(400).json({
                       message: "Database Server is not connected!"
@@ -197,70 +188,51 @@ app
 
       let imageName = `${req.body.username}-${image.name}`;
       let imageName2 = `${req.body.username}-${image2.name}`;
-      let docName = `${req.body.compName}-${doc.name}`;
-      let docName2 = `${req.body.compName}-${doc2.name}`;
+      let docName = `${req.body.username}-${doc.name}`;
+      let docName2 = `${req.body.username}-${doc2.name}`;
 
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
           let date = new Date();
           let body = req.body;
 
-          //TODO:prevent sql injection by escaping user input (database.connection.escape(req.body.*userInput*)
-
-          let sql =
-            "INSERT INTO users(username, password, fname, lname, street, houseNr, postCode, placeOfRes, dateOfBirth, nat, email, mobNr, ID1, ID2, regDate, compName, regNr, placeOfReg, residence, businessAd, compHouseNr, doc1, doc2, isComp) VALUES ('" +
-            body.username +
-            "', '" +
-            hash +
-            "', '" +
-            body.fname +
-            "', '" +
-            body.lname +
-            "', '" +
-            body.street +
-            "', '" +
-            body.houseNr +
-            "', '" +
-            body.postCode +
-            "', '" +
-            body.placeOfRes +
-            "', '" +
-            body.dateOfBirth +
-            "', '" +
-            body.nat +
-            "', '" +
-            body.email +
-            "', '" +
-            body.mobNr +
-            "', '" +
-            imageName +
-            "', '" +
-            imageName2 +
-            "', '" +
-            date +
-            "', '" +
-            body.compName +
-            "', '" +
-            body.regNr +
-            "', '" +
-            body.placeOfReg +
-            "', '" +
-            body.residence +
-            "', '" +
-            body.businessAd +
-            "', '" +
-            body.compHouseNr +
-            "', '" +
-            docName +
-            "', '" +
-            docName2 +
-            "', '" +
-            1 +
-            "')";
-          let searchSQL =
-            "SELECT * FROM users WHERE username='" + body.username + "'";
-          let searchEmail =
-            "SELECT * FROM users WHERE email='" + body.email + "'";
+          //prevent sql injection by escaping user input (format())
+          let insertSQL = SqlString.format(
+            "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, compName=?, compPostCode=?, residence=?, businessAd=?, compHouseNr=?, doc1=?, doc2=?, isComp=?",
+            [
+              body.username,
+              hash,
+              body.fname,
+              body.lname,
+              body.street,
+              body.houseNr,
+              body.postCode,
+              body.placeOfRes,
+              body.dateOfBirth,
+              body.nat,
+              body.email,
+              body.mobNr,
+              imageName,
+              imageName2,
+              date,
+              body.compName,
+              body.compPostCode,
+              body.residence,
+              body.businessAd,
+              body.compHouseNr,
+              docName,
+              docName2,
+              1
+            ]
+          );
+          let searchSQL = SqlString.format(
+            "SELECT * FROM users WHERE username=?",
+            [body.username]
+          );
+          let searchEmail = SqlString.format(
+            "SELECT * FROM users WHERE email=?",
+            [body.email]
+          );
           database.connection.query(searchSQL, function(err, res) {
             if (err) {
               response
@@ -287,7 +259,7 @@ app
                 //       });
                 //       console.log("Email already exists");
                 //     } else {
-                database.connection.query(sql, function(err, result) {
+                database.connection.query(insertSQL, function(err, result) {
                   if (err) {
                     response.status(400).json({
                       message: "Database Server is not connected!"
@@ -346,9 +318,13 @@ app
 
     //Login
     server.post("/authenticate", (req, response) => {
-      let body = req.body; //TODO: prevent SQL injection!
-      let sql = "SELECT * FROM users WHERE username= '" + body.username + "'";
-      database.connection.query(sql, function(err, result, fields) {
+      let body = req.body;
+      //preventing SQL injection
+      let searchUserName = SqlString.format(
+        "SELECT * FROM users WHERE username=?",
+        [body.username]
+      );
+      database.connection.query(searchUserName, function(err, result, fields) {
         if (err) {
           response
             .status(400)
@@ -469,8 +445,10 @@ app
             console.log("error");
           } else {
             let username = decoded.username;
-            let sql =
-              "UPDATE users SET active='1' WHERE username='" + username + "'";
+            let sql = SqlString.format(
+              "UPDATE users SET active=? WHERE username=?",
+              [1, username]
+            );
             await database.connection.query(sql, function(err, req, res) {
               if (err) {
                 response.send("error");
@@ -488,7 +466,9 @@ app
     //enter email to receive email
     server.post("/passwordreset", async (req, res) => {
       let body = req.body;
-      let sql = "SELECT * FROM users WHERE username= '" + body.username + "'";
+      let sql = SqlString.format("SELECT * FROM users WHERE username=?", [
+        body.username
+      ]);
       await database.connection.query(sql, async (err, result, fields) => {
         if (err) {
           res
@@ -534,20 +514,21 @@ app
 
     //change password
     server.post("/changepw", (req, response) => {
-      let searchSQL =
-        "SELECT * FROM users WHERE username = '" + req.body.username + "'";
+      let searchSQL = SqlString.format(
+        "SELECT * FROM users WHERE username =?",
+        [req.body.username]
+      );
       database.connection.query(searchSQL, (err, result) => {
         if (result.length) {
           bcrypt.genSalt(saltRounds, function(err, salt) {
             bcrypt.hash(req.body.password, salt, null, function(err, hash) {
-              let sql =
-                "UPDATE users SET password = '" +
-                hash +
-                "' WHERE username='" +
-                req.body.username +
-                "'";
-              database.connection.query(sql, (err, res) => {
+              let updatePw = SqlString.format(
+                "UPDATE users SET password=? WHERE username=?",
+                [hash, req.body.username]
+              );
+              database.connection.query(updatePw, (err, res) => {
                 if (err) {
+                  console.log(err);
                   response.status(400).json({
                     message: "Database Server is not connected!"
                   });
@@ -596,22 +577,16 @@ app
 
     //Gets list of users from cookies
     server.post("/users", urlEncodedParser, function(req, response) {
-      //TODO:prevent SQL injection
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
-      // let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
-      let join =
-        "SELECT DISTINCT * FROM users JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE users.username='" +
-        currentUser +
-        "'";
+      //TODO: Send beneficial Owners
+      let join = SqlString.format(
+        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE users.username=?",
+        [currentUser]
+      );
       database.connection.query(join, function(err, res, fields) {
         if (err) throw err;
-        response.setHeader("Content-Type", "application/pdf");
-        response.setHeader(
-          "Content-Disposition",
-          `attachment; filename=${res[0].doc1}`
-        );
         response.status(200).send({
           success: true,
           userData: res,
@@ -626,9 +601,13 @@ app
 
     //Gets list of users from Client
     server.post("/usrs", urlEncodedParser, function(req, response) {
-      let currentUser = req.body.currentUser; //TODO:prevent SQL injection
-      let sql = "SELECT * FROM users WHERE username = '" + currentUser + "'";
-      database.connection.query(sql, function(err, res, fields) {
+      let currentUser = req.body.currentUser;
+      //TODO: Send beneficial Owners
+      let join = SqlString.format(
+        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE users.username=?",
+        [currentUser]
+      );
+      database.connection.query(join, function(err, res, fields) {
         if (err) throw err;
         response.status(200).send({
           success: true,
@@ -646,12 +625,10 @@ app
     server.post("/approval", urlEncodedParser, function(req, response) {
       let body = req.body;
       console.log(body.userName);
-      let storekycKey =
-        "UPDATE users SET kycKey='" +
-        body.newKycKey +
-        "', isRegistered='yes' WHERE username='" +
-        body.userName +
-        "'";
+      let storekycKey = SqlString.format(
+        "UPDATE users SET kycKey=?, isRegistered=? WHERE username=?",
+        [body.newKycKey, "yes", body.userName]
+      );
       database.connection.query(storekycKey, function(err, res, fields) {
         if (err) throw err;
         response.status(200).json({
@@ -678,10 +655,10 @@ app
     //Make a user admin
     server.post("/makeadmin", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser;
-      let sql =
-        "UPDATE users SET privileges='admin' WHERE username='" +
-        currentUser +
-        "'";
+      let sql = SqlString.format(
+        "UPDATE users SET privileges=? WHERE username=?",
+        ["admin", currentUser]
+      );
       database.connection.query(sql, function(err, res, fields) {
         if (err) throw err;
         response.status(200).json({
@@ -708,68 +685,53 @@ app
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let userName = decoded.username;
-      let insertFirst =
-        "INSERT INTO beneficialOwners(username, ownerName, ownerLastName, ownerStreet, ownerHouseNr, ownerPostCode, ownerPlaceOfRes, ownerDateOfBirth) VALUES ('" +
-        userName +
-        "', '" +
-        body.ownerFname +
-        "', '" +
-        body.ownerLname +
-        "', '" +
-        body.ownerStreet +
-        "', '" +
-        body.ownerHouseNr +
-        "', '" +
-        body.ownerPostCode +
-        "', '" +
-        body.ownerPlaceOfRes +
-        "', '" +
-        body.ownerDateOfBirth +
-        "')";
-      let insertSecond =
-        "INSERT INTO beneficialOwners(username, ownerName, ownerLastName, ownerStreet, ownerHouseNr, ownerPostCode, ownerPlaceOfRes, ownerDateOfBirth) VALUES ('" +
-        userName +
-        "', '" +
-        body.ownerFname2 +
-        "', '" +
-        body.ownerLname2 +
-        "', '" +
-        body.ownerStreet2 +
-        "', '" +
-        body.ownerHouseNr2 +
-        "', '" +
-        body.ownerPostCode2 +
-        "', '" +
-        body.ownerPlaceOfRes2 +
-        "', '" +
-        body.ownerDateOfBirth2 +
-        "')";
-      let insertThird =
-        "INSERT INTO beneficialOwners(username, ownerName, ownerLastName, ownerStreet, ownerHouseNr, ownerPostCode, ownerPlaceOfRes, ownerDateOfBirth) VALUES ('" +
-        userName +
-        "', '" +
-        body.ownerFname3 +
-        "', '" +
-        body.ownerLname3 +
-        "', '" +
-        body.ownerStreet3 +
-        "', '" +
-        body.ownerHouseNr3 +
-        "', '" +
-        body.ownerPostCode3 +
-        "', '" +
-        body.ownerPlaceOfRes3 +
-        "', '" +
-        body.ownerDateOfBirth3 +
-        "')";
+      let insertFirst = SqlString.format(
+        "INSERT INTO beneficialOwners SET username=?, ownerName=?, ownerLastName=?, ownerStreet=?, ownerHouseNr=?, ownerPostCode=?, ownerPlaceOfRes=?, ownerDateOfBirth=?",
+        [
+          userName,
+          body.ownerFname,
+          body.ownerLname,
+          body.ownerStreet,
+          body.ownerHouseNr,
+          body.ownerPostCode,
+          body.ownerPlaceOfRes,
+          body.ownerDateOfBirth
+        ]
+      );
+      let insertSecond = SqlString.format(
+        "INSERT INTO beneficialOwners SET username=?, ownerName=?, ownerLastName=?, ownerStreet=?, ownerHouseNr=?, ownerPostCode=?, ownerPlaceOfRes=?, ownerDateOfBirth=?",
+        [
+          userName,
+          body.ownerFname2,
+          body.ownerLname2,
+          body.ownerStreet2,
+          body.ownerHouseNr2,
+          body.ownerPostCode2,
+          body.ownerPlaceOfRes2,
+          body.ownerDateOfBirth2
+        ]
+      );
+      let insertThird = SqlString.format(
+        "INSERT INTO beneficialOwners SET username=?, ownerName=?, ownerLastName=?, ownerStreet=?, ownerHouseNr=?, ownerPostCode=?, ownerPlaceOfRes=?, ownerDateOfBirth=?",
+        [
+          userName,
+          body.ownerFname3,
+          body.ownerLname3,
+          body.ownerStreet3,
+          body.ownerHouseNr3,
+          body.ownerPostCode3,
+          body.ownerPlaceOfRes3,
+          body.ownerDateOfBirth3
+        ]
+      );
       database.connection.query(insertFirst, function(err, res, fields) {
         if (err) {
-          console.log(err, "1");
+          console.log(err);
         } else {
           if (body.ownerFname2) {
             database.connection.query(insertSecond, function(err, res, fields) {
               if (err) {
-                console.log(err, "2"); //TODO: FIX!
+                console.log(err);
               } else {
                 if (body.ownerFname3) {
                   database.connection.query(insertThird, function(
@@ -778,7 +740,7 @@ app
                     fields
                   ) {
                     if (err) {
-                      console.log(err, "3");
+                      console.log(err);
                     } else {
                     }
                   });
@@ -920,8 +882,9 @@ app
 
     server.post("/verify", urlEncodedParser, function(req, response) {
       let body = req.body;
-      let checkKycKey =
-        "SELECT * FROM users WHERE kycKey= '" + body.kycKey + "'";
+      let checkKycKey = SqlString.format("SELECT * FROM users WHERE kycKey=?", [
+        body.kycKey
+      ]);
       database.connection.query(checkKycKey, function(err, result, fields) {
         if (err) {
           console.log("error");
@@ -932,12 +895,10 @@ app
               success: true
             });
             //insert into ethAddresses
-            let storeAddress =
-              "INSERT INTO ethAddresses(kycKey, ethAddress) VALUES ('" +
-              body.kycKey +
-              "', '" +
-              body.platformAddress +
-              "')";
+            let storeAddress = SqlString.format(
+              "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
+              [body.kycKey, body.platformAddress]
+            );
             database.connection.query(storeAddress, function(
               err,
               result,

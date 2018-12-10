@@ -338,10 +338,10 @@ export default class VideoChat extends Component {
             ) : null}
           </Segment>
           <Modal dimmer={dimmer} open={open} onClose={this.closeModal}>
-          <Modal.Header>User Approval</Modal.Header>
+          <Modal.Header>{userName} removed successfully!</Modal.Header>
           <Modal.Content image>
             <Modal.Description>
-              <Header>{userName} removed successfully!</Header>
+              <Header>Approval</Header>
               <p>Please select whether the user identification was successful. If yes, he will be assigned a kycKey, if no, the user will be deleted.</p>
               <p>Will you approve?</p>
             </Modal.Description>

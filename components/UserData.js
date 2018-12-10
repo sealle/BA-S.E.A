@@ -291,7 +291,7 @@ export default class UserData extends Component {
                   {this.state.users.map(member => (
                     <Table.Body key={member.id}>
                       <Table.Row>
-                        <Table.Cell>
+                        <Table.Cell colSpan={2}>
                           <p
                             style={{
                               fontWeight: "bold",
@@ -302,44 +302,6 @@ export default class UserData extends Component {
                             Company Name:
                           </p>
                           {member.compName}
-                        </Table.Cell>
-                        <Table.Cell>
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              display: "inline-block",
-                              paddingRight: "10px"
-                            }}
-                          >
-                            Registration Number:
-                          </p>
-                          {member.regNr}
-                        </Table.Cell>
-                      </Table.Row>
-                      <Table.Row>
-                        <Table.Cell>
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              display: "inline-block",
-                              paddingRight: "10px"
-                            }}
-                          >
-                            Place of registration:
-                          </p>
-                          {member.placeOfReg}
-                        </Table.Cell>
-                        <Table.Cell>
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              display: "inline-block",
-                              paddingRight: "10px"
-                            }}
-                          >
-                            Residence:
-                          </p>
-                          {member.residence}
                         </Table.Cell>
                       </Table.Row>
                       <Table.Row>
@@ -366,6 +328,32 @@ export default class UserData extends Component {
                             House Nr:
                           </p>
                           {member.compHouseNr}
+                        </Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              display: "inline-block",
+                              paddingRight: "10px"
+                            }}
+                          >
+                            Postal Code:
+                          </p>
+                          {member.compPostCode}
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              display: "inline-block",
+                              paddingRight: "10px"
+                            }}
+                          >
+                            Residence:
+                          </p>
+                          {member.residence}
                         </Table.Cell>
                       </Table.Row>
                       <Table.Row>

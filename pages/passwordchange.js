@@ -31,9 +31,7 @@ class PwChange extends Component {
   //decode token in link to receive username
   componentDidMount() {
     let token = window.location.pathname.split("/");
-    console.log(token[2]);
     let decoded = jwtDecode(token[2]);
-    console.log(decoded.username);
     this.setState({ username: decoded.username });
   }
 

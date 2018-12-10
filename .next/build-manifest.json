@@ -11,7 +11,23 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
+    "/login": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/register": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/clickandpay": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/passwordreset": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/passwordchange": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

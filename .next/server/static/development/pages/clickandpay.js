@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -585,9 +585,9 @@ function (_Component) {
                 break;
 
               case 14:
-                if (this.state.value === 0) {
+                if (this.state.value == 0) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
-                    title: "Congratulations!",
+                    title: "Thank You!",
                     text: "You have paid. You will be redirected to the video identification",
                     type: "success",
                     onClose: function onClose() {
@@ -1262,7 +1262,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!************************************!*\
   !*** multi ./pages/clickandpay.js ***!
   \************************************/

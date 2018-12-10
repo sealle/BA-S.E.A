@@ -12,18 +12,6 @@ class PersonRegister extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
-      fname: "",
-      lname: "",
-      street: "",
-      houseNr: "",
-      postCode: "",
-      placeOfRes: "",
-      dateOfBirth: "",
-      nat: "",
-      email: "",
-      mobNr: "",
       errorMessage: "",
       successMessage: "",
       loading: false,

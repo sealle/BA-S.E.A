@@ -11,24 +11,6 @@ class CompanyRegister extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
-      fname: "",
-      lname: "",
-      street: "",
-      houseNr: "",
-      postCode: "",
-      placeOfRes: "",
-      dateOfBirth: "",
-      nat: "",
-      email: "",
-      mobNr: "",
-      compName: "",
-      regNr: "",
-      placeOfReg: "",
-      residence: "",
-      businessAd: "",
-      compHouseNr: "",
       errorMessage: "",
       successMessage: "",
       loading: false,
@@ -66,7 +48,7 @@ class CompanyRegister extends Component {
     formData.append("errorMessage", this.state.errorMessage);
     formData.append("compName", this.state.compName);
     formData.append("regNr", this.state.regNr);
-    formData.append("placeOfReg", this.state.placeOfReg);
+    formData.append("compPostCode", this.state.compPostCode);
     formData.append("residence", this.state.residence);
     formData.append("businessAd", this.state.businessAd);
     formData.append("compHouseNr", this.state.compHouseNr);
@@ -305,8 +287,7 @@ class CompanyRegister extends Component {
             ) : null}
             <Form.Group />
             <Form.Group>
-              <Form.Input
-                width="eight"
+              <Form.Input width="sixteen"
                 fluid
                 name="compName"
                 required
@@ -315,40 +296,6 @@ class CompanyRegister extends Component {
                 value={this.state.compName}
                 onChange={event =>
                   this.setState({ compName: event.target.value })
-                }
-              />
-              <Form.Input
-                width="eight"
-                fluid
-                name="regNr"
-                required
-                label="Registration Number"
-                placeholder="Registration Number"
-                value={this.state.regNr}
-                onChange={event => this.setState({ regNr: event.target.value })}
-              />
-            </Form.Group>
-            <Form.Group widths="equal">
-              <Form.Input
-                fluid
-                label="Place of Registration"
-                name="placeOfReg"
-                required
-                placeholder="Place of Registration"
-                value={this.state.placeOfReg}
-                onChange={event =>
-                  this.setState({ placeOfReg: event.target.value })
-                }
-              />
-              <Form.Input
-                fluid
-                label="Residence"
-                name="residence"
-                required
-                placeholder="Residence"
-                value={this.state.residence}
-                onChange={event =>
-                  this.setState({ residence: event.target.value })
                 }
               />
             </Form.Group>
@@ -376,6 +323,33 @@ class CompanyRegister extends Component {
                 value={this.state.compHouseNr}
                 onChange={event =>
                   this.setState({ compHouseNr: event.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group widths="equal">
+            <Form.Input
+                width="six"
+                fluid
+                type="number"
+                label="Postal Code"
+                required
+                placeholder="Postal Code"
+                name="compPostCode"
+                value={this.state.compPostCode}
+                onChange={event =>
+                  this.setState({ compPostCode: event.target.value })
+                }
+              />
+              <Form.Input
+                width="ten"
+                fluid
+                label="Place of Residenz"
+                required
+                placeholder="Place of Residence"
+                name="residence"
+                value={this.state.residence}
+                onChange={event =>
+                  this.setState({ residence: event.target.value })
                 }
               />
             </Form.Group>

@@ -207,9 +207,9 @@ class Assets extends Component {
           Router.push("/videochat");
         }
       });
-    } else if (this.state.value === 0) {
+    } else if (this.state.value == 0) {
       swal({
-        title: "Congratulations!",
+        title: "Thank You!",
         text:
           "You have paid. You will be redirected to the video identification",
         type: "success",
