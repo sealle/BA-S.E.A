@@ -6,6 +6,7 @@ import axios from "axios";
 import Head from "next/head";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
+import Helper from "../components/Helper"
 
 class adminPage extends Component {
   constructor() {
@@ -55,6 +56,10 @@ class adminPage extends Component {
     });
   }
 
+  isModify(test) {
+    console.log(test);
+  }
+
   render() {
     return (
       <div>
@@ -66,6 +71,7 @@ class adminPage extends Component {
           />
         ) : null}
         <ProfileHeader />
+        <Helper/>
         <Layout>
           <Container style={{ width: "100%" }}>
             <Head>

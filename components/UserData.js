@@ -5,10 +5,12 @@ import {
   Table,
   Header,
   Grid,
-  Segment
+  Segment,
+  Button
 } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
+import Helper from "../components/Helper"
 
 export default class UserData extends Component {
   constructor(props) {
@@ -16,8 +18,11 @@ export default class UserData extends Component {
     this.state = {
       users: [],
       isComp: "",
-      fileURL: ""
+      fileURL: "",
+      edited: false,
     };
+    
+    this.editData = this.editData.bind(this);
   }
 
   async componentDidMount() {
@@ -38,10 +43,15 @@ export default class UserData extends Component {
     }
   }
 
+  async editData() {
+    this.props.modify(this.state.edited);
+  }
+
   //TODO: Create UserProfile component with default template
   render() {
     return (
       <div>
+        <Helper />
         <Layout>
           <Segment style={{ marginTop: "50px" }}>
             <Header
@@ -54,6 +64,7 @@ export default class UserData extends Component {
             >
               Your Profile
             </Header>
+            <Button onClick={this.editData}></Button>
             <Container style={{ marginTop: "10px" }}>
               {this.state.users.map(member => (
                 <Header

@@ -239,7 +239,7 @@ export default class VideoChat extends Component {
         }
       `}</style>
           <Segment
-            style={{ marginTop: "50px", marginLeft: "-126px", width: "900px" }}
+            style={{marginLeft: "-126px", width: "900px" }}
           >
             <Header
               as="h1"

@@ -185,6 +185,7 @@ class Assets extends Component {
 
   //execute ether payment
   async _submit() {
+    console.log(this.state.value)
     let response = await axios.post(window.location.origin + "/clickandpay");
     if (response.data.success) {
       setCookie("x-access-token", response.data.videoCookie, 1);
@@ -199,26 +200,26 @@ class Assets extends Component {
         value: web3.utils.toWei(this.state.value, "ether")
       });
       swal({
-        title: "Congratulations!",
+        title: "Thank You!",
         text:
-          "You have paid. You will be redirected to the video identification",
+          "You will be redirected to the video identification",
         type: "success",
         onClose: () => {
           Router.push("/videochat");
         }
       });
-    } else if (this.state.value == 0) {
+    } else if (this.state.value === "") {
+      this.setState({ error: true });
+    } else {
       swal({
         title: "Thank You!",
         text:
-          "You have paid. You will be redirected to the video identification",
+          "You will be redirected to the video identification",
         type: "success",
         onClose: () => {
           Router.push("/videochat");
         }
       });
-    } else {
-      this.setState({ error: true });
     }
     this.setState({ loading: false, waiting: false });
   }
@@ -879,6 +880,9 @@ class Assets extends Component {
                       iconPosition="left"
                       placeholder="Ether"
                       id="value"
+                      type="number"
+                      min="0"
+                      step="0.0001"
                       value={this.state.value}
                       onChange={event =>
                         this.setState({ value: event.target.value })
