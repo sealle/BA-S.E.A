@@ -39,14 +39,16 @@ export default class UserList extends Component {
   }
 
   async componentDidMount() {
-    try {
-      const response = await axios.post(window.location.origin + "/userlist");
-      if (response.data.success) {
-        this.setState({ users: response.data.userData });
+    setInterval(async() => {
+      try {
+        const response = await axios.post(window.location.origin + "/userlist");
+        if (response.data.success) {
+          this.setState({ users: response.data.userData });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    }, 2000);
   }
 
   async selectUser(member, e, dimmer) {

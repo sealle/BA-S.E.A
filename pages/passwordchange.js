@@ -9,7 +9,8 @@ import {
   Segment,
   Form,
   Message,
-  Header
+  Header,
+  Popup
 } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
@@ -95,6 +96,16 @@ class PwChange extends Component {
               Please enter your username and select a new password and confirm
               it
             </Header>
+            <Popup
+                trigger={
+                  <Icon
+                    name="question circle outline"
+                    style={{marginBottom: "8px"}}
+                  />
+                }
+                content="The password must contain at least 1 upper case letter, 1 lower case letter, 1 digit, 1 special character and minimum eight in length!"
+                hideOnScroll
+              />
             <Form onSubmit={this.confirmP} error={this.state.errorMessage}>
               <Form.Field>
                 <Form.Input
@@ -102,6 +113,7 @@ class PwChange extends Component {
                   iconPosition="left"
                   type="password"
                   placeholder="Password"
+                  pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
                   name="password"
                   value={this.state.password}
                   onChange={event =>
@@ -112,6 +124,7 @@ class PwChange extends Component {
               <Form.Field>
                 {/* <label>Password</label> */}
                 <Form.Input
+                width="sixteen"
                   icon="lock"
                   iconPosition="left"
                   type="password"

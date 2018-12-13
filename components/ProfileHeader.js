@@ -13,7 +13,7 @@ export default class ProfileHeader extends Component {
     this.state = {
       isAdmin: false,
       currentUser: "",
-      activeItem: "videochat"
+      // activeItem: "videochat"
     };
     this.logout = e => this._logout();
   }
@@ -25,9 +25,6 @@ export default class ProfileHeader extends Component {
       );
       if (response.data.success) {
         this.setState({ currentUser: response.data.currentUser });
-        if (response.data.currentUser === "Admin") {
-          this.setState(activeItem === "home");
-        }
       }
     } catch (err) {
       console.log(err);
@@ -40,17 +37,17 @@ export default class ProfileHeader extends Component {
     window.location.href = "/login";
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-    const { activeItem } = this.state;
+    // const { activeItem } = this.state;
     return (
       <div>
         <Menu pointing>
           <Menu.Item name="home">
             <Icon name="home" size="small" />
           </Menu.Item>
-          {this.state.currentUser === "Admin" ? (
+          {/* {this.state.currentUser === "Admin" ? (
             <Menu.Menu>
               {/* <Menu.Item
                 color="blue"
@@ -58,7 +55,7 @@ export default class ProfileHeader extends Component {
                 active={activeItem === "home"}
                 onClick={this.handleItemClick}
               /> */}
-              <Menu.Item
+              {/* <Menu.Item
                 name="userlist"
                 active={activeItem === "userlist"}
                 onClick={this.handleItemClick}
@@ -71,8 +68,8 @@ export default class ProfileHeader extends Component {
                 onClick={this.handleItemClick}
                 color="blue"
               />
-            </Menu.Menu>
-          ) : null}
+            </Menu.Menu> */}
+          {/* ) : null} */}
           <Menu.Menu position="right">
             <Menu.Item name="logout" onClick={this.logout} />
             <Menu.Item>
@@ -87,15 +84,15 @@ export default class ProfileHeader extends Component {
               background: #e6e6e6;
             }
           `}</style>
-          {this.state.currentUser === "Admin" ? (
+          {/* {this.state.currentUser === "Admin" ? (
             <div>
               {this.state.activeItem === "userlist" ? <UserList /> : null}
               {this.state.activeItem === "videochat" ? (
                 <div>
                   <VideoChat />
                   {/* <UserApproval /> */}
-                </div>
-              ) : null}
+                {/* </div> */}
+              {/* ) : null} */}
               {/* {this.state.activeItem === "home" ? (
                 <Segment
                   style={{
@@ -117,8 +114,8 @@ export default class ProfileHeader extends Component {
                   </Header>
                 </Segment>
               ) : null} */}
-            </div>
-          ) : null}
+            {/* </div> */}
+          {/* ) : null} */}
         </Layout>
       </div>
     );

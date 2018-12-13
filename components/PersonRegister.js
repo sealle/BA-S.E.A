@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { Link, Router } from "../routes";
-import { Form, Button, Icon, Popup, Message } from "semantic-ui-react";
+import {
+  Form,
+  Button,
+  Icon,
+  Popup,
+  Message,
+  Container
+} from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import Layout from "./Layout";
 import HomeHeader from "./HomeHeader";
@@ -53,7 +60,7 @@ class PersonRegister extends Component {
       );
       if (response.data.success) {
         swal(
-          "Congratulations!",
+          "Success!",
           "An email has been sent to you. Please confirm your email address and login to proceed",
           "success"
         );
@@ -86,8 +93,9 @@ class PersonRegister extends Component {
         <Layout>
           <br />
           <Form onSubmit={this.handleSubmit} error={this.state.errorMessage}>
-            <Form.Group widths="equal">
+            <Form.Group>
               <Form.Input
+                width="eight"
                 fluid
                 label="Username"
                 placeholder="Username"
@@ -99,6 +107,7 @@ class PersonRegister extends Component {
                 }
               />
               <Form.Input
+                width="eight"
                 fluid
                 type="password"
                 label="Password"
@@ -106,9 +115,20 @@ class PersonRegister extends Component {
                 required
                 name="password"
                 value={this.state.password}
+                pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
                 onChange={event =>
                   this.setState({ password: event.target.value })
                 }
+              />
+              <Popup
+                trigger={
+                  <Icon
+                    name="question circle outline"
+                    style={{ marginRight: "-16px" }}
+                  />
+                }
+                content="The password must contain at least 1 upper case letter, 1 lower case letter, 1 digit, 1 special character and minimum eight in length!"
+                hideOnScroll
               />
             </Form.Group>
             <Form.Group widths="equal">
@@ -188,9 +208,8 @@ class PersonRegister extends Component {
               <Form.Input
                 fluid
                 label="Date of Birth"
-                type="date"
                 required
-                placeholder="YYYY-MM-DD"
+                placeholder="DD.MM.YYYY"
                 name="dateOfBirth"
                 value={this.state.dateOfBirth}
                 onChange={event =>
@@ -201,7 +220,7 @@ class PersonRegister extends Component {
                 fluid
                 label="Nationality"
                 required
-                placeholder="i.e. Switzerland"
+                placeholder="e.g. Switzerland"
                 name="nat"
                 value={this.state.nat}
                 onChange={event => this.setState({ nat: event.target.value })}

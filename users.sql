@@ -37,3 +37,6 @@ CREATE TABLE users (
 UPDATE users
 SET role='admin'
 WHERE username='Admin';
+
+ALTER TABLE users
+ADD COLUMN viewedByAdmin varchar(255) DEFAULT "no"

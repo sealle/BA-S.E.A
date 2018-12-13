@@ -107,8 +107,9 @@ class CompanyRegister extends Component {
         <Layout>
           <br />
           <Form onSubmit={this.handleSubmit} error={this.state.errorMessage}>
-            <Form.Group widths="equal">
+            <Form.Group>
               <Form.Input
+                width="eight"
                 fluid
                 label="Username"
                 placeholder="Username"
@@ -120,16 +121,28 @@ class CompanyRegister extends Component {
                 }
               />
               <Form.Input
+                width="eight"
                 fluid
                 type="password"
                 label="Password"
                 placeholder="Password"
                 required
+                pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
                 name="password"
                 value={this.state.password}
                 onChange={event =>
                   this.setState({ password: event.target.value })
                 }
+              />
+              <Popup
+                trigger={
+                  <Icon
+                    name="question circle outline"
+                    style={{ marginRight: "-16px" }}
+                  />
+                }
+                content="The password must contain at least 1 upper case letter, 1 lower case letter, 1 digit, 1 special character and minimum eight in length!"
+                hideOnScroll
               />
             </Form.Group>
             <Form.Group widths="equal">
@@ -209,9 +222,8 @@ class CompanyRegister extends Component {
               <Form.Input
                 fluid
                 label="Date of Birth"
-                type="date"
                 required
-                placeholder="YYYY-MM-DD"
+                placeholder="DD.MM.YYYY"
                 name="dateOfBirth"
                 value={this.state.dateOfBirth}
                 onChange={event =>
@@ -287,7 +299,8 @@ class CompanyRegister extends Component {
             ) : null}
             <Form.Group />
             <Form.Group>
-              <Form.Input width="sixteen"
+              <Form.Input
+                width="sixteen"
                 fluid
                 name="compName"
                 required
@@ -327,7 +340,7 @@ class CompanyRegister extends Component {
               />
             </Form.Group>
             <Form.Group widths="equal">
-            <Form.Input
+              <Form.Input
                 width="six"
                 fluid
                 type="number"

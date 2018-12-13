@@ -23,6 +23,7 @@ const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
 const secret = "iliketurtles";
 const EMAIL_SECRET = "yello15873";
+const date = require("date-and-time");
 
 //Nodemailer setup
 const transporter = nodemailer.createTransport({
@@ -67,12 +68,13 @@ app
 
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
-          let date = new Date();
+          let now = date.format(new Date(), "DD.MM.YYYY HH:mm:ss [GMT]Z");
+          let nowShort = date.format(new Date(), "DD.MM.YY");
           let body = req.body;
 
           //prevent sql injection by escaping user input (format())
           let insertSQL = SqlString.format(
-            "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, isComp=?",
+            "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, isComp=?, lastModified=?",
             [
               body.username,
               hash,
@@ -88,8 +90,9 @@ app
               body.mobNr,
               imageName,
               imageName2,
-              date,
-              0
+              now,
+              0,
+              nowShort
             ]
           );
           let searchSQL = SqlString.format(
@@ -193,12 +196,13 @@ app
 
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
-          let date = new Date();
+          let now = date.format(new Date(), "DD.MM.YYYY HH:mm:ss [GMT]Z");
+          let nowShort = date.format(new Date(), "DD.MM.YY");
           let body = req.body;
 
           //prevent sql injection by escaping user input (format())
           let insertSQL = SqlString.format(
-            "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, compName=?, compPostCode=?, residence=?, businessAd=?, compHouseNr=?, doc1=?, doc2=?, isComp=?",
+            "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, compName=?, compPostCode=?, residence=?, businessAd=?, compHouseNr=?, doc1=?, doc2=?, isComp=?, lastModified=?",
             [
               body.username,
               hash,
@@ -214,7 +218,7 @@ app
               body.mobNr,
               imageName,
               imageName2,
-              date,
+              now,
               body.compName,
               body.compPostCode,
               body.residence,
@@ -222,7 +226,8 @@ app
               body.compHouseNr,
               docName,
               docName2,
-              1
+              1,
+              nowShort
             ]
           );
           let searchSQL = SqlString.format(
@@ -581,11 +586,15 @@ app
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
       //TODO: Send beneficial Owners
-      let join = SqlString.format(
-        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE users.username=?",
+      // let join = SqlString.format(
+      //   "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE users.username=?",
+      //   [currentUser]
+      // );
+      let searchSQL = SqlString.format(
+        "SELECT DISTINCT * FROM users WHERE username=?",
         [currentUser]
       );
-      database.connection.query(join, function(err, res, fields) {
+      database.connection.query(searchSQL, function(err, res, fields) {
         if (err) throw err;
         response.status(200).send({
           success: true,
@@ -596,6 +605,91 @@ app
           doc2: res[0].doc2,
           isComp: res[0].isComp
         });
+      });
+    });
+
+    //receive changed data from users in profile page
+    server.post("/editData", urlEncodedParser, function(req, response) {
+      let body = req.body;
+      let now = date.format(new Date(), "DD.MM.YY");
+
+      let editAddress = SqlString.format(
+        "UPDATE users SET street=?, houseNr=?, postCode=?, placeOfRes=?, edited=?, lastModified=? WHERE username=?",
+        [
+          body.street,
+          body.houseNr,
+          body.postCode,
+          body.placeOfRes,
+          "address",
+          now,
+          body.username
+        ]
+      );
+
+      let editEmail = SqlString.format(
+        "UPDATE users SET email=?, edited=?, lastModified=? WHERE username=?",
+        [body.email, "email", now, body.userName]
+      );
+
+      let editMobile = SqlString.format(
+        "UPDATE users SET mobNr=?, edited=?, lastModified=? WHERE username=?",
+        [body.mobNr, "mobNr", now, body.userName]
+      );
+
+      let editCompName = SqlString.format(
+        "UPDATE users SET compName=?, edited=?, lastModified=? WHERE username=?",
+        [body.compName, "compName", now, body.userName]
+      );
+
+      let editCompAddress = SqlString.format(
+        "UPDATE users SET businessAd=?, compHouseNr=?, compPostCode=?, residence=?, edited=?, lastModified=? WHERE username=?",
+        [
+          body.businessAd,
+          body.compHouseNr,
+          body.compPostCode,
+          body.residence,
+          "compAddress",
+          now,
+          body.username
+        ]
+      );
+      if (body.street !== undefined) {
+        database.connection.query(editAddress, function(err, res, fields) {
+          if (err) throw err;
+          response.status(200).json({ success: true });
+        });
+      } else if (body.email !== undefined) {
+        database.connection.query(editEmail, function(err, res, fields) {
+          if (err) throw err;
+          response.status(200).json({ success: true });
+        });
+      } else if (body.mobNr !== undefined) {
+        database.connection.query(editMobile, function(err, res, fields) {
+          if (err) throw err;
+          response.status(200).json({ success: true });
+        });
+      } else if (body.compName !== undefined) {
+        database.connection.query(editCompName, function(err, res, fields) {
+          if (err) throw err;
+          response.status(200).json({ success: true });
+        });
+      } else if (body.businessAd !== undefined) {
+        database.connection.query(editCompAddress, function(err, res, fields) {
+          if (err) throw err;
+          response.status(200).json({ success: true });
+        });
+      }
+    });
+
+    server.post("/changeEdit", urlEncodedParser, function(req, response) {
+      let userName = req.body.userName;
+      let changeEdited = SqlString.format(
+        "UPDATE users SET edited=? WHERE username=?",
+        [null, userName]
+      );
+      database.connection.query(changeEdited, function(err, res, fields) {
+        if (err) throw err;
+        response.status(200).json({ success: true });
       });
     });
 
@@ -911,10 +1005,12 @@ app
               }
             });
           } else {
-            response.status(200).json({
-              success: true,
-              confirmed: false
-            });
+            if (!result.length) {
+              response.status(200).json({
+                success: true,
+                confirmed: false
+              });
+            }
           }
         }
       });

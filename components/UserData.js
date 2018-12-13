@@ -6,11 +6,13 @@ import {
   Header,
   Grid,
   Segment,
-  Button
+  Button,
+  Form,
+  Dropdown,
+  Popup
 } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
-import Helper from "../components/Helper"
 
 export default class UserData extends Component {
   constructor(props) {
@@ -19,10 +21,36 @@ export default class UserData extends Component {
       users: [],
       isComp: "",
       fileURL: "",
-      edited: false,
+      inAddressEdit: false,
+      inEmailEdit: false,
+      inMobileEdit: false,
+      inCompNameEdit: false,
+      inCompAddressEdit: false,
+      // userName: "",
+      // street: "",
+      // houseNr: "",
+      // postCode: "",
+      // placeOfRes: "",
+      // email: "",
+      // mobNr: "",
+      // compName: "",
+      // businessAd: "",
+      // compHouseNr: "",
+      // compPostCode: "",
+      // residence: ""
     };
-    
-    this.editData = this.editData.bind(this);
+
+    this.editAddress = this.editAddress.bind(this);
+    this.editEmail = this.editEmail.bind(this);
+    this.editMobile = this.editMobile.bind(this);
+    this.editCompName = this.editCompName.bind(this);
+    this.editCompAddress = this.editCompAddress.bind(this);
+    this.saveAddress = this.saveAddress.bind(this);
+    this.saveEmail = this.saveEmail.bind(this);
+    this.saveMobile = this.saveMobile.bind(this);
+    this.saveCompName = this.saveCompName.bind(this);
+    this.saveCompAddress = this.saveCompAddress.bind(this);
+    this.exitEditMode = this.exitEditMode.bind(this);
   }
 
   async componentDidMount() {
@@ -43,332 +71,444 @@ export default class UserData extends Component {
     }
   }
 
-  async editData() {
-    this.props.modify(this.state.edited);
+  editAddress() {
+    this.setState({
+      inAddressEdit: true,
+      inEmailEdit: false,
+      inMobileEdit: false,
+      inCompNameEdit: false,
+      inCompAddressEdit: false
+    });
+  }
+
+  editEmail() {
+    this.setState({
+      inAddressEdit: false,
+      inEmailEdit: true,
+      inMobileEdit: false,
+      inCompNameEdit: false,
+      inCompAddressEdit: false
+    });
+  }
+
+  editMobile() {
+    this.setState({
+      inAddressEdit: false,
+      inEmailEdit: false,
+      inMobileEdit: true,
+      inCompNameEdit: false,
+      inCompAddressEdit: false
+    });
+  }
+
+  editCompName() {
+    this.setState({
+      inAddressEdit: false,
+      inEmailEdit: false,
+      inMobileEdit: false,
+      inCompNameEdit: true,
+      inCompAddressEdit: false
+    });
+  }
+
+  editCompAddress() {
+    this.setState({
+      inAddressEdit: false,
+      inEmailEdit: false,
+      inMobileEdit: false,
+      inCompNameEdit: false,
+      inCompAddressEdit: true
+    });
+  }
+
+  exitEditMode() {
+    this.setState({
+      inAddressEdit: false,
+      inEmailEdit: false,
+      inMobileEdit: false,
+      inCompNameEdit: false,
+      inCompAddressEdit: false
+    });
+  }
+
+  async saveAddress() {
+    let formData = new FormData();
+
+    formData.append("street", this.state.street);
+    formData.append("houseNr", this.state.houseNr);
+    formData.append("postCode", this.state.postCode);
+    formData.append("placeOfRes", this.state.placeOfRes);
+    formData.append("username", this.state.users[0].username);
+
+    console.log(this.state.users[0].username, this.state.street)
+
+    let response = await axios.post(
+      window.location.origin + "/editData",
+      formData
+    );
+    if (response.data.success) {
+      this.exitEditMode();
+    }
+    window.location.href = "/profile";
+  }
+
+  async saveEmail() {
+    let email = this.state.email;
+    let userName = this.state.users[0].username;
+    let response = await axios.post(
+      window.location.origin + "/editData",
+      {email, userName}
+    );
+    if (response.data.success) {
+      this.exitEditMode();
+    }
+    window.location.href = "/profile";
+  }
+
+  async saveMobile() {
+    let mobNr = this.state.mobNr;
+    let userName = this.state.users[0].username;
+    let response = await axios.post(
+      window.location.origin + "/editData",
+      {mobNr, userName}
+    );
+    if (response.data.success) {
+      this.exitEditMode();
+    }
+    window.location.href = "/profile";
+  }
+
+  async saveCompName() {
+    let compName = this.state.compName;
+    let userName = this.state.users[0].username;
+    let response = await axios.post(
+      window.location.origin + "/editData",
+      {compName, userName}
+    );
+    if (response.data.success) {
+      this.exitEditMode();
+    }
+    window.location.href = "/profile";
+  }
+
+  async saveCompAddress() {
+    let formData = new FormData();
+
+    formData.append("businessAd", this.state.businessAd);
+    formData.append("compHouseNr", this.state.compHouseNr);
+    formData.append("compPostCode", this.state.compPostCode);
+    formData.append("residence", this.state.residence);
+    formData.append("username", this.state.users[0].username);
+
+    let response = await axios.post(
+      window.location.origin + "/editData",
+      formData
+    );
+    if (response.data.success) {
+      this.exitEditMode();
+    }
+    window.location.href = "/profile";
   }
 
   //TODO: Create UserProfile component with default template
   render() {
     return (
       <div>
-        <Helper />
-        <Layout>
-          <Segment style={{ marginTop: "50px" }}>
-            <Header
-              as="h1"
-              style={{
-                textAlign: "center",
-                marginTop: "10px",
-                color: "#2985d0"
-              }}
-            >
-              Your Profile
-            </Header>
-            <Button onClick={this.editData}></Button>
-            <Container style={{ marginTop: "10px" }}>
-              {this.state.users.map(member => (
-                <Header
-                  as="h3"
-                  block
-                  style={{ backgroundColor: "#d9edf7" }}
-                  key={member.id}
+        {/* <Helper /> */}
+        {/* <Layout> */}
+        <Segment style={{ width: "98%", marginLeft: "16px" }}>
+          <Header
+            as="h1"
+            style={{
+              textAlign: "center",
+              marginTop: "10px",
+              color: "#2985d0"
+            }}
+          >
+            Your Profile
+          </Header>
+          <Container style={{ marginTop: "10px" }}>
+            <Container style={{ display: "inline-block" }}>
+              {this.state.inAddressEdit == true ||
+              this.state.inEmailEdit == true ||
+              this.state.inMobileEdit == true ||
+              this.state.inCompNameEdit == true ||
+              this.state.inCompAddressEdit == true ? (
+                <Button
+                  floated="left"
+                  style={{ backgroundColor: "white", marginLeft: "-20px" }}
+                  onClick={this.exitEditMode}
                 >
-                  <Icon name="user" size="big" style={{ align: "left" }} />
-                  {member.lname}, {member.fname}
-                </Header>
-              ))}
-              <Table>
+                  <Icon name="close" />
+                </Button>
+              ) : null}
+              {this.state.isComp == "1" ? (
+                <div>
+                  <Popup
+                    trigger={
+                      <Button
+                        floated="right"
+                        animated="vertical"
+                        style={{ marginRight: "3px", backgroundColor: "white" }}
+                        onClick={this.editCompAddress}
+                        icon
+                      >
+                        <Icon name="location arrow" />
+                      </Button>
+                    }
+                    content="Edit business address"
+                    hideOnScroll
+                  />
+                  <Popup
+                    trigger={
+                      <Button
+                        floated="right"
+                        animated="vertical"
+                        style={{ marginRight: "3px", backgroundColor: "white" }}
+                        onClick={this.editCompName}
+                        icon
+                      >
+                        <Icon name="globe" />
+                      </Button>
+                    }
+                    content="Edit company name"
+                    hideOnScroll
+                  />
+                </div>
+              ) : null}
+              <Popup
+                trigger={
+                  <Button
+                    floated="right"
+                    animated="vertical"
+                    style={{ marginRight: "3px", backgroundColor: "white" }}
+                    onClick={this.editMobile}
+                    icon
+                  >
+                    <Icon name="phone" />
+                  </Button>
+                }
+                content="Edit mobile number"
+                hideOnScroll
+              />
+              <Popup
+                trigger={
+                  <Button
+                    floated="right"
+                    animated="vertical"
+                    style={{ marginRight: "3px", backgroundColor: "white" }}
+                    onClick={this.editEmail}
+                    icon
+                  >
+                    <Icon name="mail" />
+                  </Button>
+                }
+                content="Edit email"
+                hideOnScroll
+              />
+              <Popup
+                trigger={
+                  <Button
+                    floated="right"
+                    animated="vertical"
+                    style={{ marginRight: "3px", backgroundColor: "white" }}
+                    onClick={this.editAddress}
+                    icon
+                  >
+                    <Icon name="home" />
+                  </Button>
+                }
+                content="Edit address"
+                hideOnScroll
+              />
+            </Container>
+            {this.state.inAddressEdit == false &&
+            this.state.inCompAddressEdit == false &&
+            this.state.inCompNameEdit == false &&
+            this.state.inEmailEdit == false &&
+            this.state.inMobileEdit == false ? (
+              <Form>
                 {this.state.users.map(member => (
-                  <Table.Body key={member.id}>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p
+                  <div>
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        fluid
+                        label="Username"
+                        value={member.username}
+                      />
+                      <Form.Input readOnly fluid label="ID" value={member.id} />
+                    </Form.Group>
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        readOnly
+                        fluid
+                        label="First Name"
+                        value={member.fname}
+                      />
+                      <Form.Input
+                        readOnly
+                        fluid
+                        label="Last Name"
+                        value={member.lname}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Input
+                        readOnly
+                        width="eleven"
+                        fluid
+                        label="Street"
+                        value={member.street}
+                      />
+                      <Form.Input
+                        readOnly
+                        width="five"
+                        type="number"
+                        fluid
+                        label="House Number"
+                        value={member.houseNr}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Input
+                        readOnly
+                        width="six"
+                        fluid
+                        type="number"
+                        label="Postal Code"
+                        value={member.postCode}
+                      />
+                      <Form.Input
+                        readOnly
+                        width="ten"
+                        fluid
+                        label="Place of Residence"
+                        value={member.placeOfRes}
+                      />
+                    </Form.Group>
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        readOnly
+                        fluid
+                        label="Date of Birth"
+                        value={member.dateOfBirth}
+                      />
+                      <Form.Input
+                        readOnly
+                        fluid
+                        label="Nationality"
+                        value={member.nat}
+                      />
+                    </Form.Group>
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        readOnly
+                        fluid
+                        label="Email"
+                        value={member.email}
+                      />
+                      <Form.Input
+                        readOnly
+                        fluid
+                        label="Mobile Number"
+                        value={member.mobNr}
+                      />
+                    </Form.Group>
+                    <Form.Group width="sixteen">
+                      <Form.Input
+                        width="sixteen"
+                        readOnly
+                        fluid
+                        label="Registration Date"
+                        value={member.regDate}
+                      />
+                    </Form.Group>
+                    <Form.Group width="sixteen">
+                      <Form.Input
+                        width="sixteen"
+                        readOnly
+                        fluid
+                        label="KycKey"
+                        value={member.kycKey}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      {/* Requested By: ethAddresses map */}
+                    </Form.Group>
+                    <Form.Group widths="equal" style={{ margin: "0px auto" }}>
+                      <a
+                        href={`../static/${this.state.img1}`}
+                        target="_blank"
+                        style={{ width: "50%" }}
+                      >
+                        <img
+                          className="img-responsive"
+                          src={`../static/${this.state.img1}`}
                           style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
+                            width: "200px",
+                            height: "113px"
                           }}
-                        >
-                          Username:
-                        </p>
-                        {member.username}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p
+                        />
+                      </a>
+                      <a href={`../static/${this.state.img1}`} target="_blank">
+                        <img
+                          className="img-responsive"
+                          src={`../static/${this.state.img2}`}
                           style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
+                            width: "200px",
+                            height: "113px"
                           }}
+                        />
+                      </a>
+                    </Form.Group>
+                    {this.state.isComp == "1" ? (
+                      <div>
+                        <Form.Group style={{ marginTop: "10px" }}>
+                          <Form.Input
+                            readOnly
+                            width="sixteen"
+                            fluid
+                            label="Company Name"
+                            value={member.compName}
+                          />
+                        </Form.Group>
+                        <Form.Group>
+                          <Form.Input
+                            readOnly
+                            width="eleven"
+                            fluid
+                            label="Business Address"
+                            value={member.businessAd}
+                          />
+                          <Form.Input
+                            readOnly
+                            width="five"
+                            fluid
+                            label="House Number"
+                            value={member.compHouseNr}
+                          />
+                        </Form.Group>
+                        <Form.Group widths="equal">
+                          <Form.Input
+                            readOnly
+                            width="six"
+                            fluid
+                            label="Postal Code"
+                            value={member.compPostCode}
+                          />
+                          <Form.Input
+                            readOnly
+                            width="ten"
+                            fluid
+                            label="Place of Residenz"
+                            value={member.residence}
+                          />
+                        </Form.Group>
+                        <Form.Group
+                          width="sixteen"
+                          style={{ margin: "0px auto" }}
                         >
-                          ID:
-                        </p>
-                        {member.id}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Street:
-                        </p>
-                        {member.street}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          House Nr:
-                        </p>
-                        {member.houseNr}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Postal Code:
-                        </p>
-                        {member.postCode}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Residence:
-                        </p>
-                        {member.placeOfRes}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Birthday:
-                        </p>
-                        {member.dateOfBirth}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Nationality:
-                        </p>
-                        {member.nat}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Email:
-                        </p>
-                        {member.email}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Mobile Number:
-                        </p>
-                        {member.mobNr}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Role:
-                        </p>
-                        {member.privileges}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          is Registered:
-                        </p>
-                        {member.isRegistered}
-                      </Table.Cell>
-                    </Table.Row>
-                    {/* <Table.Row>
-                      <Table.Cell colSpan={2}>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Hash:
-                        </p>
-                        {member.hash}
-                      </Table.Cell>
-                    </Table.Row> */}
-                    <Table.Row>
-                      <Table.Cell colSpan={2}>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          Registration Date:
-                        </p>
-                        {member.regDate}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell colSpan={2}>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            display: "inline-block",
-                            paddingRight: "10px"
-                          }}
-                        >
-                          KYC Key:
-                        </p>
-                        {member.kycKey}
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                ))}
-              </Table>
-              <Grid>
-                <Grid.Column width={8}>
-                  <img
-                    className="img-responsive"
-                    src={`../static/${this.state.img1}`}
-                    style={{ width: "200px", height: "113px", float: "left" }}
-                  />
-                </Grid.Column>
-                <Grid.Column width={8}>
-                  <img
-                    className="img-responsive"
-                    src={`../static/${this.state.img2}`}
-                    style={{ width: "200px", height: "113px", float: "right" }}
-                  />
-                </Grid.Column>
-              </Grid>
-              {this.state.isComp === 1 ? (
-                <Table>
-                  {this.state.users.map(member => (
-                    <Table.Body key={member.id}>
-                      <Table.Row>
-                        <Table.Cell colSpan={2}>
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              display: "inline-block",
-                              paddingRight: "10px"
-                            }}
-                          >
-                            Company Name:
-                          </p>
-                          {member.compName}
-                        </Table.Cell>
-                      </Table.Row>
-                      <Table.Row>
-                        <Table.Cell>
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              display: "inline-block",
-                              paddingRight: "10px"
-                            }}
-                          >
-                            Business Address:
-                          </p>
-                          {member.businessAd}
-                        </Table.Cell>
-                        <Table.Cell>
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              display: "inline-block",
-                              paddingRight: "10px"
-                            }}
-                          >
-                            House Nr:
-                          </p>
-                          {member.compHouseNr}
-                        </Table.Cell>
-                      </Table.Row>
-                      <Table.Row>
-                        <Table.Cell>
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              display: "inline-block",
-                              paddingRight: "10px"
-                            }}
-                          >
-                            Postal Code:
-                          </p>
-                          {member.compPostCode}
-                        </Table.Cell>
-                        <Table.Cell>
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              display: "inline-block",
-                              paddingRight: "10px"
-                            }}
-                          >
-                            Residence:
-                          </p>
-                          {member.residence}
-                        </Table.Cell>
-                      </Table.Row>
-                      <Table.Row>
-                        <Table.Cell colSpan={2}>
+                          <Icon name="linkify" />
                           <a
                             href={`../static/${this.state.doc1}`}
                             type="application/pdf"
@@ -376,26 +516,221 @@ export default class UserData extends Component {
                           >
                             View extract of the relevant registration authority
                           </a>
-                        </Table.Cell>
-                      </Table.Row>
-                      <Table.Row>
-                        <Table.Cell colSpan={2}>
+                        </Form.Group>
+                        <Form.Group
+                          width="sixteen"
+                          style={{ margin: "0px auto" }}
+                        >
+                          <Icon name="linkify" />
                           <a
                             href={`../static/${this.state.doc2}`}
                             type="application/pdf"
                             target="_blank"
                           >
-                            View copy of the power of attorney
+                            View electronic copy of the power of attorney
                           </a>
-                        </Table.Cell>
-                      </Table.Row>
-                    </Table.Body>
-                  ))}
-                </Table>
-              ) : null}
-            </Container>
-          </Segment>
-        </Layout>
+                        </Form.Group>
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </Form>
+            ) : this.state.inAddressEdit == true ? (
+              <Form onSubmit={this.saveAddress}>
+                <Form.Group>
+                  <Form.Input
+                    width="eleven"
+                    fluid
+                    label="Street"
+                    required
+                    placeholder="Street"
+                    name="street"
+                    value={this.state.street}
+                    onChange={event =>
+                      this.setState({ street: event.target.value })
+                    }
+                  />
+                  <Form.Input
+                    width="five"
+                    fluid
+                    label="House Number"
+                    required
+                    placeholder="House Number"
+                    name="houseNr"
+                    value={this.state.houseNr}
+                    onChange={event =>
+                      this.setState({ houseNr: event.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Input
+                    width="six"
+                    fluid
+                    type="number"
+                    name="postCode"
+                    required
+                    placeholder="Postal Code"
+                    label="Postal Code"
+                    value={this.state.postCode}
+                    onChange={event =>
+                      this.setState({ postCode: event.target.value })
+                    }
+                  />
+                  <Form.Input
+                    width="ten"
+                    fluid
+                    required
+                    placeholder="Place of Residence"
+                    name="placeOfRes"
+                    label="Place of Residence"
+                    value={this.state.placeOfRes}
+                    onChange={event =>
+                      this.setState({ placeOfRes: event.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Container
+                  style={{ display: "inline-block", textAlign: "center" }}
+                >
+                  <Button>Save</Button>
+                </Container>
+              </Form>
+            ) : this.state.inEmailEdit ? (
+              <Form onSubmit={this.saveEmail}>
+                <Form.Group>
+                  <Form.Input
+                    width="sixteen"
+                    fluid
+                    name="email"
+                    required
+                    placeholder="Email"
+                    label="Email"
+                    type="email"
+                    value={this.state.email}
+                    onChange={event =>
+                      this.setState({ email: event.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Container
+                  style={{ display: "inline-block", textAlign: "center" }}
+                >
+                  <Button>Save</Button>
+                </Container>
+              </Form>
+            ) : this.state.inMobileEdit ? (
+              <Form onSubmit={this.saveMobile}>
+                <Form.Group>
+                  <Form.Input
+                    width="sixteen"
+                    name="mobNr"
+                    placeholder="+4* *** ** **"
+                    fluid
+                    required
+                    label="Mobile Number"
+                    type="number"
+                    value={this.state.mobNr}
+                    onChange={event =>
+                      this.setState({ mobNr: event.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Container
+                  style={{ display: "inline-block", textAlign: "center" }}
+                >
+                  <Button>Save</Button>
+                </Container>
+              </Form>
+            ) : this.state.isComp == "1" && this.state.inCompNameEdit ? (
+              <Form onSubmit={this.saveCompName}>
+                <Form.Group style={{ marginTop: "10px" }}>
+                  <Form.Input
+                    width="sixteen"
+                    fluid
+                    required
+                    label="Company Name"
+                    name="compName"
+                    placeholder="Company Name"
+                    value={this.state.compName}
+                    onChange={event =>
+                      this.setState({ compName: event.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Container
+                  style={{ display: "inline-block", textAlign: "center" }}
+                >
+                  <Button>Save</Button>
+                </Container>
+              </Form>
+            ) : this.state.isComp == "1" && this.state.inCompAddressEdit ? (
+              <Form onSubmit={this.saveCompAddress}>
+                <Form.Group>
+                  <Form.Input
+                    width="eleven"
+                    fluid
+                    required
+                    name="businessAd"
+                    placeholder="Street"
+                    label="Business Address"
+                    value={this.state.businessAd}
+                    onChange={event =>
+                      this.setState({ businessAd: event.target.value })
+                    }
+                  />
+                  <Form.Input
+                    width="five"
+                    fluid
+                    required
+                    label="House Number"
+                    placeholder="House Nr"
+                    name="compHouseNr"
+                    value={this.state.compHouseNr}
+                    onChange={event =>
+                      this.setState({ compHouseNr: event.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Form.Group widths="equal">
+                  <Form.Input
+                    width="six"
+                    name="compPostCode"
+                    fluid
+                    required
+                    label="Postal Code"
+                    type="number"
+                    placeholder="Postal Code"
+                    value={this.state.compPostCode}
+                    onChange={event =>
+                      this.setState({
+                        compPostCode: event.target.value
+                      })
+                    }
+                  />
+                  <Form.Input
+                    width="ten"
+                    name="residence"
+                    fluid
+                    required
+                    label="Place of Residence"
+                    placeholder="Place of Residence"
+                    value={this.state.residence}
+                    onChange={event =>
+                      this.setState({ residence: event.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Container
+                  style={{ display: "inline-block", textAlign: "center" }}
+                >
+                  <Button>Save</Button>
+                </Container>
+              </Form>
+            ) : null}
+          </Container>
+        </Segment>
+        {/* </Layout> */}
       </div>
     );
   }
