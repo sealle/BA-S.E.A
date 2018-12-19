@@ -15,6 +15,8 @@ const jwtDecode = require("jwt-decode");
 const nodemailer = require("nodemailer");
 const SqlString = require("sqlstring");
 const otplib = require("otplib");
+const Web3 = require("web3");
+const web3 = new Web3();
 // const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -590,21 +592,15 @@ app
       });
     });
 
-    //Gets list of users from cookies
+    //Gets data of a user
     server.post("/users", urlEncodedParser, function(req, response) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
-      //TODO: Send beneficial Owners
-      // let join = SqlString.format(
-      //   "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE users.username=?",
-      //   [currentUser]
-      // );
-      let searchSQL = SqlString.format(
-        "SELECT DISTINCT * FROM users WHERE username=?",
-        [currentUser]
-      );
-      database.connection.query(searchSQL, function(err, res, fields) {
+      let searchUser = SqlString.format(
+          "SELECT * FROM users WHERE username=?",
+          [currentUser])
+      database.connection.query(searchUser, function(err, res, fields) {
         if (err) throw err;
         response.status(200).send({
           success: true,
@@ -710,14 +706,6 @@ app
         "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE username=?",
         [currentUser]
       );
-      // let searchAddresses = SqlString.format(
-      //   "SELECT * FROM ethAddresses WHERE kycKey=?",
-      //   [res.kycKey]
-      // );
-      // let searchUsers = SqlString.format(
-      //   "SELECT * FROM users WHERE username=?",
-      //   [currentUser]
-      // );
       database.connection.query(join, function(err, res, fields) {
         if (err) {
           throw err;
@@ -956,6 +944,7 @@ app
     //create OTP
     server.post("/otpCreate", urlEncodedParser, (req, response) => {
       let userName = req.body.userName;
+      console.log(userName)
       let searchEmail = SqlString.format(
         "SELECT email FROM users WHERE username=?",
         [userName]
@@ -964,42 +953,32 @@ app
         if (err) {
           throw err;
         } else {
-          jwt.sign(
-            {
-              username: userName,
-              emailToken: crypto
-                .createHash("sha256")
-                .update(userName)
-                .digest("hex")
-            },
-            EMAIL_SECRET,
-            {
-              expiresIn: 36000 //1h
-            },
-            (err, emailToken) => {
+            (err) => {
               const token = otplib.authenticator.generate(OtpSecret);
               transporter.sendMail({
                 from: "no.reply.sealle@gmail.com",
-                to: body.email,
+                to: res[0].email,
                 subject: "OTP",
                 html: `Your OTP: ${token}`
               });
             }
-          );
-          response.status(200).json({ success: true });
+          response.status(200).json({ success: true, message: "OTP sent!"});
         }
       });
     });
 
     //verify OTP
     server.post("/otpVerify", urlEncodedParser, (req, res) => {
+      let newAccount = web3.eth.accounts.create();
+      console.log(newAccount);
       let body = req.body;
-      let token = body.token;
-      const isValid = otplib.authenticator.check(token, OtpSecret);
-      if (isValid == true) {
-        response.status(200).json({ success: true });
+      let otp = body.otp;
+      const isValid = otplib.authenticator.check(otp, OtpSecret);
+      console.log(isValid);
+      if (isValid) {
+        res.status(200).json({ success: true });
       } else {
-        response.status(500).json({ success: false, message: "wrong OTP!" });
+        res.status(200).json({ success: false, message: "wrong OTP!" });
       }
     });
 

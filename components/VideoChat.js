@@ -206,11 +206,20 @@ export default class VideoChat extends Component {
     this.peers[userId] = this.startPeer(userId);
   }
 
-  endCall() {
-    setCookie("x-access-token", "", -60 * 60);
-    window.location.href = "/login";
-    Router.push("/login");
-  }
+  endCall = async () => {
+    let otp = this.state.otp;
+    console.log(otp);
+    let response = await axios.post(window.location.origin + "/otpVerify", {
+      otp
+    });
+    if (response.data.success) {
+      setCookie("x-access-token", "", -60 * 60);
+      window.location.href = "/login";
+      Router.push("/login");
+    } else {
+      this.setState({ message: response.data.message, isEntered: false });
+    }
+  };
 
   async approval() {
     let newAccount = web3.eth.accounts.create();
@@ -332,25 +341,32 @@ export default class VideoChat extends Component {
                     separator={<span>-</span>}
                   />
                 </div> */}
-                <Container style={{width: "50%", marginBottom: "13px"}}>
+                <Container style={{ width: "50%", marginBottom: "13px" }}>
                   <OtpInput
-                    onChange={otp => console.log(otp)}
+                    value={this.state.otp}
+                    onChange={otp => this.setState({otp: otp, otpEntered: true})}
+                    // onChange={otp => console.log(otp)}
                     numInputs={6}
                     separator={<span>-</span>}
                   />
+                  {this.state.message ?
+                  <Message error header="Oops!" content={this.state.message} />
+                  :null }
                 </Container>
-                <Button
-                  style={{
-                    color: "white",
-                    backgroundColor: "#ff3344",
-                    width: "50%",
-                    margin: "0px auto"
-                  }}
-                  fluid
-                  onClick={this.endCall}
-                >
-                  Submit
-                </Button>
+                {this.state.otpEntered ? (
+                  <Button
+                    style={{
+                      color: "white",
+                      backgroundColor: "#ff3344",
+                      width: "50%",
+                      margin: "0px auto"
+                    }}
+                    fluid
+                    onClick={this.endCall}
+                  >
+                    Submit
+                  </Button>
+                ) : null }
               </div>
             ) : null}
             {this.state.role == 1 && this.state.connectedTo ? (

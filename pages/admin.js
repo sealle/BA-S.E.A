@@ -55,7 +55,9 @@ class adminPage extends Component {
       isEdited: "",
       activeItem: "videochat",
       ethAddresses: [],
-      ethAddressArray: []
+      ethAddressArray: [],
+      message: "",
+      sent: false
     };
     this.currentUser = {
       id: "",
@@ -271,19 +273,8 @@ class adminPage extends Component {
           doc1: response.data.doc1,
           doc2: response.data.doc2
         });
-        for (let i = 1; i < this.state.usrs.length; i++) {
-          this.state.ethAddresses[i] = this.state.usrs[i].ethAddress;
-          // this.state.ethAddressArray.push(
-          //   <Form.Group width="sixteen">
-          //     <Form.Input
-          //       width="sixteen"
-          //       readOnly
-          //       fluid
-          //       // label={i}
-          //       value={this.state.ethAddresses[i]}
-          //     />
-          //   </Form.Group>
-          // );
+        for (let i = 1; i < this.state.users.length; i++) {
+          this.state.ethAddresses[i] = this.state.users[i].ethAddress;
         }
       }
     } catch (error) {
@@ -392,6 +383,15 @@ class adminPage extends Component {
     }
     // window.location.href = "/admin";
   }
+
+  sendOTP = async () => {
+    let response = await axios.post(window.location.origin + "/otpCreate", {
+      userName
+    });
+    if (response.data.success) {
+      this.setState({ message: response.data.message, sent: true });
+    }
+  };
 
   render() {
     const { open, dimmer, activeItem } = this.state;
@@ -528,6 +528,13 @@ class adminPage extends Component {
                   <Button.Content hidden>Send OTP</Button.Content>
                 </Button>
               </Container>
+              {this.state.sent ? (
+                <Message
+                  success
+                  header="Success"
+                  content={this.state.message}
+                />
+              ) : null}
               <div>
                 {this.state.role == 1 && this.state.connectedTo ? (
                   <Message
@@ -640,369 +647,368 @@ class adminPage extends Component {
                     <Modal.Description>
                       <Form>
                         {/* {this.state.usrs.map(members => ( */}
-                          <div>
-                            <Form.Group widths="equal">
+                        <div>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              readOnly
+                              fluid
+                              label="Username"
+                              value={this.state.usrs[0].username}
+                            />
+                            <Form.Input
+                              readOnly
+                              fluid
+                              label="ID"
+                              value={this.state.usrs[0].id}
+                            />
+                          </Form.Group>
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              readOnly
+                              fluid
+                              label="First Name"
+                              value={this.state.usrs[0].fname}
+                            />
+                            <Form.Input
+                              readOnly
+                              fluid
+                              label="Last Name"
+                              value={this.state.usrs[0].lname}
+                            />
+                          </Form.Group>
+                          {this.state.usrs[0].edited == "address" ? (
+                            <div>
+                              <Form.Group>
+                                <Form.Input
+                                  error
+                                  readOnly
+                                  width="eleven"
+                                  fluid
+                                  label="Street"
+                                  value={this.state.usrs[0].street}
+                                />
+                                <Form.Input
+                                  error
+                                  readOnly
+                                  width="five"
+                                  fluid
+                                  label="House Number"
+                                  value={this.state.usrs[0].houseNr}
+                                />
+                              </Form.Group>
+                              <Form.Group>
+                                <Form.Input
+                                  error
+                                  readOnly
+                                  width="six"
+                                  fluid
+                                  type="number"
+                                  label="Postal Code"
+                                  value={this.state.usrs[0].postCode}
+                                />
+                                <Form.Input
+                                  error
+                                  readOnly
+                                  width="ten"
+                                  fluid
+                                  label="Place of Residence"
+                                  value={this.state.usrs[0].placeOfRes}
+                                />
+                              </Form.Group>
+                            </div>
+                          ) : (
+                            <div>
+                              <Form.Group>
+                                <Form.Input
+                                  readOnly
+                                  width="eleven"
+                                  fluid
+                                  label="Street"
+                                  value={this.state.usrs[0].street}
+                                />
+                                <Form.Input
+                                  readOnly
+                                  width="five"
+                                  fluid
+                                  label="House Number"
+                                  value={this.state.usrs[0].houseNr}
+                                />
+                              </Form.Group>
+                              <Form.Group>
+                                <Form.Input
+                                  readOnly
+                                  width="six"
+                                  fluid
+                                  type="number"
+                                  label="Postal Code"
+                                  value={this.state.usrs[0].postCode}
+                                />
+                                <Form.Input
+                                  readOnly
+                                  width="ten"
+                                  fluid
+                                  label="Place of Residence"
+                                  value={this.state.usrs[0].placeOfRes}
+                                />
+                              </Form.Group>
+                            </div>
+                          )}
+                          <Form.Group widths="equal">
+                            <Form.Input
+                              readOnly
+                              fluid
+                              label="Date of Birth"
+                              value={this.state.usrs[0].dateOfBirth}
+                            />
+                            <Form.Input
+                              readOnly
+                              fluid
+                              label="Nationality"
+                              value={this.state.usrs[0].nat}
+                            />
+                          </Form.Group>
+                          <Form.Group widths="equal">
+                            {this.state.usrs[0].edited == "email" ? (
                               <Form.Input
+                                error
                                 readOnly
                                 fluid
-                                label="Username"
-                                value={this.state.usrs[0].username}
+                                label="Email"
+                                type="email"
+                                value={this.state.usrs[0].email}
                               />
-                              <Form.Input
-                                readOnly
-                                fluid
-                                label="ID"
-                                value={this.state.usrs[0].id}
-                              />
-                            </Form.Group>
-                            <Form.Group widths="equal">
-                              <Form.Input
-                                readOnly
-                                fluid
-                                label="First Name"
-                                value={this.state.usrs[0].fname}
-                              />
-                              <Form.Input
-                                readOnly
-                                fluid
-                                label="Last Name"
-                                value={this.state.usrs[0].lname}
-                              />
-                            </Form.Group>
-                            {this.state.usrs[0].edited == "address" ? (
-                              <div>
-                                <Form.Group>
-                                  <Form.Input
-                                    error
-                                    readOnly
-                                    width="eleven"
-                                    fluid
-                                    label="Street"
-                                    value={this.state.usrs[0].street}
-                                  />
-                                  <Form.Input
-                                    error
-                                    readOnly
-                                    width="five"
-                                    fluid
-                                    label="House Number"
-                                    value={this.state.usrs[0].houseNr}
-                                  />
-                                </Form.Group>
-                                <Form.Group>
-                                  <Form.Input
-                                    error
-                                    readOnly
-                                    width="six"
-                                    fluid
-                                    type="number"
-                                    label="Postal Code"
-                                    value={this.state.usrs[0].postCode}
-                                  />
-                                  <Form.Input
-                                    error
-                                    readOnly
-                                    width="ten"
-                                    fluid
-                                    label="Place of Residence"
-                                    value={this.state.usrs[0].placeOfRes}
-                                  />
-                                </Form.Group>
-                              </div>
                             ) : (
-                              <div>
-                                <Form.Group>
-                                  <Form.Input
-                                    readOnly
-                                    width="eleven"
-                                    fluid
-                                    label="Street"
-                                    value={this.state.usrs[0].street}
-                                  />
-                                  <Form.Input
-                                    readOnly
-                                    width="five"
-                                    fluid
-                                    label="House Number"
-                                    value={this.state.usrs[0].houseNr}
-                                  />
-                                </Form.Group>
-                                <Form.Group>
-                                  <Form.Input
-                                    readOnly
-                                    width="six"
-                                    fluid
-                                    type="number"
-                                    label="Postal Code"
-                                    value={this.state.usrs[0].postCode}
-                                  />
-                                  <Form.Input
-                                    readOnly
-                                    width="ten"
-                                    fluid
-                                    label="Place of Residence"
-                                    value={this.state.usrs[0].placeOfRes}
-                                  />
-                                </Form.Group>
-                              </div>
+                              <Form.Input
+                                readOnly
+                                fluid
+                                label="Email"
+                                type="email"
+                                value={this.state.usrs[0].email}
+                              />
                             )}
-                            <Form.Group widths="equal">
+                            {this.state.usrs[0].edited == "mobNr" ? (
+                              <Form.Input
+                                error
+                                readOnly
+                                fluid
+                                label="Mobile Number"
+                                type="number"
+                                value={this.state.usrs[0].mobNr}
+                              />
+                            ) : (
                               <Form.Input
                                 readOnly
                                 fluid
-                                label="Date of Birth"
-                                value={this.state.usrs[0].dateOfBirth}
+                                label="Mobile Number"
+                                type="number"
+                                value={this.state.usrs[0].mobNr}
                               />
-                              <Form.Input
-                                readOnly
-                                fluid
-                                label="Nationality"
-                                value={this.state.usrs[0].nat}
-                              />
-                            </Form.Group>
-                            <Form.Group widths="equal">
-                              {this.state.usrs[0].edited == "email" ? (
-                                <Form.Input
-                                  error
-                                  readOnly
-                                  fluid
-                                  label="Email"
-                                  type="email"
-                                  value={this.state.usrs[0].email}
-                                />
-                              ) : (
-                                <Form.Input
-                                  readOnly
-                                  fluid
-                                  label="Email"
-                                  type="email"
-                                  value={this.state.usrs[0].email}
-                                />
-                              )}
-                              {this.state.usrs[0].edited == "mobNr" ? (
-                                <Form.Input
-                                  error
-                                  readOnly
-                                  fluid
-                                  label="Mobile Number"
-                                  type="number"
-                                  value={this.state.usrs[0].mobNr}
-                                />
-                              ) : (
-                                <Form.Input
-                                  readOnly
-                                  fluid
-                                  label="Mobile Number"
-                                  type="number"
-                                  value={this.state.usrs[0].mobNr}
-                                />
-                              )}
-                            </Form.Group>
+                            )}
+                          </Form.Group>
+                          <Form.Group width="sixteen">
+                            <Form.Input
+                              width="sixteen"
+                              readOnly
+                              fluid
+                              label="Registration Date"
+                              value={this.state.usrs[0].regDate}
+                            />
+                          </Form.Group>
+                          <Form.Group width="sixteen">
+                            <Form.Input
+                              width="sixteen"
+                              readOnly
+                              fluid
+                              label="KycKey"
+                              value={this.state.usrs[0].kycKey}
+                            />
+                          </Form.Group>
+                          {this.state.ethAddresses.length > 0 ? (
+                            <p style={{ fontWeight: "bold" }}>
+                              EthAddresses which requested the KycKey
+                            </p>
+                          ) : null}
+
+                          {this.state.ethAddresses.map(ethAddress => (
                             <Form.Group width="sixteen">
                               <Form.Input
                                 width="sixteen"
                                 readOnly
                                 fluid
-                                label="Registration Date"
-                                value={this.state.usrs[0].regDate}
+                                // label={i}
+                                value={ethAddress}
                               />
                             </Form.Group>
-                            <Form.Group width="sixteen">
-                              <Form.Input
-                                width="sixteen"
-                                readOnly
-                                fluid
-                                label="KycKey"
-                                value={this.state.usrs[0].kycKey}
-                              />
-                            </Form.Group>
-                            {this.state.ethAddresses.length > 0 ? (
-                              <p style={{ fontWeight: "bold" }}>
-                                EthAddresses which requested the KycKey
-                              </p>
-                            ) : null}
+                          ))}
 
-                            {this.state.ethAddresses.map((ethAddress) => (
-                                <Form.Group width="sixteen">
-                                  <Form.Input
-                                    width="sixteen"
-                                    readOnly
-                                    fluid
-                                    // label={i}
-                                    value={ethAddress}
-                                  />
-                                </Form.Group>
-                              ))}
-
-                            <p style={{ fontWeight: "bold" }}>Identity Card</p>
-                            <Form.Group
-                              widths="equal"
-                              style={{ margin: "0px auto" }}
+                          <p style={{ fontWeight: "bold" }}>Identity Card</p>
+                          <Form.Group
+                            widths="equal"
+                            style={{ margin: "0px auto" }}
+                          >
+                            {/* <Grid width={16}>
+                        <Grid.Column> */}
+                            <a
+                              href={`../static/${this.state.img1}`}
+                              target="_blank"
+                              style={{ width: "50%" }}
                             >
-                              {/* <Grid width={16}>
+                              <img
+                                className="img-responsive"
+                                src={`../static/${this.state.img1}`}
+                                style={{
+                                  width: "200px",
+                                  height: "113px"
+                                  // float: "left"
+                                }}
+                              />
+                            </a>
+                            {/* </Grid.Column>
                         <Grid.Column> */}
-                              <a
-                                href={`../static/${this.state.img1}`}
-                                target="_blank"
-                                style={{ width: "50%" }}
-                              >
-                                <img
-                                  className="img-responsive"
-                                  src={`../static/${this.state.img1}`}
-                                  style={{
-                                    width: "200px",
-                                    height: "113px"
-                                    // float: "left"
-                                  }}
-                                />
-                              </a>
-                              {/* </Grid.Column>
-                        <Grid.Column> */}
-                              <a
-                                href={`../static/${this.state.img1}`}
-                                target="_blank"
-                              >
-                                <img
-                                  className="img-responsive"
-                                  src={`../static/${this.state.img2}`}
-                                  style={{
-                                    width: "200px",
-                                    height: "113px"
-                                    // float: "right"
-                                  }}
-                                />
-                              </a>
-                              {/* </Grid.Column> */}
-                              {/* </Grid> */}
-                            </Form.Group>
-                            {this.state.usrs[0].isComp == "1" ? (
-                              <div>
-                                <Form.Group style={{ marginTop: "10px" }}>
-                                  {this.state.usrs[0].edited == "compName" ? (
+                            <a
+                              href={`../static/${this.state.img1}`}
+                              target="_blank"
+                            >
+                              <img
+                                className="img-responsive"
+                                src={`../static/${this.state.img2}`}
+                                style={{
+                                  width: "200px",
+                                  height: "113px"
+                                  // float: "right"
+                                }}
+                              />
+                            </a>
+                            {/* </Grid.Column> */}
+                            {/* </Grid> */}
+                          </Form.Group>
+                          {this.state.usrs[0].isComp == "1" ? (
+                            <div>
+                              <Form.Group style={{ marginTop: "10px" }}>
+                                {this.state.usrs[0].edited == "compName" ? (
+                                  <Form.Input
+                                    error
+                                    readOnly
+                                    width="sixteen"
+                                    fluid
+                                    label="Company Name"
+                                    value={this.state.usrs[0].compName}
+                                  />
+                                ) : (
+                                  <Form.Input
+                                    readOnly
+                                    width="sixteen"
+                                    fluid
+                                    label="Company Name"
+                                    value={this.state.usrs[0].compName}
+                                  />
+                                )}
+                              </Form.Group>
+                              {this.state.usrs[0].edited == "compAddress" ? (
+                                <div>
+                                  <Form.Group>
                                     <Form.Input
                                       error
                                       readOnly
-                                      width="sixteen"
+                                      width="eleven"
                                       fluid
-                                      label="Company Name"
-                                      value={this.state.usrs[0].compName}
+                                      label="Business Address"
+                                      value={this.state.usrs[0].businessAd}
                                     />
-                                  ) : (
+                                    <Form.Input
+                                      error
+                                      readOnly
+                                      width="five"
+                                      fluid
+                                      label="House Number"
+                                      value={this.state.usrs[0].compHouseNr}
+                                    />
+                                  </Form.Group>
+                                  <Form.Group widths="equal">
+                                    <Form.Input
+                                      error
+                                      readOnly
+                                      width="six"
+                                      fluid
+                                      label="Postal Code"
+                                      value={this.state.usrs[0].compPostCode}
+                                    />
+                                    <Form.Input
+                                      error
+                                      readOnly
+                                      width="ten"
+                                      fluid
+                                      label="Place of Residenz"
+                                      value={this.state.usrs[0].residence}
+                                    />
+                                  </Form.Group>
+                                </div>
+                              ) : (
+                                <div>
+                                  <Form.Group>
                                     <Form.Input
                                       readOnly
-                                      width="sixteen"
+                                      width="eleven"
                                       fluid
-                                      label="Company Name"
-                                      value={this.state.usrs[0].compName}
+                                      label="Business Address"
+                                      value={this.state.usrs[0].businessAd}
                                     />
-                                  )}
-                                </Form.Group>
-                                {this.state.usrs[0].edited == "compAddress" ? (
-                                  <div>
-                                    <Form.Group>
-                                      <Form.Input
-                                        error
-                                        readOnly
-                                        width="eleven"
-                                        fluid
-                                        label="Business Address"
-                                        value={this.state.usrs[0].businessAd}
-                                      />
-                                      <Form.Input
-                                        error
-                                        readOnly
-                                        width="five"
-                                        fluid
-                                        label="House Number"
-                                        value={this.state.usrs[0].compHouseNr}
-                                      />
-                                    </Form.Group>
-                                    <Form.Group widths="equal">
-                                      <Form.Input
-                                        error
-                                        readOnly
-                                        width="six"
-                                        fluid
-                                        label="Postal Code"
-                                        value={this.state.usrs[0].compPostCode}
-                                      />
-                                      <Form.Input
-                                        error
-                                        readOnly
-                                        width="ten"
-                                        fluid
-                                        label="Place of Residenz"
-                                        value={this.state.usrs[0].residence}
-                                      />
-                                    </Form.Group>
-                                  </div>
-                                ) : (
-                                  <div>
-                                    <Form.Group>
-                                      <Form.Input
-                                        readOnly
-                                        width="eleven"
-                                        fluid
-                                        label="Business Address"
-                                        value={this.state.usrs[0].businessAd}
-                                      />
-                                      <Form.Input
-                                        readOnly
-                                        width="five"
-                                        fluid
-                                        label="House Number"
-                                        value={this.state.usrs[0].compHouseNr}
-                                      />
-                                    </Form.Group>
-                                    <Form.Group widths="equal">
-                                      <Form.Input
-                                        readOnly
-                                        width="six"
-                                        fluid
-                                        label="Postal Code"
-                                        value={this.state.usrs[0].compPostCode}
-                                      />
-                                      <Form.Input
-                                        readOnly
-                                        width="ten"
-                                        fluid
-                                        label="Place of Residenz"
-                                        value={this.state.usrs[0].residence}
-                                      />
-                                    </Form.Group>
-                                  </div>
-                                )}
-                                <Form.Group
-                                  width="sixteen"
-                                  style={{ margin: "0px auto" }}
+                                    <Form.Input
+                                      readOnly
+                                      width="five"
+                                      fluid
+                                      label="House Number"
+                                      value={this.state.usrs[0].compHouseNr}
+                                    />
+                                  </Form.Group>
+                                  <Form.Group widths="equal">
+                                    <Form.Input
+                                      readOnly
+                                      width="six"
+                                      fluid
+                                      label="Postal Code"
+                                      value={this.state.usrs[0].compPostCode}
+                                    />
+                                    <Form.Input
+                                      readOnly
+                                      width="ten"
+                                      fluid
+                                      label="Place of Residenz"
+                                      value={this.state.usrs[0].residence}
+                                    />
+                                  </Form.Group>
+                                </div>
+                              )}
+                              <Form.Group
+                                width="sixteen"
+                                style={{ margin: "0px auto" }}
+                              >
+                                <Icon name="linkify" />
+                                <a
+                                  href={`../static/${this.state.doc1}`}
+                                  type="application/pdf"
+                                  target="_blank"
                                 >
-                                  <Icon name="linkify" />
-                                  <a
-                                    href={`../static/${this.state.doc1}`}
-                                    type="application/pdf"
-                                    target="_blank"
-                                  >
-                                    View extract of the relevant registration
-                                    authority
-                                  </a>
-                                </Form.Group>
-                                <Form.Group
-                                  width="sixteen"
-                                  style={{ margin: "0px auto" }}
+                                  View extract of the relevant registration
+                                  authority
+                                </a>
+                              </Form.Group>
+                              <Form.Group
+                                width="sixteen"
+                                style={{ margin: "0px auto" }}
+                              >
+                                <Icon name="linkify" />
+                                <a
+                                  href={`../static/${this.state.doc2}`}
+                                  type="application/pdf"
+                                  target="_blank"
                                 >
-                                  <Icon name="linkify" />
-                                  <a
-                                    href={`../static/${this.state.doc2}`}
-                                    type="application/pdf"
-                                    target="_blank"
-                                  >
-                                    View electronic copy of the power of
-                                    attorney
-                                  </a>
-                                </Form.Group>
-                              </div>
-                            ) : null}
-                          </div>
+                                  View electronic copy of the power of attorney
+                                </a>
+                              </Form.Group>
+                            </div>
+                          ) : null}
+                        </div>
                         {/* ))} */}
                       </Form>
                     </Modal.Description>

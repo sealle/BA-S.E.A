@@ -2,21 +2,17 @@ import React, { Component } from "react";
 import {
   Icon,
   Container,
-  Table,
   Header,
-  Grid,
   Segment,
   Button,
   Form,
-  Dropdown,
   Popup
 } from "semantic-ui-react";
-import Layout from "../components/Layout";
 import axios from "axios";
 
 export default class UserData extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       users: [],
       isComp: "",
@@ -26,34 +22,10 @@ export default class UserData extends Component {
       inMobileEdit: false,
       inCompNameEdit: false,
       inCompAddressEdit: false,
-      // userName: "",
-      // street: "",
-      // houseNr: "",
-      // postCode: "",
-      // placeOfRes: "",
-      // email: "",
-      // mobNr: "",
-      // compName: "",
-      // businessAd: "",
-      // compHouseNr: "",
-      // compPostCode: "",
-      // residence: ""
     };
-
-    this.editAddress = this.editAddress.bind(this);
-    this.editEmail = this.editEmail.bind(this);
-    this.editMobile = this.editMobile.bind(this);
-    this.editCompName = this.editCompName.bind(this);
-    this.editCompAddress = this.editCompAddress.bind(this);
-    this.saveAddress = this.saveAddress.bind(this);
-    this.saveEmail = this.saveEmail.bind(this);
-    this.saveMobile = this.saveMobile.bind(this);
-    this.saveCompName = this.saveCompName.bind(this);
-    this.saveCompAddress = this.saveCompAddress.bind(this);
-    this.exitEditMode = this.exitEditMode.bind(this);
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     try {
       const response = await axios.post(window.location.origin + "/users");
       if (response.data.success) {
@@ -66,12 +38,12 @@ export default class UserData extends Component {
           isComp: response.data.isComp
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   }
 
-  editAddress() {
+  editAddress = () => {
     this.setState({
       inAddressEdit: true,
       inEmailEdit: false,
@@ -79,9 +51,9 @@ export default class UserData extends Component {
       inCompNameEdit: false,
       inCompAddressEdit: false
     });
-  }
+  };
 
-  editEmail() {
+  editEmail = () => {
     this.setState({
       inAddressEdit: false,
       inEmailEdit: true,
@@ -89,9 +61,9 @@ export default class UserData extends Component {
       inCompNameEdit: false,
       inCompAddressEdit: false
     });
-  }
+  };
 
-  editMobile() {
+  editMobile = () => {
     this.setState({
       inAddressEdit: false,
       inEmailEdit: false,
@@ -99,9 +71,9 @@ export default class UserData extends Component {
       inCompNameEdit: false,
       inCompAddressEdit: false
     });
-  }
+  };
 
-  editCompName() {
+  editCompName = () => {
     this.setState({
       inAddressEdit: false,
       inEmailEdit: false,
@@ -109,9 +81,9 @@ export default class UserData extends Component {
       inCompNameEdit: true,
       inCompAddressEdit: false
     });
-  }
+  };
 
-  editCompAddress() {
+  editCompAddress = () => {
     this.setState({
       inAddressEdit: false,
       inEmailEdit: false,
@@ -119,9 +91,9 @@ export default class UserData extends Component {
       inCompNameEdit: false,
       inCompAddressEdit: true
     });
-  }
+  };
 
-  exitEditMode() {
+  exitEditMode = () => {
     this.setState({
       inAddressEdit: false,
       inEmailEdit: false,
@@ -129,9 +101,9 @@ export default class UserData extends Component {
       inCompNameEdit: false,
       inCompAddressEdit: false
     });
-  }
+  };
 
-  async saveAddress() {
+  saveAddress = async () => {
     let formData = new FormData();
 
     formData.append("street", this.state.street);
@@ -140,7 +112,7 @@ export default class UserData extends Component {
     formData.append("placeOfRes", this.state.placeOfRes);
     formData.append("username", this.state.users[0].username);
 
-    console.log(this.state.users[0].username, this.state.street)
+    console.log(this.state.users[0].username, this.state.street);
 
     let response = await axios.post(
       window.location.origin + "/editData",
@@ -150,48 +122,48 @@ export default class UserData extends Component {
       this.exitEditMode();
     }
     window.location.href = "/profile";
-  }
+  };
 
-  async saveEmail() {
+  saveEmail = async () => {
     let email = this.state.email;
     let userName = this.state.users[0].username;
-    let response = await axios.post(
-      window.location.origin + "/editData",
-      {email, userName}
-    );
+    let response = await axios.post(window.location.origin + "/editData", {
+      email,
+      userName
+    });
     if (response.data.success) {
       this.exitEditMode();
     }
     window.location.href = "/profile";
-  }
+  };
 
-  async saveMobile() {
+  saveMobile = async () => {
     let mobNr = this.state.mobNr;
     let userName = this.state.users[0].username;
-    let response = await axios.post(
-      window.location.origin + "/editData",
-      {mobNr, userName}
-    );
+    let response = await axios.post(window.location.origin + "/editData", {
+      mobNr,
+      userName
+    });
     if (response.data.success) {
       this.exitEditMode();
     }
     window.location.href = "/profile";
-  }
+  };
 
-  async saveCompName() {
+  saveCompName = async () => {
     let compName = this.state.compName;
     let userName = this.state.users[0].username;
-    let response = await axios.post(
-      window.location.origin + "/editData",
-      {compName, userName}
-    );
+    let response = await axios.post(window.location.origin + "/editData", {
+      compName,
+      userName
+    });
     if (response.data.success) {
       this.exitEditMode();
     }
     window.location.href = "/profile";
-  }
+  };
 
-  async saveCompAddress() {
+  saveCompAddress = async () => {
     let formData = new FormData();
 
     formData.append("businessAd", this.state.businessAd);
@@ -208,14 +180,11 @@ export default class UserData extends Component {
       this.exitEditMode();
     }
     window.location.href = "/profile";
-  }
+  };
 
-  //TODO: Create UserProfile component with default template
   render() {
     return (
       <div>
-        {/* <Helper /> */}
-        {/* <Layout> */}
         <Segment style={{ width: "98%", marginLeft: "16px" }}>
           <Header
             as="h1"
@@ -423,6 +392,7 @@ export default class UserData extends Component {
                         value={member.regDate}
                       />
                     </Form.Group>
+
                     <Form.Group width="sixteen">
                       <Form.Input
                         width="sixteen"
@@ -432,9 +402,25 @@ export default class UserData extends Component {
                         value={member.kycKey}
                       />
                     </Form.Group>
-                    <Form.Group>
-                      {/* Requested By: ethAddresses map */}
+                    {/* {this.state.ethAddresses.length > 0 ? (
+                    <p style={{ fontWeight: "bold" }}>
+                      EthAddresses which requested the KycKey
+                    </p>
+                  ) : null}
+
+                  {this.state.ethAddresses.map(ethAddress => (
+                    <Form.Group width="sixteen">
+                      <Form.Input
+                        width="sixteen"
+                        readOnly
+                        fluid
+                        // label={i}
+                        value={member.ethAddress}
+                      />
                     </Form.Group>
+                  ))} */}
+
+                    <p style={{ fontWeight: "bold" }}>Identity Card</p>
                     <Form.Group widths="equal" style={{ margin: "0px auto" }}>
                       <a
                         href={`../static/${this.state.img1}`}
@@ -450,7 +436,7 @@ export default class UserData extends Component {
                           }}
                         />
                       </a>
-                      <a href={`../static/${this.state.img1}`} target="_blank">
+                      <a href={`../static/${this.state.img2}`} target="_blank">
                         <img
                           className="img-responsive"
                           src={`../static/${this.state.img2}`}
