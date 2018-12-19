@@ -47,29 +47,6 @@ export default class ProfileHeader extends Component {
           <Menu.Item name="home">
             <Icon name="home" size="small" />
           </Menu.Item>
-          {/* {this.state.currentUser === "Admin" ? (
-            <Menu.Menu>
-              {/* <Menu.Item
-                color="blue"
-                name="home"
-                active={activeItem === "home"}
-                onClick={this.handleItemClick}
-              /> */}
-              {/* <Menu.Item
-                name="userlist"
-                active={activeItem === "userlist"}
-                onClick={this.handleItemClick}
-                color="blue"
-              />
-              <Menu.Item
-                name="videochat"
-                // href="/videochat"
-                active={activeItem === "videochat"}
-                onClick={this.handleItemClick}
-                color="blue"
-              />
-            </Menu.Menu> */}
-          {/* ) : null} */}
           <Menu.Menu position="right">
             <Menu.Item name="logout" onClick={this.logout} />
             <Menu.Item>
@@ -84,38 +61,6 @@ export default class ProfileHeader extends Component {
               background: #e6e6e6;
             }
           `}</style>
-          {/* {this.state.currentUser === "Admin" ? (
-            <div>
-              {this.state.activeItem === "userlist" ? <UserList /> : null}
-              {this.state.activeItem === "videochat" ? (
-                <div>
-                  <VideoChat />
-                  {/* <UserApproval /> */}
-                {/* </div> */}
-              {/* ) : null} */}
-              {/* {this.state.activeItem === "home" ? (
-                <Segment
-                  style={{
-                    marginTop: "50px",
-                    marginLeft: "-126px",
-                    width: "900px"
-                  }}
-                >
-                  <Header
-                    as="h1"
-                    style={{
-                      textAlign: "center",
-                      marginTop: "10px",
-                      color: "#2985d0",
-                      marginBottom: "10px"
-                    }}
-                  >
-                    Welcome to the Admin Page
-                  </Header>
-                </Segment>
-              ) : null} */}
-            {/* </div> */}
-          {/* ) : null} */}
         </Layout>
       </div>
     );

@@ -4,7 +4,6 @@ import Layout from "../components/Layout";
 import {
   Header,
   Container,
-  Grid,
   Menu,
   Message,
   Button,
@@ -23,6 +22,7 @@ import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
+
 let xsrfToken = "";
 let pusher;
 let channelName;
@@ -52,7 +52,10 @@ class adminPage extends Component {
       waitingMessage: "",
       loading: false,
       countMembers: "",
-      isEdited: ""
+      isEdited: "",
+      activeItem: "videochat",
+      ethAddresses: [],
+      ethAddressArray: []
     };
     this.currentUser = {
       id: "",
@@ -68,8 +71,10 @@ class adminPage extends Component {
     this.setupPusher = this.setupPusher.bind(this);
     this.startPeer = this.startPeer.bind(this);
     this.approval = this.approval.bind(this);
+    this.decline = this.decline.bind(this);
     this.makeAdmin = e => this._makeAdmin();
     this.closeModal = this.closeModal.bind(this);
+    this.closeModalAfterApproval = this.closeModalAfterApproval.bind(this);
   }
 
   async componentWillMount() {
@@ -92,7 +97,7 @@ class adminPage extends Component {
       } catch (error) {
         console.log(error);
       }
-    }, 3000);
+    }, 1000);
 
     contract.events.KycListen({}, async (err, result) => {
       if (err) {
@@ -266,6 +271,20 @@ class adminPage extends Component {
           doc1: response.data.doc1,
           doc2: response.data.doc2
         });
+        for (let i = 1; i < this.state.usrs.length; i++) {
+          this.state.ethAddresses[i] = this.state.usrs[i].ethAddress;
+          // this.state.ethAddressArray.push(
+          //   <Form.Group width="sixteen">
+          //     <Form.Input
+          //       width="sixteen"
+          //       readOnly
+          //       fluid
+          //       // label={i}
+          //       value={this.state.ethAddresses[i]}
+          //     />
+          //   </Form.Group>
+          // );
+        }
       }
     } catch (error) {
       console.log(error);
@@ -291,21 +310,30 @@ class adminPage extends Component {
 
   async closeModal() {
     let userName = this.state.usrs[0].username;
-    console.log(userName);
     let response = await axios.post(window.location.origin + "/changeEdit", {
       userName
     });
     if (response.data.success) {
-      this.setState({ open: false });
+      this.setState({ open: false, ethAddresses: [] });
+      let a = false;
+      for (let i = 0; i < this.state.users.length; i++) {
+        if (!this.state.users[i].edited) {
+          this.setState({ isEdited: null });
+        }
+      }
     }
   }
 
+  async closeModalAfterApproval() {
+    this.setState({ open: false });
+  }
+
   toList = () => {
-    this.setState({ isVideo: false });
+    this.setState({ isVideo: false, activeItem: "users" });
   };
 
   toVideo = () => {
-    this.setState({ isVideo: true });
+    this.setState({ isVideo: true, activeItem: "videochat" });
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
       this.currentUser.stream = stream;
@@ -346,7 +374,19 @@ class adminPage extends Component {
       userName
     });
     if (response.data.success) {
-      this.closeModal();
+      this.closeModalAfterApproval();
+    } else {
+      console.log("error");
+    }
+    // window.location.href = "/admin";
+  }
+
+  async decline() {
+    let response = await axios.post(window.location.origin + "/decline", {
+      userName
+    });
+    if (response.data.success) {
+      this.closeModalAfterApproval();
     } else {
       console.log("error");
     }
@@ -354,7 +394,7 @@ class adminPage extends Component {
   }
 
   render() {
-    const { open, dimmer } = this.state;
+    const { open, dimmer, activeItem } = this.state;
     return (
       <div>
         <ProfileHeader />
@@ -367,7 +407,7 @@ class adminPage extends Component {
             style={{ marginTop: "5px", marginLeft: "120px", width: "900px" }}
           />
         ) : null}
-        <Segment style={{ width: "98%", marginLeft: "16px" }}>
+        <Segment style={{ width: "98%", margin: "16px" }}>
           <Header
             as="h1"
             textAlign="center"
@@ -377,6 +417,7 @@ class adminPage extends Component {
           </Header>
           <Menu pointing secondary>
             <Menu.Item
+              active={activeItem === "videochat"}
               name="video"
               onClick={this.toVideo}
               style={{ color: "#2985d0" }}
@@ -385,6 +426,7 @@ class adminPage extends Component {
               Videochat
             </Menu.Item>
             <Menu.Item
+              active={activeItem === "users"}
               name="users"
               onClick={this.toList}
               style={{ color: "#2985d0" }}
@@ -471,6 +513,21 @@ class adminPage extends Component {
                 />
                 <br />
               </Container>
+              <Container
+                style={{
+                  display: "inline-block",
+                  textAlign: "center",
+                  marginTop: "10px",
+                  width: "100%"
+                }}
+              >
+                <Button animated onClick={this.sendOTP}>
+                  <Button.Content visible>
+                    <Icon name="send" />
+                  </Button.Content>
+                  <Button.Content hidden>Send OTP</Button.Content>
+                </Button>
+              </Container>
               <div>
                 {this.state.role == 1 && this.state.connectedTo ? (
                   <Message
@@ -480,7 +537,11 @@ class adminPage extends Component {
                   />
                 ) : null}
               </div>
-              <Modal dimmer={dimmer} open={open} onClose={this.closeModal}>
+              <Modal
+                dimmer={dimmer}
+                open={open}
+                onClose={this.closeModalAfterApproval}
+              >
                 <Modal.Header>{userName} removed successfully!</Modal.Header>
                 <Modal.Content image>
                   <Modal.Description>
@@ -494,11 +555,7 @@ class adminPage extends Component {
                   </Modal.Description>
                 </Modal.Content>
                 <Modal.Actions>
-                  <Button
-                    color="black"
-                    floated="left"
-                    onClick={this.closeModal}
-                  >
+                  <Button color="black" floated="left" onClick={this.decline}>
                     Decline
                   </Button>
                   <Button
@@ -517,12 +574,22 @@ class adminPage extends Component {
                 <Card
                   key={member.id}
                   raised
-                  style={{
-                    height: "400x",
-                    width: "180px",
-                    display: "inline-block",
-                    margin: "18px"
-                  }}
+                  style={
+                    member.kycKey === "declined"
+                      ? {
+                          height: "400x",
+                          width: "180px",
+                          display: "inline-block",
+                          margin: "18px",
+                          border: "1px solid red"
+                        }
+                      : {
+                          height: "400x",
+                          width: "180px",
+                          display: "inline-block",
+                          margin: "18px"
+                        }
+                  }
                 >
                   <Card.Content>
                     {member.edited ? (
@@ -571,10 +638,8 @@ class adminPage extends Component {
                   </Modal.Header>
                   <Modal.Content image>
                     <Modal.Description>
-                      <Header>Approval</Header>
-                      {/* Which data has been modified?  */}
                       <Form>
-                        {this.state.usrs.map(members => (
+                        {/* {this.state.usrs.map(members => ( */}
                           <div>
                             <Form.Group widths="equal">
                               <Form.Input
@@ -604,7 +669,7 @@ class adminPage extends Component {
                                 value={this.state.usrs[0].lname}
                               />
                             </Form.Group>
-                            {members.edited == "address" ? (
+                            {this.state.usrs[0].edited == "address" ? (
                               <div>
                                 <Form.Group>
                                   <Form.Input
@@ -696,7 +761,7 @@ class adminPage extends Component {
                               />
                             </Form.Group>
                             <Form.Group widths="equal">
-                              {members.edited == "email" ? (
+                              {this.state.usrs[0].edited == "email" ? (
                                 <Form.Input
                                   error
                                   readOnly
@@ -714,7 +779,7 @@ class adminPage extends Component {
                                   value={this.state.usrs[0].email}
                                 />
                               )}
-                              {members.edited == "mobNr" ? (
+                              {this.state.usrs[0].edited == "mobNr" ? (
                                 <Form.Input
                                   error
                                   readOnly
@@ -751,6 +816,25 @@ class adminPage extends Component {
                                 value={this.state.usrs[0].kycKey}
                               />
                             </Form.Group>
+                            {this.state.ethAddresses.length > 0 ? (
+                              <p style={{ fontWeight: "bold" }}>
+                                EthAddresses which requested the KycKey
+                              </p>
+                            ) : null}
+
+                            {this.state.ethAddresses.map((ethAddress) => (
+                                <Form.Group width="sixteen">
+                                  <Form.Input
+                                    width="sixteen"
+                                    readOnly
+                                    fluid
+                                    // label={i}
+                                    value={ethAddress}
+                                  />
+                                </Form.Group>
+                              ))}
+
+                            <p style={{ fontWeight: "bold" }}>Identity Card</p>
                             <Form.Group
                               widths="equal"
                               style={{ margin: "0px auto" }}
@@ -794,7 +878,7 @@ class adminPage extends Component {
                             {this.state.usrs[0].isComp == "1" ? (
                               <div>
                                 <Form.Group style={{ marginTop: "10px" }}>
-                                  {members.edited == "compName" ? (
+                                  {this.state.usrs[0].edited == "compName" ? (
                                     <Form.Input
                                       error
                                       readOnly
@@ -813,7 +897,7 @@ class adminPage extends Component {
                                     />
                                   )}
                                 </Form.Group>
-                                {members.edited == "compAddress" ? (
+                                {this.state.usrs[0].edited == "compAddress" ? (
                                   <div>
                                     <Form.Group>
                                       <Form.Input
@@ -919,7 +1003,7 @@ class adminPage extends Component {
                               </div>
                             ) : null}
                           </div>
-                        ))}
+                        {/* ))} */}
                       </Form>
                     </Modal.Description>
                   </Modal.Content>
@@ -927,11 +1011,7 @@ class adminPage extends Component {
                     <Container
                       style={{ textAlign: "center", display: "inline-block" }}
                     >
-                      <Button
-                        color="black"
-                        onClick={this.closeModal}
-                        loading={this.state.loading}
-                      >
+                      <Button color="black" onClick={this.closeModal}>
                         Close
                       </Button>
                     </Container>

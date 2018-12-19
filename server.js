@@ -14,6 +14,7 @@ const path = require("path");
 const jwtDecode = require("jwt-decode");
 const nodemailer = require("nodemailer");
 const SqlString = require("sqlstring");
+const otplib = require("otplib");
 // const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -21,8 +22,10 @@ const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
+//jwt secret
 const secret = "iliketurtles";
 const EMAIL_SECRET = "yello15873";
+const OtpSecret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
 const date = require("date-and-time");
 
 //Nodemailer setup
@@ -398,6 +401,13 @@ app
                     registerStatus: result[0].isRegistered,
                     privileg: result[0].privileges
                   });
+                } else if (result[0].kycKey == "declined") {
+                  response.status(200).json({
+                    success: true,
+                    message:
+                      "This username has been declined. You cannot login!",
+                    declined: result[0].kycKey
+                  });
                 } else {
                   let registerToken = jwt.sign(
                     {
@@ -696,32 +706,73 @@ app
     //Gets list of users from Client
     server.post("/usrs", urlEncodedParser, function(req, response) {
       let currentUser = req.body.currentUser;
-      //TODO: Send beneficial Owners
       let join = SqlString.format(
-        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE users.username=?",
+        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE username=?",
         [currentUser]
       );
+      // let searchAddresses = SqlString.format(
+      //   "SELECT * FROM ethAddresses WHERE kycKey=?",
+      //   [res.kycKey]
+      // );
+      // let searchUsers = SqlString.format(
+      //   "SELECT * FROM users WHERE username=?",
+      //   [currentUser]
+      // );
       database.connection.query(join, function(err, res, fields) {
-        if (err) throw err;
-        response.status(200).send({
-          success: true,
-          userData: res,
-          pic1: res[0].ID1,
-          pic2: res[0].ID2,
-          doc1: res[0].doc1,
-          doc2: res[0].doc2,
-          isComp: res[0].isComp
-        });
+        if (err) {
+          throw err;
+        } else {
+          response.status(200).send({
+            success: true,
+            userData: res,
+            pic1: res[0].ID1,
+            pic2: res[0].ID2,
+            doc1: res[0].doc1,
+            doc2: res[0].doc2,
+            isComp: res[0].isComp
+          });
+        }
       });
     });
 
     //Store kycKey into db
     server.post("/approval", urlEncodedParser, function(req, response) {
       let body = req.body;
+      let storekycKeyUsers = SqlString.format(
+        "UPDATE users SET kycKey=?, isRegistered=? WHERE username=?",
+        [body.newKycKey, "yes", body.userName]
+      );
+      let storeKeyEthAddresses = SqlString.format(
+        "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
+        [body.newKycKey, null]
+      );
+      database.connection.query(storekycKeyUsers, function(err, res, fields) {
+        if (err) {
+          throw err;
+        } else {
+          database.connection.query(storeKeyEthAddresses, function(
+            err,
+            res,
+            fields
+          ) {
+            if (err) {
+              throw err;
+            } else {
+              response.status(200).json({
+                success: true
+              });
+            }
+          });
+        }
+      });
+    });
+
+    server.post("/decline", urlEncodedParser, function(req, response) {
+      let body = req.body;
       console.log(body.userName);
       let storekycKey = SqlString.format(
         "UPDATE users SET kycKey=?, isRegistered=? WHERE username=?",
-        [body.newKycKey, "yes", body.userName]
+        ["declined", "yes", body.userName]
       );
       database.connection.query(storekycKey, function(err, res, fields) {
         if (err) throw err;
@@ -730,21 +781,6 @@ app
         });
       });
     });
-
-    //Deletes a user, necessary?
-    // server.post("/deleteuser", urlEncodedParser, function(req, response) {
-    //   let currentUser = req.body.currentUser;
-    //   let sql = "DELETE FROM users WHERE username = '" + currentUser + "'";
-    //   database.connection.query(sql, function(err, res, fields) {
-    //     if (err) throw err;
-    //     response.status(200).json({
-    //       success: true,
-    //       message: "User deleted!"
-    //     });
-    //   });
-    // });
-
-    //Admin can edit data
 
     //Make a user admin
     server.post("/makeadmin", urlEncodedParser, function(req, response) {
@@ -917,6 +953,56 @@ app
       return next();
     });
 
+    //create OTP
+    server.post("/otpCreate", urlEncodedParser, (req, response) => {
+      let userName = req.body.userName;
+      let searchEmail = SqlString.format(
+        "SELECT email FROM users WHERE username=?",
+        [userName]
+      );
+      database.connection.query(searchEmail, function(err, res) {
+        if (err) {
+          throw err;
+        } else {
+          jwt.sign(
+            {
+              username: userName,
+              emailToken: crypto
+                .createHash("sha256")
+                .update(userName)
+                .digest("hex")
+            },
+            EMAIL_SECRET,
+            {
+              expiresIn: 36000 //1h
+            },
+            (err, emailToken) => {
+              const token = otplib.authenticator.generate(OtpSecret);
+              transporter.sendMail({
+                from: "no.reply.sealle@gmail.com",
+                to: body.email,
+                subject: "OTP",
+                html: `Your OTP: ${token}`
+              });
+            }
+          );
+          response.status(200).json({ success: true });
+        }
+      });
+    });
+
+    //verify OTP
+    server.post("/otpVerify", urlEncodedParser, (req, res) => {
+      let body = req.body;
+      let token = body.token;
+      const isValid = otplib.authenticator.check(token, OtpSecret);
+      if (isValid == true) {
+        response.status(200).json({ success: true });
+      } else {
+        response.status(500).json({ success: false, message: "wrong OTP!" });
+      }
+    });
+
     //User details for videochat
     server.post("/videochat/stream", urlEncodedParser, (req, res) => {
       let cookie = req.cookies["x-access-token"];
@@ -959,7 +1045,7 @@ app
     // let response = pusher.get("https://endpoint.com/webhook15873");
     // console.log(response);
 
-    //Pusher endpoint
+    //Pusher endpoint used to authenticate users
     server.post("/pusher/auth", urlEncodedParser, function(req, res) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
@@ -974,6 +1060,7 @@ app
       res.send(auth);
     });
 
+    //process user requests from external plattforms
     server.post("/verify", urlEncodedParser, function(req, response) {
       let body = req.body;
       let checkKycKey = SqlString.format("SELECT * FROM users WHERE kycKey=?", [
@@ -1010,6 +1097,7 @@ app
                 success: true,
                 confirmed: false
               });
+              console.log("wrong kycKey");
             }
           }
         }

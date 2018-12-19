@@ -5,8 +5,9 @@ import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
-import {setCookie} from "../utils/CookieUtils";
+import { setCookie } from "../utils/CookieUtils";
 import web3 from "../ethereum/src/web3";
+import OtpInput from "react-otp-input";
 import {
   Header,
   Message,
@@ -14,7 +15,9 @@ import {
   Button,
   Icon,
   Form,
-  Modal
+  Modal,
+  Input,
+  Container
 } from "semantic-ui-react";
 import axios from "axios";
 import { Router } from "../routes";
@@ -41,7 +44,7 @@ export default class VideoChat extends Component {
       waitingMessage: "",
       loading: false,
       countMembers: "",
-      open: false,
+      open: false
     };
 
     this.currentUser = {
@@ -169,8 +172,8 @@ export default class VideoChat extends Component {
     peer.on("signal", data => {
       channelName.trigger(`client-signal-${userId}`, {
         type: "signal",
-        userId: this.currentUser.id, 
-        data: data,
+        userId: this.currentUser.id,
+        data: data
       });
     });
 
@@ -212,24 +215,27 @@ export default class VideoChat extends Component {
   async approval() {
     let newAccount = web3.eth.accounts.create();
     let newKycKey = newAccount.address;
-    let response = await axios.post(window.location.origin + "/approval", {newKycKey, userName})
-    if(response.data.success) {
+    let response = await axios.post(window.location.origin + "/approval", {
+      newKycKey,
+      userName
+    });
+    if (response.data.success) {
       this.closeModal();
     } else {
-      console.log("error")
+      console.log("error");
     }
     window.location.href = "/admin";
   }
 
   show(dimmer) {
-    this.setState({ dimmer, open: true })
-  } 
+    this.setState({ dimmer, open: true });
+  }
   closeModal() {
-    this.setState({ open: false })
+    this.setState({ open: false });
   }
 
   render() {
-    const { open, dimmer } = this.state
+    const { open, dimmer } = this.state;
     return (
       <div>
         <Layout>
@@ -238,9 +244,7 @@ export default class VideoChat extends Component {
           background: #e6e6e6;
         }
       `}</style>
-          <Segment
-            style={{marginLeft: "-126px", width: "900px" }}
-          >
+          <Segment style={{ marginLeft: "-126px", width: "900px" }}>
             <Header
               as="h1"
               textAlign="center"
@@ -320,15 +324,35 @@ export default class VideoChat extends Component {
             </div>
             <br />
             {this.state.role != 1 ? (
-              // <Button
-              //   onClick={this.reloadAfterCall}
-              //   fluid
-              //   style={{ color: "white", backgroundColor: "#ff3344" }}
-              // >
-              //   end call
-              // </Button>
-               <Button style={{ color: "white", backgroundColor: "#ff3344", width: "60%", margin:"0px auto" }} fluid onClick={this.endCall}>End Call</Button>
-            ) : null }
+              <div>
+                {/* <div style={{textAlign: "center"}}>
+                  <OtpInput
+                    onChange={otp => console.log(otp)}
+                    numInputs={6}
+                    separator={<span>-</span>}
+                  />
+                </div> */}
+                <Container style={{width: "50%", marginBottom: "13px"}}>
+                  <OtpInput
+                    onChange={otp => console.log(otp)}
+                    numInputs={6}
+                    separator={<span>-</span>}
+                  />
+                </Container>
+                <Button
+                  style={{
+                    color: "white",
+                    backgroundColor: "#ff3344",
+                    width: "50%",
+                    margin: "0px auto"
+                  }}
+                  fluid
+                  onClick={this.endCall}
+                >
+                  Submit
+                </Button>
+              </div>
+            ) : null}
             {this.state.role == 1 && this.state.connectedTo ? (
               <Message
                 success
@@ -338,27 +362,31 @@ export default class VideoChat extends Component {
             ) : null}
           </Segment>
           <Modal dimmer={dimmer} open={open} onClose={this.closeModal}>
-          <Modal.Header>{userName} removed successfully!</Modal.Header>
-          <Modal.Content image>
-            <Modal.Description>
-              <Header>Approval</Header>
-              <p>Please select whether the user identification was successful. If yes, he will be assigned a kycKey, if no, the user will be deleted.</p>
-              <p>Will you approve?</p>
-            </Modal.Description>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button color='black' floated="left" onClick={this.closeModal}>
-              Decline
-            </Button>
-            <Button
-              positive
-              icon='checkmark'
-              labelPosition='right'
-              content="Approve"
-              onClick={this.approval}
-            />
-          </Modal.Actions>
-        </Modal>
+            <Modal.Header>{userName} removed successfully!</Modal.Header>
+            <Modal.Content image>
+              <Modal.Description>
+                <Header>Approval</Header>
+                <p>
+                  Please select whether the user identification was successful.
+                  If yes, he will be assigned a kycKey, if no, the user will be
+                  deleted.
+                </p>
+                <p>Will you approve?</p>
+              </Modal.Description>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button color="black" floated="left" onClick={this.closeModal}>
+                Decline
+              </Button>
+              <Button
+                positive
+                icon="checkmark"
+                labelPosition="right"
+                content="Approve"
+                onClick={this.approval}
+              />
+            </Modal.Actions>
+          </Modal>
         </Layout>
       </div>
     );

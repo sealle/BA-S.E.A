@@ -1,21 +1,10 @@
 import React, { Component } from "react";
 import { Link, Router } from "../routes";
-import {
-  Form,
-  Button,
-  Message,
-  Segment,
-  Icon,
-  Checkbox,
-  Grid
-} from "semantic-ui-react";
+import { Form, Button, Message, Segment, Icon, Grid } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import { setCookie } from "../utils/CookieUtils";
-import HomeHeader from "../components/HomeHeader";
-import jwtDecode from "jwt-decode";
-import Helmet from "react-helmet";
 
 class Login extends Component {
   constructor(props) {
@@ -53,6 +42,8 @@ class Login extends Component {
         ) {
           setCookie("x-access-token", res.data.userToken, 1);
           Router.push("/profile");
+        } else if (res.data.declined === "declined") {
+          this.setState({ errorMessage: res.data.message });
         } else {
           setCookie("x-access-token", res.data.registerToken, 1);
           Router.push("/clickandpay");
