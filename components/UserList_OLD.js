@@ -29,7 +29,6 @@ export default class UserList extends Component {
       isAdmin: false
     };
     //this.currentUser = getCurrentUser();
-    this.makeAdmin = e => this._makeAdmin();
     this.toEdit = this.toEdit.bind(this);
     this.backEdit = this.backEdit.bind(this);
   }
@@ -65,22 +64,6 @@ export default class UserList extends Component {
       console.log(error);
     }
     this.setState({ isChosen: true });
-  }
-
-  async _makeAdmin() {
-    let currentUser = this.state.usrs[0].username;
-    try {
-      const response = await axios.post(window.location.origin + "/makeadmin", {
-        currentUser
-      });
-      if (response.data.success) {
-        this.setState({ successMessage: response.data.message, isAdmin: true });
-        console.log(this.state.successMessage);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    this.setState({ isPromoted: true });
   }
 
   toEdit() {
@@ -350,25 +333,6 @@ export default class UserList extends Component {
                                       KYC Key:
                                     </p>
                                     {this.state.usrs[0].kycKey}
-                                  </Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                  <Table.Cell colSpan={2}>
-                                    {this.state.usrs[0].privileges == "user" &&
-                                    this.state.usrs[0].isRegistered == "yes" &&
-                                    !this.state.isAdmin ? (
-                                      <Button
-                                        primary
-                                        onClick={this.makeAdmin}
-                                        fluid
-                                      >
-                                        Make Admin
-                                      </Button>
-                                    ) : (
-                                      <Button primary disabled fluid>
-                                        Make Admin
-                                      </Button>
-                                    )}
                                   </Table.Cell>
                                 </Table.Row>
                                 <Table.Row>

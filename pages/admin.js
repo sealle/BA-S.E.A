@@ -21,6 +21,7 @@ import swal from "sweetalert2";
 import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
+import VideoChat from "../components/VideoChat";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 
 let xsrfToken = "";
@@ -45,7 +46,6 @@ class adminPage extends Component {
       hasMedia: false,
       userName: "",
       otherUserId: null,
-      connectedTo: "",
       role: "",
       isNotCalled: "true",
       message: "",
@@ -59,24 +59,10 @@ class adminPage extends Component {
       message: "",
       sent: false
     };
-    this.currentUser = {
-      id: "",
-      stream: undefined
-    };
 
-    this.peers = [];
-
-    this.mediaHandler = new MediaHandler();
-    // this.setupPusher();
     this.show = this.show.bind(this);
-    this.callTo = this.callTo.bind(this);
-    this.setupPusher = this.setupPusher.bind(this);
-    this.startPeer = this.startPeer.bind(this);
-    this.approval = this.approval.bind(this);
-    this.decline = this.decline.bind(this);
-    this.makeAdmin = e => this._makeAdmin();
     this.closeModal = this.closeModal.bind(this);
-    this.closeModalAfterApproval = this.closeModalAfterApproval.bind(this);
+    // this.closeModalAfterApproval = this.closeModalAfterApproval.bind(this);
   }
 
   async componentWillMount() {
@@ -124,138 +110,6 @@ class adminPage extends Component {
         }
       }
     });
-
-    try {
-      const response = await axios.post(
-        window.location.origin + "/videochat/stream",
-        { timeout: 60 * 4 * 1000 }
-      );
-      this.setState({
-        userName: response.data.currentUser,
-        role: response.data.role
-      });
-      this.currentUser.id = this.state.userName;
-      xsrfToken = response.data.token;
-    } catch (e) {
-      console.log(e);
-    }
-
-    // this.currentUser.id = getCurrentUser();
-
-    this.mediaHandler.getPermissions().then(stream => {
-      this.setState({ hasMedia: true });
-      this.currentUser.stream = stream;
-      try {
-        let myVideo = document.getElementById("my-video");
-        myVideo.srcObject = stream;
-        const playPromise = myVideo.play();
-
-        if (playPromise !== null) {
-          playPromise
-            .then(() => {
-              return myVideo.play();
-            })
-            .catch(e => {
-              console.log(e);
-            });
-        }
-      } catch (e) {
-        console.log(e.stack);
-      }
-    });
-
-    this.setupPusher();
-    return;
-  }
-
-  setupPusher() {
-    //Pusher.logToConsole = true;
-    pusher = new Pusher(APP_KEY, {
-      authEndpoint: "/pusher/auth",
-      cluster: "eu",
-      auth: {
-        params: this.currentUser.id,
-        headers: {
-          "X-XSRF-Token": xsrfToken
-        }
-      }
-    });
-
-    channelName = pusher.subscribe("presence-video-channel"); //requires auth
-
-    channelName.bind("pusher:subscription_succeeded", members => {
-      let countMembers = members.count;
-      // console.log(countMembers);
-    });
-
-    channelName.bind("pusher:member_added", member => {
-      this.setState({ connectedTo: member.id });
-      swal("You are conneted to", `${member.id}`, "success");
-      userName = member.id;
-      // let newConnect = member.id;
-      // // swal("Attention", "Admin is occupied, please wait...", "warning");
-      // axios.post(window.location.origin + "/pusher/count", {
-      //   newConnect
-      // });
-    });
-
-    channelName.bind("pusher:member_removed", member => {
-      this.show();
-      this.setState({ connectedTo: "" });
-      // swal("Removed `${member.id}`", "Please press End Call to approve or decline the user" , "success");
-      //reload admin page?
-    });
-
-    channelName.bind(`client-signal-${this.currentUser.id}`, signal => {
-      let peer = this.peers[signal.userId];
-      // if peer does not already exist, we got an incoming call
-      if (peer === undefined) {
-        // this.setState({ otherUserId: signal.userId });
-        peer = this.startPeer(signal.userId, false);
-
-        //callee //if offer is sent, stop!
-      }
-      peer.signal(signal.data);
-    });
-  }
-
-  startPeer(userId, initiator = true) {
-    //caller
-    //TODO: initiator is always user!
-    const peer = new Peer({
-      initiator,
-      stream: this.currentUser.stream,
-      trickle: false
-    });
-
-    peer.on("signal", data => {
-      channelName.trigger(`client-signal-${userId}`, {
-        type: "signal",
-        userId: this.currentUser.id,
-        data: data
-      });
-    });
-
-    peer.on("stream", stream => {
-      try {
-        let userVideo = document.getElementById("user-video");
-        userVideo.srcObject = stream;
-        const playPromise = userVideo.play();
-
-        if (playPromise !== null) {
-          playPromise
-            .then(() => {
-              return userVideo.play();
-            })
-            .catch(e => {
-              console.log(e);
-            });
-        }
-      } catch (e) {
-        console.log(e.stack);
-      }
-    });
-    return peer;
   }
 
   async selectUser(member, e, dimmer) {
@@ -273,30 +127,14 @@ class adminPage extends Component {
           doc1: response.data.doc1,
           doc2: response.data.doc2
         });
-        for (let i = 1; i < this.state.users.length; i++) {
-          this.state.ethAddresses[i] = this.state.users[i].ethAddress;
+        for (let i = 1; i < this.state.usrs.length; i++) {
+          this.state.ethAddresses[i] = this.state.usrs[i].ethAddress;
         }
       }
     } catch (error) {
       console.log(error);
     }
     this.setState({ dimmer, open: true, isChosen: true });
-  }
-
-  async _makeAdmin() {
-    let currentUser = this.state.usrs[0].username;
-    try {
-      const response = await axios.post(window.location.origin + "/makeadmin", {
-        currentUser
-      });
-      if (response.data.success) {
-        this.setState({ successMessage: response.data.message, isAdmin: true });
-        console.log(this.state.successMessage);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    this.setState({ isPromoted: true });
   }
 
   async closeModal() {
@@ -315,9 +153,9 @@ class adminPage extends Component {
     }
   }
 
-  async closeModalAfterApproval() {
-    this.setState({ open: false });
-  }
+  // async closeModalAfterApproval() {
+  //   this.setState({ open: false });
+  // }
 
   toList = () => {
     this.setState({ isVideo: false, activeItem: "users" });
@@ -325,81 +163,77 @@ class adminPage extends Component {
 
   toVideo = () => {
     this.setState({ isVideo: true, activeItem: "videochat" });
-    this.mediaHandler.getPermissions().then(stream => {
-      this.setState({ hasMedia: true });
-      this.currentUser.stream = stream;
-      try {
-        let myVideo = document.getElementById("my-video");
-        myVideo.srcObject = stream;
-        const playPromise = myVideo.play();
+    // this.mediaHandler.getPermissions().then(stream => {
+    //   this.setState({ hasMedia: true });
+    //   this.currentUser.stream = stream;
+    //   try {
+    //     let myVideo = document.getElementById("my-video");
+    //     myVideo.srcObject = stream;
+    //     const playPromise = myVideo.play();
 
-        if (playPromise !== null) {
-          playPromise
-            .then(() => {
-              return myVideo.play();
-            })
-            .catch(e => {
-              console.log(e);
-            });
-        }
-      } catch (e) {
-        console.log(e.stack);
-      }
-    });
+    //     if (playPromise !== null) {
+    //       playPromise
+    //         .then(() => {
+    //           return myVideo.play();
+    //         })
+    //         .catch(e => {
+    //           console.log(e);
+    //         });
+    //     }
+    //   } catch (e) {
+    //     console.log(e.stack);
+    //   }
+    // });
   };
-
-  callTo(userId) {
-    this.setState({ isNotCalled: false });
-    this.peers[userId] = this.startPeer(userId);
-  }
 
   show(dimmer) {
     this.setState({ dimmer, open: true });
   }
 
-  async approval() {
-    let newAccount = web3.eth.accounts.create();
-    let newKycKey = newAccount.address;
-    let response = await axios.post(window.location.origin + "/approval", {
-      newKycKey,
-      userName
-    });
-    if (response.data.success) {
-      this.closeModalAfterApproval();
-    } else {
-      console.log("error");
-    }
-    // window.location.href = "/admin";
-  }
+  //is triggered when otp verified!
+  // async approval() {
+  //   let newAccount = web3.eth.accounts.create();
+  //   let newKycKey = newAccount.address;
+  //   let response = await axios.post(window.location.origin + "/approval", {
+  //     newKycKey,
+  //     userName
+  //   });
+  //   if (response.data.success) {
+  //     this.closeModalAfterApproval();
+  //   } else {
+  //     console.log("error");
+  //   }
+  //   // window.location.href = "/admin";
+  // }
 
-  async decline() {
+  decline = async () => {
     let response = await axios.post(window.location.origin + "/decline", {
       userName
     });
     if (response.data.success) {
-      this.closeModalAfterApproval();
+      // this.closeModalAfterApproval();
+      console.log("user declined");
+      //TODO: Quit VideoCall! How? Component where user is redirected to login?
     } else {
       console.log("error");
     }
     // window.location.href = "/admin";
-  }
-
-  sendOTP = async () => {
-    let response = await axios.post(window.location.origin + "/otpCreate", {
-      userName
-    });
-    if (response.data.success) {
-      this.setState({ message: response.data.message, sent: true });
-    }
   };
+
+  // sendOTP = async () => {
+  //   let response = await axios.post(window.location.origin + "/otpCreate", {
+  //     userName
+  //   });
+  //   if (response.data.success) {
+  //     this.setState({ message: response.data.message, sent: true });
+  //   }
+  // };
 
   render() {
     const { open, dimmer, activeItem } = this.state;
     return (
       <div>
         <ProfileHeader />
-        {/* <Helper/> */}
-        {/* <Layout> */}
         {this.state.metaMask == false ? (
           <Message
             error
@@ -444,137 +278,7 @@ class adminPage extends Component {
             </Menu.Item>
           </Menu>
           {this.state.isVideo ? (
-            <div>
-              <Container
-                className="video-container"
-                style={{
-                  width: "60%",
-                  height: "380px",
-                  margin: "0px auto",
-                  position: "relative",
-                  border: "3px solid #000"
-                }}
-              >
-                {["Admin"].map(userId => {
-                  return this.currentUser.id !== userId &&
-                    this.state.isNotCalled ? (
-                    <Button
-                      icon
-                      key={userId}
-                      onClick={() => this.callTo(userId)}
-                      style={{
-                        backgroundColor: "#2985d0",
-                        color: "white",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        zIndex: "3",
-                        margin: "auto"
-                      }}
-                    >
-                      Call {userId}
-                      <Icon name="phone" />
-                    </Button>
-                  ) : null;
-                })}
-                <video
-                  className="my-video"
-                  id="my-video"
-                  // ref={ref => {
-                  //   this.myVideo = ref;
-                  // }}
-                  style={{
-                    width: "130px",
-                    position: "absolute",
-                    left: "10px",
-                    bottom: "10px",
-                    border: "3px solid #0061ff",
-                    zIndex: "2"
-                  }}
-                />
-                <video
-                  className="user-video"
-                  id="user-video"
-                  // ref={ref => {
-                  //   this.userVideo = ref;
-                  // }}
-                  style={{
-                    // position: "absolute",
-                    margin: "auto",
-                    // left: "0",
-                    // right: "0",
-                    // bottom: "0",
-                    // top: "0",
-                    width: "100%",
-                    height: "100%",
-                    zIndex: "1"
-                  }}
-                />
-                <br />
-              </Container>
-              <Container
-                style={{
-                  display: "inline-block",
-                  textAlign: "center",
-                  marginTop: "10px",
-                  width: "100%"
-                }}
-              >
-                <Button animated onClick={this.sendOTP}>
-                  <Button.Content visible>
-                    <Icon name="send" />
-                  </Button.Content>
-                  <Button.Content hidden>Send OTP</Button.Content>
-                </Button>
-              </Container>
-              {this.state.sent ? (
-                <Message
-                  success
-                  header="Success"
-                  content={this.state.message}
-                />
-              ) : null}
-              <div>
-                {this.state.role == 1 && this.state.connectedTo ? (
-                  <Message
-                    success
-                    header="You are connected to"
-                    content={this.state.connectedTo}
-                  />
-                ) : null}
-              </div>
-              <Modal
-                dimmer={dimmer}
-                open={open}
-                onClose={this.closeModalAfterApproval}
-              >
-                <Modal.Header>{userName} removed successfully!</Modal.Header>
-                <Modal.Content image>
-                  <Modal.Description>
-                    <Header>Approval</Header>
-                    <p>
-                      Please select whether the user identification was
-                      successful. If yes, he will be assigned a kycKey, if no,
-                      the user will be deleted.
-                    </p>
-                    <p>Will you approve?</p>
-                  </Modal.Description>
-                </Modal.Content>
-                <Modal.Actions>
-                  <Button color="black" floated="left" onClick={this.decline}>
-                    Decline
-                  </Button>
-                  <Button
-                    positive
-                    icon="checkmark"
-                    labelPosition="right"
-                    content="Approve"
-                    onClick={this.approval}
-                  />
-                </Modal.Actions>
-              </Modal>
-            </div>
+            <VideoChat />
           ) : (
             <div>
               {this.state.users.map(member => (

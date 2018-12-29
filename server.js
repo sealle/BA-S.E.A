@@ -14,7 +14,6 @@ const path = require("path");
 const jwtDecode = require("jwt-decode");
 const nodemailer = require("nodemailer");
 const SqlString = require("sqlstring");
-const otplib = require("otplib");
 const Web3 = require("web3");
 const web3 = new Web3();
 // const https = require("https");
@@ -379,7 +378,7 @@ app
                   });
                 } else if (
                   result[0].privileges == "user" &&
-                  result[0].isRegistered == "yes"
+                  result[0].isRegistered == "yes" && result[0].kycKey != "declined"
                 ) {
                   let userToken = jwt.sign(
                     {
@@ -408,7 +407,7 @@ app
                     success: true,
                     message:
                       "This username has been declined. You cannot login!",
-                    declined: result[0].kycKey
+                    declined: "declined"
                   });
                 } else {
                   let registerToken = jwt.sign(
@@ -459,7 +458,7 @@ app
       try {
         jwt.verify(req.params.token, EMAIL_SECRET, async (err, decoded) => {
           if (err) {
-            console.log("error");
+            response.redirect("/login");
           } else {
             let username = decoded.username;
             let sql = SqlString.format(
@@ -568,7 +567,7 @@ app
       try {
         jwt.verify(req.params.id, EMAIL_SECRET, (err, decoded) => {
           if (err) {
-            console.log("error");
+            response.redirect("/login");
           } else {
             next();
           }
@@ -598,8 +597,9 @@ app
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
       let searchUser = SqlString.format(
-          "SELECT * FROM users WHERE username=?",
-          [currentUser])
+        "SELECT * FROM users WHERE username=?",
+        [currentUser]
+      );
       database.connection.query(searchUser, function(err, res, fields) {
         if (err) throw err;
         response.status(200).send({
@@ -724,21 +724,82 @@ app
     });
 
     //Store kycKey into db
-    server.post("/approval", urlEncodedParser, function(req, response) {
+    // server.post("/approval", urlEncodedParser, function(req, response) {
+    //   let body = req.body;
+    //   let storekycKeyUsers = SqlString.format(
+    //     "UPDATE users SET kycKey=?, isRegistered=? WHERE username=?",
+    //     [body.newKycKey, "yes", body.userName]
+    //   );
+    //   let storeKeyEthAddresses = SqlString.format(
+    //     "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
+    //     [body.newKycKey, null]
+    //   );
+    //   database.connection.query(storekycKeyUsers, function(err, res, fields) {
+    //     if (err) {
+    //       throw err;
+    //     } else {
+    //       database.connection.query(storeKeyEthAddresses, function(
+    //         err,
+    //         res,
+    //         fields
+    //       ) {
+    //         if (err) {
+    //           throw err;
+    //         } else {
+    //           response.status(200).json({
+    //             success: true
+    //           });
+    //         }
+    //       });
+    //     }
+    //   });
+    // });
+
+    //create OTP
+    server.post("/createOTP", urlEncodedParser, (req, response) => {
+      let body = req.body;
+      let userName = body.userName;
+      let searchEmail = SqlString.format(
+        "SELECT email FROM users WHERE username=?",
+        [userName]
+      );
+      database.connection.query(searchEmail, function(err, res) {
+        if (err) {
+          throw err;
+        } else {
+          transporter.sendMail({
+            from: "no.reply.sealle@gmail.com",
+            to: res[0].email,
+            subject: "OTP",
+            html: `Your OTP: ${body.token}`
+          });
+          if (err) {
+            console.log(err);
+          } else {
+            response.status(200).json({ success: true });
+          }
+        }
+      });
+    });
+
+    // when approved, store kycKey in db
+    server.post("/approval", urlEncodedParser, (req, response) => {
+      let newAccount = web3.eth.accounts.create();
+      let newKycKey = newAccount.address;
       let body = req.body;
       let storekycKeyUsers = SqlString.format(
         "UPDATE users SET kycKey=?, isRegistered=? WHERE username=?",
-        [body.newKycKey, "yes", body.userName]
+        [newKycKey, "yes", body.userName]
       );
-      let storeKeyEthAddresses = SqlString.format(
+      let storeEthAddresses = SqlString.format(
         "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
-        [body.newKycKey, null]
+        [newKycKey, null]
       );
       database.connection.query(storekycKeyUsers, function(err, res, fields) {
         if (err) {
           throw err;
         } else {
-          database.connection.query(storeKeyEthAddresses, function(
+          database.connection.query(storeEthAddresses, function(
             err,
             res,
             fields
@@ -766,22 +827,6 @@ app
         if (err) throw err;
         response.status(200).json({
           success: true
-        });
-      });
-    });
-
-    //Make a user admin
-    server.post("/makeadmin", urlEncodedParser, function(req, response) {
-      let currentUser = req.body.currentUser;
-      let sql = SqlString.format(
-        "UPDATE users SET privileges=? WHERE username=?",
-        ["admin", currentUser]
-      );
-      database.connection.query(sql, function(err, res, fields) {
-        if (err) throw err;
-        response.status(200).json({
-          success: true,
-          message: "you have promoted this user to administrator"
         });
       });
     });
@@ -939,47 +984,6 @@ app
     //Protect profile view
     server.get("/profile", protectedUserPage, (req, response, next) => {
       return next();
-    });
-
-    //create OTP
-    server.post("/otpCreate", urlEncodedParser, (req, response) => {
-      let userName = req.body.userName;
-      console.log(userName)
-      let searchEmail = SqlString.format(
-        "SELECT email FROM users WHERE username=?",
-        [userName]
-      );
-      database.connection.query(searchEmail, function(err, res) {
-        if (err) {
-          throw err;
-        } else {
-            (err) => {
-              const token = otplib.authenticator.generate(OtpSecret);
-              transporter.sendMail({
-                from: "no.reply.sealle@gmail.com",
-                to: res[0].email,
-                subject: "OTP",
-                html: `Your OTP: ${token}`
-              });
-            }
-          response.status(200).json({ success: true, message: "OTP sent!"});
-        }
-      });
-    });
-
-    //verify OTP
-    server.post("/otpVerify", urlEncodedParser, (req, res) => {
-      let newAccount = web3.eth.accounts.create();
-      console.log(newAccount);
-      let body = req.body;
-      let otp = body.otp;
-      const isValid = otplib.authenticator.check(otp, OtpSecret);
-      console.log(isValid);
-      if (isValid) {
-        res.status(200).json({ success: true });
-      } else {
-        res.status(200).json({ success: false, message: "wrong OTP!" });
-      }
     });
 
     //User details for videochat

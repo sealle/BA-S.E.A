@@ -6,7 +6,8 @@ import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import { setCookie } from "../utils/CookieUtils";
-import web3 from "../ethereum/src/web3";
+import otplib from "otplib";
+import authenticator from "otplib/authenticator";
 import OtpInput from "react-otp-input";
 import {
   Header,
@@ -14,10 +15,10 @@ import {
   Segment,
   Button,
   Icon,
-  Form,
-  Modal,
-  Input,
-  Container
+  Container,
+  Grid,
+  Dimmer,
+  Loader
 } from "semantic-ui-react";
 import axios from "axios";
 import { Router } from "../routes";
@@ -25,8 +26,11 @@ import swal from "sweetalert2";
 
 let xsrfToken = "";
 let pusher;
+let peer;
 let channelName;
 let userName;
+let userNames = [];
+let token = "";
 
 export default class VideoChat extends Component {
   constructor() {
@@ -36,15 +40,18 @@ export default class VideoChat extends Component {
       hasMedia: false,
       userName: "",
       otherUserId: null,
-      connectedTo: "",
       role: "",
       isNotCalled: "true",
-      hash: "",
       message: "",
       waitingMessage: "",
       loading: false,
       countMembers: "",
-      open: false
+      isEdited: "",
+      activeItem: "videochat",
+      ethAddresses: [],
+      ethAddressArray: [],
+      message: "",
+      sent: false,
     };
 
     this.currentUser = {
@@ -55,15 +62,13 @@ export default class VideoChat extends Component {
     this.peers = [];
 
     this.mediaHandler = new MediaHandler();
-    // this.setupPusher();
 
-    this.callTo = this.callTo.bind(this);
     this.setupPusher = this.setupPusher.bind(this);
     this.startPeer = this.startPeer.bind(this);
-    this.endCall = this.endCall.bind(this);
-    this.approval = this.approval.bind(this);
+    // this.endCall = this.endCall.bind(this);
+    // this.approval = this.approval.bind(this);
     this.show = this.show.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    // this.closeModal = this.closeModal.bind(this);
   }
 
   async componentWillMount() {
@@ -81,8 +86,6 @@ export default class VideoChat extends Component {
     } catch (e) {
       console.log(e);
     }
-
-    // this.currentUser.id = getCurrentUser();
 
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
@@ -125,15 +128,24 @@ export default class VideoChat extends Component {
 
     channelName = pusher.subscribe("presence-video-channel"); //requires auth
 
-    channelName.bind("pusher:subscription_succeeded", members => {
-      let countMembers = members.count;
-      console.log(countMembers);
-    });
+    // channelName.bind("pusher:subscription_succeeded", member => {
+      // userNames = members.id;
+      // channelName.members.each(member => {
+      //   userNames = member.id;
+      //   // userNames.push(member.id)
+      //   console.log(userNames)
+      // })
+      // console.log(countMembers);
+    // });
 
     channelName.bind("pusher:member_added", member => {
-      this.setState({ connectedTo: member.id });
       swal("You are conneted to", `${member.id}`, "success");
-      userName = member.id;
+      
+      // userName = member.id;
+
+      userNames.push(member.id);
+      console.log(userNames);
+
       // let newConnect = member.id;
       // // swal("Attention", "Admin is occupied, please wait...", "warning");
       // axios.post(window.location.origin + "/pusher/count", {
@@ -142,7 +154,11 @@ export default class VideoChat extends Component {
     });
 
     channelName.bind("pusher:member_removed", member => {
-      this.show();
+      console.log(userName)
+      let i = userNames.indexOf(userName);
+      userNames.splice(i,1);
+      // this.show();
+      console.log(userNames);
       // swal("Removed `${member.id}`", "Please press End Call to approve or decline the user" , "success");
       //reload admin page?
     });
@@ -163,7 +179,7 @@ export default class VideoChat extends Component {
   startPeer(userId, initiator = true) {
     //caller
     //TODO: initiator is always user!
-    const peer = new Peer({
+    peer = new Peer({
       initiator,
       stream: this.currentUser.stream,
       trickle: false
@@ -196,214 +212,311 @@ export default class VideoChat extends Component {
         console.log(e.stack);
       }
     });
+
     return peer;
   }
 
-  callTo(userId) {
+  callTo = userId => {
     // console.log(`starting Pusher: ${userId}`);
     this.setState({ isNotCalled: false });
     //TODO: show encall button only when in call?
     this.peers[userId] = this.startPeer(userId);
-  }
-
-  endCall = async () => {
-    let otp = this.state.otp;
-    console.log(otp);
-    let response = await axios.post(window.location.origin + "/otpVerify", {
-      otp
-    });
-    if (response.data.success) {
-      setCookie("x-access-token", "", -60 * 60);
-      window.location.href = "/login";
-      Router.push("/login");
-    } else {
-      this.setState({ message: response.data.message, isEntered: false });
-    }
   };
 
-  async approval() {
-    let newAccount = web3.eth.accounts.create();
-    let newKycKey = newAccount.address;
-    let response = await axios.post(window.location.origin + "/approval", {
-      newKycKey,
+  decline = async () => {
+    peer.destroy();
+    let response = await axios.post(window.location.origin + "/decline", {
       userName
     });
     if (response.data.success) {
-      this.closeModal();
+      swal("User declined", "", "success");
     } else {
-      console.log("error");
+      console.log("something went wrong!");
     }
-    window.location.href = "/admin";
-  }
+  };
 
   show(dimmer) {
     this.setState({ dimmer, open: true });
   }
-  closeModal() {
+
+  returnHome = () => {
     this.setState({ open: false });
-  }
+    setCookie("x-access-token", "", -60 * 60);
+    window.location.href = "/login";
+    Router.push("/login");
+  };
+
+  sendOTP = async () => {
+    let otpSecret = authenticator.generateSecret();
+    console.log(otpSecret);
+    this.setState({ otpSecret: otpSecret });
+    token = authenticator.generate(otpSecret);
+    console.log(token);
+    let response = await axios.post(window.location.origin + "/createOTP", {
+      userName,
+      token
+    });
+    if (response.data.success) {
+      swal("OTP sent!", "", "success");
+      console.log(this.state.otpSecret);
+    }
+  };
+
+  otpVerify = async () => {
+    console.log(this.state.otpSecret);
+    let otpSecret = this.state.otpSecret;
+    console.log(token);
+    let isValid = authenticator.check(token, otpSecret);
+    console.log(isValid);
+    // console.log(otp) //TODO: Why undefined????
+    // console.log(token);
+    // if (otp === token) {
+    //   console.log("yess")
+    //   let response = await axios.post(window.location.origin + "/approval", {
+    //     userName
+    //   });
+    //   if (response.data.success) {
+    //     setCookie("x-access-token", "", -60 * 60);
+    //     window.location.href = "/login";
+    //     Router.push("/login");
+    //   } else {
+    //     console.log("oops")
+    //   }
+    // } else {
+    //   this.setState({ message: "wrong OTP!" });
+    // }
+  };
+
+  // show(dimmer) {
+  //   this.setState({ dimmer, open: true });
+  // }
+  // closeModal() {
+  //   this.setState({ open: false });
+  // }
 
   render() {
-    const { open, dimmer } = this.state;
     return (
       <div>
-        <Layout>
-          <style>{`
+        {/* <Layout> */}
+        <style>{`
         body {
           background: #e6e6e6;
         }
       `}</style>
-          <Segment style={{ marginLeft: "-126px", width: "900px" }}>
-            <Header
-              as="h1"
-              textAlign="center"
-              style={{ color: "#2985d0", marginTop: "10px" }}
-            >
-              Video Chat
-            </Header>
-            {/* TODO: <UserApproval /> if role == 1 */}
-            <br />
-            <div
-              className="video-container"
-              style={{
-                width: "60%",
-                height: "380px",
-                margin: "0px auto",
-                position: "relative",
-                border: "3px solid #000"
-              }}
-            >
-              {["Admin"].map(userId => {
-                return this.currentUser.id !== userId &&
-                  this.state.isNotCalled ? (
-                  <Button
-                    icon
-                    key={userId}
-                    onClick={() => this.callTo(userId)}
-                    style={{
-                      backgroundColor: "#2985d0",
-                      color: "white",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      zIndex: "3",
-                      margin: "auto"
-                    }}
-                  >
-                    Call {userId}
-                    <Icon name="phone" />
-                  </Button>
-                ) : null;
-              })}
-              <video
-                className="my-video"
-                id="my-video"
-                // ref={ref => {
-                //   this.myVideo = ref;
-                // }}
-                style={{
-                  width: "130px",
-                  position: "absolute",
-                  left: "10px",
-                  bottom: "10px",
-                  border: "3px solid #0061ff",
-                  zIndex: "2"
-                }}
-              />
-              <video
-                className="user-video"
-                id="user-video"
-                // ref={ref => {
-                //   this.userVideo = ref;
-                // }}
-                style={{
-                  // position: "absolute",
-                  margin: "auto",
-                  // left: "0",
-                  // right: "0",
-                  // bottom: "0",
-                  // top: "0",
-                  width: "100%",
-                  height: "100%",
-                  zIndex: "1"
-                }}
-              />
-              {/*TODO: Who are you connected with?*/}
-            </div>
-            <br />
-            {this.state.role != 1 ? (
-              <div>
-                {/* <div style={{textAlign: "center"}}>
-                  <OtpInput
-                    onChange={otp => console.log(otp)}
-                    numInputs={6}
-                    separator={<span>-</span>}
-                  />
-                </div> */}
-                <Container style={{ width: "50%", marginBottom: "13px" }}>
-                  <OtpInput
-                    value={this.state.otp}
-                    onChange={otp => this.setState({otp: otp, otpEntered: true})}
-                    // onChange={otp => console.log(otp)}
-                    numInputs={6}
-                    separator={<span>-</span>}
-                  />
-                  {this.state.message ?
-                  <Message error header="Oops!" content={this.state.message} />
-                  :null }
-                </Container>
-                {this.state.otpEntered ? (
-                  <Button
-                    style={{
-                      color: "white",
-                      backgroundColor: "#ff3344",
-                      width: "50%",
-                      margin: "0px auto"
-                    }}
-                    fluid
-                    onClick={this.endCall}
-                  >
-                    Submit
-                  </Button>
-                ) : null }
-              </div>
-            ) : null}
-            {this.state.role == 1 && this.state.connectedTo ? (
-              <Message
-                success
-                header="You are connected to"
-                content={this.state.connectedTo}
-              />
-            ) : null}
+
+        <br />
+        {this.state.role == 1 ? (
+          <Segment style={{ margin: "16px", width: "98%" }}>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={8}>
+                  <div style={{ textAlign: "center" }}>
+                    <Container
+                      className="video-container"
+                      style={{
+                        width: "500px",
+                        height: "376px",
+                        margin: "0px auto",
+                        border: "2px solid black",
+                        position: "relative"
+                      }}
+                    >
+                      <video
+                        className="my-video"
+                        id="my-video"
+                        style={{
+                          width: "130px",
+                          position: "absolute",
+                          left: "10px",
+                          bottom: "10px",
+                          border: "2px solid #0061ff",
+                          zIndex: "2"
+                        }}
+                      />
+                      <video
+                        className="user-video"
+                        id="user-video"
+                        style={{
+                          position: "absolute",
+                          left: "0",
+                          right: "0",
+                          bottom: "0",
+                          top: "0",
+                          width: "100%",
+                          height: "100%",
+                          zIndex: "1"
+                        }}
+                      />
+                    </Container>
+                    <Container
+                      style={{
+                        display: "inline-block",
+                        // textAlign: "center",
+                        marginTop: "10px",
+                        width: "64%",
+                        marginBottom: "10px"
+                      }}
+                    >
+                      <Button
+                        animated
+                        floated="left"
+                        onClick={this.sendOTP}
+                        style={{
+                          backgroundColor: "white",
+                          border: "1px solid black",
+                          width: "32%"
+                        }}
+                      >
+                        <Button.Content visible>
+                          <Icon name="send" color="green" />
+                        </Button.Content>
+                        <Button.Content hidden>Send OTP</Button.Content>
+                      </Button>
+                      <Button
+                        animated
+                        floated="left"
+                        onClick={this.decline}
+                        style={{
+                          backgroundColor: "white",
+                          border: "1px solid black",
+                          width: "32%"
+                        }}
+                      >
+                        <Button.Content visible>
+                          <Icon name="close" color="red" />
+                        </Button.Content>
+                        <Button.Content hidden>Quit Call</Button.Content>
+                      </Button>
+                      {userNames.map(userId => {
+                        return this.currentUser.id !== userId &&
+                          // this.state.isNotCalled ? (
+                          userNames != [] ? (
+                          <Button
+                            key={userId}
+                            animated
+                            floated="left"
+                            key={userId}
+                            onClick={() => {
+                              this.callTo(userId);
+                              userName = userId;
+                            }}
+                            style={{
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              width: "32%"
+                            }}
+                          >
+                            {" "}
+                            <Button.Content visible>
+                              Call {userId}
+                            </Button.Content>
+                            <Button.Content hidden>
+                              <Icon name="phone" color="blue" />
+                            </Button.Content>
+                          </Button>
+                        ) : null;
+                      })}
+                    </Container>
+                  </div>
+                  <br />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
-          <Modal dimmer={dimmer} open={open} onClose={this.closeModal}>
-            <Modal.Header>{userName} removed successfully!</Modal.Header>
-            <Modal.Content image>
-              <Modal.Description>
-                <Header>Approval</Header>
-                <p>
-                  Please select whether the user identification was successful.
-                  If yes, he will be assigned a kycKey, if no, the user will be
-                  deleted.
-                </p>
-                <p>Will you approve?</p>
-              </Modal.Description>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button color="black" floated="left" onClick={this.closeModal}>
-                Decline
-              </Button>
+        ) : (
+          <div>
+            <Segment style={{ marginTop: "50px" }}>
+              <Container
+                className="video-container"
+                style={{
+                  width: "500px",
+                  height: "376px",
+                  margin: "0px auto",
+                  border: "2px solid black",
+                  position: "relative"
+                }}
+              >
+                <video
+                  className="my-video"
+                  id="my-video"
+                  style={{
+                    width: "130px",
+                    position: "absolute",
+                    left: "10px",
+                    bottom: "10px",
+                    border: "2px solid #0061ff",
+                    zIndex: "2"
+                  }}
+                />
+                <video
+                  className="user-video"
+                  id="user-video"
+                  style={{
+                    position: "absolute",
+                    left: "0",
+                    right: "0",
+                    bottom: "0",
+                    top: "0",
+                    width: "100%",
+                    height: "100%",
+                    zIndex: "1"
+                  }}
+                />
+              </Container>
+              {this.state.sent ? (
+                <Message
+                  success
+                  header="Success"
+                  content={this.state.message}
+                />
+              ) : null}
+              <br />
+              <Container style={{ width: "71%", marginBottom: "13px" }}>
+                <OtpInput
+                  value={this.state.otp}
+                  onChange={otp => {
+                    token = otp;
+                    this.setState({ otpEntered: true });
+                  }}
+                  // onChange={otp => console.log(otp)}
+                  numInputs={6}
+                  separator={<span>-</span>}
+                />
+                {this.state.message ? (
+                  <Message error header="Oops!" content={this.state.message} />
+                ) : null}
+              </Container>
+              {this.state.otpEntered ? (
+                <Button
+                  style={{
+                    color: "white",
+                    backgroundColor: "#ff3344",
+                    width: "50%",
+                    margin: "0px auto"
+                  }}
+                  fluid
+                  onClick={this.otpVerify}
+                >
+                  Submit
+                </Button>
+              ) : null}
+
               <Button
-                positive
-                icon="checkmark"
-                labelPosition="right"
-                content="Approve"
-                onClick={this.approval}
-              />
-            </Modal.Actions>
-          </Modal>
-        </Layout>
+                id="returnHome"
+                style={{
+                  color: "white",
+                  width: "50%",
+                  margin: "0px auto"
+                }}
+                fluid
+                onClick={this.returnHome}
+              >
+                Submit
+              </Button>
+            </Segment>
+          </div>
+        )}
+        {/* </Layout> */}
       </div>
     );
   }

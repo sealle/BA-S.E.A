@@ -57041,16 +57041,16 @@ function (_Component) {
 
                 //Set cookies and place token in it
                 if (res.data.success) {
-                  if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
+                  if (res.data.declined == "declined") {
+                    this.setState({
+                      errorMessage: res.data.message
+                    });
+                  } else if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.adminToken, 1);
                     _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/admin");
                   } else if (res.data.registerStatus == "yes" && res.data.privileg == "user") {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.userToken, 1);
                     _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/profile");
-                  } else if (res.data.declined === "declined") {
-                    this.setState({
-                      errorMessage: res.data.message
-                    });
                   } else {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.registerToken, 1);
                     _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/clickandpay");
@@ -57258,7 +57258,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/
@@ -57283,5 +57283,5 @@ module.exports = dll_34718705b6f81f095be8;
 
 /***/ })
 
-},[[8,"static/runtime/webpack.js"]]]));;
+},[[3,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=login.js.map

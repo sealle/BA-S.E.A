@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -237,16 +237,16 @@ function (_Component) {
 
                 //Set cookies and place token in it
                 if (res.data.success) {
-                  if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
+                  if (res.data.declined == "declined") {
+                    this.setState({
+                      errorMessage: res.data.message
+                    });
+                  } else if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.adminToken, 1);
                     _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/admin");
                   } else if (res.data.registerStatus == "yes" && res.data.privileg == "user") {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.userToken, 1);
                     _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/profile");
-                  } else if (res.data.declined === "declined") {
-                    this.setState({
-                      errorMessage: res.data.message
-                    });
                   } else {
                     Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.registerToken, 1);
                     _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/clickandpay");
@@ -435,7 +435,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/

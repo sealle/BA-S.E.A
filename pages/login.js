@@ -33,7 +33,12 @@ class Login extends Component {
       );
       //Set cookies and place token in it
       if (res.data.success) {
-        if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
+        if (res.data.declined == "declined") {
+          this.setState({ errorMessage: res.data.message });
+        } else if (
+          res.data.registerStatus == "yes" &&
+          res.data.privileg == "admin"
+        ) {
           setCookie("x-access-token", res.data.adminToken, 1);
           Router.push("/admin");
         } else if (
@@ -42,8 +47,6 @@ class Login extends Component {
         ) {
           setCookie("x-access-token", res.data.userToken, 1);
           Router.push("/profile");
-        } else if (res.data.declined === "declined") {
-          this.setState({ errorMessage: res.data.message });
         } else {
           setCookie("x-access-token", res.data.registerToken, 1);
           Router.push("/clickandpay");

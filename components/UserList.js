@@ -32,7 +32,6 @@ export default class UserList extends Component {
       isAdmin: false
     };
     //this.currentUser = getCurrentUser();
-    this.makeAdmin = e => this._makeAdmin();
     this.toEdit = this.toEdit.bind(this);
     this.backEdit = this.backEdit.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -71,22 +70,6 @@ export default class UserList extends Component {
       console.log(error);
     }
     this.setState({ dimmer, open: true, isChosen: true });
-  }
-
-  async _makeAdmin() {
-    let currentUser = this.state.usrs[0].username;
-    try {
-      const response = await axios.post(window.location.origin + "/makeadmin", {
-        currentUser
-      });
-      if (response.data.success) {
-        this.setState({ successMessage: response.data.message, isAdmin: true });
-        console.log(this.state.successMessage);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    this.setState({ isPromoted: true });
   }
 
   toEdit() {
