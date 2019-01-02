@@ -840,6 +840,9 @@ var channelName;
 var userName;
 var userNames = [];
 var token = "";
+otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.options = {
+  step: 60
+};
 
 var VideoChat =
 /*#__PURE__*/
@@ -913,35 +916,33 @@ function (_Component) {
     _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var otpSecret, response;
+      var otpSecret, isValid, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               otpSecret = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.generateSecret();
               console.log(otpSecret);
-
-              _this.setState({
+              token = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.generate(otpSecret);
+              console.log(token);
+              console.log(userName);
+              isValid = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.check(token, otpSecret);
+              console.log(isValid);
+              _context2.next = 9;
+              return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/createOTP", {
+                userName: userName,
+                token: token,
                 otpSecret: otpSecret
               });
 
-              token = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.generate(otpSecret);
-              console.log(token);
-              _context2.next = 7;
-              return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/createOTP", {
-                userName: userName,
-                token: token
-              });
-
-            case 7:
+            case 9:
               response = _context2.sent;
 
               if (response.data.success) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("OTP sent!", "", "success");
-                console.log(_this.state.otpSecret);
               }
 
-            case 9:
+            case 11:
             case "end":
               return _context2.stop();
           }
@@ -954,34 +955,59 @@ function (_Component) {
     _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var otpSecret, isValid;
+      var res, otpSecret, isValid, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              console.log(_this.state.otpSecret);
-              otpSecret = _this.state.otpSecret;
-              console.log(token);
-              isValid = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.check(token, otpSecret);
-              console.log(isValid); // console.log(otp) //TODO: Why undefined????
-              // console.log(token);
-              // if (otp === token) {
-              //   console.log("yess")
-              //   let response = await axios.post(window.location.origin + "/approval", {
-              //     userName
-              //   });
-              //   if (response.data.success) {
-              //     setCookie("x-access-token", "", -60 * 60);
-              //     window.location.href = "/login";
-              //     Router.push("/login");
-              //   } else {
-              //     console.log("oops")
-              //   }
-              // } else {
-              //   this.setState({ message: "wrong OTP!" });
-              // }
+              _context3.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/otpSecret");
 
-            case 5:
+            case 2:
+              res = _context3.sent;
+
+              if (!res.data.success) {
+                _context3.next = 17;
+                break;
+              }
+
+              otpSecret = res.data.otpSecret;
+              console.log(otpSecret);
+              console.log(_this.state.otp);
+              isValid = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.check(_this.state.otp, otpSecret);
+              console.log(isValid);
+
+              if (!isValid) {
+                _context3.next = 16;
+                break;
+              }
+
+              _context3.next = 12;
+              return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/approval");
+
+            case 12:
+              response = _context3.sent;
+
+              if (response.data.success) {
+                Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__["setCookie"])("x-access-token", "", -60 * 60);
+                window.location.href = "/login";
+                _routes__WEBPACK_IMPORTED_MODULE_13__["Router"].push("/login");
+              } else {
+                console.log("oops");
+              }
+
+              _context3.next = 17;
+              break;
+
+            case 16:
+              _this.setState({
+                message: "wrong OTP!"
+              });
+
+            case 17:
+              peer.destroy();
+
+            case 18:
             case "end":
               return _context3.stop();
           }
@@ -993,7 +1019,7 @@ function (_Component) {
       hasMedia: false,
       userName: "",
       otherUserId: null,
-      role: "",
+      // role: "",
       isNotCalled: "true",
       message: "",
       waitingMessage: "",
@@ -1003,15 +1029,13 @@ function (_Component) {
       activeItem: "videochat",
       ethAddresses: [],
       ethAddressArray: []
-    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _defineProperty(_this$state, "activeUser", ""), _defineProperty(_this$state, "calledTo", false), _this$state);
+    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _this$state);
     _this.currentUser = {
       id: "",
       stream: undefined
     };
     _this.peers = [];
-    _this.mediaHandler = new _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_4__["default"](); // this.setupPusher();
-    // this.callTo = this.callTo.bind(this);
-
+    _this.mediaHandler = new _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_4__["default"]();
     _this.setupPusher = _this.setupPusher.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.startPeer = _this.startPeer.bind(_assertThisInitialized(_assertThisInitialized(_this))); // this.endCall = this.endCall.bind(this);
     // this.approval = this.approval.bind(this);
@@ -1125,7 +1149,10 @@ function (_Component) {
       channelName.bind("pusher:member_added", function (member) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("You are conneted to", "".concat(member.id), "success"); // userName = member.id;
 
-        userNames.push(member.id);
+        if (userNames.includes(member.id) === false) {
+          userNames.push(member.id);
+        }
+
         console.log(userNames); // let newConnect = member.id;
         // // swal("Attention", "Admin is occupied, please wait...", "warning");
         // axios.post(window.location.origin + "/pusher/count", {
@@ -1305,10 +1332,6 @@ function (_Component) {
           _this5.callTo(userId);
 
           userName = userId;
-
-          _this5.setState({
-            calledTo: true
-          });
         }), _defineProperty(_React$createElement, "style", {
           backgroundColor: "white",
           border: "1px solid black",
@@ -1321,11 +1344,7 @@ function (_Component) {
           name: "phone",
           color: "blue"
         }))) : null;
-      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null))))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.calledTo === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Dimmer"], {
-        active: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Loader"], {
-        indeterminate: true
-      }, "Admin is in a call"))) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], {
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null))))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], {
         style: {
           marginTop: "50px"
         }
@@ -1374,9 +1393,8 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_otp_input__WEBPACK_IMPORTED_MODULE_10___default.a, {
         value: this.state.otp,
         onChange: function onChange(otp) {
-          token = otp;
-
           _this5.setState({
+            otp: otp,
             otpEntered: true
           });
         } // onChange={otp => console.log(otp)}

@@ -31,6 +31,7 @@ let channelName;
 let userName;
 let userNames = [];
 let token = "";
+authenticator.options = { step: 60 };
 
 export default class VideoChat extends Component {
   constructor() {
@@ -40,7 +41,7 @@ export default class VideoChat extends Component {
       hasMedia: false,
       userName: "",
       otherUserId: null,
-      role: "",
+      // role: "",
       isNotCalled: "true",
       message: "",
       waitingMessage: "",
@@ -51,7 +52,7 @@ export default class VideoChat extends Component {
       ethAddresses: [],
       ethAddressArray: [],
       message: "",
-      sent: false,
+      sent: false
     };
 
     this.currentUser = {
@@ -129,21 +130,24 @@ export default class VideoChat extends Component {
     channelName = pusher.subscribe("presence-video-channel"); //requires auth
 
     // channelName.bind("pusher:subscription_succeeded", member => {
-      // userNames = members.id;
-      // channelName.members.each(member => {
-      //   userNames = member.id;
-      //   // userNames.push(member.id)
-      //   console.log(userNames)
-      // })
-      // console.log(countMembers);
+    // userNames = members.id;
+    // channelName.members.each(member => {
+    //   userNames = member.id;
+    //   // userNames.push(member.id)
+    //   console.log(userNames)
+    // })
+    // console.log(countMembers);
     // });
 
     channelName.bind("pusher:member_added", member => {
       swal("You are conneted to", `${member.id}`, "success");
-      
+
       // userName = member.id;
 
-      userNames.push(member.id);
+      if(userNames.includes(member.id) === false) {
+        userNames.push(member.id);
+      }
+
       console.log(userNames);
 
       // let newConnect = member.id;
@@ -154,9 +158,9 @@ export default class VideoChat extends Component {
     });
 
     channelName.bind("pusher:member_removed", member => {
-      console.log(userName)
+      console.log(userName);
       let i = userNames.indexOf(userName);
-      userNames.splice(i,1);
+      userNames.splice(i, 1);
       // this.show();
       console.log(userNames);
       // swal("Removed `${member.id}`", "Please press End Call to approve or decline the user" , "success");
@@ -249,42 +253,43 @@ export default class VideoChat extends Component {
   sendOTP = async () => {
     let otpSecret = authenticator.generateSecret();
     console.log(otpSecret);
-    this.setState({ otpSecret: otpSecret });
     token = authenticator.generate(otpSecret);
     console.log(token);
+    console.log(userName);
+    let isValid = authenticator.check(token, otpSecret);
+    console.log(isValid);
     let response = await axios.post(window.location.origin + "/createOTP", {
       userName,
-      token
+      token,
+      otpSecret
     });
     if (response.data.success) {
       swal("OTP sent!", "", "success");
-      console.log(this.state.otpSecret);
     }
   };
 
   otpVerify = async () => {
-    console.log(this.state.otpSecret);
-    let otpSecret = this.state.otpSecret;
-    console.log(token);
-    let isValid = authenticator.check(token, otpSecret);
-    console.log(isValid);
-    // console.log(otp) //TODO: Why undefined????
-    // console.log(token);
-    // if (otp === token) {
-    //   console.log("yess")
-    //   let response = await axios.post(window.location.origin + "/approval", {
-    //     userName
-    //   });
-    //   if (response.data.success) {
-    //     setCookie("x-access-token", "", -60 * 60);
-    //     window.location.href = "/login";
-    //     Router.push("/login");
-    //   } else {
-    //     console.log("oops")
-    //   }
-    // } else {
-    //   this.setState({ message: "wrong OTP!" });
-    // }
+    let res = await axios.post(window.location.origin + "/otpSecret");
+    if (res.data.success) {
+      let otpSecret = res.data.otpSecret;
+      console.log(otpSecret);
+      console.log(this.state.otp);
+      let isValid = authenticator.check(this.state.otp, otpSecret);
+      console.log(isValid);
+      if (isValid) {
+        let response = await axios.post(window.location.origin + "/approval");
+        if (response.data.success) {
+          setCookie("x-access-token", "", -60 * 60);
+          window.location.href = "/login";
+          Router.push("/login");
+        } else {
+          console.log("oops");
+        }
+      } else {
+        this.setState({ message: "wrong OTP!" });
+      }
+    }
+    peer.destroy();
   };
 
   // show(dimmer) {
@@ -475,8 +480,7 @@ export default class VideoChat extends Component {
                 <OtpInput
                   value={this.state.otp}
                   onChange={otp => {
-                    token = otp;
-                    this.setState({ otpEntered: true });
+                    this.setState({ otp: otp, otpEntered: true });
                   }}
                   // onChange={otp => console.log(otp)}
                   numInputs={6}

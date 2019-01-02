@@ -26,7 +26,6 @@ const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 //jwt secret
 const secret = "iliketurtles";
 const EMAIL_SECRET = "yello15873";
-const OtpSecret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
 const date = require("date-and-time");
 
 //Nodemailer setup
@@ -378,7 +377,8 @@ app
                   });
                 } else if (
                   result[0].privileges == "user" &&
-                  result[0].isRegistered == "yes" && result[0].kycKey != "declined"
+                  result[0].isRegistered == "yes" &&
+                  result[0].kycKey != "declined"
                 ) {
                   let userToken = jwt.sign(
                     {
@@ -759,9 +759,14 @@ app
     server.post("/createOTP", urlEncodedParser, (req, response) => {
       let body = req.body;
       let userName = body.userName;
+      let otpSecret = body.otpSecret;
       let searchEmail = SqlString.format(
         "SELECT email FROM users WHERE username=?",
         [userName]
+      );
+      let insertOtpSecret = SqlString.format(
+        "UPDATE users SET otpSecret=? WHERE username=?",
+        [otpSecret, userName]
       );
       database.connection.query(searchEmail, function(err, res) {
         if (err) {
@@ -776,8 +781,29 @@ app
           if (err) {
             console.log(err);
           } else {
-            response.status(200).json({ success: true });
+            database.connection.query(insertOtpSecret, function(err, res) {
+              if (err) {
+                throw err;
+              } else {
+                response.status(200).json({ success: true });
+              }
+            });
           }
+        }
+      });
+    });
+
+    server.post("/otpSecret", urlEncodedParser, (req, response) => {
+      let getOtpSecret = SqlString.format(
+        "SELECT otpSecret FROM users WHERE otpSecret IS NOT NULL"
+      );
+      database.connection.query(getOtpSecret, (err, res) => {
+        if (err) {
+          throw err;
+        } else {
+          response
+            .status(200)
+            .json({ success: true, otpSecret: res[0].otpSecret });
         }
       });
     });
@@ -788,8 +814,8 @@ app
       let newKycKey = newAccount.address;
       let body = req.body;
       let storekycKeyUsers = SqlString.format(
-        "UPDATE users SET kycKey=?, isRegistered=? WHERE username=?",
-        [newKycKey, "yes", body.userName]
+        "UPDATE users SET kycKey=?, isRegistered=? WHERE otpSecret IS NOT NULL; UPDATE users SET otpSecret=? WHERE otpSecret IS NOT NULL",
+        [newKycKey, "yes", null]
       );
       let storeEthAddresses = SqlString.format(
         "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
@@ -826,7 +852,8 @@ app
       database.connection.query(storekycKey, function(err, res, fields) {
         if (err) throw err;
         response.status(200).json({
-          success: true
+          success: true,
+          returnHome: true
         });
       });
     });
