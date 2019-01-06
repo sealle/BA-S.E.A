@@ -6,9 +6,10 @@ import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import { setCookie } from "../utils/CookieUtils";
-import otplib from "otplib";
 import authenticator from "otplib/authenticator";
 import OtpInput from "react-otp-input";
+import { Tesseract } from "tesseract.ts";
+const parse = require("mrz").parse;
 import {
   Header,
   Message,
@@ -23,7 +24,6 @@ import {
 import axios from "axios";
 import { Router } from "../routes";
 import swal from "sweetalert2";
-
 let xsrfToken = "";
 let pusher;
 let peer;
@@ -52,7 +52,8 @@ export default class VideoChat extends Component {
       ethAddresses: [],
       ethAddressArray: [],
       message: "",
-      sent: false
+      sent: false,
+      idIsValid: ""
     };
 
     this.currentUser = {
@@ -144,7 +145,7 @@ export default class VideoChat extends Component {
 
       // userName = member.id;
 
-      if(userNames.includes(member.id) === false) {
+      if (userNames.includes(member.id) === false) {
         userNames.push(member.id);
       }
 
@@ -220,11 +221,23 @@ export default class VideoChat extends Component {
     return peer;
   }
 
-  callTo = userId => {
+  callTo = async userId => {
     // console.log(`starting Pusher: ${userId}`);
     this.setState({ isNotCalled: false });
     //TODO: show encall button only when in call?
     this.peers[userId] = this.startPeer(userId);
+    let currentUser = userId;
+    let response = await axios.post(window.location.origin + "/usrs", {
+      currentUser
+    });
+    if (response.data.success) {
+      this.setState({
+        img1: response.data.pic1,
+        img2: response.data.pic2,
+        doc1: response.data.doc1,
+        doc2: response.data.doc2
+      });
+    }
   };
 
   decline = async () => {
@@ -234,6 +247,7 @@ export default class VideoChat extends Component {
     });
     if (response.data.success) {
       swal("User declined", "", "success");
+      this.setState({ isCalled: false });
     } else {
       console.log("something went wrong!");
     }
@@ -265,6 +279,7 @@ export default class VideoChat extends Component {
     });
     if (response.data.success) {
       swal("OTP sent!", "", "success");
+      this.setState({ isCalled: false });
     }
   };
 
@@ -292,6 +307,30 @@ export default class VideoChat extends Component {
     peer.destroy();
   };
 
+  ocrScan = () => {
+    this.setState({ loadingOCR: true });
+    let image = document.getElementById("id-back");
+    Tesseract.recognize(image).then((result, err) => {
+      if (err) {
+        console.log(err);
+      }
+      let ocrText1 = JSON.stringify(result.text).substring(1, 31);
+      let ocrText2 = JSON.stringify(result.text).substring(33, 63);
+      let ocrText3 = JSON.stringify(result.text).substring(65, 95);
+      let ocrLines = [];
+      ocrLines.push(ocrText1, ocrText2, ocrText3);
+      let res = parse(ocrLines);
+      if (res.valid === true) {
+        this.setState({ idIsValid: true });
+      } else {
+        this.setState({ idIsValid: false });
+      }
+      this.setState({ loadingOCR: false, ocr: result.text, isCalled: true });
+    });
+  };
+
+  //TODO: Crop Function!!
+
   // show(dimmer) {
   //   this.setState({ dimmer, open: true });
   // }
@@ -308,122 +347,183 @@ export default class VideoChat extends Component {
           background: #e6e6e6;
         }
       `}</style>
-
-        <br />
         {this.state.role == 1 ? (
-          <Segment style={{ margin: "16px", width: "98%" }}>
+          <Segment style={{ marginTop: "16px", width: "100%" }}>
             <Grid>
               <Grid.Row>
                 <Grid.Column width={8}>
-                  <div style={{ textAlign: "center" }}>
-                    <Container
-                      className="video-container"
+                  <Container
+                    className="video-container"
+                    style={{
+                      width: "500px",
+                      height: "380px",
+                      margin: "0px auto",
+                      border: "2px solid black",
+                      position: "relative"
+                    }}
+                  >
+                    <video
+                      className="my-video"
+                      id="my-video"
                       style={{
-                        width: "500px",
-                        height: "376px",
-                        margin: "0px auto",
-                        border: "2px solid black",
-                        position: "relative"
+                        width: "130px",
+                        position: "absolute",
+                        left: "10px",
+                        bottom: "10px",
+                        border: "2px solid #0061ff",
+                        zIndex: "2"
+                      }}
+                    />
+                    <video
+                      className="user-video"
+                      id="user-video"
+                      style={{
+                        position: "absolute",
+                        left: "0",
+                        right: "0",
+                        bottom: "0",
+                        top: "0",
+                        width: "100%",
+                        height: "100%",
+                        zIndex: "1"
+                      }}
+                    />
+                  </Container>
+                  <br />
+                  <Container style={{width:"62%"}}>
+                  <Button
+                      animated
+                      floated="left"
+                      onClick={this.sendOTP}
+                      style={{
+                        backgroundColor: "white",
+                        border: "1px solid black",
+                        width: "40%"
                       }}
                     >
-                      <video
-                        className="my-video"
-                        id="my-video"
-                        style={{
-                          width: "130px",
-                          position: "absolute",
-                          left: "10px",
-                          bottom: "10px",
-                          border: "2px solid #0061ff",
-                          zIndex: "2"
-                        }}
-                      />
-                      <video
-                        className="user-video"
-                        id="user-video"
-                        style={{
-                          position: "absolute",
-                          left: "0",
-                          right: "0",
-                          bottom: "0",
-                          top: "0",
-                          width: "100%",
-                          height: "100%",
-                          zIndex: "1"
-                        }}
-                      />
-                    </Container>
+                      <Button.Content visible>
+                        <Icon name="send" color="green" />
+                      </Button.Content>
+                      <Button.Content hidden>Send OTP</Button.Content>
+                    </Button>
+                    <Button
+                      animated
+                      floated="right"
+                      onClick={this.decline}
+                      style={{
+                        backgroundColor: "white",
+                        border: "1px solid black",
+                        width: "40%"
+                      }}
+                    >
+                      <Button.Content visible>
+                        <Icon name="close" color="red" />
+                      </Button.Content>
+                      <Button.Content hidden>Quit Call</Button.Content>
+                    </Button>
+                  </Container>
+                </Grid.Column>
+                <Grid.Column width="eight">
+                  {/* {this.state.isCaptured ? */}
+                  {/* {this.state.img1 ? ( */}
+                  <div>
                     <Container
                       style={{
                         display: "inline-block",
-                        // textAlign: "center",
-                        marginTop: "10px",
-                        width: "64%",
-                        marginBottom: "10px"
+                        width: "100%",
+                        height: "282.5px",
+                        marginBottom: "-6%"
                       }}
                     >
-                      <Button
-                        animated
-                        floated="left"
-                        onClick={this.sendOTP}
+                      <img
+                        id="id-back"
+                        className="img-responsive"
+                        // src={`../static/${this.state.img1}`}
+                        src={"../static/vbnm-ID.png"}
                         style={{
-                          backgroundColor: "white",
-                          border: "1px solid black",
-                          width: "32%"
+                          // width: "500px",
+                          // height: "282.5px"
+                          width: "100%",
+                          height: "88%"
+                          // float: "left"
                         }}
-                      >
-                        <Button.Content visible>
-                          <Icon name="send" color="green" />
-                        </Button.Content>
-                        <Button.Content hidden>Send OTP</Button.Content>
-                      </Button>
-                      <Button
-                        animated
-                        floated="left"
-                        onClick={this.decline}
-                        style={{
-                          backgroundColor: "white",
-                          border: "1px solid black",
-                          width: "32%"
-                        }}
-                      >
-                        <Button.Content visible>
-                          <Icon name="close" color="red" />
-                        </Button.Content>
-                        <Button.Content hidden>Quit Call</Button.Content>
-                      </Button>
-                      {userNames.map(userId => {
-                        return this.currentUser.id !== userId &&
-                          // this.state.isNotCalled ? (
-                          userNames != [] ? (
-                          <Button
-                            key={userId}
-                            animated
-                            floated="left"
-                            key={userId}
-                            onClick={() => {
-                              this.callTo(userId);
-                              userName = userId;
-                            }}
-                            style={{
-                              backgroundColor: "white",
-                              border: "1px solid black",
-                              width: "32%"
-                            }}
-                          >
-                            {" "}
-                            <Button.Content visible>
-                              Call {userId}
-                            </Button.Content>
-                            <Button.Content hidden>
-                              <Icon name="phone" color="blue" />
-                            </Button.Content>
-                          </Button>
-                        ) : null;
-                      })}
+                      />
                     </Container>
+                    {this.state.idIsValid ? (
+                      <Message
+                        header="Valid!"
+                        success
+                        content={this.state.ocr}
+                        style={{
+                          boxShadow: "1px 1px 11px green",
+                          border: "1px solid green"
+                        }}
+                      />
+                    ) : this.state.idIsValid === false ? (
+                      <Message
+                        header="NOT Valid!"
+                        success
+                        content={this.state.ocr}
+                        style={{
+                          boxShadow: "1px 1px 11px red",
+                          border: "1px solid red"
+                        }}
+                      />
+                    ) : null}
+                    {/* ) : null} */}
+                    {/* : null } */}
                   </div>
-                  <br />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column width="eight">
+                  <Container
+                    style={{
+                      // display: "inline-block",
+                      // textAlign: "center",
+                      marginTop: "10px",
+                      width: "64%",
+                      marginBottom: "10px"
+                    }}
+                  >
+                    {userNames.map(userId => {
+                      return this.currentUser.id !== userId &&
+                        // this.state.isNotCalled ? (
+                        userNames != [] ? (
+                        <Button
+                          key={userId}
+                          animated
+                          floated="left"
+                          key={userId}
+                          onClick={() => {
+                            this.callTo(userId);
+                            userName = userId;
+                          }}
+                          style={{
+                            backgroundColor: "white",
+                            border: "1px solid black",
+                            width: "32%"
+                          }}
+                        >
+                          {" "}
+                          <Button.Content visible>Call {userId}</Button.Content>
+                          <Button.Content hidden>
+                            <Icon name="phone" color="blue" />
+                          </Button.Content>
+                        </Button>
+                      ) : null;
+                    })}
+                  </Container>
+                </Grid.Column>
+                <Grid.Column width="eight">
+                  <Container style={{ textAlign: "center" }}>
+                    <Button
+                      onClick={this.ocrScan}
+                      loading={this.state.loadingOCR}
+                    >
+                      Validate MRZ Code
+                    </Button>
+                  </Container>
                 </Grid.Column>
               </Grid.Row>
             </Grid>

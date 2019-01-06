@@ -777,12 +777,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! simple-peer */ "simple-peer");
 /* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
-/* harmony import */ var otplib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! otplib */ "otplib");
-/* harmony import */ var otplib__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(otplib__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var otplib_authenticator__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! otplib/authenticator */ "otplib/authenticator");
-/* harmony import */ var otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(otplib_authenticator__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-otp-input */ "react-otp-input");
-/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_otp_input__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var otplib_authenticator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! otplib/authenticator */ "otplib/authenticator");
+/* harmony import */ var otplib_authenticator__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(otplib_authenticator__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-otp-input */ "react-otp-input");
+/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_otp_input__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var tesseract_ts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tesseract.ts */ "tesseract.ts");
+/* harmony import */ var tesseract_ts__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(tesseract_ts__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
 /* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "axios");
@@ -830,6 +830,9 @@ var APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 
 
 
+var parse = __webpack_require__(/*! mrz */ "mrz").parse;
+
+
 
 
 
@@ -840,7 +843,7 @@ var channelName;
 var userName;
 var userNames = [];
 var token = "";
-otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.options = {
+otplib_authenticator__WEBPACK_IMPORTED_MODULE_8___default.a.options = {
   step: 60
 };
 
@@ -858,47 +861,90 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(VideoChat).call(this));
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "callTo", function (userId) {
-      // console.log(`starting Pusher: ${userId}`);
-      _this.setState({
-        isNotCalled: false
-      }); //TODO: show encall button only when in call?
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "callTo",
+    /*#__PURE__*/
+    function () {
+      var _ref = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(userId) {
+        var currentUser, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                // console.log(`starting Pusher: ${userId}`);
+                _this.setState({
+                  isNotCalled: false
+                }); //TODO: show encall button only when in call?
 
 
-      _this.peers[userId] = _this.startPeer(userId);
-    });
+                _this.peers[userId] = _this.startPeer(userId);
+                currentUser = userId;
+                _context.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/usrs", {
+                  currentUser: currentUser
+                });
+
+              case 5:
+                response = _context.sent;
+
+                if (response.data.success) {
+                  _this.setState({
+                    img1: response.data.pic1,
+                    img2: response.data.pic2,
+                    doc1: response.data.doc1,
+                    doc2: response.data.doc2
+                  });
+                }
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "decline",
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
       var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
               peer.destroy();
-              _context.next = 3;
+              _context2.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/decline", {
                 userName: userName
               });
 
             case 3:
-              response = _context.sent;
+              response = _context2.sent;
 
               if (response.data.success) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("User declined", "", "success");
+
+                _this.setState({
+                  isCalled: false
+                });
               } else {
                 console.log("something went wrong!");
               }
 
             case 5:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee, this);
+      }, _callee2, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "returnHome", function () {
@@ -915,20 +961,20 @@ function (_Component) {
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
       var otpSecret, isValid, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              otpSecret = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.generateSecret();
+              otpSecret = otplib_authenticator__WEBPACK_IMPORTED_MODULE_8___default.a.generateSecret();
               console.log(otpSecret);
-              token = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.generate(otpSecret);
+              token = otplib_authenticator__WEBPACK_IMPORTED_MODULE_8___default.a.generate(otpSecret);
               console.log(token);
               console.log(userName);
-              isValid = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.check(token, otpSecret);
+              isValid = otplib_authenticator__WEBPACK_IMPORTED_MODULE_8___default.a.check(token, otpSecret);
               console.log(isValid);
-              _context2.next = 9;
+              _context3.next = 9;
               return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/createOTP", {
                 userName: userName,
                 token: token,
@@ -936,57 +982,61 @@ function (_Component) {
               });
 
             case 9:
-              response = _context2.sent;
+              response = _context3.sent;
 
               if (response.data.success) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("OTP sent!", "", "success");
+
+                _this.setState({
+                  isCalled: false
+                });
               }
 
             case 11:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee3, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "otpVerify",
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
       var res, otpSecret, isValid, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              _context3.next = 2;
+              _context4.next = 2;
               return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/otpSecret");
 
             case 2:
-              res = _context3.sent;
+              res = _context4.sent;
 
               if (!res.data.success) {
-                _context3.next = 17;
+                _context4.next = 17;
                 break;
               }
 
               otpSecret = res.data.otpSecret;
               console.log(otpSecret);
               console.log(_this.state.otp);
-              isValid = otplib_authenticator__WEBPACK_IMPORTED_MODULE_9___default.a.check(_this.state.otp, otpSecret);
+              isValid = otplib_authenticator__WEBPACK_IMPORTED_MODULE_8___default.a.check(_this.state.otp, otpSecret);
               console.log(isValid);
 
               if (!isValid) {
-                _context3.next = 16;
+                _context4.next = 16;
                 break;
               }
 
-              _context3.next = 12;
+              _context4.next = 12;
               return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/approval");
 
             case 12:
-              response = _context3.sent;
+              response = _context4.sent;
 
               if (response.data.success) {
                 Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__["setCookie"])("x-access-token", "", -60 * 60);
@@ -996,7 +1046,7 @@ function (_Component) {
                 console.log("oops");
               }
 
-              _context3.next = 17;
+              _context4.next = 17;
               break;
 
             case 16:
@@ -1009,11 +1059,47 @@ function (_Component) {
 
             case 18:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
-      }, _callee3, this);
+      }, _callee4, this);
     })));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "ocrScan", function () {
+      _this.setState({
+        loadingOCR: true
+      });
+
+      var image = document.getElementById("id-back");
+      tesseract_ts__WEBPACK_IMPORTED_MODULE_10__["Tesseract"].recognize(image).then(function (result, err) {
+        if (err) {
+          console.log(err);
+        }
+
+        var ocrText1 = JSON.stringify(result.text).substring(1, 31);
+        var ocrText2 = JSON.stringify(result.text).substring(33, 63);
+        var ocrText3 = JSON.stringify(result.text).substring(65, 95);
+        var ocrLines = [];
+        ocrLines.push(ocrText1, ocrText2, ocrText3);
+        var res = parse(ocrLines);
+
+        if (res.valid === true) {
+          _this.setState({
+            idIsValid: true
+          });
+        } else {
+          _this.setState({
+            idIsValid: false
+          });
+        }
+
+        _this.setState({
+          loadingOCR: false,
+          ocr: result.text,
+          isCalled: true
+        });
+      });
+    });
 
     _this.state = (_this$state = {
       hasMedia: false,
@@ -1029,7 +1115,7 @@ function (_Component) {
       activeItem: "videochat",
       ethAddresses: [],
       ethAddressArray: []
-    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _this$state);
+    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _defineProperty(_this$state, "idIsValid", ""), _this$state);
     _this.currentUser = {
       id: "",
       stream: undefined
@@ -1050,35 +1136,35 @@ function (_Component) {
     value: function () {
       var _componentWillMount = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var _this2 = this;
 
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.prev = 0;
-                _context4.next = 3;
+                _context5.prev = 0;
+                _context5.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/videochat/stream", {
                   timeout: 60 * 4 * 1000
                 });
 
               case 3:
-                response = _context4.sent;
+                response = _context5.sent;
                 this.setState({
                   userName: response.data.currentUser,
                   role: response.data.role
                 });
                 this.currentUser.id = this.state.userName;
                 xsrfToken = response.data.token;
-                _context4.next = 12;
+                _context5.next = 12;
                 break;
 
               case 9:
-                _context4.prev = 9;
-                _context4.t0 = _context4["catch"](0);
-                console.log(_context4.t0);
+                _context5.prev = 9;
+                _context5.t0 = _context5["catch"](0);
+                console.log(_context5.t0);
 
               case 12:
                 this.mediaHandler.getPermissions().then(function (stream) {
@@ -1105,14 +1191,14 @@ function (_Component) {
                   }
                 });
                 this.setupPusher();
-                return _context4.abrupt("return");
+                return _context5.abrupt("return");
 
               case 15:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this, [[0, 9]]);
+        }, _callee5, this, [[0, 9]]);
       }));
 
       return function componentWillMount() {
@@ -1227,6 +1313,7 @@ function (_Component) {
     }
   }, {
     key: "render",
+    //TODO: Crop Function!!
     // show(dimmer) {
     //   this.setState({ dimmer, open: true });
     // }
@@ -1236,22 +1323,18 @@ function (_Component) {
     value: function render() {
       var _this5 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], {
         style: {
-          margin: "16px",
-          width: "98%"
+          marginTop: "16px",
+          width: "100%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
         width: 8
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        style: {
-          textAlign: "center"
-        }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
         className: "video-container",
         style: {
           width: "500px",
-          height: "376px",
+          height: "380px",
           margin: "0px auto",
           border: "2px solid black",
           position: "relative"
@@ -1280,13 +1363,9 @@ function (_Component) {
           height: "100%",
           zIndex: "1"
         }
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
         style: {
-          display: "inline-block",
-          // textAlign: "center",
-          marginTop: "10px",
-          width: "64%",
-          marginBottom: "10px"
+          width: "62%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
         animated: true,
@@ -1295,7 +1374,7 @@ function (_Component) {
         style: {
           backgroundColor: "white",
           border: "1px solid black",
-          width: "32%"
+          width: "40%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
         visible: true
@@ -1306,12 +1385,12 @@ function (_Component) {
         hidden: true
       }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
         animated: true,
-        floated: "left",
+        floated: "right",
         onClick: this.decline,
         style: {
           backgroundColor: "white",
           border: "1px solid black",
-          width: "32%"
+          width: "40%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
         visible: true
@@ -1320,7 +1399,54 @@ function (_Component) {
         color: "red"
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
         hidden: true
-      }, "Quit Call")), userNames.map(function (userId) {
+      }, "Quit Call")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
+        width: "eight"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+        style: {
+          display: "inline-block",
+          width: "100%",
+          height: "282.5px",
+          marginBottom: "-6%"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+        id: "id-back",
+        className: "img-responsive" // src={`../static/${this.state.img1}`}
+        ,
+        src: "../static/vbnm-ID.png",
+        style: {
+          // width: "500px",
+          // height: "282.5px"
+          width: "100%",
+          height: "88%" // float: "left"
+
+        }
+      })), this.state.idIsValid ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Message"], {
+        header: "Valid!",
+        success: true,
+        content: this.state.ocr,
+        style: {
+          boxShadow: "1px 1px 11px green",
+          border: "1px solid green"
+        }
+      }) : this.state.idIsValid === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Message"], {
+        header: "NOT Valid!",
+        success: true,
+        content: this.state.ocr,
+        style: {
+          boxShadow: "1px 1px 11px red",
+          border: "1px solid red"
+        }
+      }) : null))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
+        width: "eight"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+        style: {
+          // display: "inline-block",
+          // textAlign: "center",
+          marginTop: "10px",
+          width: "64%",
+          marginBottom: "10px"
+        }
+      }, userNames.map(function (userId) {
         var _React$createElement;
 
         return _this5.currentUser.id !== userId && // this.state.isNotCalled ? (
@@ -1344,7 +1470,16 @@ function (_Component) {
           name: "phone",
           color: "blue"
         }))) : null;
-      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null))))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], {
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
+        width: "eight"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+        style: {
+          textAlign: "center"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+        onClick: this.ocrScan,
+        loading: this.state.loadingOCR
+      }, "Validate MRZ Code")))))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], {
         style: {
           marginTop: "50px"
         }
@@ -1390,7 +1525,7 @@ function (_Component) {
           width: "71%",
           marginBottom: "13px"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_otp_input__WEBPACK_IMPORTED_MODULE_10___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_otp_input__WEBPACK_IMPORTED_MODULE_9___default.a, {
         value: this.state.otp,
         onChange: function onChange(otp) {
           _this5.setState({
@@ -2550,6 +2685,17 @@ module.exports = require("axios");
 
 /***/ }),
 
+/***/ "mrz":
+/*!**********************!*\
+  !*** external "mrz" ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("mrz");
+
+/***/ }),
+
 /***/ "next-routes":
 /*!******************************!*\
   !*** external "next-routes" ***!
@@ -2569,17 +2715,6 @@ module.exports = require("next-routes");
 /***/ (function(module, exports) {
 
 module.exports = require("next/head");
-
-/***/ }),
-
-/***/ "otplib":
-/*!*************************!*\
-  !*** external "otplib" ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("otplib");
 
 /***/ }),
 
@@ -2668,6 +2803,17 @@ module.exports = require("styled-jsx/style");
 /***/ (function(module, exports) {
 
 module.exports = require("sweetalert2");
+
+/***/ }),
+
+/***/ "tesseract.ts":
+/*!*******************************!*\
+  !*** external "tesseract.ts" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("tesseract.ts");
 
 /***/ }),
 
