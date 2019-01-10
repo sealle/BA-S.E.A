@@ -479,6 +479,67 @@ app
       }
     });
 
+    server.post("/resendConfirmEmail", urlEncodedParser, (req, response) => {
+      jwt.sign(
+        {
+          username: req.body.username,
+          emailToken: crypto
+            .createHash("sha256")
+            .update(req.body.username)
+            .digest("hex")
+        },
+        EMAIL_SECRET,
+        {
+          expiresIn: 36000 //1h
+        },
+        (err, emailToken) => {
+          const url = `http://localhost:3000/activate/${emailToken}`;
+          transporter.sendMail({
+            from: "no.reply.sealle@gmail.com",
+            to: req.body.email,
+            subject: "Confirm Email",
+            html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
+          });
+        }
+      );
+      response.status(200).json({
+        success: true,
+        message: "successfully registered!"
+      });
+    });
+
+    server.post("/resendPwEmail", urlEncodedParser, (req, response) => {
+      jwt.sign(
+        {
+          username: req.body.username,
+          pwResetToken: crypto
+            .createHash("sha256")
+            .update(req.body.username)
+            .digest("hex")
+        },
+        EMAIL_SECRET,
+        {
+          expiresIn: 36000 //1h
+        },
+        (err, pwResetToken) => {
+          const url = `http://localhost:3000/passwordchange/${pwResetToken}`;
+          transporter.sendMail({
+            from: "no.reply.sealle@gmail.com",
+            to: req.body.email,
+            subject: "Password Reset",
+            html: `Please click on the link to reset your password: <br/><a href="${url}">${url}</a>`
+          });
+          if(err) {
+            throw err;
+          }
+        }
+      );
+      response.status(200).json({
+        success: true,
+        message: "successfully registered!"
+      });
+    });
+
     //enter email to receive email
     server.post("/passwordreset", async (req, res) => {
       let body = req.body;
@@ -993,6 +1054,10 @@ app
         }
       )
     );
+
+    server.get("/", (req, res) => {
+      res.redirect("/login");
+    });
 
     //Protect Admin page
     server.get("/admin", protectedAdminPage, (req, response, next) => {

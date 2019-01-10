@@ -61,18 +61,56 @@ class CompanyRegister extends Component {
         formData
       );
       if (response.data.success) {
-        swal(
-          "Congratulations!",
-          "An email has been sent to you. Please confirm your email address and login to proceed",
-          "success"
-        );
-        Router.push("/login"); //TODO: add success popup
+        swal({
+          title: "Success!",
+          text:
+            "An email has been sent to you. Please confirm your email address and login to proceed",
+          type: "success",
+          showCancelButton: true,
+          confirmButtonText: "Confirm",
+          cancelButtonText: "Resend Email",
+          reverseButtons: true
+        }).then(result => {
+          if (result.value) {
+            Router.push("/login");
+          } else {
+            this.resendEmail();
+          }
+        });
       }
     } catch (error) {
       this.setState({ errorMessage: error.response.data.message });
     }
     this.setState({ loading: false });
   }
+
+  resendEmail = async () => {
+    console.log(this.state.email, this.state.username); //TODO: why undefined?
+    let email = this.state.email;
+    let username = this.state.username;
+    let response = await axios.post(window.location.origin + "/resendConfirmEmail", {
+      username,
+      email
+    });
+    if (response.data.success) {
+      swal({
+        title: "Success!",
+        text:
+          "An email has been sent to you. Please confirm your email address and login to proceed",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonText: "Confirm",
+        cancelButtonText: "Resend Email",
+        reverseButtons: true
+      }).then(result => {
+        if (result.value) {
+          Router.push("/login");
+        } else {
+          this.resendEmail();
+        }
+      });
+    }
+  };
 
   handleImageFileChange = e => {
     if (!e.target.files[0] || !e.target.files[1] || e.target.files[2]) {

@@ -38,11 +38,22 @@ class PwReset extends Component {
         formData
       );
       if (res.data.success) {
-        swal(
-          "Congratulations!",
-          "An email has been sent to you. Please click on the link in the email to proceed",
-          "success"
-        );
+        swal({
+          title: "Success!",
+          text:
+            "An email has been sent to you. Please click on the link in the email to proceed",
+          type: "success",
+          showCancelButton: true,
+          confirmButtonText: "Confirm",
+          cancelButtonText: "Resend Email",
+          reverseButtons: true
+        }).then(result => {
+          if (result.value) {
+            Router.push("/login");
+          } else {
+            this.resendEmail();
+          }
+        });
       }
     } catch (error) {
       this.setState({
@@ -52,6 +63,33 @@ class PwReset extends Component {
 
     this.setState({ loading: false });
   }
+
+  resendEmail = async () => {
+    let email = this.state.email;
+    let username = this.state.username;
+    let response = await axios.post(window.location.origin + "/resendPwEmail", {
+      username,
+      email
+    });
+    if (response.data.success) {
+      swal({
+        title: "Success!",
+        text:
+          "An email has been sent to you. Please confirm your email address and login to proceed",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonText: "Confirm",
+        cancelButtonText: "Resend Email",
+        reverseButtons: true
+      }).then(result => {
+        if (result.value) {
+          Router.push("/login");
+        } else {
+          this.resendEmail();
+        }
+      });
+    }
+  };
 
   render() {
     return (

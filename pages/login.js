@@ -73,7 +73,7 @@ class Login extends Component {
             }}
           >
             <div style={{ textAlign: "center", marginBottom: "-50px" }}>
-              <Icon circular name="users" size="huge" fluid color="blue" />
+              <Icon circular name="users" size="huge" fluid="true" color="blue" />
             </div>
             <Header
               as="h1"

@@ -17,17 +17,7 @@ import axios from "axios";
 import Head from "next/head";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
-import swal from "sweetalert2";
-import MediaHandler from "../webrtc/MediaHandler";
-import Pusher from "pusher-js";
-import Peer from "simple-peer";
 import VideoChat from "../components/VideoChat";
-const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
-
-let xsrfToken = "";
-let pusher;
-let channelName;
-let userName;
 
 class adminPage extends Component {
   constructor() {
@@ -59,10 +49,6 @@ class adminPage extends Component {
       message: "",
       sent: false
     };
-
-    this.show = this.show.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    // this.closeModalAfterApproval = this.closeModalAfterApproval.bind(this);
   }
 
   async componentWillMount() {
@@ -112,7 +98,7 @@ class adminPage extends Component {
     });
   }
 
-  async selectUser(member, e, dimmer) {
+  selectUser = async(member, e, dimmer) => {
     let currentUser = member.username;
     try {
       const response = await axios.post(window.location.origin + "/usrs", {
@@ -137,7 +123,7 @@ class adminPage extends Component {
     this.setState({ dimmer, open: true, isChosen: true });
   }
 
-  async closeModal() {
+  closeModal = async() => {
     let userName = this.state.usrs[0].username;
     let response = await axios.post(window.location.origin + "/changeEdit", {
       userName
@@ -153,81 +139,17 @@ class adminPage extends Component {
     }
   }
 
-  // async closeModalAfterApproval() {
-  //   this.setState({ open: false });
-  // }
-
   toList = () => {
     this.setState({ isVideo: false, activeItem: "users" });
   };
 
   toVideo = () => {
     this.setState({ isVideo: true, activeItem: "videochat" });
-    // this.mediaHandler.getPermissions().then(stream => {
-    //   this.setState({ hasMedia: true });
-    //   this.currentUser.stream = stream;
-    //   try {
-    //     let myVideo = document.getElementById("my-video");
-    //     myVideo.srcObject = stream;
-    //     const playPromise = myVideo.play();
-
-    //     if (playPromise !== null) {
-    //       playPromise
-    //         .then(() => {
-    //           return myVideo.play();
-    //         })
-    //         .catch(e => {
-    //           console.log(e);
-    //         });
-    //     }
-    //   } catch (e) {
-    //     console.log(e.stack);
-    //   }
-    // });
   };
 
-  show(dimmer) {
+  show = (dimmer) => {
     this.setState({ dimmer, open: true });
   }
-
-  //is triggered when otp verified!
-  // async approval() {
-  //   let newAccount = web3.eth.accounts.create();
-  //   let newKycKey = newAccount.address;
-  //   let response = await axios.post(window.location.origin + "/approval", {
-  //     newKycKey,
-  //     userName
-  //   });
-  //   if (response.data.success) {
-  //     this.closeModalAfterApproval();
-  //   } else {
-  //     console.log("error");
-  //   }
-  //   // window.location.href = "/admin";
-  // }
-
-  decline = async () => {
-    let response = await axios.post(window.location.origin + "/decline", {
-      userName
-    });
-    if (response.data.success) {
-      // this.closeModalAfterApproval();
-      console.log("user declined");
-      //TODO: Quit VideoCall! How? Component where user is redirected to login?
-    } else {
-      console.log("error");
-    }
-    // window.location.href = "/admin";
-  };
-
-  // sendOTP = async () => {
-  //   let response = await axios.post(window.location.origin + "/otpCreate", {
-  //     userName
-  //   });
-  //   if (response.data.success) {
-  //     this.setState({ message: response.data.message, sent: true });
-  //   }
-  // };
 
   render() {
     const { open, dimmer, activeItem } = this.state;
@@ -518,7 +440,7 @@ class adminPage extends Component {
                               value={this.state.usrs[0].regDate}
                             />
                           </Form.Group>
-                          <Form.Group width="sixteen">
+                          {/* <Form.Group width="sixteen">
                             <Form.Input
                               width="sixteen"
                               readOnly
@@ -526,7 +448,7 @@ class adminPage extends Component {
                               label="KycKey"
                               value={this.state.usrs[0].kycKey}
                             />
-                          </Form.Group>
+                          </Form.Group> */}
                           {this.state.ethAddresses.length > 0 ? (
                             <p style={{ fontWeight: "bold" }}>
                               EthAddresses which requested the KycKey

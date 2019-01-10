@@ -6,7 +6,7 @@ import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import { setCookie } from "../utils/CookieUtils";
-import authenticator from "otplib/authenticator";
+import {authenticator} from "otplib/otplib-browser";
 import OtpInput from "react-otp-input";
 import { Tesseract } from "tesseract.ts";
 const parse = require("mrz").parse;
@@ -33,6 +33,7 @@ let userNames = [];
 let token = "";
 authenticator.options = { step: 60 };
 
+
 export default class VideoChat extends Component {
   constructor() {
     super();
@@ -53,7 +54,8 @@ export default class VideoChat extends Component {
       ethAddressArray: [],
       message: "",
       sent: false,
-      idIsValid: ""
+      idIsValid: "",
+      users: []
     };
 
     this.currentUser = {
@@ -65,12 +67,9 @@ export default class VideoChat extends Component {
 
     this.mediaHandler = new MediaHandler();
 
-    this.setupPusher = this.setupPusher.bind(this);
-    this.startPeer = this.startPeer.bind(this);
-    // this.endCall = this.endCall.bind(this);
-    // this.approval = this.approval.bind(this);
-    this.show = this.show.bind(this);
-    // this.closeModal = this.closeModal.bind(this);
+    // this.setupPusher = this.setupPusher.bind(this);
+    // this.startPeer = this.startPeer.bind(this);
+    // this.show = this.show.bind(this);
   }
 
   async componentWillMount() {
@@ -115,7 +114,7 @@ export default class VideoChat extends Component {
     return;
   }
 
-  setupPusher() {
+  setupPusher = () => {
     //Pusher.logToConsole = true;
     pusher = new Pusher(APP_KEY, {
       authEndpoint: "/pusher/auth",
@@ -164,6 +163,7 @@ export default class VideoChat extends Component {
       userNames.splice(i, 1);
       // this.show();
       console.log(userNames);
+      this.setState({img1: !this.state.img1})
       // swal("Removed `${member.id}`", "Please press End Call to approve or decline the user" , "success");
       //reload admin page?
     });
@@ -181,7 +181,7 @@ export default class VideoChat extends Component {
     });
   }
 
-  startPeer(userId, initiator = true) {
+  startPeer = (userId, initiator = true) => {
     //caller
     //TODO: initiator is always user!
     peer = new Peer({
@@ -222,9 +222,7 @@ export default class VideoChat extends Component {
   }
 
   callTo = async userId => {
-    // console.log(`starting Pusher: ${userId}`);
     this.setState({ isNotCalled: false });
-    //TODO: show encall button only when in call?
     this.peers[userId] = this.startPeer(userId);
     let currentUser = userId;
     let response = await axios.post(window.location.origin + "/usrs", {
@@ -235,7 +233,8 @@ export default class VideoChat extends Component {
         img1: response.data.pic1,
         img2: response.data.pic2,
         doc1: response.data.doc1,
-        doc2: response.data.doc2
+        doc2: response.data.doc2,
+        users: response.data.userData
       });
     }
   };
@@ -253,7 +252,7 @@ export default class VideoChat extends Component {
     }
   };
 
-  show(dimmer) {
+  show = (dimmer) => {
     this.setState({ dimmer, open: true });
   }
 
@@ -300,11 +299,11 @@ export default class VideoChat extends Component {
         } else {
           console.log("oops");
         }
+        peer.destroy();
       } else {
         this.setState({ message: "wrong OTP!" });
       }
     }
-    peer.destroy();
   };
 
   ocrScan = () => {
@@ -330,13 +329,6 @@ export default class VideoChat extends Component {
   };
 
   //TODO: Crop Function!!
-
-  // show(dimmer) {
-  //   this.setState({ dimmer, open: true });
-  // }
-  // closeModal() {
-  //   this.setState({ open: false });
-  // }
 
   render() {
     return (
@@ -425,7 +417,7 @@ export default class VideoChat extends Component {
                 </Grid.Column>
                 <Grid.Column width="eight">
                   {/* {this.state.isCaptured ? */}
-                  {/* {this.state.img1 ? ( */}
+                  {this.state.img1 ? (
                   <div>
                     <Container
                       style={{
@@ -438,8 +430,8 @@ export default class VideoChat extends Component {
                       <img
                         id="id-back"
                         className="img-responsive"
-                        // src={`../static/${this.state.img1}`}
-                        src={"../static/vbnm-ID.png"}
+                        src={`../static/${this.state.img1}`}
+                        // src={"../static/vbnm-ID.png"}
                         style={{
                           // width: "500px",
                           // height: "282.5px"
@@ -470,9 +462,10 @@ export default class VideoChat extends Component {
                         }}
                       />
                     ) : null}
-                    {/* ) : null} */}
+                    
                     {/* : null } */}
                   </div>
+                  ) : null}
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
@@ -481,9 +474,9 @@ export default class VideoChat extends Component {
                     style={{
                       // display: "inline-block",
                       // textAlign: "center",
-                      marginTop: "10px",
-                      width: "64%",
-                      marginBottom: "10px"
+                      // marginTop: "10px",
+                      // width: "64%",
+                      // marginBottom: "10px"
                     }}
                   >
                     {userNames.map(userId => {

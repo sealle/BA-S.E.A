@@ -300,7 +300,7 @@ function (_Component) {
         circular: true,
         name: "users",
         size: "huge",
-        fluid: true,
+        fluid: "true",
         color: "blue"
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Header"], {
         as: "h1",
