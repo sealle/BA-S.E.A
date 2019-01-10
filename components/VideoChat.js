@@ -6,7 +6,7 @@ import Pusher from "pusher-js";
 import Peer from "simple-peer";
 const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 import { setCookie } from "../utils/CookieUtils";
-import {authenticator} from "otplib/otplib-browser";
+import { authenticator } from "otplib/otplib-browser";
 import OtpInput from "react-otp-input";
 import { Tesseract } from "tesseract.ts";
 const parse = require("mrz").parse;
@@ -33,7 +33,6 @@ let userNames = [];
 let token = "";
 authenticator.options = { step: 60 };
 
-
 export default class VideoChat extends Component {
   constructor() {
     super();
@@ -55,7 +54,8 @@ export default class VideoChat extends Component {
       message: "",
       sent: false,
       idIsValid: "",
-      users: []
+      users: [],
+      isConnected: false
     };
 
     this.currentUser = {
@@ -163,7 +163,7 @@ export default class VideoChat extends Component {
       userNames.splice(i, 1);
       // this.show();
       console.log(userNames);
-      this.setState({img1: !this.state.img1})
+      this.setState({ img1: !this.state.img1 });
       // swal("Removed `${member.id}`", "Please press End Call to approve or decline the user" , "success");
       //reload admin page?
     });
@@ -174,12 +174,12 @@ export default class VideoChat extends Component {
       if (peer === undefined) {
         // this.setState({ otherUserId: signal.userId });
         peer = this.startPeer(signal.userId, false);
-
+        this.setState({ isConnected: true });
         //callee //if offer is sent, stop!
       }
       peer.signal(signal.data);
     });
-  }
+  };
 
   startPeer = (userId, initiator = true) => {
     //caller
@@ -219,7 +219,7 @@ export default class VideoChat extends Component {
     });
 
     return peer;
-  }
+  };
 
   callTo = async userId => {
     this.setState({ isNotCalled: false });
@@ -252,9 +252,9 @@ export default class VideoChat extends Component {
     }
   };
 
-  show = (dimmer) => {
+  show = dimmer => {
     this.setState({ dimmer, open: true });
-  }
+  };
 
   returnHome = () => {
     this.setState({ open: false });
@@ -382,8 +382,8 @@ export default class VideoChat extends Component {
                     />
                   </Container>
                   <br />
-                  <Container style={{width:"62%"}}>
-                  <Button
+                  <Container style={{ width: "62%" }}>
+                    <Button
                       animated
                       floated="left"
                       onClick={this.sendOTP}
@@ -418,66 +418,68 @@ export default class VideoChat extends Component {
                 <Grid.Column width="eight">
                   {/* {this.state.isCaptured ? */}
                   {this.state.img1 ? (
-                  <div>
-                    <Container
-                      style={{
-                        display: "inline-block",
-                        width: "100%",
-                        height: "282.5px",
-                        marginBottom: "-6%"
-                      }}
-                    >
-                      <img
-                        id="id-back"
-                        className="img-responsive"
-                        src={`../static/${this.state.img1}`}
-                        // src={"../static/vbnm-ID.png"}
+                    <div>
+                      <Container
                         style={{
-                          // width: "500px",
-                          // height: "282.5px"
+                          display: "inline-block",
                           width: "100%",
-                          height: "88%"
-                          // float: "left"
+                          height: "282.5px",
+                          marginBottom: "-6%"
                         }}
-                      />
-                    </Container>
-                    {this.state.idIsValid ? (
-                      <Message
-                        header="Valid!"
-                        success
-                        content={this.state.ocr}
-                        style={{
-                          boxShadow: "1px 1px 11px green",
-                          border: "1px solid green"
-                        }}
-                      />
-                    ) : this.state.idIsValid === false ? (
-                      <Message
-                        header="NOT Valid!"
-                        success
-                        content={this.state.ocr}
-                        style={{
-                          boxShadow: "1px 1px 11px red",
-                          border: "1px solid red"
-                        }}
-                      />
-                    ) : null}
-                    
-                    {/* : null } */}
-                  </div>
+                      >
+                        <img
+                          id="id-back"
+                          className="img-responsive"
+                          src={`../static/${this.state.img1}`}
+                          // src={"../static/vbnm-ID.png"}
+                          style={{
+                            // width: "500px",
+                            // height: "282.5px"
+                            width: "100%",
+                            height: "88%"
+                            // float: "left"
+                          }}
+                        />
+                      </Container>
+                      {this.state.idIsValid ? (
+                        <Message
+                          header="Valid!"
+                          success
+                          content={this.state.ocr}
+                          style={{
+                            boxShadow: "1px 1px 11px green",
+                            border: "1px solid green"
+                          }}
+                        />
+                      ) : this.state.idIsValid === false ? (
+                        <Message
+                          header="NOT Valid!"
+                          success
+                          content={this.state.ocr}
+                          style={{
+                            boxShadow: "1px 1px 11px red",
+                            border: "1px solid red"
+                          }}
+                        />
+                      ) : null}
+
+                      {/* : null } */}
+                    </div>
                   ) : null}
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column width="eight">
                   <Container
-                    style={{
-                      // display: "inline-block",
-                      // textAlign: "center",
-                      // marginTop: "10px",
-                      // width: "64%",
-                      // marginBottom: "10px"
-                    }}
+                    style={
+                      {
+                        // display: "inline-block",
+                        // textAlign: "center",
+                        // marginTop: "10px",
+                        // width: "64%",
+                        // marginBottom: "10px"
+                      }
+                    }
                   >
                     {userNames.map(userId => {
                       return this.currentUser.id !== userId &&
@@ -523,6 +525,11 @@ export default class VideoChat extends Component {
           </Segment>
         ) : (
           <div>
+            {this.state.isConnected === false ? (
+              <Dimmer active>
+                <Loader indeterminate>Waiting for Admin</Loader>
+              </Dimmer>
+            ) : null}
             <Segment style={{ marginTop: "50px" }}>
               <Container
                 className="video-container"
