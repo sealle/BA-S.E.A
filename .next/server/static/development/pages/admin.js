@@ -885,29 +885,24 @@ function (_Component) {
       // });
 
       channelName.bind("pusher:member_added", function (member) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("You are conneted to", "".concat(member.id), "success"); // userName = member.id;
+        sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("You are conneted to", "".concat(member.id), "success"); //Only Admin!!
 
         if (userNames.includes(member.id) === false) {
           userNames.push(member.id);
         }
 
-        console.log(userNames); // let newConnect = member.id;
-        // // swal("Attention", "Admin is occupied, please wait...", "warning");
-        // axios.post(window.location.origin + "/pusher/count", {
-        //   newConnect
-        // });
+        console.log(userNames);
       });
       channelName.bind("pusher:member_removed", function (member) {
         console.log(userName);
         var i = userNames.indexOf(userName);
-        userNames.splice(i, 1); // this.show();
-
+        userNames.splice(i, 1);
         console.log(userNames);
 
         _this.setState({
-          img1: !_this.state.img1
-        }); // swal("Removed `${member.id}`", "Please press End Call to approve or decline the user" , "success");
-        //reload admin page?
+          img1: !_this.state.img1,
+          disableButton: true
+        }); // This executed twice when OTP verifiy? TODO:
 
       });
       channelName.bind("client-signal-".concat(_this.currentUser.id), function (signal) {
@@ -929,8 +924,6 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "startPeer", function (userId) {
       var initiator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      //caller
-      //TODO: initiator is always user!
       peer = new simple_peer__WEBPACK_IMPORTED_MODULE_6___default.a({
         initiator: initiator,
         stream: _this.currentUser.stream,
@@ -975,7 +968,8 @@ function (_Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _this.setState({
-                  isNotCalled: false
+                  isNotCalled: false,
+                  disableButton: false
                 });
 
                 _this.peers[userId] = _this.startPeer(userId);
@@ -1221,7 +1215,7 @@ function (_Component) {
       activeItem: "videochat",
       ethAddresses: [],
       ethAddressArray: []
-    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _defineProperty(_this$state, "idIsValid", ""), _defineProperty(_this$state, "users", []), _defineProperty(_this$state, "isConnected", false), _this$state);
+    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _defineProperty(_this$state, "idIsValid", ""), _defineProperty(_this$state, "users", []), _defineProperty(_this$state, "isConnected", false), _defineProperty(_this$state, "disableButton", true), _this$state);
     _this.currentUser = {
       id: "",
       stream: undefined
@@ -1358,7 +1352,7 @@ function (_Component) {
         style: {
           width: "62%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }, this.state.disableButton === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
         animated: true,
         floated: "left",
         onClick: this.sendOTP,
@@ -1390,7 +1384,41 @@ function (_Component) {
         color: "red"
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
         hidden: true
-      }, "Quit Call")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
+      }, "Quit Call"))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+        animated: true,
+        floated: "left",
+        onClick: this.sendOTP,
+        style: {
+          backgroundColor: "white",
+          border: "1px solid black",
+          width: "40%"
+        },
+        disabled: true
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+        visible: true
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Icon"], {
+        name: "send",
+        color: "green"
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+        hidden: true
+      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+        animated: true,
+        floated: "right",
+        onClick: this.decline,
+        style: {
+          backgroundColor: "white",
+          border: "1px solid black",
+          width: "40%"
+        },
+        disabled: true
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+        visible: true
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Icon"], {
+        name: "close",
+        color: "red"
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+        hidden: true
+      }, "Quit Call"))))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
         width: "eight"
       }, this.state.img1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
         style: {
@@ -2515,7 +2543,7 @@ function () {
       return new Promise(function (resolve, rej) {
         navigator.mediaDevices.getUserMedia({
           video: true,
-          audio: false
+          audio: true
         }) //TODO: change to true
         .then(function (stream) {
           resolve(stream);

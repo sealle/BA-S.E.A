@@ -55,7 +55,8 @@ export default class VideoChat extends Component {
       sent: false,
       idIsValid: "",
       users: [],
-      isConnected: false
+      isConnected: false,
+      disableButton: true
     };
 
     this.currentUser = {
@@ -140,32 +141,20 @@ export default class VideoChat extends Component {
     // });
 
     channelName.bind("pusher:member_added", member => {
-      swal("You are conneted to", `${member.id}`, "success");
-
-      // userName = member.id;
-
+      swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
       if (userNames.includes(member.id) === false) {
         userNames.push(member.id);
       }
-
       console.log(userNames);
-
-      // let newConnect = member.id;
-      // // swal("Attention", "Admin is occupied, please wait...", "warning");
-      // axios.post(window.location.origin + "/pusher/count", {
-      //   newConnect
-      // });
     });
 
     channelName.bind("pusher:member_removed", member => {
       console.log(userName);
       let i = userNames.indexOf(userName);
       userNames.splice(i, 1);
-      // this.show();
       console.log(userNames);
-      this.setState({ img1: !this.state.img1 });
-      // swal("Removed `${member.id}`", "Please press End Call to approve or decline the user" , "success");
-      //reload admin page?
+      this.setState({ img1: !this.state.img1, disableButton: true });
+      // This executed twice when OTP verifiy? TODO:
     });
 
     channelName.bind(`client-signal-${this.currentUser.id}`, signal => {
@@ -182,8 +171,6 @@ export default class VideoChat extends Component {
   };
 
   startPeer = (userId, initiator = true) => {
-    //caller
-    //TODO: initiator is always user!
     peer = new Peer({
       initiator,
       stream: this.currentUser.stream,
@@ -222,7 +209,7 @@ export default class VideoChat extends Component {
   };
 
   callTo = async userId => {
-    this.setState({ isNotCalled: false });
+    this.setState({ isNotCalled: false, disableButton: false });
     this.peers[userId] = this.startPeer(userId);
     let currentUser = userId;
     let response = await axios.post(window.location.origin + "/usrs", {
@@ -383,36 +370,75 @@ export default class VideoChat extends Component {
                   </Container>
                   <br />
                   <Container style={{ width: "62%" }}>
-                    <Button
-                      animated
-                      floated="left"
-                      onClick={this.sendOTP}
-                      style={{
-                        backgroundColor: "white",
-                        border: "1px solid black",
-                        width: "40%"
-                      }}
-                    >
-                      <Button.Content visible>
-                        <Icon name="send" color="green" />
-                      </Button.Content>
-                      <Button.Content hidden>Send OTP</Button.Content>
-                    </Button>
-                    <Button
-                      animated
-                      floated="right"
-                      onClick={this.decline}
-                      style={{
-                        backgroundColor: "white",
-                        border: "1px solid black",
-                        width: "40%"
-                      }}
-                    >
-                      <Button.Content visible>
-                        <Icon name="close" color="red" />
-                      </Button.Content>
-                      <Button.Content hidden>Quit Call</Button.Content>
-                    </Button>
+                    {this.state.disableButton === false ? (
+                      <div>
+                        <Button
+                          animated
+                          floated="left"
+                          onClick={this.sendOTP}
+                          style={{
+                            backgroundColor: "white",
+                            border: "1px solid black",
+                            width: "40%"
+                          }}
+                        >
+                          <Button.Content visible>
+                            <Icon name="send" color="green" />
+                          </Button.Content>
+                          <Button.Content hidden>Send OTP</Button.Content>
+                        </Button>
+                        <Button
+                          animated
+                          floated="right"
+                          onClick={this.decline}
+                          style={{
+                            backgroundColor: "white",
+                            border: "1px solid black",
+                            width: "40%"
+                          }}
+                        >
+                          <Button.Content visible>
+                            <Icon name="close" color="red" />
+                          </Button.Content>
+                          <Button.Content hidden>Quit Call</Button.Content>
+                        </Button>
+                      </div>
+                    ) : (
+                      <div>
+                        <Button
+                          animated
+                          floated="left"
+                          onClick={this.sendOTP}
+                          style={{
+                            backgroundColor: "white",
+                            border: "1px solid black",
+                            width: "40%"
+                          }}
+                          disabled
+                        >
+                          <Button.Content visible>
+                            <Icon name="send" color="green" />
+                          </Button.Content>
+                          <Button.Content hidden>Send OTP</Button.Content>
+                        </Button>
+                        <Button
+                          animated
+                          floated="right"
+                          onClick={this.decline}
+                          style={{
+                            backgroundColor: "white",
+                            border: "1px solid black",
+                            width: "40%"
+                          }}
+                          disabled
+                        >
+                          <Button.Content visible>
+                            <Icon name="close" color="red" />
+                          </Button.Content>
+                          <Button.Content hidden>Quit Call</Button.Content>
+                        </Button>
+                      </div>
+                    )}
                   </Container>
                 </Grid.Column>
                 <Grid.Column width="eight">
