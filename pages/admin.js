@@ -98,7 +98,7 @@ class adminPage extends Component {
     });
   }
 
-  selectUser = async(member, e, dimmer) => {
+  selectUser = async (member, e, dimmer) => {
     let currentUser = member.username;
     try {
       const response = await axios.post(window.location.origin + "/usrs", {
@@ -111,7 +111,8 @@ class adminPage extends Component {
           img1: response.data.pic1,
           img2: response.data.pic2,
           doc1: response.data.doc1,
-          doc2: response.data.doc2
+          doc2: response.data.doc2,
+          audio: response.data.audio
         });
         for (let i = 1; i < this.state.usrs.length; i++) {
           this.state.ethAddresses[i] = this.state.usrs[i].ethAddress;
@@ -121,9 +122,9 @@ class adminPage extends Component {
       console.log(error);
     }
     this.setState({ dimmer, open: true, isChosen: true });
-  }
+  };
 
-  closeModal = async() => {
+  closeModal = async () => {
     let userName = this.state.usrs[0].username;
     let response = await axios.post(window.location.origin + "/changeEdit", {
       userName
@@ -137,7 +138,7 @@ class adminPage extends Component {
         }
       }
     }
-  }
+  };
 
   toList = () => {
     this.setState({ isVideo: false, activeItem: "users" });
@@ -147,9 +148,9 @@ class adminPage extends Component {
     this.setState({ isVideo: true, activeItem: "videochat" });
   };
 
-  show = (dimmer) => {
+  show = dimmer => {
     this.setState({ dimmer, open: true });
-  }
+  };
 
   render() {
     const { open, dimmer, activeItem } = this.state;
@@ -507,6 +508,16 @@ class adminPage extends Component {
                             </a>
                             {/* </Grid.Column> */}
                             {/* </Grid> */}
+                          </Form.Group>
+                          <br/>
+                          <p style={{ fontWeight: "bold" }}>Audio Recording</p>
+                          <Form.Group colSpan={2}>
+                            <audio controls>
+                              <source
+                                src={`../static/${this.state.audio}`}
+                                type="audio/wav"
+                              />
+                            </audio>
                           </Form.Group>
                           {this.state.usrs[0].isComp == "1" ? (
                             <div>

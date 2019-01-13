@@ -16,6 +16,8 @@ const nodemailer = require("nodemailer");
 const SqlString = require("sqlstring");
 const Web3 = require("web3");
 const web3 = new Web3();
+let multer = require("multer");
+let upload = multer({ dest: __dirname + "static/" });
 // const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -529,7 +531,7 @@ app
             subject: "Password Reset",
             html: `Please click on the link to reset your password: <br/><a href="${url}">${url}</a>`
           });
-          if(err) {
+          if (err) {
             throw err;
           }
         }
@@ -778,6 +780,7 @@ app
             pic2: res[0].ID2,
             doc1: res[0].doc1,
             doc2: res[0].doc2,
+            audio: res[0].audio,
             isComp: res[0].isComp
           });
         }
@@ -820,14 +823,16 @@ app
     server.post("/createOTP", urlEncodedParser, (req, response) => {
       let body = req.body;
       let userName = body.userName;
-      let otpSecret = body.otpSecret;
+      let audioName = req.body.fileName;
+      let audio = req.files.file;
+      let otpToken = body.otpToken;
       let searchEmail = SqlString.format(
         "SELECT email FROM users WHERE username=?",
         [userName]
       );
       let insertOtpSecret = SqlString.format(
-        "UPDATE users SET otpSecret=? WHERE username=?",
-        [otpSecret, userName]
+        "UPDATE users SET otpToken=?, audio=? WHERE username=?",
+        [otpToken, audioName, userName]
       );
       database.connection.query(searchEmail, function(err, res) {
         if (err) {
@@ -837,7 +842,7 @@ app
             from: "no.reply.sealle@gmail.com",
             to: res[0].email,
             subject: "OTP",
-            html: `Your OTP: ${body.token}`
+            html: `Your OTP: ${otpToken}`
           });
           if (err) {
             console.log(err);
@@ -846,6 +851,9 @@ app
               if (err) {
                 throw err;
               } else {
+                audio.mv("static/" + audioName, function(err) {
+                  if (err) console.log(err);
+                });
                 response.status(200).json({ success: true });
               }
             });
@@ -854,17 +862,17 @@ app
       });
     });
 
-    server.post("/otpSecret", urlEncodedParser, (req, response) => {
-      let getOtpSecret = SqlString.format(
-        "SELECT otpSecret FROM users WHERE otpSecret IS NOT NULL"
+    server.post("/otpToken", urlEncodedParser, (req, response) => {
+      let getOtpToken = SqlString.format(
+        "SELECT otpToken FROM users WHERE otpToken IS NOT NULL"
       );
-      database.connection.query(getOtpSecret, (err, res) => {
+      database.connection.query(getOtpToken, (err, res) => {
         if (err) {
           throw err;
         } else {
           response
             .status(200)
-            .json({ success: true, otpSecret: res[0].otpSecret });
+            .json({ success: true, otpToken: res[0].otpToken });
         }
       });
     });
@@ -873,9 +881,8 @@ app
     server.post("/approval", urlEncodedParser, (req, response) => {
       let newAccount = web3.eth.accounts.create();
       let newKycKey = newAccount.address;
-      let body = req.body;
       let storekycKeyUsers = SqlString.format(
-        "UPDATE users SET kycKey=?, isRegistered=? WHERE otpSecret IS NOT NULL; UPDATE users SET otpSecret=? WHERE otpSecret IS NOT NULL",
+        "UPDATE users SET kycKey=?, isRegistered=? WHERE otpToken IS NOT NULL; UPDATE users SET otpToken=? WHERE otpToken IS NOT NULL",
         [newKycKey, "yes", null]
       );
       let storeEthAddresses = SqlString.format(
@@ -904,18 +911,20 @@ app
     });
 
     server.post("/decline", urlEncodedParser, function(req, response) {
-      let body = req.body;
-      console.log(body.userName);
-      let storekycKey = SqlString.format(
-        "UPDATE users SET kycKey=?, isRegistered=? WHERE username=?",
-        ["declined", "yes", body.userName]
+      let audioName = req.body.fileName;
+      let audio = req.files.file;
+      let declineUser = SqlString.format(
+        "UPDATE users SET kycKey=?, isRegistered=?, audio=? WHERE username=?",
+        ["declined", "yes", audioName, req.body.userName]
       );
-      database.connection.query(storekycKey, function(err, res, fields) {
+      database.connection.query(declineUser, function(err, res, fields) {
         if (err) throw err;
         response.status(200).json({
-          success: true,
-          returnHome: true
+          success: true
         });
+      });
+      audio.mv("static/" + audioName, function(err) {
+        if (err) return response.status(500).send(err);
       });
     });
 

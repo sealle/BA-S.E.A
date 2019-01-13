@@ -10,6 +10,8 @@ import { authenticator } from "otplib/otplib-browser";
 import OtpInput from "react-otp-input";
 import { Tesseract } from "tesseract.ts";
 const parse = require("mrz").parse;
+import RecordRTC from "recordrtc";
+const StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
 import {
   Header,
   Message,
@@ -30,8 +32,12 @@ let peer;
 let channelName;
 let userName;
 let userNames = [];
-let token = "";
-authenticator.options = { step: 60 };
+// var audioOptions = {
+//   mimeType: 'audio/webm', // or video/webm\;codecs=h264 or video/webm\;codecs=vp9
+//   audioBitsPerSecond: 128000,
+//   bitsPerSecond: 128000 // if this line is provided, skip above two
+// };
+let recordRTC;
 
 export default class VideoChat extends Component {
   constructor() {
@@ -56,7 +62,9 @@ export default class VideoChat extends Component {
       idIsValid: "",
       users: [],
       isConnected: false,
-      disableButton: true
+      disableButton: true,
+      recordAudio: null,
+      isRecording: ""
     };
 
     this.currentUser = {
@@ -190,7 +198,6 @@ export default class VideoChat extends Component {
         let userVideo = document.getElementById("user-video");
         userVideo.srcObject = stream;
         const playPromise = userVideo.play();
-
         if (playPromise !== null) {
           playPromise
             .then(() => {
@@ -200,6 +207,13 @@ export default class VideoChat extends Component {
               console.log(e);
             });
         }
+        recordRTC = RecordRTC(stream, {
+          //TODO: Which stream is beeing recorded? How to record both streams?
+          recorderType: StereoAudioRecorder,
+          mimeType: "audio/wav"
+        });
+        recordRTC.startRecording();
+        this.setState({ isRecording: "Recording..." });
       } catch (e) {
         console.log(e.stack);
       }
@@ -228,15 +242,28 @@ export default class VideoChat extends Component {
 
   decline = async () => {
     peer.destroy();
-    let response = await axios.post(window.location.origin + "/decline", {
-      userName
+    recordRTC.stopRecording(async () => {
+      let formData = new FormData();
+      let recordedBlob = recordRTC.getBlob();
+      console.log(recordedBlob);
+      let fileName = `${userName}.wav`;
+      let file = new File([recordedBlob], fileName, { mimeType: "audio/wav" });
+      console.log(file);
+      formData.append("fileName", fileName);
+      formData.append("file", file);
+      formData.append("userName", userName);
+      this.setState({ isRecording: "" });
+      let response = await axios.post(
+        window.location.origin + "/decline",
+        formData
+      );
+      if (response.data.success) {
+        swal("User declined", "", "success");
+        this.setState({ isCalled: false });
+      } else {
+        console.log("something went wrong!");
+      }
     });
-    if (response.data.success) {
-      swal("User declined", "", "success");
-      this.setState({ isCalled: false });
-    } else {
-      console.log("something went wrong!");
-    }
   };
 
   show = dimmer => {
@@ -251,33 +278,47 @@ export default class VideoChat extends Component {
   };
 
   sendOTP = async () => {
+    this.setState({loading: true})
     let otpSecret = authenticator.generateSecret();
     console.log(otpSecret);
-    token = authenticator.generate(otpSecret);
-    console.log(token);
+    let otpToken = authenticator.generate(otpSecret);
+    console.log(otpToken);
     console.log(userName);
-    let isValid = authenticator.check(token, otpSecret);
-    console.log(isValid);
-    let response = await axios.post(window.location.origin + "/createOTP", {
-      userName,
-      token,
-      otpSecret
+    //Stop audio recording and send .wav file to server
+    recordRTC.stopRecording(async () => {
+      let formData = new FormData();
+      let recordedBlob = recordRTC.getBlob();
+      console.log(recordedBlob);
+      let fileName = `${userName}.wav`;
+      let file = new File([recordedBlob], fileName, {
+        mimeType: "audio/wav"
+      });
+      console.log(file);
+      formData.append("fileName", fileName);
+      formData.append("file", file);
+      formData.append("otpToken", otpToken);
+      formData.append("userName", userName);
+      this.setState({ isRecording: "" });
+      let response = await axios.post(
+        window.location.origin + "/createOTP",
+        formData
+      );
+      if (response.data.success) {
+        swal("OTP sent!", "", "success");
+        this.setState({ isCalled: false, loading: false });
+      }
     });
-    if (response.data.success) {
-      swal("OTP sent!", "", "success");
-      this.setState({ isCalled: false });
-    }
   };
 
   otpVerify = async () => {
-    let res = await axios.post(window.location.origin + "/otpSecret");
+    let res = await axios.post(window.location.origin + "/otpToken");
     if (res.data.success) {
-      let otpSecret = res.data.otpSecret;
-      console.log(otpSecret);
+      let otpToken = res.data.otpToken;
+      console.log(otpToken);
       console.log(this.state.otp);
-      let isValid = authenticator.check(this.state.otp, otpSecret);
-      console.log(isValid);
-      if (isValid) {
+      // let isValid = authenticator.check(this.state.otp, otpSecret);
+      // console.log(isValid);
+      if (otpToken === this.state.otp) {
         let response = await axios.post(window.location.origin + "/approval");
         if (response.data.success) {
           setCookie("x-access-token", "", -60 * 60);
@@ -374,6 +415,7 @@ export default class VideoChat extends Component {
                       <div>
                         <Button
                           animated
+                          loading={this.state.loading}
                           floated="left"
                           onClick={this.sendOTP}
                           style={{
@@ -389,7 +431,7 @@ export default class VideoChat extends Component {
                         </Button>
                         <Button
                           animated
-                          floated="right"
+                          floated="left"
                           onClick={this.decline}
                           style={{
                             backgroundColor: "white",
@@ -402,6 +444,7 @@ export default class VideoChat extends Component {
                           </Button.Content>
                           <Button.Content hidden>Quit Call</Button.Content>
                         </Button>
+                        <span>{this.state.isRecording}</span>
                       </div>
                     ) : (
                       <div>
@@ -423,7 +466,7 @@ export default class VideoChat extends Component {
                         </Button>
                         <Button
                           animated
-                          floated="right"
+                          floated="left"
                           onClick={this.decline}
                           style={{
                             backgroundColor: "white",
@@ -437,6 +480,7 @@ export default class VideoChat extends Component {
                           </Button.Content>
                           <Button.Content hidden>Quit Call</Button.Content>
                         </Button>
+                        <span>{this.state.isRecording}</span>
                       </div>
                     )}
                   </Container>

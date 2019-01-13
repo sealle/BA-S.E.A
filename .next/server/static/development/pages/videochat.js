@@ -783,14 +783,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_otp_input__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var tesseract_ts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tesseract.ts */ "tesseract.ts");
 /* harmony import */ var tesseract_ts__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(tesseract_ts__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "axios");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../routes */ "./routes.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! sweetalert2 */ "sweetalert2");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var recordrtc__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! recordrtc */ "recordrtc");
+/* harmony import */ var recordrtc__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(recordrtc__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
+/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../routes */ "./routes.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! sweetalert2 */ "sweetalert2");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_15__);
 
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -833,6 +835,8 @@ var APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 var parse = __webpack_require__(/*! mrz */ "mrz").parse;
 
 
+var StereoAudioRecorder = recordrtc__WEBPACK_IMPORTED_MODULE_11___default.a.StereoAudioRecorder;
+
 
 
 
@@ -841,11 +845,13 @@ var pusher;
 var peer;
 var channelName;
 var userName;
-var userNames = [];
-var token = "";
-otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].options = {
-  step: 60
-};
+var userNames = []; // var audioOptions = {
+//   mimeType: 'audio/webm', // or video/webm\;codecs=h264 or video/webm\;codecs=vp9
+//   audioBitsPerSecond: 128000,
+//   bitsPerSecond: 128000 // if this line is provided, skip above two
+// };
+
+var recordRTC;
 
 var VideoChat =
 /*#__PURE__*/
@@ -885,7 +891,7 @@ function (_Component) {
       // });
 
       channelName.bind("pusher:member_added", function (member) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("You are conneted to", "".concat(member.id), "success"); //Only Admin!!
+        sweetalert2__WEBPACK_IMPORTED_MODULE_15___default()("You are conneted to", "".concat(member.id), "success"); //Only Admin!!
 
         if (userNames.includes(member.id) === false) {
           userNames.push(member.id);
@@ -949,6 +955,17 @@ function (_Component) {
               console.log(e);
             });
           }
+
+          recordRTC = recordrtc__WEBPACK_IMPORTED_MODULE_11___default()(stream, {
+            //TODO: Which stream is beeing recorded? How to record both streams?
+            recorderType: StereoAudioRecorder,
+            mimeType: "audio/wav"
+          });
+          recordRTC.startRecording();
+
+          _this.setState({
+            isRecording: "Recording..."
+          });
         } catch (e) {
           console.log(e.stack);
         }
@@ -975,7 +992,7 @@ function (_Component) {
                 _this.peers[userId] = _this.startPeer(userId);
                 currentUser = userId;
                 _context.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/usrs", {
+                return axios__WEBPACK_IMPORTED_MODULE_13___default.a.post(window.location.origin + "/usrs", {
                   currentUser: currentUser
                 });
 
@@ -1009,37 +1026,68 @@ function (_Component) {
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
               peer.destroy();
-              _context2.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/decline", {
-                userName: userName
-              });
+              recordRTC.stopRecording(
+              /*#__PURE__*/
+              _asyncToGenerator(
+              /*#__PURE__*/
+              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+                var formData, recordedBlob, fileName, file, response;
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                  while (1) {
+                    switch (_context2.prev = _context2.next) {
+                      case 0:
+                        formData = new FormData();
+                        recordedBlob = recordRTC.getBlob();
+                        console.log(recordedBlob);
+                        fileName = "".concat(userName, ".wav");
+                        file = new File([recordedBlob], fileName, {
+                          mimeType: "audio/wav"
+                        });
+                        console.log(file);
+                        formData.append("fileName", fileName);
+                        formData.append("file", file);
+                        formData.append("userName", userName);
 
-            case 3:
-              response = _context2.sent;
+                        _this.setState({
+                          isRecording: ""
+                        });
 
-              if (response.data.success) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("User declined", "", "success");
+                        _context2.next = 12;
+                        return axios__WEBPACK_IMPORTED_MODULE_13___default.a.post(window.location.origin + "/decline", formData);
 
-                _this.setState({
-                  isCalled: false
-                });
-              } else {
-                console.log("something went wrong!");
-              }
+                      case 12:
+                        response = _context2.sent;
 
-            case 5:
+                        if (response.data.success) {
+                          sweetalert2__WEBPACK_IMPORTED_MODULE_15___default()("User declined", "", "success");
+
+                          _this.setState({
+                            isCalled: false
+                          });
+                        } else {
+                          console.log("something went wrong!");
+                        }
+
+                      case 14:
+                      case "end":
+                        return _context2.stop();
+                    }
+                  }
+                }, _callee2, this);
+              })));
+
+            case 2:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee3, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "show", function (dimmer) {
@@ -1056,113 +1104,147 @@ function (_Component) {
 
       Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__["setCookie"])("x-access-token", "", -60 * 60);
       window.location.href = "/login";
-      _routes__WEBPACK_IMPORTED_MODULE_13__["Router"].push("/login");
+      _routes__WEBPACK_IMPORTED_MODULE_14__["Router"].push("/login");
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "sendOTP",
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var otpSecret, isValid, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      var otpSecret, otpToken;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
-              otpSecret = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].generateSecret();
-              console.log(otpSecret);
-              token = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].generate(otpSecret);
-              console.log(token);
-              console.log(userName);
-              isValid = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].check(token, otpSecret);
-              console.log(isValid);
-              _context3.next = 9;
-              return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/createOTP", {
-                userName: userName,
-                token: token,
-                otpSecret: otpSecret
+              _this.setState({
+                loading: true
               });
 
-            case 9:
-              response = _context3.sent;
+              otpSecret = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].generateSecret();
+              console.log(otpSecret);
+              otpToken = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].generate(otpSecret);
+              console.log(otpToken);
+              console.log(userName); //Stop audio recording and send .wav file to server
 
-              if (response.data.success) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()("OTP sent!", "", "success");
+              recordRTC.stopRecording(
+              /*#__PURE__*/
+              _asyncToGenerator(
+              /*#__PURE__*/
+              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+                var formData, recordedBlob, fileName, file, response;
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        formData = new FormData();
+                        recordedBlob = recordRTC.getBlob();
+                        console.log(recordedBlob);
+                        fileName = "".concat(userName, ".wav");
+                        file = new File([recordedBlob], fileName, {
+                          mimeType: "audio/wav"
+                        });
+                        console.log(file);
+                        formData.append("fileName", fileName);
+                        formData.append("file", file);
+                        formData.append("otpToken", otpToken);
+                        formData.append("userName", userName);
 
-                _this.setState({
-                  isCalled: false
-                });
-              }
+                        _this.setState({
+                          isRecording: ""
+                        });
 
-            case 11:
+                        _context4.next = 13;
+                        return axios__WEBPACK_IMPORTED_MODULE_13___default.a.post(window.location.origin + "/createOTP", formData);
+
+                      case 13:
+                        response = _context4.sent;
+
+                        if (response.data.success) {
+                          sweetalert2__WEBPACK_IMPORTED_MODULE_15___default()("OTP sent!", "", "success");
+
+                          _this.setState({
+                            isCalled: false,
+                            loading: false
+                          });
+                        }
+
+                      case 15:
+                      case "end":
+                        return _context4.stop();
+                    }
+                  }
+                }, _callee4, this);
+              })));
+
+            case 7:
             case "end":
-              return _context3.stop();
+              return _context5.stop();
           }
         }
-      }, _callee3, this);
+      }, _callee5, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "otpVerify",
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-      var res, otpSecret, isValid, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      var res, otpToken, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context4.prev = _context4.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              _context4.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/otpSecret");
+              _context6.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_13___default.a.post(window.location.origin + "/otpToken");
 
             case 2:
-              res = _context4.sent;
+              res = _context6.sent;
 
               if (!res.data.success) {
-                _context4.next = 18;
+                _context6.next = 16;
                 break;
               }
 
-              otpSecret = res.data.otpSecret;
-              console.log(otpSecret);
-              console.log(_this.state.otp);
-              isValid = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].check(_this.state.otp, otpSecret);
-              console.log(isValid);
+              otpToken = res.data.otpToken;
+              console.log(otpToken);
+              console.log(_this.state.otp); // let isValid = authenticator.check(this.state.otp, otpSecret);
+              // console.log(isValid);
 
-              if (!isValid) {
-                _context4.next = 17;
+              if (!(otpToken === _this.state.otp)) {
+                _context6.next = 15;
                 break;
               }
 
-              _context4.next = 12;
-              return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/approval");
+              _context6.next = 10;
+              return axios__WEBPACK_IMPORTED_MODULE_13___default.a.post(window.location.origin + "/approval");
 
-            case 12:
-              response = _context4.sent;
+            case 10:
+              response = _context6.sent;
 
               if (response.data.success) {
                 Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__["setCookie"])("x-access-token", "", -60 * 60);
                 window.location.href = "/login";
-                _routes__WEBPACK_IMPORTED_MODULE_13__["Router"].push("/login");
+                _routes__WEBPACK_IMPORTED_MODULE_14__["Router"].push("/login");
               } else {
                 console.log("oops");
               }
 
               peer.destroy();
-              _context4.next = 18;
+              _context6.next = 16;
               break;
 
-            case 17:
+            case 15:
               _this.setState({
                 message: "wrong OTP!"
               });
 
-            case 18:
+            case 16:
             case "end":
-              return _context4.stop();
+              return _context6.stop();
           }
         }
-      }, _callee4, this);
+      }, _callee6, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "ocrScan", function () {
@@ -1215,7 +1297,7 @@ function (_Component) {
       activeItem: "videochat",
       ethAddresses: [],
       ethAddressArray: []
-    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _defineProperty(_this$state, "idIsValid", ""), _defineProperty(_this$state, "users", []), _defineProperty(_this$state, "isConnected", false), _defineProperty(_this$state, "disableButton", true), _this$state);
+    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _defineProperty(_this$state, "idIsValid", ""), _defineProperty(_this$state, "users", []), _defineProperty(_this$state, "isConnected", false), _defineProperty(_this$state, "disableButton", true), _defineProperty(_this$state, "recordAudio", null), _defineProperty(_this$state, "isRecording", ""), _this$state);
     _this.currentUser = {
       id: "",
       stream: undefined
@@ -1233,35 +1315,35 @@ function (_Component) {
     value: function () {
       var _componentWillMount = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
         var _this2 = this;
 
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context5.prev = 0;
-                _context5.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_12___default.a.post(window.location.origin + "/videochat/stream", {
+                _context7.prev = 0;
+                _context7.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_13___default.a.post(window.location.origin + "/videochat/stream", {
                   timeout: 60 * 4 * 1000
                 });
 
               case 3:
-                response = _context5.sent;
+                response = _context7.sent;
                 this.setState({
                   userName: response.data.currentUser,
                   role: response.data.role
                 });
                 this.currentUser.id = this.state.userName;
                 xsrfToken = response.data.token;
-                _context5.next = 12;
+                _context7.next = 12;
                 break;
 
               case 9:
-                _context5.prev = 9;
-                _context5.t0 = _context5["catch"](0);
-                console.log(_context5.t0);
+                _context7.prev = 9;
+                _context7.t0 = _context7["catch"](0);
+                console.log(_context7.t0);
 
               case 12:
                 this.mediaHandler.getPermissions().then(function (stream) {
@@ -1288,14 +1370,14 @@ function (_Component) {
                   }
                 });
                 this.setupPusher();
-                return _context5.abrupt("return");
+                return _context7.abrupt("return");
 
               case 15:
               case "end":
-                return _context5.stop();
+                return _context7.stop();
             }
           }
-        }, _callee5, this, [[0, 9]]);
+        }, _callee7, this, [[0, 9]]);
       }));
 
       return function componentWillMount() {
@@ -1308,14 +1390,14 @@ function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Segment"], {
         style: {
           marginTop: "16px",
           width: "100%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Grid"].Column, {
         width: 8
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Container"], {
         className: "video-container",
         style: {
           width: "500px",
@@ -1348,11 +1430,11 @@ function (_Component) {
           height: "100%",
           zIndex: "1"
         }
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Container"], {
         style: {
           width: "62%"
         }
-      }, this.state.disableButton === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }, this.state.disableButton === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"], {
         animated: true,
         floated: "left",
         onClick: this.sendOTP,
@@ -1361,30 +1443,31 @@ function (_Component) {
           border: "1px solid black",
           width: "40%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Icon"], {
         name: "send",
         color: "green"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
         hidden: true
-      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"], {
         animated: true,
-        floated: "right",
+        loading: this.state.loading,
+        floated: "left",
         onClick: this.decline,
         style: {
           backgroundColor: "white",
           border: "1px solid black",
           width: "40%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Icon"], {
         name: "close",
         color: "red"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
         hidden: true
-      }, "Quit Call"))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }, "Quit Call")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, this.state.isRecording)) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"], {
         animated: true,
         floated: "left",
         onClick: this.sendOTP,
@@ -1394,16 +1477,16 @@ function (_Component) {
           width: "40%"
         },
         disabled: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Icon"], {
         name: "send",
         color: "green"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
         hidden: true
-      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"], {
         animated: true,
-        floated: "right",
+        floated: "left",
         onClick: this.decline,
         style: {
           backgroundColor: "white",
@@ -1411,16 +1494,16 @@ function (_Component) {
           width: "40%"
         },
         disabled: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Icon"], {
         name: "close",
         color: "red"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
         hidden: true
-      }, "Quit Call"))))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
+      }, "Quit Call")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, this.state.isRecording)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Grid"].Column, {
         width: "eight"
-      }, this.state.img1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+      }, this.state.img1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Container"], {
         style: {
           display: "inline-block",
           width: "100%",
@@ -1439,7 +1522,7 @@ function (_Component) {
           height: "88%" // float: "left"
 
         }
-      })), this.state.idIsValid ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Message"], {
+      })), this.state.idIsValid ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Message"], {
         header: "Valid!",
         success: true,
         content: this.state.ocr,
@@ -1447,7 +1530,7 @@ function (_Component) {
           boxShadow: "1px 1px 11px green",
           border: "1px solid green"
         }
-      }) : this.state.idIsValid === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Message"], {
+      }) : this.state.idIsValid === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Message"], {
         header: "NOT Valid!",
         success: true,
         content: this.state.ocr,
@@ -1455,9 +1538,9 @@ function (_Component) {
           boxShadow: "1px 1px 11px red",
           border: "1px solid red"
         }
-      }) : null) : null)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
+      }) : null) : null)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Grid"].Column, {
         width: "eight"
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Container"], {
         style: {// display: "inline-block",
           // textAlign: "center",
           // marginTop: "10px",
@@ -1468,7 +1551,7 @@ function (_Component) {
         var _React$createElement;
 
         return _this3.currentUser.id !== userId && // this.state.isNotCalled ? (
-        userNames != [] ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], (_React$createElement = {
+        userNames != [] ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"], (_React$createElement = {
           key: userId,
           animated: true,
           floated: "left"
@@ -1480,32 +1563,32 @@ function (_Component) {
           backgroundColor: "white",
           border: "1px solid black",
           width: "32%"
-        }), _React$createElement), " ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+        }), _React$createElement), " ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
           visible: true
-        }, "Call ", userId), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"].Content, {
+        }, "Call ", userId), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"].Content, {
           hidden: true
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Icon"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Icon"], {
           name: "phone",
           color: "blue"
         }))) : null;
-      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Grid"].Column, {
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Grid"].Column, {
         width: "eight"
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Container"], {
         style: {
           textAlign: "center"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"], {
         onClick: this.ocrScan,
         loading: this.state.loadingOCR
-      }, "Validate MRZ Code")))))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.isConnected === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Dimmer"], {
+      }, "Validate MRZ Code")))))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.isConnected === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Dimmer"], {
         active: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Loader"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Loader"], {
         indeterminate: true
-      }, "Waiting for Admin")) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Segment"], {
+      }, "Waiting for Admin")) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Segment"], {
         style: {
           marginTop: "50px"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Container"], {
         className: "video-container",
         style: {
           width: "500px",
@@ -1538,11 +1621,11 @@ function (_Component) {
           height: "100%",
           zIndex: "1"
         }
-      })), this.state.sent ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Message"], {
+      })), this.state.sent ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Message"], {
         success: true,
         header: "Success",
         content: this.state.message
-      }) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Container"], {
+      }) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Container"], {
         style: {
           width: "71%",
           marginBottom: "13px"
@@ -1558,11 +1641,11 @@ function (_Component) {
         ,
         numInputs: 6,
         separator: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, "-")
-      }), this.state.message ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Message"], {
+      }), this.state.message ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Message"], {
         error: true,
         header: "Oops!",
         content: this.state.message
-      }) : null), this.state.otpEntered ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }) : null), this.state.otpEntered ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"], {
         style: {
           color: "white",
           backgroundColor: "#ff3344",
@@ -1571,7 +1654,7 @@ function (_Component) {
         },
         fluid: true,
         onClick: this.otpVerify
-      }, "Submit") : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }, "Submit") : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_12__["Button"], {
         id: "returnHome",
         style: {
           color: "white",
@@ -1737,8 +1820,7 @@ function () {
         navigator.mediaDevices.getUserMedia({
           video: true,
           audio: true
-        }) //TODO: change to true
-        .then(function (stream) {
+        }).then(function (stream) {
           resolve(stream);
         }).catch(function (err) {
           throw new Error("Unable to fetch stream ".concat(err));
@@ -1862,6 +1944,17 @@ module.exports = require("react");
 /***/ (function(module, exports) {
 
 module.exports = require("react-otp-input");
+
+/***/ }),
+
+/***/ "recordrtc":
+/*!****************************!*\
+  !*** external "recordrtc" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("recordrtc");
 
 /***/ }),
 
