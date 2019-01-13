@@ -16,8 +16,6 @@ const nodemailer = require("nodemailer");
 const SqlString = require("sqlstring");
 const Web3 = require("web3");
 const web3 = new Web3();
-let multer = require("multer");
-let upload = multer({ dest: __dirname + "static/" });
 // const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -782,7 +780,7 @@ app
             doc2: res[0].doc2,
             audio: res[0].audio,
             isComp: res[0].isComp
-          });
+          })
         }
       });
     });

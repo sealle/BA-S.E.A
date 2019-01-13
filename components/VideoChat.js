@@ -12,6 +12,9 @@ import { Tesseract } from "tesseract.ts";
 const parse = require("mrz").parse;
 import RecordRTC from "recordrtc";
 const StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
+import Carousel from "nuka-carousel";
+import ReactCrop from "react-image-crop";
+import "!style-loader!css-loader!react-image-crop/dist/ReactCrop.css";
 import {
   Header,
   Message,
@@ -32,17 +35,12 @@ let peer;
 let channelName;
 let userName;
 let userNames = [];
-// var audioOptions = {
-//   mimeType: 'audio/webm', // or video/webm\;codecs=h264 or video/webm\;codecs=vp9
-//   audioBitsPerSecond: 128000,
-//   bitsPerSecond: 128000 // if this line is provided, skip above two
-// };
 let recordRTC;
 
 export default class VideoChat extends Component {
   constructor() {
     super();
-
+    this.imagePreviewCanvasRef = React.createRef();
     this.state = {
       hasMedia: false,
       userName: "",
@@ -64,7 +62,10 @@ export default class VideoChat extends Component {
       isConnected: false,
       disableButton: true,
       recordAudio: null,
-      isRecording: ""
+      isRecording: "",
+      crop: {
+        aspect: 8 / 1.5
+      }
     };
 
     this.currentUser = {
@@ -84,8 +85,8 @@ export default class VideoChat extends Component {
   async componentWillMount() {
     try {
       const response = await axios.post(
-        window.location.origin + "/videochat/stream",
-        { timeout: 60 * 4 * 1000 }
+        window.location.origin + "/videochat/stream"
+        // { timeout: 60 * 4 * 1000 }
       );
       this.setState({
         userName: response.data.currentUser,
@@ -278,7 +279,7 @@ export default class VideoChat extends Component {
   };
 
   sendOTP = async () => {
-    this.setState({loading: true})
+    this.setState({ loading: true });
     let otpSecret = authenticator.generateSecret();
     console.log(otpSecret);
     let otpToken = authenticator.generate(otpSecret);
@@ -336,7 +337,7 @@ export default class VideoChat extends Component {
 
   ocrScan = () => {
     this.setState({ loadingOCR: true });
-    let image = document.getElementById("id-back");
+    let image = document.getElementById("mrz-code");
     Tesseract.recognize(image).then((result, err) => {
       if (err) {
         console.log(err);
@@ -356,7 +357,60 @@ export default class VideoChat extends Component {
     });
   };
 
-  //TODO: Crop Function!!
+  handleOnCropChange1 = crop => {
+    this.setState({ crop: crop });
+  };
+
+  handleImageLoaded1 = image => {
+    console.log(image);
+  };
+
+  handleOnCropComplete1 = (crop, pixelCrop) => {
+    console.log(crop, pixelCrop);
+    const canvasRef = this.imagePreviewCanvasRef.current;
+    // let image1 = "static/IDback.jpg";
+    let image1 = "static/" + this.state.img1;
+    this.cropImage(canvasRef, image1, pixelCrop);
+  };
+
+  handleOnCropChange2 = crop => {
+    this.setState({ crop: crop });
+  };
+
+  handleImageLoaded2 = image => {
+    console.log(image);
+  };
+
+  handleOnCropComplete2 = (crop, pixelCrop) => {
+    console.log(crop, pixelCrop);
+    const canvasRef = this.imagePreviewCanvasRef.current;
+    // let image2 = "static/cvbn-IDfront.jpg";
+    let image2 = "static/" + this.state.img2;
+    this.cropImage(canvasRef, image2, pixelCrop);
+  };
+
+  cropImage = (canvasRef, image64, pixelCrop) => {
+    const canvas = canvasRef;
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
+    const ctx = canvas.getContext("2d");
+    const image = new Image();
+    image.src = image64;
+    image.onload = function() {
+      ctx.drawImage(
+        image,
+        pixelCrop.x,
+        pixelCrop.y,
+        pixelCrop.width,
+        pixelCrop.height,
+        0,
+        0,
+        pixelCrop.width,
+        pixelCrop.height
+      );
+    };
+  };
+
 
   render() {
     return (
@@ -488,54 +542,72 @@ export default class VideoChat extends Component {
                 <Grid.Column width="eight">
                   {/* {this.state.isCaptured ? */}
                   {this.state.img1 ? (
-                    <div>
-                      <Container
-                        style={{
-                          display: "inline-block",
-                          width: "100%",
-                          height: "282.5px",
-                          marginBottom: "-6%"
-                        }}
-                      >
-                        <img
-                          id="id-back"
-                          className="img-responsive"
+                  <div>
+                    <Carousel
+                      dragging={false}
+                      slidesToShow={1}
+                      style={{ width: "75%", margin: "auto" }}
+                      renderBottomCenterControls={false}
+                    >
+                      <div>
+                        <ReactCrop
+                          style={{ width: "100%", margin: "auto" }}
                           src={`../static/${this.state.img1}`}
-                          // src={"../static/vbnm-ID.png"}
-                          style={{
-                            // width: "500px",
-                            // height: "282.5px"
-                            width: "100%",
-                            height: "88%"
-                            // float: "left"
-                          }}
+                          // src={"static/cvbn-IDback.jpg"}
+                          crop={this.state.crop}
+                          onChange={this.handleOnCropChange1}
+                          onImageLoaded={this.handleImageLoaded1}
+                          onComplete={this.handleOnCropComplete1}
                         />
-                      </Container>
-                      {this.state.idIsValid ? (
-                        <Message
-                          header="Valid!"
-                          success
-                          content={this.state.ocr}
-                          style={{
-                            boxShadow: "1px 1px 11px green",
-                            border: "1px solid green"
-                          }}
+                      </div>
+                      <div>
+                        <ReactCrop
+                          style={{ width: "100%", margin: "auto" }}
+                          src={`../static/${this.state.img2}`}
+                          // src={"static/cvbn-IDfront.jpg"}
+                          crop={this.state.crop}
+                          onChange={this.handleOnCropChange2}
+                          onImageLoaded={this.handleImageLoaded2}
+                          onComplete={this.handleOnCropComplete2}
                         />
-                      ) : this.state.idIsValid === false ? (
-                        <Message
-                          header="NOT Valid!"
-                          success
-                          content={this.state.ocr}
-                          style={{
-                            boxShadow: "1px 1px 11px red",
-                            border: "1px solid red"
-                          }}
-                        />
-                      ) : null}
+                      </div>
+                    </Carousel>
+                    <br />
+                    <canvas
+                      id="mrz-code"
+                      ref={this.imagePreviewCanvasRef}
+                      style={{ width: "300%", 
+                      // display: "none" 
+                    }}
+                    />
+                    {/* <Button onClick={this.cropImage}>Crop</Button> */}
+                    {this.state.idIsValid ? (
+                      <Message
+                        header="Valid!"
+                        success
+                        content={this.state.ocr}
+                        style={{
+                          width: "75%",
+                          marginLeft: "12.5%",
+                          boxShadow: "1px 1px 11px green",
+                          border: "1px solid green",
+                        }}
+                      />
+                    ) : this.state.idIsValid === false ? (
+                      <Message
+                        header="NOT Valid!"
+                        success
+                        content={this.state.ocr}
+                        style={{
+                          boxShadow: "1px 1px 11px red",
+                          border: "1px solid red"
+                        }}
+                      />
+                    ) : null}
 
-                      {/* : null } */}
-                    </div>
-                  ) : null}
+                    {/* : null } */}
+                  </div>
+                   ) : null} 
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
