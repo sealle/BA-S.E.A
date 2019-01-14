@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { Menu, Container, Header, Segment, Icon } from "semantic-ui-react";
-import CompanyRegister from "../components/CompanyRegister";
-import PersonRegister from "../components/PersonRegister";
-import HomeHeader from "../components/HomeHeader";
 import Layout from "../components/Layout";
+import dynamic from "next/dynamic"
+const PersonRegister = dynamic(import('../components/PersonRegister'), {
+  ssr: false
+})
+const CompanyRegister = dynamic(import('../components/CompanyRegister'), {
+  ssr: false
+})
 
 export default class RegisterPage extends Component {
   constructor() {
@@ -21,6 +25,11 @@ export default class RegisterPage extends Component {
     return (
       <div>
         <Layout>
+        <style>{`
+        body {
+          background: #e6e6e6;
+        }
+      `}</style>
           <Segment
             style={{ marginTop: "50px", marginLeft: "-126px", width: "900px" }}
           >

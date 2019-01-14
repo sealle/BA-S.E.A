@@ -728,7 +728,6 @@ export default class UserData extends Component {
             ) : null}
           </Container>
         </Segment>
-        {/* </Layout> */}
       </div>
     );
   }

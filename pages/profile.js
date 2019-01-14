@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Link, Router } from "../routes";
-import { Button, Container } from "semantic-ui-react";
-import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
-import axios from "axios";
-import { getCookie } from "../utils/CookieUtils";
-import ProfileHeader from "../components/ProfileHeader";
-import jwtDecode from "jwt-decode";
-import UserData from "../components/UserData";
+import dynamic from "next/dynamic"
+
+const ProfileHeader = dynamic(import('../components/ProfileHeader'), {
+  ssr: false
+})
+
+const UserData = dynamic(import('../components/UserData'), {
+  ssr: false
+})
 
 //render UserData and ProfileHeader components
 class Profile extends Component {

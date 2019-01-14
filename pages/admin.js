@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ProfileHeader from "../components/ProfileHeader";
 import Layout from "../components/Layout";
 import {
   Header,
@@ -17,7 +16,13 @@ import axios from "axios";
 import Head from "next/head";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
-import VideoChat from "../components/VideoChat";
+import dynamic from "next/dynamic"
+const VideoChat = dynamic(import('../components/VideoChat'), {
+  ssr: false
+})
+const ProfileHeader = dynamic(import('../components/ProfileHeader'), {
+  ssr: false
+})
 
 class adminPage extends Component {
   constructor() {
@@ -172,7 +177,7 @@ class adminPage extends Component {
           <Message
             error
             content="Please login to Metamask"
-            style={{ marginTop: "5px", marginLeft: "120px", width: "900px" }}
+            style={{ marginTop: "5px", marginLeft: "16px", width: "98%%" }}
           />
         ) : null}
         <Segment style={{ width: "98%", margin: "16px" }}>
@@ -504,8 +509,9 @@ class adminPage extends Component {
                             {/* </Grid.Column>
                         <Grid.Column> */}
                             <a
-                              href={`../static/${this.state.img1}`}
+                              href={`../static/${this.state.img2}`}
                               target="_blank"
+                              style={{width:"50%"}}
                             >
                               <img
                                 className="img-responsive"
@@ -514,6 +520,20 @@ class adminPage extends Component {
                                   width: "200px",
                                   height: "113px"
                                   // float: "right"
+                                }}
+                              />
+                            </a>
+                            <a
+                              href={`../static/${this.state.usrs[0].username}.png`}
+                              target="_blank"
+                            >
+                              <img
+                                className="img-responsive"
+                                src={`../static/${this.state.usrs[0].username}.png`}
+                                style={{
+                                  width: "200px",
+                                  height: "113px"
+                                  // float: "left"
                                 }}
                               />
                             </a>

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Layout from "../components/Layout";
-import VideoChat from "../components/VideoChat";
+import dynamic from "next/dynamic"
+const VideoChat = dynamic(import('../components/VideoChat'), {
+  ssr: false
+})
 
 //render video chat component
 export default class VideoChatPage extends Component {

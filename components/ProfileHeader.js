@@ -4,8 +4,6 @@ import { setCookie } from "../utils/CookieUtils";
 import { Router, Link } from "../routes";
 import axios from "axios";
 import Layout from "./Layout";
-import UserList from "./UserList";
-import VideoChat from "./VideoChat";
 
 export default class ProfileHeader extends Component {
   constructor(props) {

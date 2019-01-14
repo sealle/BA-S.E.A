@@ -986,6 +986,29 @@ app
       });
     });
 
+    //get Snapshot of user and store it in static folder and DB
+    server.post("/storeSnapshot", urlEncodedParser, (req, res) => {
+      let image = req.files.image;
+      let imageName = req.body.imageName;
+      let userName = req.body.userName;
+      image.mv("static/" + imageName, function(err) {
+        if (err) return response.status(500).send(err);
+      });
+      let storeSnapshot = SqlString.format(
+        "UPDATE users SET snpashot=? WHERE username=?",
+        [imageName, userName]
+      );
+      database.connection.query(storeSnapshot, function(err, res, fields) {
+        if (err) {
+          throw err;
+        } else {
+          res.status(200).send({
+            success: true,
+          });
+        };
+      })
+    })
+
     //check whether the user has beneficial owners on his assets
     server.post("/assets", urlEncodedParser, function(req, response) {
       let body = req.body;

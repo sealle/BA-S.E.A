@@ -40,7 +40,7 @@ let recordRTC;
 export default class VideoChat extends Component {
   constructor() {
     super();
-    this.imagePreviewCanvasRef = React.createRef();
+    this.imageCropPreviewCanvasRef = React.createRef();
     this.state = {
       hasMedia: false,
       userName: "",
@@ -83,20 +83,20 @@ export default class VideoChat extends Component {
   }
 
   async componentWillMount() {
-      //request user data from server
-      try {
-        const response = await axios.post(
-          window.location.origin + "/videochat/stream"
-        );
-        this.setState({
-          userName: response.data.currentUser,
-          role: response.data.role
-        });
-        this.currentUser.id = this.state.userName;
-        xsrfToken = response.data.token;
-      } catch (e) {
-        console.log(e);
-      }
+    //request user data from server
+    try {
+      const response = await axios.post(
+        window.location.origin + "/videochat/stream"
+      );
+      this.setState({
+        userName: response.data.currentUser,
+        role: response.data.role
+      });
+      this.currentUser.id = this.state.userName;
+      xsrfToken = response.data.token;
+    } catch (e) {
+      console.log(e);
+    }
 
     //ask for permission to allow microphone and webcam
     this.mediaHandler.getPermissions().then(stream => {
@@ -261,7 +261,7 @@ export default class VideoChat extends Component {
   decline = async () => {
     //destroy P2P connection
     peer.destroy();
-    //stop audio recording 
+    //stop audio recording
     recordRTC.stopRecording(async () => {
       let formData = new FormData();
       let recordedBlob = recordRTC.getBlob();
@@ -406,7 +406,7 @@ export default class VideoChat extends Component {
     console.log(crop, pixelCrop);
     //get canvas, the image and the pixelCrop
     const canvasRef = this.imagePreviewCanvasRef.current;
-    // let image1 = "static/IDD.jpg";
+    // let image1 = "static/Admin-ScanBack.jpeg";
     let image1 = "static/" + this.state.img1;
     //trigger function to crop image to canvas
     this.cropImage(canvasRef, image1, pixelCrop);
@@ -456,10 +456,40 @@ export default class VideoChat extends Component {
     };
   };
 
+  //Set initial Height of Nuka-Carousel to ≠ 0
   handleLoadImage = () => {
-    this.carouselRef.setDimensions()
-  }
+    this.carouselRef.setDimensions();
+  };
 
+  //take snapshot from user-video
+  //convert to Blob and then into a file
+  //send image to server
+  takeSnapshot = async () => {
+    let img = document.getElementById("user-video");
+    let canvas = document.getElementById("snapshot");
+    let context = canvas.getContext("2d");
+    context.drawImage(img, 0, 0, 500, 300);
+    // let snapshot = canvas.toDataURL("image/png");
+    canvas.toBlob(async(blob) => {
+      let imageName = `${userName}.png`;
+      let image = new File([blob], imageName, {
+        mimeType: "image/png"
+      });
+      let formData = new FormData();
+      formData.append("imageName", imageName);
+      formData.append("image", image);
+      formData.append("userName", userName);
+      let response = await axios.post(
+        window.location.origin + "/storeSnapshot",
+        formData
+      );
+      if (response.data.success) {
+        console.log("success");
+      } else {
+        console.log("error");
+      }
+    })
+  };
 
   render() {
     return (
@@ -516,6 +546,7 @@ export default class VideoChat extends Component {
                   <Container style={{ width: "62%" }}>
                     {this.state.disableButton === false ? (
                       <div>
+                        <Button onClick={this.takeSnapshot}>Snapshot</Button>
                         <Button
                           animated
                           loading={this.state.loading}
@@ -551,6 +582,7 @@ export default class VideoChat extends Component {
                       </div>
                     ) : (
                       <div>
+                        <Button onClick={this.takeSnapshot}>Snapshot</Button>
                         <Button
                           animated
                           floated="left"
@@ -591,73 +623,84 @@ export default class VideoChat extends Component {
                 <Grid.Column width="eight">
                   {/* {this.state.isCaptured ? */}
                   {this.state.img1 ? (
-                  <div>
-                    <Carousel
-                      ref={node => { this.carouselRef = node }}
-                      dragging={false}
-                      slidesToShow={1}
-                      style={{ width: "75%", margin: "auto" }}
-                      renderBottomCenterControls={false}
-                    >
-                      <div onLoad={this.handleLoadImage}>
-                        <ReactCrop
-                          style={{ width: "100%", margin: "auto" }}
-                          src={`../static/${this.state.img1}`}
-                          // src={"static/IDD.jpg"}
-                          crop={this.state.crop}
-                          onChange={this.handleOnCropChange1}
-                          onImageLoaded={this.handleImageLoaded1}
-                          onComplete={this.handleOnCropComplete1}
-                        />
-                      </div>
-                      <div>
-                        <ReactCrop
-                          style={{ width: "100%", margin: "auto" }}
-                          src={`../static/${this.state.img2}`}
-                          // src={"static/cvbn-IDfront.jpg"}
-                          crop={this.state.crop}
-                          onChange={this.handleOnCropChange2}
-                          onImageLoaded={this.handleImageLoaded2}
-                          onComplete={this.handleOnCropComplete2}
-                        />
-                      </div>
-                    </Carousel>
-                    <br />
-                    <canvas
-                      id="mrz-code"
-                      ref={this.imagePreviewCanvasRef}
-                      style={{ width: "300%", 
-                      display: "none" 
-                    }}
-                    />
-                    {/* <Button onClick={this.cropImage}>Crop</Button> */}
-                    {this.state.idIsValid ? (
-                      <Message
-                        header="Valid!"
-                        success
-                        content={this.state.ocr}
+                    <div>
+                      <Carousel
+                        ref={node => {
+                          this.carouselRef = node;
+                        }}
+                        dragging={false}
+                        slidesToShow={1}
+                        style={{ maxWidth: "451px", margin: "auto" }}
+                        renderBottomCenterControls={false}
+                      >
+                        <div onLoad={this.handleLoadImage}>
+                          <ReactCrop
+                            style={{
+                              maxWidth: "451px",
+                              maxHeight: "287px",
+                              margin: "auto"
+                            }}
+                            src={`../static/${this.state.img1}`}
+                            // src={"static/Admin-ScanBack.jpeg"}
+                            crop={this.state.crop}
+                            onChange={this.handleOnCropChange1}
+                            onImageLoaded={this.handleImageLoaded1}
+                            onComplete={this.handleOnCropComplete1}
+                          />
+                        </div>
+                        <div>
+                          <ReactCrop
+                            style={{
+                              maxWidth: "451px",
+                              maxHeight: "287px",
+                              margin: "auto"
+                            }}
+                            src={`../static/${this.state.img2}`}
+                            // src={"static/cvbn-IDfront.jpg"}
+                            crop={this.state.crop}
+                            onChange={this.handleOnCropChange2}
+                            onImageLoaded={this.handleImageLoaded2}
+                            onComplete={this.handleOnCropComplete2}
+                          />
+                        </div>
+                      </Carousel>
+                      <br />
+                      <canvas
+                        id="mrz-code"
+                        ref={this.imageCropPreviewCanvasRef}
                         style={{
-                          width: "75%",
-                          marginLeft: "12.5%",
-                          boxShadow: "1px 1px 11px green",
-                          border: "1px solid green",
+                          width: "300%",
+                          display: "none"
                         }}
                       />
-                    ) : this.state.idIsValid === false ? (
-                      <Message
-                        header="NOT Valid!"
-                        success
-                        content={this.state.ocr}
-                        style={{
-                          boxShadow: "1px 1px 11px red",
-                          border: "1px solid red"
-                        }}
-                      />
-                    ) : null}
+                      {/* <Button onClick={this.cropImage}>Crop</Button> */}
+                      {this.state.idIsValid ? (
+                        <Message
+                          header="Valid!"
+                          success
+                          content={this.state.ocr}
+                          style={{
+                            width: "75%",
+                            marginLeft: "12.5%",
+                            boxShadow: "1px 1px 11px green",
+                            border: "1px solid green"
+                          }}
+                        />
+                      ) : this.state.idIsValid === false ? (
+                        <Message
+                          header="NOT Valid!"
+                          success
+                          content={this.state.ocr}
+                          style={{
+                            boxShadow: "1px 1px 11px red",
+                            border: "1px solid red"
+                          }}
+                        />
+                      ) : null}
 
-                    {/* : null } */}
-                  </div>
-                    ) : null} 
+                      {/* : null } */}
+                    </div>
+                  ) : null}
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
@@ -701,6 +744,16 @@ export default class VideoChat extends Component {
                       ) : null;
                     })}
                   </Container>
+                  <canvas
+                    id="snapshot"
+                    width="500"
+                    height="300"
+                    style={
+                      {
+                        display: "none"
+                      }
+                    }
+                  />
                 </Grid.Column>
                 <Grid.Column width="eight">
                   <Container style={{ textAlign: "center" }}>
