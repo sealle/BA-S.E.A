@@ -2,41 +2,58 @@
 CREATE DATABASE MyDatabase;
 use MyDatabase;
 
---Creating a table
-CREATE TABLE users (
-    id int AUTO_INCREMENT PRIMARY KEY,
-    username varchar(255),
-    password varchar(255),
-    fname varchar(255),
-    lname varchar(255),
-    street varchar(255),
-    houseNr int,
-    postCode int,
-    placeOfRes varchar(255),
-    dateOfBirth date,
-    nat varchar(255),
-    email varchar(255),
-    mobNr int,
-    ID1 varchar(255),
-    ID2 varchar(255),
-    regDate varchar(255),
-    isComp int(1),
-    active int(1) DEFAULT "0",
-    privileges varchar(255) DEFAULT "user",
-    isRegistered varchar(255) DEFAULT "no",
-    compName varchar(255)
-    regNr bigint,
-    placeOfReg varchar(255),
-    residence varchar(255),
-    businessAd varchar(255),
-    compHouseNr varchar(255),
-    doc1 varchar(255),
-    doc2 varchar(255),
- )
+-- Users Table
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `fname` varchar(255) DEFAULT NULL,
+  `lname` varchar(255) DEFAULT NULL,
+  `street` varchar(255) DEFAULT NULL,
+  `houseNr` varchar(255) DEFAULT NULL,
+  `postCode` int(11) DEFAULT NULL,
+  `placeOfRes` varchar(255) DEFAULT NULL,
+  `dateOfBirth` varchar(255) DEFAULT NULL,
+  `nat` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `mobNr` varchar(255) DEFAULT NULL,
+  `ID1` varchar(255) DEFAULT NULL,
+  `ID2` varchar(255) DEFAULT NULL,
+  `regDate` varchar(255) DEFAULT NULL,
+  `isComp` int(1) DEFAULT NULL,
+  `active` int(1) DEFAULT '0',
+  `privileges` varchar(255) DEFAULT 'user',
+  `isRegistered` varchar(255) DEFAULT 'no',
+  `compName` varchar(255) DEFAULT NULL,
+  `compPostCode` int(11) DEFAULT NULL,
+  `residence` varchar(255) DEFAULT NULL,
+  `businessAd` varchar(255) DEFAULT NULL,
+  `compHouseNr` int(11) DEFAULT NULL,
+  `doc1` varchar(255) DEFAULT NULL,
+  `doc2` varchar(255) DEFAULT NULL,
+  `kycKey` varchar(255) DEFAULT NULL,
+  `edited` varchar(255) DEFAULT NULL,
+  `lastModified` varchar(255) DEFAULT NULL,
+  `otpToken` varchar(255) DEFAULT NULL,
+  `audio` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
 
-UPDATE users
-SET role='admin'
-WHERE username='Admin';
+ -- EthAddresses Table
+ CREATE TABLE `ethAddresses` (
+  `kycKey` varchar(255) DEFAULT NULL,
+  `ethAddress` varchar(255) DEFAULT NULL
+)
 
-ALTER TABLE users
-ADD COLUMN viewedByAdmin varchar(255) DEFAULT "no"
+
+-- BeneficialOwners Table
+CREATE TABLE `beneficialOwners` (
+  `username` varchar(255) DEFAULT NULL,
+  `ownerName` varchar(255) DEFAULT NULL,
+  `ownerLastName` varchar(255) DEFAULT NULL,
+  `ownerStreet` varchar(255) DEFAULT NULL,
+  `ownerHouseNr` varchar(255) DEFAULT NULL,
+  `ownerPostCode` int(11) DEFAULT NULL,
+  `ownerPlaceOfRes` varchar(255) DEFAULT NULL,
+  `ownerDateOfBirth` varchar(255) DEFAULT NULL
+)

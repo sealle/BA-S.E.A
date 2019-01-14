@@ -45,7 +45,7 @@ export default class VideoChat extends Component {
       hasMedia: false,
       userName: "",
       otherUserId: null,
-      // role: "",
+      role: 1,
       isNotCalled: "true",
       message: "",
       waitingMessage: "",
@@ -83,20 +83,20 @@ export default class VideoChat extends Component {
   }
 
   async componentWillMount() {
-    try {
-      const response = await axios.post(
-        window.location.origin + "/videochat/stream"
-        // { timeout: 60 * 4 * 1000 }
-      );
-      this.setState({
-        userName: response.data.currentUser,
-        role: response.data.role
-      });
-      this.currentUser.id = this.state.userName;
-      xsrfToken = response.data.token;
-    } catch (e) {
-      console.log(e);
-    }
+      try {
+        const response = await axios.post(
+          window.location.origin + "/videochat/stream"
+          // { timeout: 60 * 4 * 1000 }
+        );
+        this.setState({
+          userName: response.data.currentUser,
+          role: response.data.role
+        });
+        this.currentUser.id = this.state.userName;
+        xsrfToken = response.data.token;
+      } catch (e) {
+        console.log(e);
+      }
 
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
@@ -368,7 +368,7 @@ export default class VideoChat extends Component {
   handleOnCropComplete1 = (crop, pixelCrop) => {
     console.log(crop, pixelCrop);
     const canvasRef = this.imagePreviewCanvasRef.current;
-    // let image1 = "static/IDback.jpg";
+    // let image1 = "static/IDD.jpg";
     let image1 = "static/" + this.state.img1;
     this.cropImage(canvasRef, image1, pixelCrop);
   };
@@ -553,7 +553,7 @@ export default class VideoChat extends Component {
                         <ReactCrop
                           style={{ width: "100%", margin: "auto" }}
                           src={`../static/${this.state.img1}`}
-                          // src={"static/cvbn-IDback.jpg"}
+                          // src={"static/IDD.jpg"}
                           crop={this.state.crop}
                           onChange={this.handleOnCropChange1}
                           onImageLoaded={this.handleImageLoaded1}
@@ -577,7 +577,7 @@ export default class VideoChat extends Component {
                       id="mrz-code"
                       ref={this.imagePreviewCanvasRef}
                       style={{ width: "300%", 
-                      // display: "none" 
+                      display: "none" 
                     }}
                     />
                     {/* <Button onClick={this.cropImage}>Crop</Button> */}
@@ -607,7 +607,7 @@ export default class VideoChat extends Component {
 
                     {/* : null } */}
                   </div>
-                   ) : null} 
+                    ) : null} 
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>

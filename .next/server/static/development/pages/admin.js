@@ -1310,7 +1310,7 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleOnCropComplete1", function (crop, pixelCrop) {
       console.log(crop, pixelCrop);
-      var canvasRef = _this.imagePreviewCanvasRef.current; // let image1 = "static/IDback.jpg";
+      var canvasRef = _this.imagePreviewCanvasRef.current; // let image1 = "static/IDD.jpg";
 
       var image1 = "static/" + _this.state.img1;
 
@@ -1354,7 +1354,7 @@ function (_Component) {
       hasMedia: false,
       userName: "",
       otherUserId: null,
-      // role: "",
+      role: 1,
       isNotCalled: "true",
       message: "",
       waitingMessage: "",
@@ -1583,7 +1583,7 @@ function (_Component) {
           width: "100%",
           margin: "auto"
         },
-        src: "../static/".concat(this.state.img1) // src={"static/cvbn-IDback.jpg"}
+        src: "../static/".concat(this.state.img1) // src={"static/IDD.jpg"}
         ,
         crop: this.state.crop,
         onChange: this.handleOnCropChange1,
@@ -1604,8 +1604,8 @@ function (_Component) {
         id: "mrz-code",
         ref: this.imagePreviewCanvasRef,
         style: {
-          width: "300%" // display: "none" 
-
+          width: "300%",
+          display: "none"
         }
       }), this.state.idIsValid ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Message"], {
         header: "Valid!",
