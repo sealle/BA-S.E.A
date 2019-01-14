@@ -456,6 +456,10 @@ export default class VideoChat extends Component {
     };
   };
 
+  handleLoadImage = () => {
+    this.carouselRef.setDimensions()
+  }
+
 
   render() {
     return (
@@ -589,12 +593,13 @@ export default class VideoChat extends Component {
                   {this.state.img1 ? (
                   <div>
                     <Carousel
+                      ref={node => { this.carouselRef = node }}
                       dragging={false}
                       slidesToShow={1}
                       style={{ width: "75%", margin: "auto" }}
                       renderBottomCenterControls={false}
                     >
-                      <div>
+                      <div onLoad={this.handleLoadImage}>
                         <ReactCrop
                           style={{ width: "100%", margin: "auto" }}
                           src={`../static/${this.state.img1}`}

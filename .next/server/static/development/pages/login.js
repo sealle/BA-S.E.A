@@ -169,13 +169,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -196,91 +198,88 @@ function (_Component) {
     _classCallCheck(this, Login);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "login",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var formData, res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              formData = new FormData();
+              formData.append("username", _this.state.username);
+              formData.append("password", _this.state.password);
+              formData.append("errorMessage", _this.state.errorMessage);
+
+              _this.setState({
+                loading: true
+              });
+
+              _context.prev = 5;
+              _context.next = 8;
+              return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/authenticate", formData);
+
+            case 8:
+              res = _context.sent;
+
+              //check if the user is declined, admin, registered user oder not registered user
+              //set cookies and place corresponding token in it
+              if (res.data.success) {
+                if (res.data.declined == "declined") {
+                  _this.setState({
+                    errorMessage: res.data.message
+                  });
+                } else if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
+                  Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.adminToken, 1);
+                  _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/admin");
+                } else if (res.data.registerStatus == "yes" && res.data.privileg == "user") {
+                  Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.userToken, 1);
+                  _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/profile");
+                } else {
+                  Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.registerToken, 1);
+                  _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/clickandpay");
+                }
+              }
+
+              _context.next = 15;
+              break;
+
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](5);
+
+              _this.setState({
+                errorMessage: _context.t0.response.data.message
+              });
+
+            case 15:
+              _this.setState({
+                loading: false
+              });
+
+            case 16:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this, [[5, 12]]);
+    })));
+
     _this.state = {
       password: "",
       username: "",
       errorMessage: "",
       loading: false
-    };
-
-    _this.login = function (e) {
-      return _this._login();
-    };
+    }; // this.login = e => this._login();
 
     return _this;
-  }
+  } //send email and pasword to server
+
 
   _createClass(Login, [{
-    key: "_login",
-    value: function () {
-      var _login2 = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var formData, res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                formData = new FormData();
-                formData.append("username", this.state.username);
-                formData.append("password", this.state.password);
-                formData.append("errorMessage", this.state.errorMessage);
-                this.setState({
-                  loading: true
-                });
-                _context.prev = 5;
-                _context.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/authenticate", formData);
-
-              case 8:
-                res = _context.sent;
-
-                //Set cookies and place token in it
-                if (res.data.success) {
-                  if (res.data.declined == "declined") {
-                    this.setState({
-                      errorMessage: res.data.message
-                    });
-                  } else if (res.data.registerStatus == "yes" && res.data.privileg == "admin") {
-                    Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.adminToken, 1);
-                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/admin");
-                  } else if (res.data.registerStatus == "yes" && res.data.privileg == "user") {
-                    Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.userToken, 1);
-                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/profile");
-                  } else {
-                    Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", res.data.registerToken, 1);
-                    _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/clickandpay");
-                  }
-                }
-
-                _context.next = 15;
-                break;
-
-              case 12:
-                _context.prev = 12;
-                _context.t0 = _context["catch"](5);
-                this.setState({
-                  errorMessage: _context.t0.response.data.message
-                });
-
-              case 15:
-                this.setState({
-                  loading: false
-                });
-
-              case 16:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[5, 12]]);
-      }));
-
-      return function _login() {
-        return _login2.apply(this, arguments);
-      };
-    }()
-  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -390,7 +389,8 @@ function (_Component) {
 
 var routes = __webpack_require__(/*! next-routes */ "next-routes")();
 
-module.exports = routes;
+module.exports = routes; //add dynamic route 
+
 routes.add("passwordchange", "/passwordchange/:id", "passwordchange");
 
 /***/ }),

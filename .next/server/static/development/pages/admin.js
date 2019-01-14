@@ -186,13 +186,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -214,18 +216,22 @@ function (_Component) {
     _classCallCheck(this, ProfileHeader);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ProfileHeader).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "logout", function () {
+      Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_4__["setCookie"])("x-access-token", "", -60 * 60);
+      _routes__WEBPACK_IMPORTED_MODULE_5__["Router"].pushRoute("/login");
+      window.location.href = "/login";
+    });
+
     _this.state = {
       isAdmin: false,
       currentUser: "" // activeItem: "videochat"
 
-    };
-
-    _this.logout = function (e) {
-      return _this._logout();
-    };
+    }; // this.logout = e => this._logout();
 
     return _this;
-  }
+  } //get current user to display 
+
 
   _createClass(ProfileHeader, [{
     key: "componentDidMount",
@@ -270,17 +276,11 @@ function (_Component) {
       return function componentDidMount() {
         return _componentDidMount.apply(this, arguments);
       };
-    }()
-  }, {
-    key: "_logout",
-    value: function _logout() {
-      Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_4__["setCookie"])("x-access-token", "", -60 * 60);
-      _routes__WEBPACK_IMPORTED_MODULE_5__["Router"].pushRoute("/login");
-      window.location.href = "/login";
-    } // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+    }() //on logout, delete cookies
 
   }, {
     key: "render",
+    // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
     value: function render() {
       // const { activeItem } = this.state;
       return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"], {
@@ -300,7 +300,7 @@ function (_Component) {
         size: "small"
       }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", null, this.state.currentUser)))), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Layout__WEBPACK_IMPORTED_MODULE_7__["default"], null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default.a, {
         styleId: "3698465938",
-        css: "body{background:#e6e6e6;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zZWJhc3RpYW5lbW1hbnVlbGFsbGVtYW5uL0JBLVMuRS5BL2NvbXBvbmVudHMvUHJvZmlsZUhlYWRlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUEwRDZCLEFBR2tDLG1CQUNyQiIsImZpbGUiOiIvVXNlcnMvc2ViYXN0aWFuZW1tYW51ZWxhbGxlbWFubi9CQS1TLkUuQS9jb21wb25lbnRzL1Byb2ZpbGVIZWFkZXIuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgQ29tcG9uZW50IH0gZnJvbSBcInJlYWN0XCI7XG5pbXBvcnQgeyBNZW51LCBJY29uLCBDb250YWluZXIsIEhlYWRlciwgU2VnbWVudCB9IGZyb20gXCJzZW1hbnRpYy11aS1yZWFjdFwiO1xuaW1wb3J0IHsgc2V0Q29va2llIH0gZnJvbSBcIi4uL3V0aWxzL0Nvb2tpZVV0aWxzXCI7XG5pbXBvcnQgeyBSb3V0ZXIsIExpbmsgfSBmcm9tIFwiLi4vcm91dGVzXCI7XG5pbXBvcnQgYXhpb3MgZnJvbSBcImF4aW9zXCI7XG5pbXBvcnQgTGF5b3V0IGZyb20gXCIuL0xheW91dFwiO1xuaW1wb3J0IFVzZXJMaXN0IGZyb20gXCIuL1VzZXJMaXN0XCI7XG5pbXBvcnQgVmlkZW9DaGF0IGZyb20gXCIuL1ZpZGVvQ2hhdFwiO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBQcm9maWxlSGVhZGVyIGV4dGVuZHMgQ29tcG9uZW50IHtcbiAgY29uc3RydWN0b3IocHJvcHMpIHtcbiAgICBzdXBlcihwcm9wcyk7XG4gICAgdGhpcy5zdGF0ZSA9IHtcbiAgICAgIGlzQWRtaW46IGZhbHNlLFxuICAgICAgY3VycmVudFVzZXI6IFwiXCIsXG4gICAgICAvLyBhY3RpdmVJdGVtOiBcInZpZGVvY2hhdFwiXG4gICAgfTtcbiAgICB0aGlzLmxvZ291dCA9IGUgPT4gdGhpcy5fbG9nb3V0KCk7XG4gIH1cblxuICBhc3luYyBjb21wb25lbnREaWRNb3VudCgpIHtcbiAgICB0cnkge1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBheGlvcy5wb3N0KFxuICAgICAgICB3aW5kb3cubG9jYXRpb24ub3JpZ2luICsgXCIvY3VycmVudHVzZXJcIlxuICAgICAgKTtcbiAgICAgIGlmIChyZXNwb25zZS5kYXRhLnN1Y2Nlc3MpIHtcbiAgICAgICAgdGhpcy5zZXRTdGF0ZSh7IGN1cnJlbnRVc2VyOiByZXNwb25zZS5kYXRhLmN1cnJlbnRVc2VyIH0pO1xuICAgICAgfVxuICAgIH0gY2F0Y2ggKGVycikge1xuICAgICAgY29uc29sZS5sb2coZXJyKTtcbiAgICB9XG4gIH1cblxuICBfbG9nb3V0KCkge1xuICAgIHNldENvb2tpZShcIngtYWNjZXNzLXRva2VuXCIsIFwiXCIsIC02MCAqIDYwKTtcbiAgICBSb3V0ZXIucHVzaFJvdXRlKFwiL2xvZ2luXCIpO1xuICAgIHdpbmRvdy5sb2NhdGlvbi5ocmVmID0gXCIvbG9naW5cIjtcbiAgfVxuXG4gIC8vIGhhbmRsZUl0ZW1DbGljayA9IChlLCB7IG5hbWUgfSkgPT4gdGhpcy5zZXRTdGF0ZSh7IGFjdGl2ZUl0ZW06IG5hbWUgfSk7XG5cbiAgcmVuZGVyKCkge1xuICAgIC8vIGNvbnN0IHsgYWN0aXZlSXRlbSB9ID0gdGhpcy5zdGF0ZTtcbiAgICByZXR1cm4gKFxuICAgICAgPGRpdj5cbiAgICAgICAgPE1lbnUgcG9pbnRpbmc+XG4gICAgICAgICAgPE1lbnUuSXRlbSBuYW1lPVwiaG9tZVwiPlxuICAgICAgICAgICAgPEljb24gbmFtZT1cImhvbWVcIiBzaXplPVwic21hbGxcIiAvPlxuICAgICAgICAgIDwvTWVudS5JdGVtPlxuICAgICAgICAgIDxNZW51Lk1lbnUgcG9zaXRpb249XCJyaWdodFwiPlxuICAgICAgICAgICAgPE1lbnUuSXRlbSBuYW1lPVwibG9nb3V0XCIgb25DbGljaz17dGhpcy5sb2dvdXR9IC8+XG4gICAgICAgICAgICA8TWVudS5JdGVtPlxuICAgICAgICAgICAgICA8SWNvbiBuYW1lPVwidXNlclwiIHNpemU9XCJzbWFsbFwiIC8+XG4gICAgICAgICAgICAgIDxwPnt0aGlzLnN0YXRlLmN1cnJlbnRVc2VyfTwvcD5cbiAgICAgICAgICAgIDwvTWVudS5JdGVtPlxuICAgICAgICAgIDwvTWVudS5NZW51PlxuICAgICAgICA8L01lbnU+XG4gICAgICAgIDxMYXlvdXQ+XG4gICAgICAgICAgPHN0eWxlIGpzeCBnbG9iYWw+e2BcbiAgICAgICAgICAgIGJvZHkge1xuICAgICAgICAgICAgICBiYWNrZ3JvdW5kOiAjZTZlNmU2O1xuICAgICAgICAgICAgfVxuICAgICAgICAgIGB9PC9zdHlsZT5cbiAgICAgICAgPC9MYXlvdXQ+XG4gICAgICA8L2Rpdj5cbiAgICApO1xuICB9XG59XG4iXX0= */\n/*@ sourceURL=/Users/sebastianemmanuelallemann/BA-S.E.A/components/ProfileHeader.js */"
+        css: "body{background:#e6e6e6;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zZWJhc3RpYW5lbW1hbnVlbGFsbGVtYW5uL0JBLVMuRS5BL2NvbXBvbmVudHMvUHJvZmlsZUhlYWRlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUE0RDZCLEFBR2tDLG1CQUNyQiIsImZpbGUiOiIvVXNlcnMvc2ViYXN0aWFuZW1tYW51ZWxhbGxlbWFubi9CQS1TLkUuQS9jb21wb25lbnRzL1Byb2ZpbGVIZWFkZXIuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgQ29tcG9uZW50IH0gZnJvbSBcInJlYWN0XCI7XG5pbXBvcnQgeyBNZW51LCBJY29uLCBDb250YWluZXIsIEhlYWRlciwgU2VnbWVudCB9IGZyb20gXCJzZW1hbnRpYy11aS1yZWFjdFwiO1xuaW1wb3J0IHsgc2V0Q29va2llIH0gZnJvbSBcIi4uL3V0aWxzL0Nvb2tpZVV0aWxzXCI7XG5pbXBvcnQgeyBSb3V0ZXIsIExpbmsgfSBmcm9tIFwiLi4vcm91dGVzXCI7XG5pbXBvcnQgYXhpb3MgZnJvbSBcImF4aW9zXCI7XG5pbXBvcnQgTGF5b3V0IGZyb20gXCIuL0xheW91dFwiO1xuaW1wb3J0IFVzZXJMaXN0IGZyb20gXCIuL1VzZXJMaXN0XCI7XG5pbXBvcnQgVmlkZW9DaGF0IGZyb20gXCIuL1ZpZGVvQ2hhdFwiO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBQcm9maWxlSGVhZGVyIGV4dGVuZHMgQ29tcG9uZW50IHtcbiAgY29uc3RydWN0b3IocHJvcHMpIHtcbiAgICBzdXBlcihwcm9wcyk7XG4gICAgdGhpcy5zdGF0ZSA9IHtcbiAgICAgIGlzQWRtaW46IGZhbHNlLFxuICAgICAgY3VycmVudFVzZXI6IFwiXCIsXG4gICAgICAvLyBhY3RpdmVJdGVtOiBcInZpZGVvY2hhdFwiXG4gICAgfTtcbiAgICAvLyB0aGlzLmxvZ291dCA9IGUgPT4gdGhpcy5fbG9nb3V0KCk7XG4gIH1cblxuICAvL2dldCBjdXJyZW50IHVzZXIgdG8gZGlzcGxheSBcbiAgYXN5bmMgY29tcG9uZW50RGlkTW91bnQoKSB7XG4gICAgdHJ5IHtcbiAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgYXhpb3MucG9zdChcbiAgICAgICAgd2luZG93LmxvY2F0aW9uLm9yaWdpbiArIFwiL2N1cnJlbnR1c2VyXCJcbiAgICAgICk7XG4gICAgICBpZiAocmVzcG9uc2UuZGF0YS5zdWNjZXNzKSB7XG4gICAgICAgIHRoaXMuc2V0U3RhdGUoeyBjdXJyZW50VXNlcjogcmVzcG9uc2UuZGF0YS5jdXJyZW50VXNlciB9KTtcbiAgICAgIH1cbiAgICB9IGNhdGNoIChlcnIpIHtcbiAgICAgIGNvbnNvbGUubG9nKGVycik7XG4gICAgfVxuICB9XG5cbiAgLy9vbiBsb2dvdXQsIGRlbGV0ZSBjb29raWVzXG4gIGxvZ291dCA9ICgpID0+IHtcbiAgICBzZXRDb29raWUoXCJ4LWFjY2Vzcy10b2tlblwiLCBcIlwiLCAtNjAgKiA2MCk7XG4gICAgUm91dGVyLnB1c2hSb3V0ZShcIi9sb2dpblwiKTtcbiAgICB3aW5kb3cubG9jYXRpb24uaHJlZiA9IFwiL2xvZ2luXCI7XG4gIH1cblxuICAvLyBoYW5kbGVJdGVtQ2xpY2sgPSAoZSwgeyBuYW1lIH0pID0+IHRoaXMuc2V0U3RhdGUoeyBhY3RpdmVJdGVtOiBuYW1lIH0pO1xuXG4gIHJlbmRlcigpIHtcbiAgICAvLyBjb25zdCB7IGFjdGl2ZUl0ZW0gfSA9IHRoaXMuc3RhdGU7XG4gICAgcmV0dXJuIChcbiAgICAgIDxkaXY+XG4gICAgICAgIDxNZW51IHBvaW50aW5nPlxuICAgICAgICAgIDxNZW51Lkl0ZW0gbmFtZT1cImhvbWVcIj5cbiAgICAgICAgICAgIDxJY29uIG5hbWU9XCJob21lXCIgc2l6ZT1cInNtYWxsXCIgLz5cbiAgICAgICAgICA8L01lbnUuSXRlbT5cbiAgICAgICAgICA8TWVudS5NZW51IHBvc2l0aW9uPVwicmlnaHRcIj5cbiAgICAgICAgICAgIDxNZW51Lkl0ZW0gbmFtZT1cImxvZ291dFwiIG9uQ2xpY2s9e3RoaXMubG9nb3V0fSAvPlxuICAgICAgICAgICAgPE1lbnUuSXRlbT5cbiAgICAgICAgICAgICAgPEljb24gbmFtZT1cInVzZXJcIiBzaXplPVwic21hbGxcIiAvPlxuICAgICAgICAgICAgICA8cD57dGhpcy5zdGF0ZS5jdXJyZW50VXNlcn08L3A+XG4gICAgICAgICAgICA8L01lbnUuSXRlbT5cbiAgICAgICAgICA8L01lbnUuTWVudT5cbiAgICAgICAgPC9NZW51PlxuICAgICAgICA8TGF5b3V0PlxuICAgICAgICAgIDxzdHlsZSBqc3ggZ2xvYmFsPntgXG4gICAgICAgICAgICBib2R5IHtcbiAgICAgICAgICAgICAgYmFja2dyb3VuZDogI2U2ZTZlNjtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICBgfTwvc3R5bGU+XG4gICAgICAgIDwvTGF5b3V0PlxuICAgICAgPC9kaXY+XG4gICAgKTtcbiAgfVxufVxuIl19 */\n/*@ sourceURL=/Users/sebastianemmanuelallemann/BA-S.E.A/components/ProfileHeader.js */"
       })));
     }
   }]);
@@ -893,7 +893,8 @@ function (_Component) {
             "X-XSRF-Token": xsrfToken
           }
         }
-      });
+      }); //create new presence-channel
+
       channelName = pusher.subscribe("presence-video-channel"); //requires auth
       // channelName.bind("pusher:subscription_succeeded", member => {
       // userNames = members.id;
@@ -904,6 +905,7 @@ function (_Component) {
       // })
       // console.log(countMembers);
       // });
+      //listener for added members to the channel
 
       channelName.bind("pusher:member_added", function (member) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_18___default()("You are conneted to", "".concat(member.id), "success"); //Only Admin!!
@@ -913,7 +915,8 @@ function (_Component) {
         }
 
         console.log(userNames);
-      });
+      }); //listener for added members to the channel
+
       channelName.bind("pusher:member_removed", function (member) {
         console.log(userName);
         var i = userNames.indexOf(userName);
@@ -925,12 +928,15 @@ function (_Component) {
           disableButton: true
         }); // This executed twice when OTP verifiy? TODO:
 
-      });
+      }); //bind client signal to channel
+      //this is executed for the callee when the initiator triggers a call
+
       channelName.bind("client-signal-".concat(_this.currentUser.id), function (signal) {
         var peer = _this.peers[signal.userId]; // if peer does not already exist, we got an incoming call
 
         if (peer === undefined) {
           // this.setState({ otherUserId: signal.userId });
+          //start peer where initiator = false
           peer = _this.startPeer(signal.userId, false);
 
           _this.setState({
@@ -945,18 +951,22 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "startPeer", function (userId) {
       var initiator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      //create new Peer
       peer = new simple_peer__WEBPACK_IMPORTED_MODULE_6___default.a({
         initiator: initiator,
         stream: _this.currentUser.stream,
         trickle: false
-      });
+      }); //sends offer signal to peer
+      //connection established when peer sends answer
+
       peer.on("signal", function (data) {
         channelName.trigger("client-signal-".concat(userId), {
           type: "signal",
           userId: _this.currentUser.id,
           data: data
         });
-      });
+      }); //when the connection is established get the peer's audio/video stream
+
       peer.on("stream", function (stream) {
         try {
           var userVideo = document.getElementById("user-video");
@@ -969,7 +979,8 @@ function (_Component) {
             }).catch(function (e) {
               console.log(e);
             });
-          }
+          } //start recording the audio line
+
 
           recordRTC = recordrtc__WEBPACK_IMPORTED_MODULE_11___default()(stream, {
             //TODO: Which stream is beeing recorded? How to record both streams?
@@ -1005,7 +1016,8 @@ function (_Component) {
                 });
 
                 _this.peers[userId] = _this.startPeer(userId);
-                currentUser = userId;
+                currentUser = userId; //get the peer's data
+
                 _context.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/usrs", {
                   currentUser: currentUser
@@ -1046,7 +1058,9 @@ function (_Component) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              peer.destroy();
+              //destroy P2P connection
+              peer.destroy(); //stop audio recording 
+
               recordRTC.stopRecording(
               /*#__PURE__*/
               _asyncToGenerator(
@@ -1060,7 +1074,8 @@ function (_Component) {
                         formData = new FormData();
                         recordedBlob = recordRTC.getBlob();
                         console.log(recordedBlob);
-                        fileName = "".concat(userName, ".wav");
+                        fileName = "".concat(userName, ".wav"); //convert recorded blob to a file and send it to the server
+
                         file = new File([recordedBlob], fileName, {
                           mimeType: "audio/wav"
                         });
@@ -1105,13 +1120,6 @@ function (_Component) {
       }, _callee3, this);
     })));
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "show", function (dimmer) {
-      _this.setState({
-        dimmer: dimmer,
-        open: true
-      });
-    });
-
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "returnHome", function () {
       _this.setState({
         open: false
@@ -1134,10 +1142,12 @@ function (_Component) {
             case 0:
               _this.setState({
                 loading: true
-              });
+              }); //genereate a otp secret
+
 
               otpSecret = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].generateSecret();
-              console.log(otpSecret);
+              console.log(otpSecret); //generate otp
+
               otpToken = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].generate(otpSecret);
               console.log(otpToken);
               console.log(userName); //Stop audio recording and send .wav file to server
@@ -1225,6 +1235,7 @@ function (_Component) {
               console.log(otpToken);
               console.log(_this.state.otp); // let isValid = authenticator.check(this.state.otp, otpSecret);
               // console.log(isValid);
+              //check whether otpToken is the same as the entered otp
 
               if (!(otpToken === _this.state.otp)) {
                 _context6.next = 15;
@@ -1238,12 +1249,14 @@ function (_Component) {
               response = _context6.sent;
 
               if (response.data.success) {
+                //if successfull, redirect user to login and delete cookie
                 Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__["setCookie"])("x-access-token", "", -60 * 60);
                 window.location.href = "/login";
                 _routes__WEBPACK_IMPORTED_MODULE_17__["Router"].push("/login");
               } else {
                 console.log("oops");
-              }
+              } //destroy P2P connection
+
 
               peer.destroy();
               _context6.next = 16;
@@ -1265,19 +1278,23 @@ function (_Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "ocrScan", function () {
       _this.setState({
         loadingOCR: true
-      });
+      }); //get cropped image from canvas
 
-      var image = document.getElementById("mrz-code");
+
+      var image = document.getElementById("mrz-code"); //use tesseract to read the mrz code
+
       tesseract_ts__WEBPACK_IMPORTED_MODULE_10__["Tesseract"].recognize(image).then(function (result, err) {
         if (err) {
           console.log(err);
-        }
+        } //prepare data for mrz verification
+
 
         var ocrText1 = JSON.stringify(result.text).substring(1, 31);
         var ocrText2 = JSON.stringify(result.text).substring(33, 63);
         var ocrText3 = JSON.stringify(result.text).substring(65, 95);
         var ocrLines = [];
-        ocrLines.push(ocrText1, ocrText2, ocrText3);
+        ocrLines.push(ocrText1, ocrText2, ocrText3); //verify mrz code
+
         var res = parse(ocrLines);
 
         if (res.valid === true) {
@@ -1309,10 +1326,11 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleOnCropComplete1", function (crop, pixelCrop) {
-      console.log(crop, pixelCrop);
-      var canvasRef = _this.imagePreviewCanvasRef.current; // let image1 = "static/IDD.jpg";
+      console.log(crop, pixelCrop); //get canvas, the image and the pixelCrop
 
-      var image1 = "static/" + _this.state.img1;
+      var canvasRef = _this.imagePreviewCanvasRef.current;
+      var image1 = "static/IDD.jpg"; // let image1 = "static/" + this.state.img1;
+      //trigger function to crop image to canvas
 
       _this.cropImage(canvasRef, image1, pixelCrop);
     });
@@ -1328,10 +1346,11 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleOnCropComplete2", function (crop, pixelCrop) {
-      console.log(crop, pixelCrop);
-      var canvasRef = _this.imagePreviewCanvasRef.current; // let image2 = "static/cvbn-IDfront.jpg";
+      console.log(crop, pixelCrop); //get canvas, the image and the pixelCrop
 
-      var image2 = "static/" + _this.state.img2;
+      var canvasRef = _this.imagePreviewCanvasRef.current;
+      var image2 = "static/cvbn-IDfront.jpg"; // let image2 = "static/" + this.state.img2;
+      //trigger function to crop image to canvas
 
       _this.cropImage(canvasRef, image2, pixelCrop);
     });
@@ -1347,6 +1366,10 @@ function (_Component) {
       image.onload = function () {
         ctx.drawImage(image, pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height, 0, 0, pixelCrop.width, pixelCrop.height);
       };
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleLoadImage", function () {
+      _this.carouselRef.setDimensions();
     });
 
     _this.imagePreviewCanvasRef = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
@@ -1394,8 +1417,7 @@ function (_Component) {
               case 0:
                 _context7.prev = 0;
                 _context7.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/videochat/stream" // { timeout: 60 * 4 * 1000 }
-                );
+                return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/videochat/stream");
 
               case 3:
                 response = _context7.sent;
@@ -1414,6 +1436,7 @@ function (_Component) {
                 console.log(_context7.t0);
 
               case 12:
+                //ask for permission to allow microphone and webcam
                 this.mediaHandler.getPermissions().then(function (stream) {
                   _this2.setState({
                     hasMedia: true
@@ -1451,11 +1474,13 @@ function (_Component) {
       return function componentWillMount() {
         return _componentWillMount.apply(this, arguments);
       };
-    }()
+    }() //setting up pusher API
+
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this3 = this,
+          _React$createElement;
 
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Segment"], {
         style: {
@@ -1570,7 +1595,10 @@ function (_Component) {
         hidden: true
       }, "Quit Call")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, this.state.isRecording)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Column, {
         width: "eight"
-      }, this.state.img1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(nuka_carousel__WEBPACK_IMPORTED_MODULE_12___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(nuka_carousel__WEBPACK_IMPORTED_MODULE_12___default.a, {
+        ref: function ref(node) {
+          _this3.carouselRef = node;
+        },
         dragging: false,
         slidesToShow: 1,
         style: {
@@ -1578,29 +1606,26 @@ function (_Component) {
           margin: "auto"
         },
         renderBottomCenterControls: false
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_image_crop__WEBPACK_IMPORTED_MODULE_13___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        onLoad: this.handleLoadImage
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_image_crop__WEBPACK_IMPORTED_MODULE_13___default.a, {
         style: {
           width: "100%",
           margin: "auto"
-        },
-        src: "../static/".concat(this.state.img1) // src={"static/IDD.jpg"}
+        } // src={`../static/${this.state.img1}`}
         ,
+        src: "static/IDD.jpg",
         crop: this.state.crop,
         onChange: this.handleOnCropChange1,
         onImageLoaded: this.handleImageLoaded1,
         onComplete: this.handleOnCropComplete1
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_image_crop__WEBPACK_IMPORTED_MODULE_13___default.a, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_image_crop__WEBPACK_IMPORTED_MODULE_13___default.a, (_React$createElement = {
         style: {
           width: "100%",
           margin: "auto"
         },
-        src: "../static/".concat(this.state.img2) // src={"static/cvbn-IDfront.jpg"}
-        ,
-        crop: this.state.crop,
-        onChange: this.handleOnCropChange2,
-        onImageLoaded: this.handleImageLoaded2,
-        onComplete: this.handleOnCropComplete2
-      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("canvas", {
+        src: "../static/".concat(this.state.img2)
+      }, _defineProperty(_React$createElement, "src", "static/cvbn-IDfront.jpg"), _defineProperty(_React$createElement, "onChange", this.handleOnCropChange2), _defineProperty(_React$createElement, "onImageLoaded", this.handleImageLoaded2), _defineProperty(_React$createElement, "onComplete", this.handleOnCropComplete2), _React$createElement)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("canvas", {
         id: "mrz-code",
         ref: this.imagePreviewCanvasRef,
         style: {
@@ -1625,7 +1650,7 @@ function (_Component) {
           boxShadow: "1px 1px 11px red",
           border: "1px solid red"
         }
-      }) : null) : null)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Column, {
+      }) : null))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Column, {
         width: "eight"
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Container"], {
         style: {// display: "inline-block",
@@ -1635,22 +1660,22 @@ function (_Component) {
           // marginBottom: "10px"
         }
       }, userNames.map(function (userId) {
-        var _React$createElement;
+        var _React$createElement2;
 
         return _this3.currentUser.id !== userId && // this.state.isNotCalled ? (
-        userNames != [] ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], (_React$createElement = {
+        userNames != [] ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], (_React$createElement2 = {
           key: userId,
           animated: true,
           floated: "left"
-        }, _defineProperty(_React$createElement, "key", userId), _defineProperty(_React$createElement, "onClick", function onClick() {
+        }, _defineProperty(_React$createElement2, "key", userId), _defineProperty(_React$createElement2, "onClick", function onClick() {
           _this3.callTo(userId);
 
           userName = userId;
-        }), _defineProperty(_React$createElement, "style", {
+        }), _defineProperty(_React$createElement2, "style", {
           backgroundColor: "white",
           border: "1px solid black",
           width: "32%"
-        }), _React$createElement), " ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
+        }), _React$createElement2), " ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
           visible: true
         }, "Call ", userId), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
           hidden: true
@@ -1771,6 +1796,7 @@ function (_Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _web3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./web3 */ "./ethereum/src/web3.js");
+ //contract address and ABI/Interface to connect to it
 
 var contractAddress = "0xe78285A95542F415A20c46933544b0bDfCC3263B"; //address of SC
 
@@ -1849,6 +1875,7 @@ var contractABI = [{
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var web3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! web3 */ "web3");
 /* harmony import */ var web3__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(web3__WEBPACK_IMPORTED_MODULE_0__);
+ //use givenProvider to access the ethereum network
 
 var web3 = new web3__WEBPACK_IMPORTED_MODULE_0___default.a(web3__WEBPACK_IMPORTED_MODULE_0___default.a.givenProvider || "ws://localhost:3000");
 /* harmony default export */ __webpack_exports__["default"] = (web3);
@@ -2140,7 +2167,8 @@ function (_Component) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              userName = _this.state.usrs[0].username;
+              userName = _this.state.usrs[0].username; //when closed, change edit state in DB
+
               _context2.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/changeEdit", {
                 userName: userName
@@ -2235,6 +2263,7 @@ function (_Component) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+                //check if admin is looged in to metamask
                 setInterval(
                 /*#__PURE__*/
                 _asyncToGenerator(
@@ -2252,7 +2281,8 @@ function (_Component) {
                               metaMask: true,
                               myAddress: accounts[0]
                             });
-                          });
+                          }); //listen to user data changes from server
+
                           _context3.prev = 1;
                           _context3.next = 4;
                           return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/userlist");
@@ -2288,7 +2318,8 @@ function (_Component) {
                       }
                     }
                   }, _callee3, this, [[1, 8]]);
-                })), 1000);
+                })), 1000); //listener for smart contract where user requests come in
+
                 _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_8__["default"].events.KycListen({},
                 /*#__PURE__*/
                 function () {
@@ -2310,6 +2341,7 @@ function (_Component) {
                             break;
 
                           case 4:
+                            //received data is sent to server to verify kycKey
                             kycKey = result.returnValues.kycKey;
                             platformAddress = result.returnValues.platformAddress;
                             toAddress = result.returnValues.sender;
@@ -2323,6 +2355,7 @@ function (_Component) {
                             response = _context4.sent;
 
                             try {
+                              //send answer back to requesting address
                               if (response.data.success) {
                                 _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_8__["default"].methods.answer(response.data.confirmed).send({
                                   from: _this2.state.myAddress,
@@ -2357,7 +2390,8 @@ function (_Component) {
       return function componentWillMount() {
         return _componentWillMount.apply(this, arguments);
       };
-    }()
+    }() //get data of the selected user in the user list
+
   }, {
     key: "render",
     value: function render() {
@@ -2786,7 +2820,8 @@ function (_Component) {
 
 var routes = __webpack_require__(/*! next-routes */ "next-routes")();
 
-module.exports = routes;
+module.exports = routes; //add dynamic route 
+
 routes.add("passwordchange", "/passwordchange/:id", "passwordchange");
 
 /***/ }),
@@ -2847,7 +2882,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-//Function to get the users media
+//function to get the users media
 var MediaHandler =
 /*#__PURE__*/
 function () {

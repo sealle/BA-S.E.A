@@ -19,7 +19,7 @@ class Login extends Component {
   }
 
   //send email and pasword to server
-  login = () => {
+  login = async() => {
     const formData = new FormData();
     formData.append("username", this.state.username);
     formData.append("password", this.state.password);
