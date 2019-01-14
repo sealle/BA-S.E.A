@@ -25,6 +25,7 @@ export default class UserData extends Component {
     };
   }
 
+  //get user data from server
   async componentWillMount() {
     try {
       const response = await axios.post(window.location.origin + "/users");
@@ -43,6 +44,7 @@ export default class UserData extends Component {
     }
   }
 
+  //edit address
   editAddress = () => {
     this.setState({
       inAddressEdit: true,
@@ -53,6 +55,7 @@ export default class UserData extends Component {
     });
   };
 
+  //edit email address
   editEmail = () => {
     this.setState({
       inAddressEdit: false,
@@ -63,6 +66,7 @@ export default class UserData extends Component {
     });
   };
 
+  //edit mobile number
   editMobile = () => {
     this.setState({
       inAddressEdit: false,
@@ -73,6 +77,7 @@ export default class UserData extends Component {
     });
   };
 
+  //edit company name
   editCompName = () => {
     this.setState({
       inAddressEdit: false,
@@ -83,6 +88,7 @@ export default class UserData extends Component {
     });
   };
 
+  //edit company address
   editCompAddress = () => {
     this.setState({
       inAddressEdit: false,
@@ -93,6 +99,7 @@ export default class UserData extends Component {
     });
   };
 
+  //exit editing mode
   exitEditMode = () => {
     this.setState({
       inAddressEdit: false,
@@ -103,6 +110,7 @@ export default class UserData extends Component {
     });
   };
 
+  //save address and send data to server
   saveAddress = async () => {
     let formData = new FormData();
 
@@ -124,6 +132,7 @@ export default class UserData extends Component {
     window.location.href = "/profile";
   };
 
+  //save email address and send data to server
   saveEmail = async () => {
     let email = this.state.email;
     let userName = this.state.users[0].username;
@@ -137,6 +146,7 @@ export default class UserData extends Component {
     window.location.href = "/profile";
   };
 
+  //save mobile number and send data to server
   saveMobile = async () => {
     let mobNr = this.state.mobNr;
     let userName = this.state.users[0].username;
@@ -150,6 +160,7 @@ export default class UserData extends Component {
     window.location.href = "/profile";
   };
 
+  //save company name and send data to server
   saveCompName = async () => {
     let compName = this.state.compName;
     let userName = this.state.users[0].username;
@@ -163,6 +174,7 @@ export default class UserData extends Component {
     window.location.href = "/profile";
   };
 
+  //save company address and send data to server
   saveCompAddress = async () => {
     let formData = new FormData();
 

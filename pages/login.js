@@ -15,10 +15,11 @@ class Login extends Component {
       errorMessage: "",
       loading: false
     };
-    this.login = e => this._login();
+    // this.login = e => this._login();
   }
 
-  async _login() {
+  //send email and pasword to server
+  login = () => {
     const formData = new FormData();
     formData.append("username", this.state.username);
     formData.append("password", this.state.password);
@@ -31,7 +32,8 @@ class Login extends Component {
         window.location.origin + "/authenticate",
         formData
       );
-      //Set cookies and place token in it
+      //check if the user is declined, admin, registered user oder not registered user
+      //set cookies and place corresponding token in it
       if (res.data.success) {
         if (res.data.declined == "declined") {
           this.setState({ errorMessage: res.data.message });

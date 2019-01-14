@@ -52,12 +52,14 @@ class adminPage extends Component {
   }
 
   async componentWillMount() {
+    //check if admin is looged in to metamask
     setInterval(async () => {
       web3.eth.getAccounts((err, accounts) => {
         if (err != null) console.error("An error occurred: " + err);
         else if (accounts.length == 0) this.setState({ metaMask: false });
         else this.setState({ metaMask: true, myAddress: accounts[0] });
       });
+      //listen to user data changes from server
       try {
         const response = await axios.post(window.location.origin + "/userlist");
         if (response.data.success) {
@@ -73,10 +75,12 @@ class adminPage extends Component {
       }
     }, 1000);
 
+    //listener for smart contract where user requests come in
     contract.events.KycListen({}, async (err, result) => {
       if (err) {
         console.log(err);
       } else {
+        //received data is sent to server to verify kycKey
         let kycKey = result.returnValues.kycKey;
         let platformAddress = result.returnValues.platformAddress;
         let toAddress = result.returnValues.sender;
@@ -85,6 +89,7 @@ class adminPage extends Component {
           platformAddress
         });
         try {
+          //send answer back to requesting address
           if (response.data.success) {
             contract.methods.answer(response.data.confirmed).send({
               from: this.state.myAddress,
@@ -98,6 +103,7 @@ class adminPage extends Component {
     });
   }
 
+  //get data of the selected user in the user list
   selectUser = async (member, e, dimmer) => {
     let currentUser = member.username;
     try {
@@ -124,8 +130,10 @@ class adminPage extends Component {
     this.setState({ dimmer, open: true, isChosen: true });
   };
 
+  //close user preview modal
   closeModal = async () => {
     let userName = this.state.usrs[0].username;
+    //when closed, change edit state in DB
     let response = await axios.post(window.location.origin + "/changeEdit", {
       userName
     });
@@ -140,14 +148,17 @@ class adminPage extends Component {
     }
   };
 
+  //admin accesses user list
   toList = () => {
     this.setState({ isVideo: false, activeItem: "users" });
   };
 
+  //admin accesses video chat
   toVideo = () => {
     this.setState({ isVideo: true, activeItem: "videochat" });
   };
 
+  //open modal when selectUser() is triggered
   show = dimmer => {
     this.setState({ dimmer, open: true });
   };

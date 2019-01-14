@@ -9,6 +9,7 @@ import ProfileHeader from "../components/ProfileHeader";
 import jwtDecode from "jwt-decode";
 import UserData from "../components/UserData";
 
+//render UserData and ProfileHeader components
 class Profile extends Component {
   constructor() {
     super();

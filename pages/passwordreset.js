@@ -38,6 +38,8 @@ class PwReset extends Component {
         formData
       );
       if (res.data.success) {
+        //success message with swal
+        //function in swal to resend the email 
         swal({
           title: "Success!",
           text:
@@ -64,6 +66,7 @@ class PwReset extends Component {
     this.setState({ loading: false });
   }
 
+  //resend email to user
   resendEmail = async () => {
     let email = this.state.email;
     let username = this.state.username;

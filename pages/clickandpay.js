@@ -44,13 +44,14 @@ class Assets extends Component {
       waiting: false
     };
     // this.getMembersCount();
-    this.submit = e => this._submit();
+    // this.submit = e => this._submit();
     this.ownerFormSubmit = e => this._ownerFormSubmit();
-    this.handleCheckAssets1 = this.handleCheckAssets1.bind(this);
-    this.handleCheckAssets2 = this.handleCheckAssets2.bind(this);
+    // this.handleCheckAssets1 = this.handleCheckAssets1.bind(this);
+    // this.handleCheckAssets2 = this.handleCheckAssets2.bind(this);
   }
 
   async componentWillMount() {
+    //checking whether user is logged in to metamask
     setInterval(() => {
       web3.eth.getAccounts((err, accounts) => {
         if (err != null) console.error("An error occurred: " + err);
@@ -60,14 +61,16 @@ class Assets extends Component {
     }, 500);
   }
 
-  handleCheckAssets1() {
+  //handle the checkboxes for beneficial owners 
+  handleCheckAssets1 = () => {
     if (this.state.checkedAssets2 === true) {
       this.setState({ checkedAssets2: false, checkedAssets1: true });
     }
     this.setState({ checkedAssets1: !this.state.checkedAssets1 });
   }
 
-  handleCheckAssets2() {
+  //handle the checkboxes for beneficial owners 
+  handleCheckAssets2 = () => {
     if (this.state.checkedAssets1 === true) {
       this.setState({ checkedAssets1: false, checkedAssets2: true });
     }
@@ -80,6 +83,7 @@ class Assets extends Component {
 
     const formData = new FormData();
 
+    //send data of the first beneficial owner because it is required
     formData.append("ownerFname", this.state.ownerFname);
     formData.append("ownerLname", this.state.ownerLname);
     formData.append("ownerStreet", this.state.ownerStreet);
@@ -88,6 +92,7 @@ class Assets extends Component {
     formData.append("ownerPlaceOfRes", this.state.ownerPlaceOfRes);
     formData.append("ownerDateOfBirth", this.state.ownerDateOfBirth);
 
+    //check if the user has entered data for a second beneficial Owner
     if (
       this.state.ownerFname2 &&
       this.state.ownerLname2 &&
@@ -106,6 +111,7 @@ class Assets extends Component {
       formData.append("ownerDateOfBirth2", this.state.ownerDateOfBirth2);
     }
 
+    //check if the user has entered data for a third beneficial Owner
     if (
       this.state.ownerFname3 &&
       this.state.ownerLname3 &&
@@ -134,11 +140,13 @@ class Assets extends Component {
   }
 
   //execute ether payment
-  async _submit() {
+  submit = async() => {
+    //get eth account from metamask
     let accounts = await web3.eth.getAccounts();
 
     if (this.state.value > 0) {
       this.setState({ loading: true, waiting: true, error: false });
+      //execute payment to admin address if value > 0
       await contract.methods.payKYC().send({
         from: accounts[0],
         value: web3.utils.toWei(this.state.value, "ether")
@@ -151,6 +159,7 @@ class Assets extends Component {
           Router.push("/videochat");
         }
       });
+      //if payment successfull, set new cookie  
       let response = await axios.post(window.location.origin + "/clickandpay");
       if (response.data.success) {
         setCookie("x-access-token", response.data.videoCookie, 1);
@@ -158,6 +167,7 @@ class Assets extends Component {
     } else if (this.state.value === "") {
       this.setState({ error: true });
     } else {
+      //if value = 0 redirect user to video chat
       swal({
         title: "Thank You!",
         text: "You will be redirected to the video identification",

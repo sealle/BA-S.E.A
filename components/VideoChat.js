@@ -83,10 +83,10 @@ export default class VideoChat extends Component {
   }
 
   async componentWillMount() {
+      //request user data from server
       try {
         const response = await axios.post(
           window.location.origin + "/videochat/stream"
-          // { timeout: 60 * 4 * 1000 }
         );
         this.setState({
           userName: response.data.currentUser,
@@ -98,6 +98,7 @@ export default class VideoChat extends Component {
         console.log(e);
       }
 
+    //ask for permission to allow microphone and webcam
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
       this.currentUser.stream = stream;
@@ -124,6 +125,7 @@ export default class VideoChat extends Component {
     return;
   }
 
+  //setting up pusher API
   setupPusher = () => {
     //Pusher.logToConsole = true;
     pusher = new Pusher(APP_KEY, {
@@ -137,6 +139,7 @@ export default class VideoChat extends Component {
       }
     });
 
+    //create new presence-channel
     channelName = pusher.subscribe("presence-video-channel"); //requires auth
 
     // channelName.bind("pusher:subscription_succeeded", member => {
@@ -149,6 +152,7 @@ export default class VideoChat extends Component {
     // console.log(countMembers);
     // });
 
+    //listener for added members to the channel
     channelName.bind("pusher:member_added", member => {
       swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
       if (userNames.includes(member.id) === false) {
@@ -157,6 +161,7 @@ export default class VideoChat extends Component {
       console.log(userNames);
     });
 
+    //listener for added members to the channel
     channelName.bind("pusher:member_removed", member => {
       console.log(userName);
       let i = userNames.indexOf(userName);
@@ -166,11 +171,14 @@ export default class VideoChat extends Component {
       // This executed twice when OTP verifiy? TODO:
     });
 
+    //bind client signal to channel
+    //this is executed for the callee when the initiator triggers a call
     channelName.bind(`client-signal-${this.currentUser.id}`, signal => {
       let peer = this.peers[signal.userId];
       // if peer does not already exist, we got an incoming call
       if (peer === undefined) {
         // this.setState({ otherUserId: signal.userId });
+        //start peer where initiator = false
         peer = this.startPeer(signal.userId, false);
         this.setState({ isConnected: true });
         //callee //if offer is sent, stop!
@@ -179,13 +187,17 @@ export default class VideoChat extends Component {
     });
   };
 
+  //connect to peer
   startPeer = (userId, initiator = true) => {
+    //create new Peer
     peer = new Peer({
       initiator,
       stream: this.currentUser.stream,
       trickle: false
     });
 
+    //sends offer signal to peer
+    //connection established when peer sends answer
     peer.on("signal", data => {
       channelName.trigger(`client-signal-${userId}`, {
         type: "signal",
@@ -194,6 +206,7 @@ export default class VideoChat extends Component {
       });
     });
 
+    //when the connection is established get the peer's audio/video stream
     peer.on("stream", stream => {
       try {
         let userVideo = document.getElementById("user-video");
@@ -208,6 +221,7 @@ export default class VideoChat extends Component {
               console.log(e);
             });
         }
+        //start recording the audio line
         recordRTC = RecordRTC(stream, {
           //TODO: Which stream is beeing recorded? How to record both streams?
           recorderType: StereoAudioRecorder,
@@ -223,10 +237,12 @@ export default class VideoChat extends Component {
     return peer;
   };
 
+  //triggers the call to peer
   callTo = async userId => {
     this.setState({ isNotCalled: false, disableButton: false });
     this.peers[userId] = this.startPeer(userId);
     let currentUser = userId;
+    //get the peer's data
     let response = await axios.post(window.location.origin + "/usrs", {
       currentUser
     });
@@ -241,13 +257,17 @@ export default class VideoChat extends Component {
     }
   };
 
+  //decline user while video chat
   decline = async () => {
+    //destroy P2P connection
     peer.destroy();
+    //stop audio recording 
     recordRTC.stopRecording(async () => {
       let formData = new FormData();
       let recordedBlob = recordRTC.getBlob();
       console.log(recordedBlob);
       let fileName = `${userName}.wav`;
+      //convert recorded blob to a file and send it to the server
       let file = new File([recordedBlob], fileName, { mimeType: "audio/wav" });
       console.log(file);
       formData.append("fileName", fileName);
@@ -267,10 +287,11 @@ export default class VideoChat extends Component {
     });
   };
 
-  show = dimmer => {
-    this.setState({ dimmer, open: true });
-  };
+  // show = dimmer => {
+  //   this.setState({ dimmer, open: true });
+  // };
 
+  //when declined, user is redirected to login and cookie is deleted
   returnHome = () => {
     this.setState({ open: false });
     setCookie("x-access-token", "", -60 * 60);
@@ -278,10 +299,13 @@ export default class VideoChat extends Component {
     Router.push("/login");
   };
 
+  //send OTP to server to be sent via email to the user
   sendOTP = async () => {
     this.setState({ loading: true });
+    //genereate a otp secret
     let otpSecret = authenticator.generateSecret();
     console.log(otpSecret);
+    //generate otp
     let otpToken = authenticator.generate(otpSecret);
     console.log(otpToken);
     console.log(userName);
@@ -311,7 +335,9 @@ export default class VideoChat extends Component {
     });
   };
 
+  //verify the entered otp
   otpVerify = async () => {
+    //get otpToken from server
     let res = await axios.post(window.location.origin + "/otpToken");
     if (res.data.success) {
       let otpToken = res.data.otpToken;
@@ -319,15 +345,18 @@ export default class VideoChat extends Component {
       console.log(this.state.otp);
       // let isValid = authenticator.check(this.state.otp, otpSecret);
       // console.log(isValid);
+      //check whether otpToken is the same as the entered otp
       if (otpToken === this.state.otp) {
         let response = await axios.post(window.location.origin + "/approval");
         if (response.data.success) {
+          //if successfull, redirect user to login and delete cookie
           setCookie("x-access-token", "", -60 * 60);
           window.location.href = "/login";
           Router.push("/login");
         } else {
           console.log("oops");
         }
+        //destroy P2P connection
         peer.destroy();
       } else {
         this.setState({ message: "wrong OTP!" });
@@ -335,18 +364,23 @@ export default class VideoChat extends Component {
     }
   };
 
+  //scan the mrz code and verify it
   ocrScan = () => {
     this.setState({ loadingOCR: true });
+    //get cropped image from canvas
     let image = document.getElementById("mrz-code");
+    //use tesseract to read the mrz code
     Tesseract.recognize(image).then((result, err) => {
       if (err) {
         console.log(err);
       }
+      //prepare data for mrz verification
       let ocrText1 = JSON.stringify(result.text).substring(1, 31);
       let ocrText2 = JSON.stringify(result.text).substring(33, 63);
       let ocrText3 = JSON.stringify(result.text).substring(65, 95);
       let ocrLines = [];
       ocrLines.push(ocrText1, ocrText2, ocrText3);
+      //verify mrz code
       let res = parse(ocrLines);
       if (res.valid === true) {
         this.setState({ idIsValid: true });
@@ -357,38 +391,49 @@ export default class VideoChat extends Component {
     });
   };
 
+  //handle crop change for first image in carousel
   handleOnCropChange1 = crop => {
     this.setState({ crop: crop });
   };
 
+  //handle image loaded for first image in carousel
   handleImageLoaded1 = image => {
     console.log(image);
   };
 
+  //handle crop complete for first image in carousel
   handleOnCropComplete1 = (crop, pixelCrop) => {
     console.log(crop, pixelCrop);
+    //get canvas, the image and the pixelCrop
     const canvasRef = this.imagePreviewCanvasRef.current;
     // let image1 = "static/IDD.jpg";
     let image1 = "static/" + this.state.img1;
+    //trigger function to crop image to canvas
     this.cropImage(canvasRef, image1, pixelCrop);
   };
 
+  //handle crop change for second image in carousel
   handleOnCropChange2 = crop => {
     this.setState({ crop: crop });
   };
 
+  //handle image loaded for second image in carousel
   handleImageLoaded2 = image => {
     console.log(image);
   };
 
+  //handle crop complete for second image in carousel
   handleOnCropComplete2 = (crop, pixelCrop) => {
     console.log(crop, pixelCrop);
+    //get canvas, the image and the pixelCrop
     const canvasRef = this.imagePreviewCanvasRef.current;
     // let image2 = "static/cvbn-IDfront.jpg";
     let image2 = "static/" + this.state.img2;
+    //trigger function to crop image to canvas
     this.cropImage(canvasRef, image2, pixelCrop);
   };
 
+  //crop image to canvas
   cropImage = (canvasRef, image64, pixelCrop) => {
     const canvas = canvasRef;
     canvas.width = pixelCrop.width;

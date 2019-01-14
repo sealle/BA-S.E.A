@@ -24,10 +24,11 @@ class CompanyRegister extends Component {
       showResults: false
     };
 
-    this.handleSubmit = e => this._handleSubmit();
+    // this.handleSubmit = e => this._handleSubmit();
   }
 
-  async _handleSubmit() {
+  //handle form submit and send data to server
+  handleSubmit = async() => {
     this.setState({ loading: true });
 
     const formData = new FormData();
@@ -61,6 +62,7 @@ class CompanyRegister extends Component {
         formData
       );
       if (response.data.success) {
+        //success notification with possibility to resend the confirmation email
         swal({
           title: "Success!",
           text:
@@ -84,6 +86,7 @@ class CompanyRegister extends Component {
     this.setState({ loading: false });
   }
 
+  //resend confirmation email function
   resendEmail = async () => {
     console.log(this.state.email, this.state.username); //TODO: why undefined?
     let email = this.state.email;
@@ -112,13 +115,16 @@ class CompanyRegister extends Component {
     }
   };
 
+  //handle file input 
   handleImageFileChange = e => {
+    //check if two images have been uplaoded
     if (!e.target.files[0] || !e.target.files[1] || e.target.files[2]) {
       this.setState({ errorMessage: "You have to upload 2 images!" });
     } else {
       this.setState({
         file1: e.target.files[0],
         file2: e.target.files[1],
+        //image preview
         prev1: URL.createObjectURL(e.target.files[0]),
         prev2: URL.createObjectURL(e.target.files[1]),
         showResults: true,
@@ -127,12 +133,14 @@ class CompanyRegister extends Component {
     }
   };
 
+  //handle document uplaod
   handleDocFileChange = e => {
     this.setState({
       doc1: e.target.files[0]
     });
   };
 
+  //handle document upload
   handleDoc2FileChange = e => {
     this.setState({
       doc2: e.target.files[0]

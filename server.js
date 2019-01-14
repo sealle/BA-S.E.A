@@ -61,7 +61,7 @@ app
     server.use(cookieParser());
     server.use(fileUpload());
 
-    //Registration
+    //Registration of person
     server.post("/register", urlEncodedParser, (req, response) => {
       let image = req.files.file1;
       let image2 = req.files.file2;
@@ -69,6 +69,7 @@ app
       let imageName = `${req.body.username}-${image.name}`;
       let imageName2 = `${req.body.username}-${image2.name}`;
 
+      //Hash the password before storing in DB
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
           let now = date.format(new Date(), "DD.MM.YYYY HH:mm:ss [GMT]Z");
@@ -120,6 +121,7 @@ app
                 });
                 console.log("User already exists");
               } else {
+                //check if email address exists
                 // database.connection.query(searchEmail, function(err, res) { TODO: Enable once finished!
                 //   //check if email exists
                 //   if (err) {
@@ -140,6 +142,7 @@ app
                       message: "Database Server is not connected!"
                     });
                   } else {
+                    //sign a token and send it via email to user
                     jwt.sign(
                       {
                         username: body.username,
@@ -162,6 +165,7 @@ app
                         });
                       }
                     );
+                    //store image in static folder
                     image.mv("static/" + imageName, function(err) {
                       if (err) return response.status(500).send(err);
                     });
@@ -197,13 +201,14 @@ app
       let docName = `${req.body.username}-${doc.name}`;
       let docName2 = `${req.body.username}-${doc2.name}`;
 
+      //hash password before storing in DB
       bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(req.body.password, salt, null, function(err, hash) {
           let now = date.format(new Date(), "DD.MM.YYYY HH:mm:ss [GMT]Z");
           let nowShort = date.format(new Date(), "DD.MM.YY");
           let body = req.body;
 
-          //prevent sql injection by escaping user input (format())
+          //prevent sql injection by escaping user input
           let insertSQL = SqlString.format(
             "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, compName=?, compPostCode=?, residence=?, businessAd=?, compHouseNr=?, doc1=?, doc2=?, isComp=?, lastModified=?",
             [
@@ -247,6 +252,7 @@ app
                 .status(400)
                 .json({ message: "Database Server is not connected!" });
             } else {
+              //check if username exists
               if (res.length) {
                 response.status(400).json({
                   success: false,
@@ -254,6 +260,7 @@ app
                 });
                 console.log("User already exists");
               } else {
+                //check if email address exists
                 // database.connection.query(searchEmail, function(err, res) {
                 //   if (err) {
                 //     response
@@ -295,6 +302,7 @@ app
                         });
                       }
                     );
+                    //storing documents in DB
                     image.mv("static/" + imageName, function(err) {
                       if (err) return response.status(500).send(err);
                     });
@@ -342,16 +350,19 @@ app
             .status(400)
             .json({ message: "Username or password is incorrect!" });
         } else if (result[0].active == "0") {
+          //checking if account is activated
           response
             .status(400)
             .json({ message: "You have not confirmed your Email address!" });
         } else {
+          //compare password from DB with password from login
           if (result.length) {
             bcrypt.compare(body.password, result[0].password, function(
               err,
               res
             ) {
               if (res) {
+                //when admin, sign admin token
                 if (result[0].privileges == "admin") {
                   let adminToken = jwt.sign(
                     {
@@ -375,6 +386,7 @@ app
                     registerStatus: result[0].isRegistered,
                     privileg: result[0].privileges
                   });
+                  //when registered user, sign user token
                 } else if (
                   result[0].privileges == "user" &&
                   result[0].isRegistered == "yes" &&
@@ -402,6 +414,7 @@ app
                     registerStatus: result[0].isRegistered,
                     privileg: result[0].privileges
                   });
+                  //when user declined, block account 
                 } else if (result[0].kycKey == "declined") {
                   response.status(200).json({
                     success: true,
@@ -409,6 +422,7 @@ app
                       "This username has been declined. You cannot login!",
                     declined: "declined"
                   });
+                  //when not registered, sign register token
                 } else {
                   let registerToken = jwt.sign(
                     {
@@ -456,6 +470,7 @@ app
     //Account activation from email
     server.get("/activate/:token", urlEncodedParser, (req, response) => {
       try {
+        //verify token stored in confirmation link
         jwt.verify(req.params.token, EMAIL_SECRET, async (err, decoded) => {
           if (err) {
             response.redirect("/login");
@@ -465,6 +480,7 @@ app
               "UPDATE users SET active=? WHERE username=?",
               [1, username]
             );
+            //activate account in DB
             await database.connection.query(sql, function(err, req, res) {
               if (err) {
                 response.send("error");
@@ -479,7 +495,9 @@ app
       }
     });
 
+    //resend the confirmation email
     server.post("/resendConfirmEmail", urlEncodedParser, (req, response) => {
+      //sign token and send email with link
       jwt.sign(
         {
           username: req.body.username,
@@ -508,7 +526,9 @@ app
       });
     });
 
+    //resend password reset email
     server.post("/resendPwEmail", urlEncodedParser, (req, response) => {
+      //sign token and send email with link
       jwt.sign(
         {
           username: req.body.username,
@@ -540,7 +560,7 @@ app
       });
     });
 
-    //enter email to receive email
+    //enter username and email to receive email
     server.post("/passwordreset", async (req, res) => {
       let body = req.body;
       let sql = SqlString.format("SELECT * FROM users WHERE username=?", [
@@ -553,6 +573,7 @@ app
             .json({ message: "Database Server is not connected!" });
         } else {
           if (result.length && result[0].email == body.email) {
+            //if username and email address match, send email with password reset link
             await jwt.sign(
               {
                 username: body.username,
@@ -589,7 +610,7 @@ app
       });
     });
 
-    //change password
+    //change password in DB
     server.post("/changepw", (req, response) => {
       let searchSQL = SqlString.format(
         "SELECT * FROM users WHERE username =?",
@@ -626,6 +647,7 @@ app
     //Verify password reset link
     server.get("/passwordchange/:id", (req, res, next) => {
       try {
+        //verify token stored in the link
         jwt.verify(req.params.id, EMAIL_SECRET, (err, decoded) => {
           if (err) {
             response.redirect("/login");
@@ -640,6 +662,8 @@ app
 
     //Get current user
     server.post("/currentuser", urlEncodedParser, function(req, response) {
+      //request cookie from browser
+      //decode token in cookie to get the username
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
@@ -654,6 +678,7 @@ app
 
     //Gets data of a user
     server.post("/users", urlEncodedParser, function(req, response) {
+      //get current user
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
@@ -661,6 +686,7 @@ app
         "SELECT * FROM users WHERE username=?",
         [currentUser]
       );
+      //send data from DB to client
       database.connection.query(searchUser, function(err, res, fields) {
         if (err) throw err;
         response.status(200).send({
@@ -676,10 +702,13 @@ app
     });
 
     //receive changed data from users in profile page
+    //change edit state to not null 
     server.post("/editData", urlEncodedParser, function(req, response) {
       let body = req.body;
+      //set latest modified date
       let now = date.format(new Date(), "DD.MM.YY");
 
+      //change user's address
       let editAddress = SqlString.format(
         "UPDATE users SET street=?, houseNr=?, postCode=?, placeOfRes=?, edited=?, lastModified=? WHERE username=?",
         [
@@ -693,21 +722,25 @@ app
         ]
       );
 
+      //change user's email address
       let editEmail = SqlString.format(
         "UPDATE users SET email=?, edited=?, lastModified=? WHERE username=?",
         [body.email, "email", now, body.userName]
       );
 
+      //change user's mobile number
       let editMobile = SqlString.format(
         "UPDATE users SET mobNr=?, edited=?, lastModified=? WHERE username=?",
         [body.mobNr, "mobNr", now, body.userName]
       );
 
+      //change company's name
       let editCompName = SqlString.format(
         "UPDATE users SET compName=?, edited=?, lastModified=? WHERE username=?",
         [body.compName, "compName", now, body.userName]
       );
 
+      //change company's address
       let editCompAddress = SqlString.format(
         "UPDATE users SET businessAd=?, compHouseNr=?, compPostCode=?, residence=?, edited=?, lastModified=? WHERE username=?",
         [
@@ -720,6 +753,8 @@ app
           body.username
         ]
       );
+      //check whether address, email, mobile, company name or company address are undefined
+      //if not undefined, execute corresponding sql query
       if (body.street !== undefined) {
         database.connection.query(editAddress, function(err, res, fields) {
           if (err) throw err;
@@ -748,6 +783,7 @@ app
       }
     });
 
+    //changes edit state to null after Admin has reviewed the changes
     server.post("/changeEdit", urlEncodedParser, function(req, response) {
       let userName = req.body.userName;
       let changeEdited = SqlString.format(
@@ -760,8 +796,9 @@ app
       });
     });
 
-    //Gets list of users from Client
+    //Gets list of specific user from Client
     server.post("/usrs", urlEncodedParser, function(req, response) {
+      //get current user from client
       let currentUser = req.body.currentUser;
       let join = SqlString.format(
         "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE username=?",
@@ -817,7 +854,8 @@ app
     //   });
     // });
 
-    //create OTP
+    //send otp via email to user
+    //store audio file in DB
     server.post("/createOTP", urlEncodedParser, (req, response) => {
       let body = req.body;
       let userName = body.userName;
@@ -832,6 +870,7 @@ app
         "UPDATE users SET otpToken=?, audio=? WHERE username=?",
         [otpToken, audioName, userName]
       );
+      //get email address from user and send otp
       database.connection.query(searchEmail, function(err, res) {
         if (err) {
           throw err;
@@ -845,10 +884,12 @@ app
           if (err) {
             console.log(err);
           } else {
+            //insert otptoken (temporarily) and name of the audio file
             database.connection.query(insertOtpSecret, function(err, res) {
               if (err) {
                 throw err;
               } else {
+                //store audio file in static folder
                 audio.mv("static/" + audioName, function(err) {
                   if (err) console.log(err);
                 });
@@ -860,6 +901,7 @@ app
       });
     });
 
+    //send otpToken to Client to verify otp entered by the user
     server.post("/otpToken", urlEncodedParser, (req, response) => {
       let getOtpToken = SqlString.format(
         "SELECT otpToken FROM users WHERE otpToken IS NOT NULL"
@@ -875,10 +917,13 @@ app
       });
     });
 
-    // when approved, store kycKey in db
+    // when otp verified, create and store kycKey in DB
     server.post("/approval", urlEncodedParser, (req, response) => {
+      //create new kycKey
       let newAccount = web3.eth.accounts.create();
       let newKycKey = newAccount.address;
+      //insert kycKey in DB and set user to isregistered
+      //set otpToken to null after verification
       let storekycKeyUsers = SqlString.format(
         "UPDATE users SET kycKey=?, isRegistered=? WHERE otpToken IS NOT NULL; UPDATE users SET otpToken=? WHERE otpToken IS NOT NULL",
         [newKycKey, "yes", null]
@@ -908,9 +953,11 @@ app
       });
     });
 
+    //is exectuted when a user has been declined in the videochat
     server.post("/decline", urlEncodedParser, function(req, response) {
       let audioName = req.body.fileName;
       let audio = req.files.file;
+      //set kycKey to declined which blocks the user's account
       let declineUser = SqlString.format(
         "UPDATE users SET kycKey=?, isRegistered=?, audio=? WHERE username=?",
         ["declined", "yes", audioName, req.body.userName]
@@ -921,12 +968,13 @@ app
           success: true
         });
       });
+      //store audio file in static folder
       audio.mv("static/" + audioName, function(err) {
         if (err) return response.status(500).send(err);
       });
     });
 
-    //User list
+    //get all users from users table
     server.post("/userlist", function(req, response) {
       let sql = "SELECT * FROM users";
       database.connection.query(sql, function(err, res, fields) {
@@ -938,11 +986,13 @@ app
       });
     });
 
+    //check whether the user has beneficial owners on his assets
     server.post("/assets", urlEncodedParser, function(req, response) {
       let body = req.body;
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let userName = decoded.username;
+      //if the user has beneficial owners, store data of the first beneficial owner
       let insertFirst = SqlString.format(
         "INSERT INTO beneficialOwners SET username=?, ownerName=?, ownerLastName=?, ownerStreet=?, ownerHouseNr=?, ownerPostCode=?, ownerPlaceOfRes=?, ownerDateOfBirth=?",
         [
@@ -956,6 +1006,7 @@ app
           body.ownerDateOfBirth
         ]
       );
+      //if the user has two beneficial owners, store data of the second beneficial owner
       let insertSecond = SqlString.format(
         "INSERT INTO beneficialOwners SET username=?, ownerName=?, ownerLastName=?, ownerStreet=?, ownerHouseNr=?, ownerPostCode=?, ownerPlaceOfRes=?, ownerDateOfBirth=?",
         [
@@ -969,6 +1020,7 @@ app
           body.ownerDateOfBirth2
         ]
       );
+      //if the user has three beneficial owners, store data of the third beneficial owner
       let insertThird = SqlString.format(
         "INSERT INTO beneficialOwners SET username=?, ownerName=?, ownerLastName=?, ownerStreet=?, ownerHouseNr=?, ownerPostCode=?, ownerPlaceOfRes=?, ownerDateOfBirth=?",
         [
@@ -1013,9 +1065,11 @@ app
       });
     });
 
+    //assign user a new access token and cookie after payment
     server.post("/clickandpay", urlEncodedParser, function(req, response) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
+      //sign video chat cookie
       let videoCookie = jwt.sign(
         {
           username: decoded.username,
@@ -1041,16 +1095,19 @@ app
     //protects pages from unauthorized users
     server.use(
       unless(
+        //list of unprotected pages
         ["/login", "/register", "/_next", "/passwordreset", "/passwordchange"],
         (req, res, next) => {
           const token = req.cookies["x-access-token"];
           if (token) {
+            //verify the tokens
             jwt.verify(token, secret, (err, decoded) => {
               if (err) {
                 console.log(err);
-                res.redirect("/login"); //TODO:profile page lands here when refreshing: token expired
+                //if token expired, redirect to login
+                res.redirect("/login");
               } else {
-                // if everything is good, save to request for use in other routes
+                // if token is verified, redirect user to corresponding page
                 req.decoded = decoded;
                 next();
               }
@@ -1062,31 +1119,34 @@ app
       )
     );
 
+    //redirect index page to login
     server.get("/", (req, res) => {
       res.redirect("/login");
     });
 
-    //Protect Admin page
+    //protect Admin page
     server.get("/admin", protectedAdminPage, (req, response, next) => {
       return next();
     });
 
-    //Protect clickandpay
+    //protect clickandpay
     server.get("/clickandpay", protectedRegPage, (req, response, next) => {
       return next();
     });
 
+    //protect video chat page
     server.get("/videochat", protectedVideochatPage, (req, response, next) => {
       return next;
     });
 
-    //Protect profile view
+    //protect profile page
     server.get("/profile", protectedUserPage, (req, response, next) => {
       return next();
     });
 
     //User details for videochat
     server.post("/videochat/stream", urlEncodedParser, (req, res) => {
+      //user needs token to access video chat
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
@@ -1099,35 +1159,7 @@ app
       });
     });
 
-    // server.post("/pusher/count", (req, res) => {
-    //   let newConnect = req.body.newConnect;
-    //   console.log(newConnect);
-    //   server.post("/pusher/members", (req, res) => {
-    //     res.status(200).json({
-    //       success: true,
-    //       newConnect: newConnect
-    //     });
-    //   });
-    // }); //TODO: fix
-
-    // pusher.get(
-    //   {
-    //     path: "/apps/601383/channels/presence-video-channel",
-    //     params: {}
-    //   },
-    //   function(error, request, response) {
-    //     if (response.statusCode === 200) {
-    //       var result = JSON.parse(response.body);
-    //       var channelsInfo = result.channels;
-    //       console.log(channelsInfo);
-    //     }
-    //   }
-    // );
-
-    // let response = pusher.get("https://endpoint.com/webhook15873");
-    // console.log(response);
-
-    //Pusher endpoint used to authenticate users
+    //Pusher endpoint to authenticate users
     server.post("/pusher/auth", urlEncodedParser, function(req, res) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
@@ -1142,9 +1174,10 @@ app
       res.send(auth);
     });
 
-    //process user requests from external plattforms
+    //process user requests from smart contract
     server.post("/verify", urlEncodedParser, function(req, response) {
       let body = req.body;
+      //receive kycKey from the smart contract and verify
       let checkKycKey = SqlString.format("SELECT * FROM users WHERE kycKey=?", [
         body.kycKey
       ]);
@@ -1152,6 +1185,7 @@ app
         if (err) {
           console.log("error");
         } else {
+          //kycKey verified
           if (result.length) {
             response.status(200).json({
               confirmed: true,
@@ -1174,6 +1208,7 @@ app
               }
             });
           } else {
+            //wrong kycKey
             if (!result.length) {
               response.status(200).json({
                 success: true,
@@ -1223,6 +1258,7 @@ function unless(paths, middleware) {
 function protectedAdminPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
+    //verify if user has admin token
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         console.log(err);
@@ -1243,6 +1279,7 @@ function protectedAdminPage(req, res, next) {
 function protectedUserPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
+    //verify if user has user token
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         console.log(err);
@@ -1263,6 +1300,7 @@ function protectedUserPage(req, res, next) {
 function protectedRegPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
+    //verify if user has registration token
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         console.log(err);
@@ -1282,6 +1320,7 @@ function protectedRegPage(req, res, next) {
 function protectedVideochatPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
+    //verify if user has video chat token
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         console.log(err);

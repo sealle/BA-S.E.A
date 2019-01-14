@@ -35,8 +35,7 @@ class Error extends Component {
       this.setState({ isReg: true });
     }
   }
-
-  //error page if someone tries to access Admin page
+  
   render() {
     return (
       <div>

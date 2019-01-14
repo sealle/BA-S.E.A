@@ -1,5 +1,6 @@
 import web3 from "./web3";
 
+//contract address and ABI/Interface to connect to it
 const contractAddress = "0xe78285A95542F415A20c46933544b0bDfCC3263B"; //address of SC
 const contractABI = [
   {

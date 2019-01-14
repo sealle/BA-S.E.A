@@ -13,13 +13,13 @@ export default class RegisterPage extends Component {
     };
   }
 
+  //handle the menu items
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
     const { activeItem } = this.state;
     return (
       <div>
-        {/* <HomeHeader /> */}
         <Layout>
           <Segment
             style={{ marginTop: "50px", marginLeft: "-126px", width: "900px" }}

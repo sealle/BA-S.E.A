@@ -26,7 +26,7 @@ class PwChange extends Component {
       confirmPassword: "",
       username: ""
     };
-    this.confirmP = e => this._confirmP();
+    // this.confirmP = e => this._confirmP();
   }
 
   //decode token in link to receive username
@@ -37,7 +37,7 @@ class PwChange extends Component {
   }
 
   //send new password to server
-  async _confirmP() {
+  confirmP = async () => {
     if (this.state.password == this.state.confirmPassword) {
       const formData = new FormData();
       formData.append("password", this.state.password);
@@ -113,6 +113,7 @@ class PwChange extends Component {
                   iconPosition="left"
                   type="password"
                   placeholder="Password"
+                  //strong password required
                   pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
                   name="password"
                   value={this.state.password}

@@ -15,9 +15,10 @@ export default class ProfileHeader extends Component {
       currentUser: "",
       // activeItem: "videochat"
     };
-    this.logout = e => this._logout();
+    // this.logout = e => this._logout();
   }
 
+  //get current user to display 
   async componentDidMount() {
     try {
       const response = await axios.post(
@@ -31,7 +32,8 @@ export default class ProfileHeader extends Component {
     }
   }
 
-  _logout() {
+  //on logout, delete cookies
+  logout = () => {
     setCookie("x-access-token", "", -60 * 60);
     Router.pushRoute("/login");
     window.location.href = "/login";
