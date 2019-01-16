@@ -2,7 +2,7 @@ pragma solidity ^0.4.17;
 
 contract KYCVerification {
     address private kycAddress = 0x4399C3daed9b7cce56b7Edd4157FA3bDe3385d2A;
-    
+    bytes32[] array;
     //event listener for the Kyc Platform
     event KycListen(
         string kycKey,
@@ -31,5 +31,15 @@ contract KYCVerification {
     function payKYC() public payable {
         kycAddress.transfer(msg.value);
     } 
+    
+    //store hash of the user in bytes32 array
+    function storeHash(bytes32 newHash) public {
+        array.push(newHash);
+    }
+    
+    //return bytes32 array 
+    function getHashes() public view returns(bytes32[]) {
+        return array;
+    }
     
 }

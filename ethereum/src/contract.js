@@ -1,7 +1,7 @@
 import web3 from "./web3";
 
 //contract address and ABI/Interface to connect to it
-const contractAddress = "0xe78285A95542F415A20c46933544b0bDfCC3263B"; //address of SC
+const contractAddress = "0x0523A4Da9E7f1eBcbcb5BeBa44440D4Ac4Ef0F5A"; //address of SC
 const contractABI = [
   {
     constant: false,
@@ -10,6 +10,15 @@ const contractABI = [
     outputs: [],
     payable: false,
     stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "getHashes",
+    outputs: [{ name: "", type: "bytes32[]" }],
+    payable: false,
+    stateMutability: "view",
     type: "function"
   },
   {
@@ -22,6 +31,15 @@ const contractABI = [
     outputs: [],
     payable: true,
     stateMutability: "payable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [{ name: "newHash", type: "bytes32" }],
+    name: "storeHash",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
     type: "function"
   },
   {

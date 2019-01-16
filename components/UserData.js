@@ -6,7 +6,8 @@ import {
   Segment,
   Button,
   Form,
-  Popup
+  Popup,
+  Accordion
 } from "semantic-ui-react";
 import axios from "axios";
 
@@ -15,13 +16,12 @@ export default class UserData extends Component {
     super();
     this.state = {
       users: [],
-      isComp: "",
-      fileURL: "",
+      beneficialOwners: [],
       inAddressEdit: false,
       inEmailEdit: false,
       inMobileEdit: false,
       inCompNameEdit: false,
-      inCompAddressEdit: false,
+      inCompAddressEdit: false
     };
   }
 
@@ -32,11 +32,8 @@ export default class UserData extends Component {
       if (response.data.success) {
         this.setState({
           users: response.data.userData,
-          img1: response.data.pic1,
-          img2: response.data.pic2,
-          doc1: response.data.doc1,
-          doc2: response.data.doc2,
-          isComp: response.data.isComp
+          beneficialOwners: response.data.beneficialOwners,
+          isComp: response.data.isComp          
         });
       }
     } catch (err) {
@@ -194,7 +191,16 @@ export default class UserData extends Component {
     window.location.href = "/profile";
   };
 
+  handleAccordionClick = (e, titleProps) => {
+    const { index } = titleProps;
+    const { activeIndex } = this.state;
+    const newIndex = activeIndex === index ? -1 : index;
+
+    this.setState({ activeIndex: newIndex });
+  };
+
   render() {
+    const { activeIndex } = this.state;
     return (
       <div>
         <Segment style={{ width: "98%", marginLeft: "16px" }}>
@@ -223,6 +229,7 @@ export default class UserData extends Component {
                   <Icon name="close" />
                 </Button>
               ) : null}
+
               {this.state.isComp == "1" ? (
                 <div>
                   <Popup
@@ -414,44 +421,105 @@ export default class UserData extends Component {
                         value={member.kycKey}
                       />
                     </Form.Group>
-                    {/* {this.state.ethAddresses.length > 0 ? (
-                    <p style={{ fontWeight: "bold" }}>
-                      EthAddresses which requested the KycKey
-                    </p>
-                  ) : null}
 
-                  {this.state.ethAddresses.map(ethAddress => (
-                    <Form.Group width="sixteen">
-                      <Form.Input
-                        width="sixteen"
-                        readOnly
-                        fluid
-                        // label={i}
-                        value={member.ethAddress}
-                      />
-                    </Form.Group>
-                  ))} */}
+                    {this.state.beneficialOwners.length > 0 ? (
+                      <Accordion>
+                        <Accordion.Title
+                          active={activeIndex === 0}
+                          index={0}
+                          onClick={this.handleAccordionClick}
+                          style={{ fontWeight: "bold" }}
+                        >
+                          <Icon name="dropdown" />
+                          Beneficial Owners of the Assets
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === 0}>
+                          {this.state.beneficialOwners.map(beneficialOwner => (
+                            <Segment>
+                              <Form.Group widths="equal">
+                                <Form.Input
+                                  readOnly
+                                  fluid
+                                  label="First Name"
+                                  value={beneficialOwner.ownerName}
+                                />
+                                <Form.Input
+                                  readOnly
+                                  fluid
+                                  label="Last Name"
+                                  value={beneficialOwner.ownerLastName}
+                                />
+                              </Form.Group>
+                              <Form.Group>
+                                <Form.Input
+                                  readOnly
+                                  width="eleven"
+                                  fluid
+                                  label="Street"
+                                  value={beneficialOwner.ownerStreet}
+                                />
+                                <Form.Input
+                                  readOnly
+                                  width="five"
+                                  fluid
+                                  label="House Number"
+                                  value={beneficialOwner.ownerHouseNr}
+                                />
+                              </Form.Group>
+                              <Form.Group>
+                                <Form.Input
+                                  readOnly
+                                  width="six"
+                                  fluid
+                                  label="Postal Code"
+                                  value={beneficialOwner.ownerPostCode}
+                                />
+                                <Form.Input
+                                  readOnly
+                                  width="ten"
+                                  fluid
+                                  label="Place of Residenz"
+                                  value={beneficialOwner.ownerPlaceOfRes}
+                                />
+                              </Form.Group>
+                              <Form.Group widths="equal">
+                                <Form.Input
+                                  readOnly
+                                  fluid
+                                  label="Date of Birth"
+                                  value={beneficialOwner.ownerDateOfBirth}
+                                />
+                              </Form.Group>
+                            </Segment>
+                          ))}
+                        </Accordion.Content>
+                      </Accordion>
+                    ) : null}
+                    <br />
 
                     <p style={{ fontWeight: "bold" }}>Identity Card</p>
                     <Form.Group widths="equal" style={{ margin: "0px auto" }}>
                       <a
-                        href={`../static/${this.state.img1}`}
+                        href={`../static/${this.state.users[0].ID1}`}
                         target="_blank"
                         style={{ width: "50%" }}
                       >
                         <img
                           className="img-responsive"
-                          src={`../static/${this.state.img1}`}
+                          src={`../static/${this.state.users[0].ID1}`}
                           style={{
                             width: "200px",
                             height: "113px"
                           }}
                         />
                       </a>
-                      <a href={`../static/${this.state.img2}`} target="_blank">
+                      <a
+                        href={`../static/${this.state.users[0].ID2}`}
+                        target="_blank"
+                      >
                         <img
                           className="img-responsive"
-                          src={`../static/${this.state.img2}`}
+                          src={`../static/${this.state.users[0].ID2}`}
                           style={{
                             width: "200px",
                             height: "113px"
@@ -459,7 +527,7 @@ export default class UserData extends Component {
                         />
                       </a>
                     </Form.Group>
-                    {this.state.isComp == "1" ? (
+                    {this.state.users[0].isComp == "1" ? (
                       <div>
                         <Form.Group style={{ marginTop: "10px" }}>
                           <Form.Input
@@ -508,7 +576,7 @@ export default class UserData extends Component {
                         >
                           <Icon name="linkify" />
                           <a
-                            href={`../static/${this.state.doc1}`}
+                            href={`../static/${this.state.users[0].doc1}`}
                             type="application/pdf"
                             target="_blank"
                           >
@@ -521,7 +589,7 @@ export default class UserData extends Component {
                         >
                           <Icon name="linkify" />
                           <a
-                            href={`../static/${this.state.doc2}`}
+                            href={`../static/${this.state.users[0].doc2}`}
                             type="application/pdf"
                             target="_blank"
                           >
@@ -640,7 +708,8 @@ export default class UserData extends Component {
                   <Button>Save</Button>
                 </Container>
               </Form>
-            ) : this.state.isComp == "1" && this.state.inCompNameEdit ? (
+            ) : this.state.users[0].isComp == "1" &&
+            this.state.inCompNameEdit ? (
               <Form onSubmit={this.saveCompName}>
                 <Form.Group style={{ marginTop: "10px" }}>
                   <Form.Input
@@ -662,7 +731,8 @@ export default class UserData extends Component {
                   <Button>Save</Button>
                 </Container>
               </Form>
-            ) : this.state.isComp == "1" && this.state.inCompAddressEdit ? (
+            ) : this.state.users[0].isComp == "1" &&
+            this.state.inCompAddressEdit ? (
               <Form onSubmit={this.saveCompAddress}>
                 <Form.Group>
                   <Form.Input

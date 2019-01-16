@@ -359,9 +359,8 @@ class Assets extends Component {
                             <Form.Input
                               fluid
                               label="Date of Birth"
-                              type="date"
                               required
-                              placeholder="YYYY-MM-DD"
+                              placeholder="DD.MM.YYYY"
                               name="ownerDateOfBirth"
                               value={this.state.ownerDateOfBirth}
                               onChange={event =>
@@ -475,8 +474,7 @@ class Assets extends Component {
                             <Form.Input
                               fluid
                               label="Date of Birth"
-                              type="date"
-                              placeholder="YYYY-MM-DD"
+                              placeholder="DD.MM.YYYY"
                               name="ownerDateOfBirth2"
                               value={this.state.ownerDateOfBirth2}
                               onChange={event =>
@@ -590,8 +588,7 @@ class Assets extends Component {
                             <Form.Input
                               fluid
                               label="Date of Birth"
-                              type="date"
-                              placeholder="YYYY-MM-DD"
+                              placeholder="DD.MM.YYYY"
                               name="ownerDateOfBirth3"
                               value={this.state.ownerDateOfBirth3}
                               onChange={event =>

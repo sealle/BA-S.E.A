@@ -14,9 +14,6 @@ const UserData = dynamic(import('../components/UserData'), {
 class Profile extends Component {
   constructor() {
     super();
-    this.state = {
-      message: ""
-    };
   }
 
   render() {

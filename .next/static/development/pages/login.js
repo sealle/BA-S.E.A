@@ -57161,7 +57161,17 @@ function (_Component) {
         style: {
           color: "#2985d0"
         }
-      }, "Forgot Password")))))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Message"], {
+      }, "Forgot Password")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Field, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Grid"].Column, {
+        width: 16,
+        style: {
+          textAlign: "center"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "/validate",
+        style: {
+          color: "#2985d0"
+        }
+      }, "KycKey not working? Validate it!")))))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Message"], {
         style: {
           maxWidth: "450px",
           margin: "auto",
@@ -57258,7 +57268,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/
@@ -57283,5 +57293,5 @@ module.exports = dll_34718705b6f81f095be8;
 
 /***/ })
 
-},[[3,"static/runtime/webpack.js"]]]));;
+},[[4,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=login.js.map

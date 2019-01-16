@@ -133,7 +133,18 @@ class Login extends Component {
                     <a href="/passwordreset" style={{ color: "#2985d0" }}>
                       Forgot Password
                     </a>
-                    {/* TODO: To be implemented */}
+                  </Grid.Column>
+                </Grid>
+              </Form.Field>
+              <Form.Field>
+                <Grid>
+                  <Grid.Column
+                    width={16}
+                    style={{ textAlign: "center"}}
+                  >
+                    <a href="/validate" style={{ color: "#2985d0" }}>
+                      KycKey not working? Validate it!
+                    </a>
                   </Grid.Column>
                 </Grid>
               </Form.Field>

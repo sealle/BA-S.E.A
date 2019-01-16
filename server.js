@@ -414,7 +414,7 @@ app
                     registerStatus: result[0].isRegistered,
                     privileg: result[0].privileges
                   });
-                  //when user declined, block account 
+                  //when user declined, block account
                 } else if (result[0].kycKey == "declined") {
                   response.status(200).json({
                     success: true,
@@ -683,26 +683,26 @@ app
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
       let searchUser = SqlString.format(
-        "SELECT * FROM users WHERE username=?",
-        [currentUser]
+        "SELECT * FROM users WHERE username=?; SELECT * FROM beneficialOwners WHERE username=?",
+        [currentUser, currentUser]
       );
       //send data from DB to client
       database.connection.query(searchUser, function(err, res, fields) {
-        if (err) throw err;
-        response.status(200).send({
-          success: true,
-          userData: res,
-          pic1: res[0].ID1,
-          pic2: res[0].ID2,
-          doc1: res[0].doc1,
-          doc2: res[0].doc2,
-          isComp: res[0].isComp
-        });
+        if (err) {
+          throw err;
+        } else {
+          response.status(200).send({
+            success: true,
+            userData: res[0],
+            beneficialOwners: res[1],
+            isComp: res[0].isComp
+          });
+        }
       });
     });
 
     //receive changed data from users in profile page
-    //change edit state to not null 
+    //change edit state to not null
     server.post("/editData", urlEncodedParser, function(req, response) {
       let body = req.body;
       //set latest modified date
@@ -801,8 +801,8 @@ app
       //get current user from client
       let currentUser = req.body.currentUser;
       let join = SqlString.format(
-        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE username=?",
-        [currentUser]
+        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE username=?; SELECT * FROM beneficialOwners WHERE username=?",
+        [currentUser, currentUser]
       );
       database.connection.query(join, function(err, res, fields) {
         if (err) {
@@ -810,49 +810,12 @@ app
         } else {
           response.status(200).send({
             success: true,
-            userData: res,
-            pic1: res[0].ID1,
-            pic2: res[0].ID2,
-            doc1: res[0].doc1,
-            doc2: res[0].doc2,
-            audio: res[0].audio,
-            isComp: res[0].isComp
-          })
+            userData: res[0],
+            beneficialOwners: res[1]
+          });
         }
       });
     });
-
-    //Store kycKey into db
-    // server.post("/approval", urlEncodedParser, function(req, response) {
-    //   let body = req.body;
-    //   let storekycKeyUsers = SqlString.format(
-    //     "UPDATE users SET kycKey=?, isRegistered=? WHERE username=?",
-    //     [body.newKycKey, "yes", body.userName]
-    //   );
-    //   let storeKeyEthAddresses = SqlString.format(
-    //     "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
-    //     [body.newKycKey, null]
-    //   );
-    //   database.connection.query(storekycKeyUsers, function(err, res, fields) {
-    //     if (err) {
-    //       throw err;
-    //     } else {
-    //       database.connection.query(storeKeyEthAddresses, function(
-    //         err,
-    //         res,
-    //         fields
-    //       ) {
-    //         if (err) {
-    //           throw err;
-    //         } else {
-    //           response.status(200).json({
-    //             success: true
-    //           });
-    //         }
-    //       });
-    //     }
-    //   });
-    // });
 
     //send otp via email to user
     //store audio file in DB
@@ -869,6 +832,10 @@ app
       let insertOtpSecret = SqlString.format(
         "UPDATE users SET otpToken=?, audio=? WHERE username=?",
         [otpToken, audioName, userName]
+      );
+      let getHashInfo = SqlString.format(
+        "SELECT fname, lname, idNum, kycKey FROM users WHERE username=?",
+        [userName]
       );
       //get email address from user and send otp
       database.connection.query(searchEmail, function(err, res) {
@@ -893,7 +860,19 @@ app
                 audio.mv("static/" + audioName, function(err) {
                   if (err) console.log(err);
                 });
-                response.status(200).json({ success: true });
+                database.connection.query(getHashInfo, function(err, res) {
+                  if (err) {
+                    throw err;
+                  } else {
+                    response.status(200).json({
+                      success: true,
+                      fname: res[0].fname,
+                      lname: res[0].lname,
+                      idNum: res[0].idNum,
+                      kycKey: res[0].kycKey
+                    });
+                  }
+                });
               }
             });
           }
@@ -954,7 +933,7 @@ app
     });
 
     //is exectuted when a user has been declined in the videochat
-    server.post("/decline", urlEncodedParser, function(req, response) {
+    server.post("/decline", urlEncodedParser, (req, response) => {
       let audioName = req.body.fileName;
       let audio = req.files.file;
       //set kycKey to declined which blocks the user's account
@@ -987,7 +966,7 @@ app
     });
 
     //get Snapshot of user and store it in static folder and DB
-    server.post("/storeSnapshot", urlEncodedParser, (req, res) => {
+    server.post("/storeSnapshot", urlEncodedParser, (req, response) => {
       let image = req.files.image;
       let imageName = req.body.imageName;
       let userName = req.body.userName;
@@ -995,19 +974,19 @@ app
         if (err) return response.status(500).send(err);
       });
       let storeSnapshot = SqlString.format(
-        "UPDATE users SET snpashot=? WHERE username=?",
+        "UPDATE users SET snapshot=? WHERE username=?",
         [imageName, userName]
       );
       database.connection.query(storeSnapshot, function(err, res, fields) {
         if (err) {
           throw err;
         } else {
-          res.status(200).send({
-            success: true,
+          response.status(200).send({
+            success: true
           });
-        };
-      })
-    })
+        }
+      });
+    });
 
     //check whether the user has beneficial owners on his assets
     server.post("/assets", urlEncodedParser, function(req, response) {
@@ -1119,14 +1098,20 @@ app
     server.use(
       unless(
         //list of unprotected pages
-        ["/login", "/register", "/_next", "/passwordreset", "/passwordchange"],
+        [
+          "/login",
+          "/register",
+          "/_next",
+          "/passwordreset",
+          "/passwordchange",
+          "/validate"
+        ],
         (req, res, next) => {
           const token = req.cookies["x-access-token"];
           if (token) {
             //verify the tokens
             jwt.verify(token, secret, (err, decoded) => {
               if (err) {
-                console.log(err);
                 //if token expired, redirect to login
                 res.redirect("/login");
               } else {

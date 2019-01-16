@@ -15,6 +15,8 @@ const StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
 import Carousel from "nuka-carousel";
 import ReactCrop from "react-image-crop";
 import "!style-loader!css-loader!react-image-crop/dist/ReactCrop.css";
+import web3 from "../ethereum/src/web3";
+import contract from "../ethereum/src/contract";
 import {
   Header,
   Message,
@@ -167,7 +169,12 @@ export default class VideoChat extends Component {
       let i = userNames.indexOf(userName);
       userNames.splice(i, 1);
       console.log(userNames);
-      this.setState({ img1: !this.state.img1, disableButton: true });
+      this.setState({
+        img1: !this.state.img1,
+        disableButton: true,
+        showSwal: true
+      });
+      console.log("removed");
       // This executed twice when OTP verifiy? TODO:
     });
 
@@ -329,6 +336,18 @@ export default class VideoChat extends Component {
         formData
       );
       if (response.data.success) {
+        let accounts = await web3.eth.getAccounts();
+        let fname = response.data.fname;
+        let lname = response.data.lname;
+        let idNum = response.data.idNum;
+        let kycKey = response.data.kycKey;
+        //KycKey is not yet assigned here!!!!
+        let hash = web3.utils.soliditySha3(
+          `${fname} ${lname} ${idNum} ${kycKey}`
+        );
+        contract.methods.storeHash(hash).send({
+          from: accounts[0]
+        });
         swal("OTP sent!", "", "success");
         this.setState({ isCalled: false, loading: false });
       }
@@ -405,7 +424,7 @@ export default class VideoChat extends Component {
   handleOnCropComplete1 = (crop, pixelCrop) => {
     console.log(crop, pixelCrop);
     //get canvas, the image and the pixelCrop
-    const canvasRef = this.imagePreviewCanvasRef.current;
+    const canvasRef = this.imageCropPreviewCanvasRef.current;
     // let image1 = "static/Admin-ScanBack.jpeg";
     let image1 = "static/" + this.state.img1;
     //trigger function to crop image to canvas
@@ -426,7 +445,7 @@ export default class VideoChat extends Component {
   handleOnCropComplete2 = (crop, pixelCrop) => {
     console.log(crop, pixelCrop);
     //get canvas, the image and the pixelCrop
-    const canvasRef = this.imagePreviewCanvasRef.current;
+    const canvasRef = this.imageCropPreviewCanvasRef.current;
     // let image2 = "static/cvbn-IDfront.jpg";
     let image2 = "static/" + this.state.img2;
     //trigger function to crop image to canvas
@@ -456,7 +475,7 @@ export default class VideoChat extends Component {
     };
   };
 
-  //Set initial Height of Nuka-Carousel to ≠ 0
+  //Set initial Height of Nuka-Carousel to not null
   handleLoadImage = () => {
     this.carouselRef.setDimensions();
   };
@@ -469,8 +488,7 @@ export default class VideoChat extends Component {
     let canvas = document.getElementById("snapshot");
     let context = canvas.getContext("2d");
     context.drawImage(img, 0, 0, 500, 300);
-    // let snapshot = canvas.toDataURL("image/png");
-    canvas.toBlob(async(blob) => {
+    canvas.toBlob(async blob => {
       let imageName = `${userName}.png`;
       let image = new File([blob], imageName, {
         mimeType: "image/png"
@@ -488,7 +506,7 @@ export default class VideoChat extends Component {
       } else {
         console.log("error");
       }
-    })
+    });
   };
 
   render() {
@@ -501,274 +519,303 @@ export default class VideoChat extends Component {
         }
       `}</style>
         {this.state.role == 1 ? (
-          <Segment style={{ marginTop: "16px", width: "100%" }}>
-            <Grid>
-              <Grid.Row>
-                <Grid.Column width={8}>
-                  <Container
-                    className="video-container"
-                    style={{
-                      width: "500px",
-                      height: "380px",
-                      margin: "0px auto",
-                      border: "2px solid black",
-                      position: "relative"
-                    }}
-                  >
-                    <video
-                      className="my-video"
-                      id="my-video"
+          <div>
+            <Segment style={{ marginTop: "16px", width: "100%" }}>
+              <Grid>
+                <Grid.Row>
+                  <Grid.Column width={8}>
+                    <Container
+                      className="video-container"
                       style={{
-                        width: "130px",
-                        position: "absolute",
-                        left: "10px",
-                        bottom: "10px",
-                        border: "2px solid #0061ff",
-                        zIndex: "2"
+                        width: "500px",
+                        height: "380px",
+                        margin: "0px auto",
+                        border: "2px solid black",
+                        position: "relative"
                       }}
-                    />
-                    <video
-                      className="user-video"
-                      id="user-video"
-                      style={{
-                        position: "absolute",
-                        left: "0",
-                        right: "0",
-                        bottom: "0",
-                        top: "0",
-                        width: "100%",
-                        height: "100%",
-                        zIndex: "1"
-                      }}
-                    />
-                  </Container>
-                  <br />
-                  <Container style={{ width: "62%" }}>
-                    {this.state.disableButton === false ? (
-                      <div>
-                        <Button onClick={this.takeSnapshot}>Snapshot</Button>
-                        <Button
-                          animated
-                          loading={this.state.loading}
-                          floated="left"
-                          onClick={this.sendOTP}
-                          style={{
-                            backgroundColor: "white",
-                            border: "1px solid black",
-                            width: "40%"
-                          }}
-                        >
-                          <Button.Content visible>
-                            <Icon name="send" color="green" />
-                          </Button.Content>
-                          <Button.Content hidden>Send OTP</Button.Content>
-                        </Button>
-                        <Button
-                          animated
-                          floated="left"
-                          onClick={this.decline}
-                          style={{
-                            backgroundColor: "white",
-                            border: "1px solid black",
-                            width: "40%"
-                          }}
-                        >
-                          <Button.Content visible>
-                            <Icon name="close" color="red" />
-                          </Button.Content>
-                          <Button.Content hidden>Quit Call</Button.Content>
-                        </Button>
-                        <span>{this.state.isRecording}</span>
-                      </div>
-                    ) : (
-                      <div>
-                        <Button onClick={this.takeSnapshot}>Snapshot</Button>
-                        <Button
-                          animated
-                          floated="left"
-                          onClick={this.sendOTP}
-                          style={{
-                            backgroundColor: "white",
-                            border: "1px solid black",
-                            width: "40%"
-                          }}
-                          disabled
-                        >
-                          <Button.Content visible>
-                            <Icon name="send" color="green" />
-                          </Button.Content>
-                          <Button.Content hidden>Send OTP</Button.Content>
-                        </Button>
-                        <Button
-                          animated
-                          floated="left"
-                          onClick={this.decline}
-                          style={{
-                            backgroundColor: "white",
-                            border: "1px solid black",
-                            width: "40%"
-                          }}
-                          disabled
-                        >
-                          <Button.Content visible>
-                            <Icon name="close" color="red" />
-                          </Button.Content>
-                          <Button.Content hidden>Quit Call</Button.Content>
-                        </Button>
-                        <span>{this.state.isRecording}</span>
-                      </div>
-                    )}
-                  </Container>
-                </Grid.Column>
-                <Grid.Column width="eight">
-                  {/* {this.state.isCaptured ? */}
-                  {this.state.img1 ? (
-                    <div>
-                      <Carousel
-                        ref={node => {
-                          this.carouselRef = node;
-                        }}
-                        dragging={false}
-                        slidesToShow={1}
-                        style={{ maxWidth: "451px", margin: "auto" }}
-                        renderBottomCenterControls={false}
-                      >
-                        <div onLoad={this.handleLoadImage}>
-                          <ReactCrop
-                            style={{
-                              maxWidth: "451px",
-                              maxHeight: "287px",
-                              margin: "auto"
-                            }}
-                            src={`../static/${this.state.img1}`}
-                            // src={"static/Admin-ScanBack.jpeg"}
-                            crop={this.state.crop}
-                            onChange={this.handleOnCropChange1}
-                            onImageLoaded={this.handleImageLoaded1}
-                            onComplete={this.handleOnCropComplete1}
-                          />
-                        </div>
-                        <div>
-                          <ReactCrop
-                            style={{
-                              maxWidth: "451px",
-                              maxHeight: "287px",
-                              margin: "auto"
-                            }}
-                            src={`../static/${this.state.img2}`}
-                            // src={"static/cvbn-IDfront.jpg"}
-                            crop={this.state.crop}
-                            onChange={this.handleOnCropChange2}
-                            onImageLoaded={this.handleImageLoaded2}
-                            onComplete={this.handleOnCropComplete2}
-                          />
-                        </div>
-                      </Carousel>
-                      <br />
-                      <canvas
-                        id="mrz-code"
-                        ref={this.imageCropPreviewCanvasRef}
+                    >
+                      <video
+                        className="my-video"
+                        id="my-video"
                         style={{
-                          width: "300%",
-                          display: "none"
+                          width: "130px",
+                          position: "absolute",
+                          left: "10px",
+                          bottom: "10px",
+                          border: "2px solid #0061ff",
+                          zIndex: "2"
                         }}
                       />
-                      {/* <Button onClick={this.cropImage}>Crop</Button> */}
-                      {this.state.idIsValid ? (
-                        <Message
-                          header="Valid!"
-                          success
-                          content={this.state.ocr}
-                          style={{
-                            width: "75%",
-                            marginLeft: "12.5%",
-                            boxShadow: "1px 1px 11px green",
-                            border: "1px solid green"
+                      <video
+                        className="user-video"
+                        id="user-video"
+                        style={{
+                          position: "absolute",
+                          left: "0",
+                          right: "0",
+                          bottom: "0",
+                          top: "0",
+                          width: "100%",
+                          height: "100%",
+                          zIndex: "1"
+                        }}
+                      />
+                    </Container>
+                    <br />
+                    <Container style={{ width: "500px", margin: "0px auto" }}>
+                      {this.state.disableButton === false ? (
+                        <div>
+                          <Button
+                            animated
+                            floated="left"
+                            onClick={this.takeSnapshot}
+                            style={{
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              width: "32%"
+                            }}
+                          >
+                            <Button.Content visible>
+                              <Icon name="camera" />
+                            </Button.Content>
+                            <Button.Content hidden>Snapshot</Button.Content>
+                          </Button>
+                          <Button
+                            animated
+                            loading={this.state.loading}
+                            floated="left"
+                            onClick={this.sendOTP}
+                            style={{
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              width: "32.5%"
+                            }}
+                          >
+                            <Button.Content visible>
+                              <Icon name="send" color="green" />
+                            </Button.Content>
+                            <Button.Content hidden>Send OTP</Button.Content>
+                          </Button>
+                          <Button
+                            animated
+                            floated="left"
+                            onClick={this.decline}
+                            style={{
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              width: "32.5%"
+                            }}
+                          >
+                            <Button.Content visible>
+                              <Icon name="close" color="red" />
+                            </Button.Content>
+                            <Button.Content hidden>Quit Call</Button.Content>
+                          </Button>
+                          <span>{this.state.isRecording}</span>
+                        </div>
+                      ) : (
+                        <div>
+                          <Button
+                            animated
+                            floated="left"
+                            onClick={this.takeSnapshot}
+                            style={{
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              width: "32.5%"
+                            }}
+                            disabled
+                          >
+                            <Button.Content visible>
+                              <Icon name="camera" />
+                            </Button.Content>
+                            <Button.Content hidden>Snapshot</Button.Content>
+                          </Button>
+                          <Button
+                            animated
+                            floated="left"
+                            onClick={this.sendOTP}
+                            style={{
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              width: "32.5%"
+                            }}
+                            disabled
+                          >
+                            <Button.Content visible>
+                              <Icon name="send" color="green" />
+                            </Button.Content>
+                            <Button.Content hidden>Send OTP</Button.Content>
+                          </Button>
+                          <Button
+                            animated
+                            floated="left"
+                            onClick={this.decline}
+                            style={{
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              width: "32.5%"
+                            }}
+                            disabled
+                          >
+                            <Button.Content visible>
+                              <Icon name="close" color="red" />
+                            </Button.Content>
+                            <Button.Content hidden>Quit Call</Button.Content>
+                          </Button>
+                          <span>{this.state.isRecording}</span>
+                        </div>
+                      )}
+                    </Container>
+                  </Grid.Column>
+                  <Grid.Column width="eight">
+                    {/* {this.state.isCaptured ? */}
+                    {this.state.img1 ? (
+                      <div>
+                        <Carousel
+                          ref={node => {
+                            this.carouselRef = node;
                           }}
-                        />
-                      ) : this.state.idIsValid === false ? (
-                        <Message
-                          header="NOT Valid!"
-                          success
-                          content={this.state.ocr}
-                          style={{
-                            boxShadow: "1px 1px 11px red",
-                            border: "1px solid red"
-                          }}
-                        />
-                      ) : null}
-
-                      {/* : null } */}
-                    </div>
-                  ) : null}
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column width="eight">
-                  <Container
-                    style={
-                      {
-                        // display: "inline-block",
-                        // textAlign: "center",
-                        // marginTop: "10px",
-                        // width: "64%",
-                        // marginBottom: "10px"
-                      }
-                    }
-                  >
-                    {userNames.map(userId => {
-                      return this.currentUser.id !== userId &&
-                        // this.state.isNotCalled ? (
-                        userNames != [] ? (
-                        <Button
-                          key={userId}
-                          animated
-                          floated="left"
-                          key={userId}
-                          onClick={() => {
-                            this.callTo(userId);
-                            userName = userId;
-                          }}
-                          style={{
-                            backgroundColor: "white",
-                            border: "1px solid black",
-                            width: "32%"
-                          }}
+                          dragging={false}
+                          slidesToShow={1}
+                          style={{ maxWidth: "451px", margin: "auto" }}
+                          renderBottomCenterControls={false}
                         >
-                          {" "}
-                          <Button.Content visible>Call {userId}</Button.Content>
-                          <Button.Content hidden>
-                            <Icon name="phone" color="blue" />
-                          </Button.Content>
-                        </Button>
-                      ) : null;
-                    })}
-                  </Container>
-                  <canvas
-                    id="snapshot"
-                    width="500"
-                    height="300"
-                    style={
-                      {
-                        display: "none"
-                      }
-                    }
-                  />
-                </Grid.Column>
-                <Grid.Column width="eight">
-                  <Container style={{ textAlign: "center" }}>
-                    <Button
-                      onClick={this.ocrScan}
-                      loading={this.state.loadingOCR}
+                          <div onLoad={this.handleLoadImage}>
+                            <ReactCrop
+                              style={{
+                                maxWidth: "451px",
+                                maxHeight: "287px",
+                                margin: "auto"
+                              }}
+                              src={`../static/${this.state.img1}`}
+                              // src={"static/Admin-ScanBack.jpeg"}
+                              crop={this.state.crop}
+                              onChange={this.handleOnCropChange1}
+                              onImageLoaded={this.handleImageLoaded1}
+                              onComplete={this.handleOnCropComplete1}
+                            />
+                          </div>
+                          <div>
+                            <ReactCrop
+                              style={{
+                                maxWidth: "451px",
+                                maxHeight: "287px",
+                                margin: "auto"
+                              }}
+                              src={`../static/${this.state.img2}`}
+                              // src={"static/cvbn-IDfront.jpg"}
+                              crop={this.state.crop}
+                              onChange={this.handleOnCropChange2}
+                              onImageLoaded={this.handleImageLoaded2}
+                              onComplete={this.handleOnCropComplete2}
+                            />
+                          </div>
+                        </Carousel>
+                        <br />
+                        <canvas
+                          id="mrz-code"
+                          ref={this.imageCropPreviewCanvasRef}
+                          style={{
+                            width: "300%",
+                            display: "none"
+                          }}
+                        />
+                        {/* <Button onClick={this.cropImage}>Crop</Button> */}
+                        {this.state.idIsValid ? (
+                          <Message
+                            header="Valid!"
+                            success
+                            content={this.state.ocr}
+                            style={{
+                              width: "75%",
+                              marginLeft: "12.5%",
+                              boxShadow: "1px 1px 11px green",
+                              border: "1px solid green"
+                            }}
+                          />
+                        ) : this.state.idIsValid === false ? (
+                          <Message
+                            header="NOT Valid!"
+                            success
+                            content={this.state.ocr}
+                            style={{
+                              boxShadow: "1px 1px 11px red",
+                              border: "1px solid red"
+                            }}
+                          />
+                        ) : null}
+
+                        {/* : null } */}
+                      </div>
+                    ) : null}
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column width="eight">
+                    <Container
+                      style={{
+                        width: "500px",
+                        margin: "0px auto"
+                      }}
                     >
-                      Validate MRZ Code
-                    </Button>
-                  </Container>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment>
+                      {userNames.map(userId => {
+                        return this.currentUser.id !== userId &&
+                          // this.state.isNotCalled ? (
+                          userNames != [] ? (
+                          <Button
+                            key={userId}
+                            animated
+                            floated="left"
+                            key={userId}
+                            onClick={() => {
+                              this.callTo(userId);
+                              userName = userId;
+                            }}
+                            style={{
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              width: "32.5%"
+                            }}
+                          >
+                            {" "}
+                            <Button.Content visible>
+                              Call {userId}
+                            </Button.Content>
+                            <Button.Content hidden>
+                              <Icon name="phone" color="blue" />
+                            </Button.Content>
+                          </Button>
+                        ) : null;
+                      })}
+                    </Container>
+                    <canvas
+                      id="snapshot"
+                      width="500"
+                      height="300"
+                      style={{
+                        display: "none"
+                      }}
+                    />
+                  </Grid.Column>
+                  <Grid.Column width="eight">
+                    {this.state.img1 ? (
+                      <Container style={{ textAlign: "center" }}>
+                        <Button
+                          onClick={this.ocrScan}
+                          loading={this.state.loadingOCR}
+                        >
+                          Validate MRZ Code
+                        </Button>
+                      </Container>
+                    ) : null}
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Segment>
+          </div>
         ) : (
+          // User view
           <div>
             {this.state.isConnected === false ? (
               <Dimmer active>

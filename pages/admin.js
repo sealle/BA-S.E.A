@@ -10,19 +10,21 @@ import {
   Segment,
   Card,
   Modal,
-  Form
+  Form,
+  Grid,
+  Accordion
 } from "semantic-ui-react";
 import axios from "axios";
 import Head from "next/head";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
-import dynamic from "next/dynamic"
-const VideoChat = dynamic(import('../components/VideoChat'), {
+import dynamic from "next/dynamic";
+const VideoChat = dynamic(import("../components/VideoChat"), {
   ssr: false
-})
-const ProfileHeader = dynamic(import('../components/ProfileHeader'), {
+});
+const ProfileHeader = dynamic(import("../components/ProfileHeader"), {
   ssr: false
-})
+});
 
 class adminPage extends Component {
   constructor() {
@@ -52,7 +54,8 @@ class adminPage extends Component {
       ethAddresses: [],
       ethAddressArray: [],
       message: "",
-      sent: false
+      sent: false,
+      beneficialOwners: []
     };
   }
 
@@ -118,21 +121,21 @@ class adminPage extends Component {
       if (response.data.success) {
         this.setState({
           usrs: response.data.userData,
-          isComp: response.data.isComp,
-          img1: response.data.pic1,
-          img2: response.data.pic2,
-          doc1: response.data.doc1,
-          doc2: response.data.doc2,
-          audio: response.data.audio
+          beneficialOwners: response.data.beneficialOwners
         });
+        //get Array of ethAddresses
         for (let i = 1; i < this.state.usrs.length; i++) {
           this.state.ethAddresses[i] = this.state.usrs[i].ethAddress;
         }
+        //get Array of beneficial owners
+        //how get all data of beneficial Owner in one array?
       }
     } catch (error) {
       console.log(error);
     }
     this.setState({ dimmer, open: true, isChosen: true });
+    console.log(this.state.beneficialOwners[0]);
+    console.log(this.state.beneficialOwners[1]);
   };
 
   //close user preview modal
@@ -168,7 +171,16 @@ class adminPage extends Component {
     this.setState({ dimmer, open: true });
   };
 
+  handleAccordionClick = (e, titleProps) => {
+    const { index } = titleProps;
+    const { activeIndex } = this.state;
+    const newIndex = activeIndex === index ? -1 : index;
+
+    this.setState({ activeIndex: newIndex });
+  };
+
   render() {
+    const { activeIndex } = this.state;
     const { open, dimmer, activeItem } = this.state;
     return (
       <div>
@@ -177,7 +189,7 @@ class adminPage extends Component {
           <Message
             error
             content="Please login to Metamask"
-            style={{ marginTop: "5px", marginLeft: "16px", width: "98%%" }}
+            style={{ marginTop: "5px", marginLeft: "16px", width: "98%" }}
           />
         ) : null}
         <Segment style={{ width: "98%", margin: "16px" }}>
@@ -457,15 +469,83 @@ class adminPage extends Component {
                               value={this.state.usrs[0].regDate}
                             />
                           </Form.Group>
-                          {/* <Form.Group width="sixteen">
-                            <Form.Input
-                              width="sixteen"
-                              readOnly
-                              fluid
-                              label="KycKey"
-                              value={this.state.usrs[0].kycKey}
-                            />
-                          </Form.Group> */}
+                          {this.state.beneficialOwners.length > 0 ? (
+                            <Accordion>
+                              <Accordion.Title
+                                active={activeIndex === 0}
+                                index={0}
+                                onClick={this.handleAccordionClick}
+                                style={{ fontWeight: "bold" }}
+                              >
+                                <Icon name="dropdown" />
+                                Beneficial Owners of the Assets
+                              </Accordion.Title>
+                              <Accordion.Content active={activeIndex === 0}>
+                                {this.state.beneficialOwners.map(
+                                  beneficialOwner => (
+                                    <Segment>
+                                      <Form.Group widths="equal">
+                                        <Form.Input
+                                          readOnly
+                                          fluid
+                                          label="First Name"
+                                          value={beneficialOwner.ownerName}
+                                        />
+                                        <Form.Input
+                                          readOnly
+                                          fluid
+                                          label="Last Name"
+                                          value={beneficialOwner.ownerLastName}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group>
+                                        <Form.Input
+                                          readOnly
+                                          width="eleven"
+                                          fluid
+                                          label="Street"
+                                          value={beneficialOwner.ownerStreet}
+                                        />
+                                        <Form.Input
+                                          readOnly
+                                          width="five"
+                                          fluid
+                                          label="House Number"
+                                          value={beneficialOwner.ownerHouseNr}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group>
+                                        <Form.Input
+                                          readOnly
+                                          width="six"
+                                          fluid
+                                          label="Postal Code"
+                                          value={beneficialOwner.ownerPostCode}
+                                        />
+                                        <Form.Input
+                                          readOnly
+                                          width="ten"
+                                          fluid
+                                          label="Place of Residenz"
+                                          value={beneficialOwner.ownerPlaceOfRes}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group widths="equal">
+                                        <Form.Input
+                                          readOnly
+                                          fluid
+                                          label="Date of Birth"
+                                          value={beneficialOwner.ownerDateOfBirth}
+                                        />
+                                      </Form.Group>
+                                    </Segment>
+                                  )
+                                )}
+                              </Accordion.Content>
+                            </Accordion>
+                          ) : null}
+                          <br />
+
                           {this.state.ethAddresses.length > 0 ? (
                             <p style={{ fontWeight: "bold" }}>
                               EthAddresses which requested the KycKey
@@ -492,13 +572,13 @@ class adminPage extends Component {
                             {/* <Grid width={16}>
                         <Grid.Column> */}
                             <a
-                              href={`../static/${this.state.img1}`}
+                              href={`../static/${this.state.usrs[0].ID1}`}
                               target="_blank"
                               style={{ width: "50%" }}
                             >
                               <img
                                 className="img-responsive"
-                                src={`../static/${this.state.img1}`}
+                                src={`../static/${this.state.usrs[0].ID1}`}
                                 style={{
                                   width: "200px",
                                   height: "113px"
@@ -509,13 +589,13 @@ class adminPage extends Component {
                             {/* </Grid.Column>
                         <Grid.Column> */}
                             <a
-                              href={`../static/${this.state.img2}`}
+                              href={`../static/${this.state.usrs[0].ID2}`}
                               target="_blank"
-                              style={{width:"50%"}}
+                              style={{ width: "50%" }}
                             >
                               <img
                                 className="img-responsive"
-                                src={`../static/${this.state.img2}`}
+                                src={`../static/${this.state.usrs[0].ID2}`}
                                 style={{
                                   width: "200px",
                                   height: "113px"
@@ -523,29 +603,35 @@ class adminPage extends Component {
                                 }}
                               />
                             </a>
-                            <a
-                              href={`../static/${this.state.usrs[0].username}.png`}
-                              target="_blank"
-                            >
-                              <img
-                                className="img-responsive"
-                                src={`../static/${this.state.usrs[0].username}.png`}
-                                style={{
-                                  width: "200px",
-                                  height: "113px"
-                                  // float: "left"
-                                }}
-                              />
-                            </a>
+                            {this.state.usrs[0].snapshot ? (
+                              <a
+                                href={`../static/${
+                                  this.state.usrs[0].snapshot
+                                }`}
+                                target="_blank"
+                              >
+                                <img
+                                  className="img-responsive"
+                                  src={`../static/${
+                                    this.state.usrs[0].snapshot
+                                  }`}
+                                  style={{
+                                    width: "200px",
+                                    height: "113px"
+                                    // float: "left"
+                                  }}
+                                />
+                              </a>
+                            ) : null}
                             {/* </Grid.Column> */}
                             {/* </Grid> */}
                           </Form.Group>
-                          <br/>
+                          <br />
                           <p style={{ fontWeight: "bold" }}>Audio Recording</p>
                           <Form.Group colSpan={2}>
                             <audio controls>
                               <source
-                                src={`../static/${this.state.audio}`}
+                                src={`../static/${this.state.usrs[0].audio}`}
                                 type="audio/wav"
                               />
                             </audio>
@@ -653,7 +739,7 @@ class adminPage extends Component {
                               >
                                 <Icon name="linkify" />
                                 <a
-                                  href={`../static/${this.state.doc1}`}
+                                  href={`../static/${this.state.usrs[0].doc1}`}
                                   type="application/pdf"
                                   target="_blank"
                                 >
@@ -667,7 +753,7 @@ class adminPage extends Component {
                               >
                                 <Icon name="linkify" />
                                 <a
-                                  href={`../static/${this.state.doc2}`}
+                                  href={`../static/${this.state.usrs[0].doc2}`}
                                   type="application/pdf"
                                   target="_blank"
                                 >
