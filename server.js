@@ -808,6 +808,7 @@ app
         if (err) {
           throw err;
         } else {
+          console.log(res[0].ID1);
           response.status(200).send({
             success: true,
             userData: res[0],
@@ -821,21 +822,15 @@ app
     //store audio file in DB
     server.post("/createOTP", urlEncodedParser, (req, response) => {
       let body = req.body;
-      let userName = body.userName;
-      let audioName = req.body.fileName;
-      let audio = req.files.file;
       let otpToken = body.otpToken;
+      let userName = body.userName;
       let searchEmail = SqlString.format(
         "SELECT email FROM users WHERE username=?",
         [userName]
       );
       let insertOtpSecret = SqlString.format(
-        "UPDATE users SET otpToken=?, audio=? WHERE username=?",
-        [otpToken, audioName, userName]
-      );
-      let getHashInfo = SqlString.format(
-        "SELECT fname, lname, idNum, kycKey FROM users WHERE username=?",
-        [userName]
+        "UPDATE users SET otpToken=? WHERE username=?",
+        [otpToken, userName]
       );
       //get email address from user and send otp
       database.connection.query(searchEmail, function(err, res) {
@@ -856,22 +851,8 @@ app
               if (err) {
                 throw err;
               } else {
-                //store audio file in static folder
-                audio.mv("static/" + audioName, function(err) {
-                  if (err) console.log(err);
-                });
-                database.connection.query(getHashInfo, function(err, res) {
-                  if (err) {
-                    throw err;
-                  } else {
-                    response.status(200).json({
-                      success: true,
-                      fname: res[0].fname,
-                      lname: res[0].lname,
-                      idNum: res[0].idNum,
-                      kycKey: res[0].kycKey
-                    });
-                  }
+                response.status(200).json({
+                  success: true
                 });
               }
             });
@@ -898,15 +879,25 @@ app
 
     // when otp verified, create and store kycKey in DB
     server.post("/approval", urlEncodedParser, (req, response) => {
+      let body = req.body;
+      let userName = body.userName;
+      let audioName = req.body.fileName;
+      let audio = req.files.file;
       //create new kycKey
       let newAccount = web3.eth.accounts.create();
       let newKycKey = newAccount.address;
       //insert kycKey in DB and set user to isregistered
       //set otpToken to null after verification
       let storekycKeyUsers = SqlString.format(
-        "UPDATE users SET kycKey=?, isRegistered=? WHERE otpToken IS NOT NULL; UPDATE users SET otpToken=? WHERE otpToken IS NOT NULL",
-        [newKycKey, "yes", null]
+        "UPDATE users SET kycKey=?, isRegistered=?, audio=? WHERE username=?; UPDATE users SET otpToken=? WHERE username=?",
+        [newKycKey, "yes", audioName, userName, null, userName]
       );
+      //send fields to hash to the client
+      let getHashInfo = SqlString.format(
+        "SELECT fname, lname, idNum, kycKey FROM users WHERE username=?",
+        [userName]
+      );
+      //initialise ethAddresses where first field is set to null
       let storeEthAddresses = SqlString.format(
         "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
         [newKycKey, null]
@@ -915,6 +906,10 @@ app
         if (err) {
           throw err;
         } else {
+          //store audio file in static folder
+          audio.mv("static/" + audioName, function(err) {
+            if (err) console.log(err);
+          });
           database.connection.query(storeEthAddresses, function(
             err,
             res,
@@ -923,8 +918,18 @@ app
             if (err) {
               throw err;
             } else {
-              response.status(200).json({
-                success: true
+              database.connection.query(getHashInfo, (err, res, fields) => {
+                if (err) {
+                  throw err;
+                } else {
+                  response.status(200).json({
+                    success: true,
+                    fname: res[0].fname,
+                    lname: res[0].lname,
+                    idNum: res[0].idNum,
+                    kycKey: res[0].kycKey
+                  });
+                }
               });
             }
           });
@@ -1164,6 +1169,27 @@ app
         currentUser,
         token: token,
         role: role
+      });
+    });
+
+    server.post("/videochat/user", urlEncodedParser, function(req, response) {
+      //get current user
+      let searchUser = SqlString.format(
+        "SELECT * FROM users WHERE username=?",
+        [req.body.currentUser]
+      );
+      //send data from DB to client
+      database.connection.query(searchUser, function(err, res, fields) {
+        if (err) {
+          throw err;
+        } else {
+          response.status(200).send({
+            success: true,
+            userData: res,
+            img1: res[0].ID1,
+            img2: res[0].ID2
+          });
+        }
       });
     });
 

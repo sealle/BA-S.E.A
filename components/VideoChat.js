@@ -26,7 +26,8 @@ import {
   Container,
   Grid,
   Dimmer,
-  Loader
+  Loader,
+  Modal
 } from "semantic-ui-react";
 import axios from "axios";
 import { Router } from "../routes";
@@ -38,6 +39,7 @@ let channelName;
 let userName;
 let userNames = [];
 let recordRTC;
+let firstMember;
 
 export default class VideoChat extends Component {
   constructor() {
@@ -67,7 +69,8 @@ export default class VideoChat extends Component {
       isRecording: "",
       crop: {
         aspect: 8 / 1.5
-      }
+      },
+      modalOpen: false
     };
 
     this.currentUser = {
@@ -78,10 +81,6 @@ export default class VideoChat extends Component {
     this.peers = [];
 
     this.mediaHandler = new MediaHandler();
-
-    // this.setupPusher = this.setupPusher.bind(this);
-    // this.startPeer = this.startPeer.bind(this);
-    // this.show = this.show.bind(this);
   }
 
   async componentWillMount() {
@@ -129,7 +128,7 @@ export default class VideoChat extends Component {
 
   //setting up pusher API
   setupPusher = () => {
-    //Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
     pusher = new Pusher(APP_KEY, {
       authEndpoint: "/pusher/auth",
       cluster: "eu",
@@ -144,19 +143,15 @@ export default class VideoChat extends Component {
     //create new presence-channel
     channelName = pusher.subscribe("presence-video-channel"); //requires auth
 
-    // channelName.bind("pusher:subscription_succeeded", member => {
-    // userNames = members.id;
-    // channelName.members.each(member => {
-    //   userNames = member.id;
-    //   // userNames.push(member.id)
-    //   console.log(userNames)
-    // })
-    // console.log(countMembers);
-    // });
+    //get members in channel
+    channelName.bind("pusher:subscription_succeeded", members => {
+      //get id of Admin from the object
+      firstMember = Object.keys(members.members)[0];
+    });
 
     //listener for added members to the channel
     channelName.bind("pusher:member_added", member => {
-      swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
+      // swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
       if (userNames.includes(member.id) === false) {
         userNames.push(member.id);
       }
@@ -171,11 +166,9 @@ export default class VideoChat extends Component {
       console.log(userNames);
       this.setState({
         img1: !this.state.img1,
-        disableButton: true,
-        showSwal: true
+        showMrzValidationButton: !this.state.showMrzValidationButton,
+        disableButton: true
       });
-      console.log("removed");
-      // This executed twice when OTP verifiy? TODO:
     });
 
     //bind client signal to channel
@@ -191,6 +184,58 @@ export default class VideoChat extends Component {
         //callee //if offer is sent, stop!
       }
       peer.signal(signal.data);
+    });
+
+    channelName.bind(`client-message-${this.currentUser.id}`, message => {
+      setCookie("x-access-token", "", -60 * 60);
+      window.location.href = "/login";
+      Router.push("/login");
+    });
+
+    channelName.bind(`client-approval-${this.currentUser.id}`, message => {
+      swal({
+        title: "Success!",
+        text: "The user has entered the correct OTP",
+        type: "success",
+        confirmButtonText: "Confirm",
+        onClose: () => {
+          //Stop audio recording and send .wav file to server
+          recordRTC.stopRecording(async () => {
+            let formData = new FormData();
+            let recordedBlob = recordRTC.getBlob();
+            console.log(recordedBlob);
+            let fileName = `${userName}.wav`;
+            let file = new File([recordedBlob], fileName, {
+              mimeType: "audio/wav"
+            });
+            console.log(file);
+            formData.append("fileName", fileName);
+            formData.append("file", file);
+            formData.append("userName", userName);
+            this.setState({ isRecording: "" });
+            let response = await axios.post(
+              window.location.origin + "/approval",
+              formData
+            );
+            if (response.data.success) {
+              let accounts = await web3.eth.getAccounts();
+              let fname = response.data.fname;
+              let lname = response.data.lname;
+              let idNum = response.data.idNum;
+              let kycKey = response.data.kycKey;
+              console.log(fname, lname, idNum, kycKey);
+              let hash = web3.utils.soliditySha3(
+                `${fname} ${lname} ${idNum} ${kycKey}`
+              );
+              contract.methods.storeHash(hash).send({
+                from: accounts[0]
+              });
+            } else {
+              console.log("error");
+            }
+          });
+        }
+      });
     });
   };
 
@@ -249,17 +294,19 @@ export default class VideoChat extends Component {
     this.setState({ isNotCalled: false, disableButton: false });
     this.peers[userId] = this.startPeer(userId);
     let currentUser = userId;
+    console.log(userId);
     //get the peer's data
-    let response = await axios.post(window.location.origin + "/usrs", {
-      currentUser
-    });
+    let response = await axios.post(
+      window.location.origin + "/videochat/user",
+      {
+        currentUser
+      }
+    );
     if (response.data.success) {
       this.setState({
-        img1: response.data.pic1,
-        img2: response.data.pic2,
-        doc1: response.data.doc1,
-        doc2: response.data.doc2,
-        users: response.data.userData
+        users: response.data.userData,
+        img1: response.data.img1,
+        img2: response.data.img2
       });
     }
   };
@@ -287,7 +334,10 @@ export default class VideoChat extends Component {
       );
       if (response.data.success) {
         swal("User declined", "", "success");
-        this.setState({ isCalled: false });
+        // this.setState({ isCalled: false});
+        channelName.trigger(`client-message-${userName}`, {
+          message: "You have been declined!"
+        });
       } else {
         console.log("something went wrong!");
       }
@@ -297,14 +347,6 @@ export default class VideoChat extends Component {
   // show = dimmer => {
   //   this.setState({ dimmer, open: true });
   // };
-
-  //when declined, user is redirected to login and cookie is deleted
-  returnHome = () => {
-    this.setState({ open: false });
-    setCookie("x-access-token", "", -60 * 60);
-    window.location.href = "/login";
-    Router.push("/login");
-  };
 
   //send OTP to server to be sent via email to the user
   sendOTP = async () => {
@@ -316,42 +358,22 @@ export default class VideoChat extends Component {
     let otpToken = authenticator.generate(otpSecret);
     console.log(otpToken);
     console.log(userName);
-    //Stop audio recording and send .wav file to server
-    recordRTC.stopRecording(async () => {
-      let formData = new FormData();
-      let recordedBlob = recordRTC.getBlob();
-      console.log(recordedBlob);
-      let fileName = `${userName}.wav`;
-      let file = new File([recordedBlob], fileName, {
-        mimeType: "audio/wav"
+    let formData = new FormData();
+    formData.append("otpToken", otpToken);
+    formData.append("userName", userName);
+    let response = await axios.post(
+      window.location.origin + "/createOTP",
+      formData
+    );
+    if (response.data.success) {
+      swal("OTP sent!", "", "success");
+      this.setState({
+        // isCalled: false,
+        loading: false
       });
-      console.log(file);
-      formData.append("fileName", fileName);
-      formData.append("file", file);
-      formData.append("otpToken", otpToken);
-      formData.append("userName", userName);
-      this.setState({ isRecording: "" });
-      let response = await axios.post(
-        window.location.origin + "/createOTP",
-        formData
-      );
-      if (response.data.success) {
-        let accounts = await web3.eth.getAccounts();
-        let fname = response.data.fname;
-        let lname = response.data.lname;
-        let idNum = response.data.idNum;
-        let kycKey = response.data.kycKey;
-        //KycKey is not yet assigned here!!!!
-        let hash = web3.utils.soliditySha3(
-          `${fname} ${lname} ${idNum} ${kycKey}`
-        );
-        contract.methods.storeHash(hash).send({
-          from: accounts[0]
-        });
-        swal("OTP sent!", "", "success");
-        this.setState({ isCalled: false, loading: false });
-      }
-    });
+    } else {
+      console.log("error");
+    }
   };
 
   //verify the entered otp
@@ -360,27 +382,24 @@ export default class VideoChat extends Component {
     let res = await axios.post(window.location.origin + "/otpToken");
     if (res.data.success) {
       let otpToken = res.data.otpToken;
-      console.log(otpToken);
-      console.log(this.state.otp);
-      // let isValid = authenticator.check(this.state.otp, otpSecret);
-      // console.log(isValid);
       //check whether otpToken is the same as the entered otp
+      console.log(this.state.otp);
+      console.log(otpToken);
       if (otpToken === this.state.otp) {
-        let response = await axios.post(window.location.origin + "/approval");
-        if (response.data.success) {
-          //if successfull, redirect user to login and delete cookie
-          setCookie("x-access-token", "", -60 * 60);
-          window.location.href = "/login";
-          Router.push("/login");
-        } else {
-          console.log("oops");
-        }
+        //trigger client event to Admin
+        await channelName.trigger(`client-approval-${firstMember}`, {
+          message: "User entered correct OTP"
+        });
         //destroy P2P connection
         peer.destroy();
+        setCookie("x-access-token", "", -60 * 60);
+        window.location.href = "/login";
+        Router.push("/login");
       } else {
         this.setState({ message: "wrong OTP!" });
       }
     }
+    //Check only for otp and then trigger client event to ADMIN!
   };
 
   //scan the mrz code and verify it
@@ -406,7 +425,11 @@ export default class VideoChat extends Component {
       } else {
         this.setState({ idIsValid: false });
       }
-      this.setState({ loadingOCR: false, ocr: result.text, isCalled: true });
+      this.setState({
+        loadingOCR: false,
+        ocr: result.text
+        // isCalled: true
+      });
     });
   };
 
@@ -417,12 +440,12 @@ export default class VideoChat extends Component {
 
   //handle image loaded for first image in carousel
   handleImageLoaded1 = image => {
-    console.log(image);
+    console.log("image")
   };
 
   //handle crop complete for first image in carousel
   handleOnCropComplete1 = (crop, pixelCrop) => {
-    console.log(crop, pixelCrop);
+    this.setState({showMrzValidationButton: true})
     //get canvas, the image and the pixelCrop
     const canvasRef = this.imageCropPreviewCanvasRef.current;
     // let image1 = "static/Admin-ScanBack.jpeg";
@@ -438,12 +461,12 @@ export default class VideoChat extends Component {
 
   //handle image loaded for second image in carousel
   handleImageLoaded2 = image => {
-    console.log(image);
+    console.log("image")
   };
 
   //handle crop complete for second image in carousel
   handleOnCropComplete2 = (crop, pixelCrop) => {
-    console.log(crop, pixelCrop);
+    this.setState({showMrzValidationButton: true})
     //get canvas, the image and the pixelCrop
     const canvasRef = this.imageCropPreviewCanvasRef.current;
     // let image2 = "static/cvbn-IDfront.jpg";
@@ -669,7 +692,6 @@ export default class VideoChat extends Component {
                     </Container>
                   </Grid.Column>
                   <Grid.Column width="eight">
-                    {/* {this.state.isCaptured ? */}
                     {this.state.img1 ? (
                       <div>
                         <Carousel
@@ -712,6 +734,16 @@ export default class VideoChat extends Component {
                             />
                           </div>
                         </Carousel>
+                        {this.state.showMrzValidationButton ? (
+                      <Container style={{ textAlign: "center" }}>
+                        <Button
+                          onClick={this.ocrScan}
+                          loading={this.state.loadingOCR}
+                        >
+                          Validate MRZ Code
+                        </Button>
+                      </Container>
+                        ) : null}
                         <br />
                         <canvas
                           id="mrz-code"
@@ -721,7 +753,6 @@ export default class VideoChat extends Component {
                             display: "none"
                           }}
                         />
-                        {/* <Button onClick={this.cropImage}>Crop</Button> */}
                         {this.state.idIsValid ? (
                           <Message
                             header="Valid!"
@@ -745,8 +776,6 @@ export default class VideoChat extends Component {
                             }}
                           />
                         ) : null}
-
-                        {/* : null } */}
                       </div>
                     ) : null}
                   </Grid.Column>
@@ -799,16 +828,6 @@ export default class VideoChat extends Component {
                     />
                   </Grid.Column>
                   <Grid.Column width="eight">
-                    {this.state.img1 ? (
-                      <Container style={{ textAlign: "center" }}>
-                        <Button
-                          onClick={this.ocrScan}
-                          loading={this.state.loadingOCR}
-                        >
-                          Validate MRZ Code
-                        </Button>
-                      </Container>
-                    ) : null}
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -870,6 +889,7 @@ export default class VideoChat extends Component {
               <br />
               <Container style={{ width: "71%", marginBottom: "13px" }}>
                 <OtpInput
+                  style={{ margin: "auto", width: "70%" }}
                   value={this.state.otp}
                   onChange={otp => {
                     this.setState({ otp: otp, otpEntered: true });
@@ -896,19 +916,6 @@ export default class VideoChat extends Component {
                   Submit
                 </Button>
               ) : null}
-
-              <Button
-                id="returnHome"
-                style={{
-                  color: "white",
-                  width: "50%",
-                  margin: "0px auto"
-                }}
-                fluid
-                onClick={this.returnHome}
-              >
-                Submit
-              </Button>
             </Segment>
           </div>
         )}

@@ -134,8 +134,6 @@ class adminPage extends Component {
       console.log(error);
     }
     this.setState({ dimmer, open: true, isChosen: true });
-    console.log(this.state.beneficialOwners[0]);
-    console.log(this.state.beneficialOwners[1]);
   };
 
   //close user preview modal

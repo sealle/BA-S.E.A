@@ -13,6 +13,20 @@
       "name": "./components/ProfileHeader.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./components/ProfileHeader.js",
+      "name": "./components/ProfileHeader.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
+    }
+  ],
+  "../components/VideoChat": [
+    {
+      "id": "./components/VideoChat.js",
+      "name": "./components/VideoChat.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
     }
   ],
   "@babel/runtime-corejs2/core-js/json/stringify": [
@@ -21,6 +35,12 @@
       "name": "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js",
+      "name": "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "../core-js/reflect/construct": [
@@ -29,6 +49,12 @@
       "name": "./node_modules/@babel/runtime-corejs2/core-js/reflect/construct.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/@babel/runtime-corejs2/core-js/reflect/construct.js",
+      "name": "./node_modules/@babel/runtime-corejs2/core-js/reflect/construct.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./arrayWithHoles": [
@@ -37,6 +63,12 @@
       "name": "./node_modules/@babel/runtime-corejs2/helpers/arrayWithHoles.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/@babel/runtime-corejs2/helpers/arrayWithHoles.js",
+      "name": "./node_modules/@babel/runtime-corejs2/helpers/arrayWithHoles.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "@babel/runtime-corejs2/helpers/construct": [
@@ -45,6 +77,12 @@
       "name": "./node_modules/@babel/runtime-corejs2/helpers/construct.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/@babel/runtime-corejs2/helpers/construct.js",
+      "name": "./node_modules/@babel/runtime-corejs2/helpers/construct.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./iterableToArrayLimit": [
@@ -53,6 +91,12 @@
       "name": "./node_modules/@babel/runtime-corejs2/helpers/iterableToArrayLimit.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/@babel/runtime-corejs2/helpers/iterableToArrayLimit.js",
+      "name": "./node_modules/@babel/runtime-corejs2/helpers/iterableToArrayLimit.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./nonIterableRest": [
@@ -61,6 +105,12 @@
       "name": "./node_modules/@babel/runtime-corejs2/helpers/nonIterableRest.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/@babel/runtime-corejs2/helpers/nonIterableRest.js",
+      "name": "./node_modules/@babel/runtime-corejs2/helpers/nonIterableRest.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "@babel/runtime-corejs2/helpers/slicedToArray": [
@@ -69,396 +119,10 @@
       "name": "./node_modules/@babel/runtime-corejs2/helpers/slicedToArray.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
-    }
-  ],
-  "regenerator-runtime": [
-    {
-      "id": "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime-module.js",
-      "name": "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime-module.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
     },
     {
-      "id": "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime-module.js",
-      "name": "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime-module.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./runtime": [
-    {
-      "id": "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
-      "name": "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
-      "name": "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "@babel/runtime/regenerator": [
-    {
-      "id": "./node_modules/@babel/runtime/regenerator/index.js",
-      "name": "./node_modules/@babel/runtime/regenerator/index.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/@babel/runtime/regenerator/index.js",
-      "name": "./node_modules/@babel/runtime/regenerator/index.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "axios": [
-    {
-      "id": "./node_modules/axios/index.js",
-      "name": "./node_modules/axios/index.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/index.js",
-      "name": "./node_modules/axios/index.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./adapters/xhr": [
-    {
-      "id": "./node_modules/axios/lib/adapters/xhr.js",
-      "name": "./node_modules/axios/lib/adapters/xhr.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/adapters/xhr.js",
-      "name": "./node_modules/axios/lib/adapters/xhr.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./lib/axios": [
-    {
-      "id": "./node_modules/axios/lib/axios.js",
-      "name": "./node_modules/axios/lib/axios.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/axios.js",
-      "name": "./node_modules/axios/lib/axios.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./cancel/Cancel": [
-    {
-      "id": "./node_modules/axios/lib/cancel/Cancel.js",
-      "name": "./node_modules/axios/lib/cancel/Cancel.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/cancel/Cancel.js",
-      "name": "./node_modules/axios/lib/cancel/Cancel.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./cancel/CancelToken": [
-    {
-      "id": "./node_modules/axios/lib/cancel/CancelToken.js",
-      "name": "./node_modules/axios/lib/cancel/CancelToken.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/cancel/CancelToken.js",
-      "name": "./node_modules/axios/lib/cancel/CancelToken.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./cancel/isCancel": [
-    {
-      "id": "./node_modules/axios/lib/cancel/isCancel.js",
-      "name": "./node_modules/axios/lib/cancel/isCancel.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/cancel/isCancel.js",
-      "name": "./node_modules/axios/lib/cancel/isCancel.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./core/Axios": [
-    {
-      "id": "./node_modules/axios/lib/core/Axios.js",
-      "name": "./node_modules/axios/lib/core/Axios.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/core/Axios.js",
-      "name": "./node_modules/axios/lib/core/Axios.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./InterceptorManager": [
-    {
-      "id": "./node_modules/axios/lib/core/InterceptorManager.js",
-      "name": "./node_modules/axios/lib/core/InterceptorManager.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/core/InterceptorManager.js",
-      "name": "./node_modules/axios/lib/core/InterceptorManager.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "../core/createError": [
-    {
-      "id": "./node_modules/axios/lib/core/createError.js",
-      "name": "./node_modules/axios/lib/core/createError.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/core/createError.js",
-      "name": "./node_modules/axios/lib/core/createError.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./dispatchRequest": [
-    {
-      "id": "./node_modules/axios/lib/core/dispatchRequest.js",
-      "name": "./node_modules/axios/lib/core/dispatchRequest.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/core/dispatchRequest.js",
-      "name": "./node_modules/axios/lib/core/dispatchRequest.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./enhanceError": [
-    {
-      "id": "./node_modules/axios/lib/core/enhanceError.js",
-      "name": "./node_modules/axios/lib/core/enhanceError.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/core/enhanceError.js",
-      "name": "./node_modules/axios/lib/core/enhanceError.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./../core/settle": [
-    {
-      "id": "./node_modules/axios/lib/core/settle.js",
-      "name": "./node_modules/axios/lib/core/settle.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/core/settle.js",
-      "name": "./node_modules/axios/lib/core/settle.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./transformData": [
-    {
-      "id": "./node_modules/axios/lib/core/transformData.js",
-      "name": "./node_modules/axios/lib/core/transformData.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/core/transformData.js",
-      "name": "./node_modules/axios/lib/core/transformData.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./defaults": [
-    {
-      "id": "./node_modules/axios/lib/defaults.js",
-      "name": "./node_modules/axios/lib/defaults.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/defaults.js",
-      "name": "./node_modules/axios/lib/defaults.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./helpers/bind": [
-    {
-      "id": "./node_modules/axios/lib/helpers/bind.js",
-      "name": "./node_modules/axios/lib/helpers/bind.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/bind.js",
-      "name": "./node_modules/axios/lib/helpers/bind.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./../helpers/btoa": [
-    {
-      "id": "./node_modules/axios/lib/helpers/btoa.js",
-      "name": "./node_modules/axios/lib/helpers/btoa.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/btoa.js",
-      "name": "./node_modules/axios/lib/helpers/btoa.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./../helpers/buildURL": [
-    {
-      "id": "./node_modules/axios/lib/helpers/buildURL.js",
-      "name": "./node_modules/axios/lib/helpers/buildURL.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/buildURL.js",
-      "name": "./node_modules/axios/lib/helpers/buildURL.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./../helpers/combineURLs": [
-    {
-      "id": "./node_modules/axios/lib/helpers/combineURLs.js",
-      "name": "./node_modules/axios/lib/helpers/combineURLs.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/combineURLs.js",
-      "name": "./node_modules/axios/lib/helpers/combineURLs.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./../helpers/cookies": [
-    {
-      "id": "./node_modules/axios/lib/helpers/cookies.js",
-      "name": "./node_modules/axios/lib/helpers/cookies.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/cookies.js",
-      "name": "./node_modules/axios/lib/helpers/cookies.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./../helpers/isAbsoluteURL": [
-    {
-      "id": "./node_modules/axios/lib/helpers/isAbsoluteURL.js",
-      "name": "./node_modules/axios/lib/helpers/isAbsoluteURL.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/isAbsoluteURL.js",
-      "name": "./node_modules/axios/lib/helpers/isAbsoluteURL.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./../helpers/isURLSameOrigin": [
-    {
-      "id": "./node_modules/axios/lib/helpers/isURLSameOrigin.js",
-      "name": "./node_modules/axios/lib/helpers/isURLSameOrigin.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/isURLSameOrigin.js",
-      "name": "./node_modules/axios/lib/helpers/isURLSameOrigin.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./helpers/normalizeHeaderName": [
-    {
-      "id": "./node_modules/axios/lib/helpers/normalizeHeaderName.js",
-      "name": "./node_modules/axios/lib/helpers/normalizeHeaderName.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/normalizeHeaderName.js",
-      "name": "./node_modules/axios/lib/helpers/normalizeHeaderName.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./../helpers/parseHeaders": [
-    {
-      "id": "./node_modules/axios/lib/helpers/parseHeaders.js",
-      "name": "./node_modules/axios/lib/helpers/parseHeaders.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/parseHeaders.js",
-      "name": "./node_modules/axios/lib/helpers/parseHeaders.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./helpers/spread": [
-    {
-      "id": "./node_modules/axios/lib/helpers/spread.js",
-      "name": "./node_modules/axios/lib/helpers/spread.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/helpers/spread.js",
-      "name": "./node_modules/axios/lib/helpers/spread.js",
-      "file": "static/chunks/2.js",
-      "publicPath": "static/chunks/2.js"
-    }
-  ],
-  "./utils": [
-    {
-      "id": "./node_modules/axios/lib/utils.js",
-      "name": "./node_modules/axios/lib/utils.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/axios/lib/utils.js",
-      "name": "./node_modules/axios/lib/utils.js",
+      "id": "./node_modules/@babel/runtime-corejs2/helpers/slicedToArray.js",
+      "name": "./node_modules/@babel/runtime-corejs2/helpers/slicedToArray.js",
       "file": "static/chunks/2.js",
       "publicPath": "static/chunks/2.js"
     }
@@ -469,6 +133,12 @@
       "name": "./node_modules/core-js/library/fn/json/stringify.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/core-js/library/fn/json/stringify.js",
+      "name": "./node_modules/core-js/library/fn/json/stringify.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "core-js/library/fn/reflect/construct": [
@@ -477,6 +147,12 @@
       "name": "./node_modules/core-js/library/fn/reflect/construct.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/core-js/library/fn/reflect/construct.js",
+      "name": "./node_modules/core-js/library/fn/reflect/construct.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./_bind": [
@@ -485,6 +161,12 @@
       "name": "./node_modules/core-js/library/modules/_bind.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/core-js/library/modules/_bind.js",
+      "name": "./node_modules/core-js/library/modules/_bind.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "../../modules/es6.reflect.construct": [
@@ -493,12 +175,410 @@
       "name": "./node_modules/core-js/library/modules/es6.reflect.construct.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/core-js/library/modules/es6.reflect.construct.js",
+      "name": "./node_modules/core-js/library/modules/es6.reflect.construct.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
+    }
+  ],
+  "!!../../css-loader/index.js!./ReactCrop.css": [
+    {
+      "id": "./node_modules/css-loader/index.js!./node_modules/react-image-crop/dist/ReactCrop.css",
+      "name": "./node_modules/css-loader/index.js!./node_modules/react-image-crop/dist/ReactCrop.css",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../../css-loader/lib/css-base.js": [
+    {
+      "id": "./node_modules/css-loader/lib/css-base.js",
+      "name": "./node_modules/css-loader/lib/css-base.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./color": [
+    {
+      "id": "./node_modules/d3-color/src/color.js",
+      "name": "./node_modules/d3-color/src/color.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/d3-interpolate/src/color.js",
+      "name": "./node_modules/d3-interpolate/src/color.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./cubehelix": [
+    {
+      "id": "./node_modules/d3-color/src/cubehelix.js",
+      "name": "./node_modules/d3-color/src/cubehelix.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/d3-interpolate/src/cubehelix.js",
+      "name": "./node_modules/d3-interpolate/src/cubehelix.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./define": [
+    {
+      "id": "./node_modules/d3-color/src/define.js",
+      "name": "./node_modules/d3-color/src/define.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "d3-color": [
+    {
+      "id": "./node_modules/d3-color/src/index.js",
+      "name": "./node_modules/d3-color/src/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./lab": [
+    {
+      "id": "./node_modules/d3-color/src/lab.js",
+      "name": "./node_modules/d3-color/src/lab.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/d3-interpolate/src/lab.js",
+      "name": "./node_modules/d3-interpolate/src/lab.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./math": [
+    {
+      "id": "./node_modules/d3-color/src/math.js",
+      "name": "./node_modules/d3-color/src/math.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./back": [
+    {
+      "id": "./node_modules/d3-ease/src/back.js",
+      "name": "./node_modules/d3-ease/src/back.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./bounce": [
+    {
+      "id": "./node_modules/d3-ease/src/bounce.js",
+      "name": "./node_modules/d3-ease/src/bounce.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./circle": [
+    {
+      "id": "./node_modules/d3-ease/src/circle.js",
+      "name": "./node_modules/d3-ease/src/circle.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./cubic": [
+    {
+      "id": "./node_modules/d3-ease/src/cubic.js",
+      "name": "./node_modules/d3-ease/src/cubic.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./elastic": [
+    {
+      "id": "./node_modules/d3-ease/src/elastic.js",
+      "name": "./node_modules/d3-ease/src/elastic.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./exp": [
+    {
+      "id": "./node_modules/d3-ease/src/exp.js",
+      "name": "./node_modules/d3-ease/src/exp.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "d3-ease": [
+    {
+      "id": "./node_modules/d3-ease/src/index.js",
+      "name": "./node_modules/d3-ease/src/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./linear": [
+    {
+      "id": "./node_modules/d3-ease/src/linear.js",
+      "name": "./node_modules/d3-ease/src/linear.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./poly": [
+    {
+      "id": "./node_modules/d3-ease/src/poly.js",
+      "name": "./node_modules/d3-ease/src/poly.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./quad": [
+    {
+      "id": "./node_modules/d3-ease/src/quad.js",
+      "name": "./node_modules/d3-ease/src/quad.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./sin": [
+    {
+      "id": "./node_modules/d3-ease/src/sin.js",
+      "name": "./node_modules/d3-ease/src/sin.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./array": [
+    {
+      "id": "./node_modules/d3-interpolate/src/array.js",
+      "name": "./node_modules/d3-interpolate/src/array.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./basis": [
+    {
+      "id": "./node_modules/d3-interpolate/src/basis.js",
+      "name": "./node_modules/d3-interpolate/src/basis.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./basisClosed": [
+    {
+      "id": "./node_modules/d3-interpolate/src/basisClosed.js",
+      "name": "./node_modules/d3-interpolate/src/basisClosed.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./constant": [
+    {
+      "id": "./node_modules/d3-interpolate/src/constant.js",
+      "name": "./node_modules/d3-interpolate/src/constant.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./date": [
+    {
+      "id": "./node_modules/d3-interpolate/src/date.js",
+      "name": "./node_modules/d3-interpolate/src/date.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./discrete": [
+    {
+      "id": "./node_modules/d3-interpolate/src/discrete.js",
+      "name": "./node_modules/d3-interpolate/src/discrete.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./hcl": [
+    {
+      "id": "./node_modules/d3-interpolate/src/hcl.js",
+      "name": "./node_modules/d3-interpolate/src/hcl.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./hsl": [
+    {
+      "id": "./node_modules/d3-interpolate/src/hsl.js",
+      "name": "./node_modules/d3-interpolate/src/hsl.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./hue": [
+    {
+      "id": "./node_modules/d3-interpolate/src/hue.js",
+      "name": "./node_modules/d3-interpolate/src/hue.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "d3-interpolate": [
+    {
+      "id": "./node_modules/d3-interpolate/src/index.js",
+      "name": "./node_modules/d3-interpolate/src/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./number": [
+    {
+      "id": "./node_modules/d3-interpolate/src/number.js",
+      "name": "./node_modules/d3-interpolate/src/number.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./object": [
+    {
+      "id": "./node_modules/d3-interpolate/src/object.js",
+      "name": "./node_modules/d3-interpolate/src/object.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./piecewise": [
+    {
+      "id": "./node_modules/d3-interpolate/src/piecewise.js",
+      "name": "./node_modules/d3-interpolate/src/piecewise.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./quantize": [
+    {
+      "id": "./node_modules/d3-interpolate/src/quantize.js",
+      "name": "./node_modules/d3-interpolate/src/quantize.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./rgb": [
+    {
+      "id": "./node_modules/d3-interpolate/src/rgb.js",
+      "name": "./node_modules/d3-interpolate/src/rgb.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./round": [
+    {
+      "id": "./node_modules/d3-interpolate/src/round.js",
+      "name": "./node_modules/d3-interpolate/src/round.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./string": [
+    {
+      "id": "./node_modules/d3-interpolate/src/string.js",
+      "name": "./node_modules/d3-interpolate/src/string.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./decompose": [
+    {
+      "id": "./node_modules/d3-interpolate/src/transform/decompose.js",
+      "name": "./node_modules/d3-interpolate/src/transform/decompose.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./transform/index": [
+    {
+      "id": "./node_modules/d3-interpolate/src/transform/index.js",
+      "name": "./node_modules/d3-interpolate/src/transform/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./parse": [
+    {
+      "id": "./node_modules/d3-interpolate/src/transform/parse.js",
+      "name": "./node_modules/d3-interpolate/src/transform/parse.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./value": [
+    {
+      "id": "./node_modules/d3-interpolate/src/value.js",
+      "name": "./node_modules/d3-interpolate/src/value.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./zoom": [
+    {
+      "id": "./node_modules/d3-interpolate/src/zoom.js",
+      "name": "./node_modules/d3-interpolate/src/zoom.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "d3-timer": [
+    {
+      "id": "./node_modules/d3-timer/src/index.js",
+      "name": "./node_modules/d3-timer/src/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./interval": [
+    {
+      "id": "./node_modules/d3-timer/src/interval.js",
+      "name": "./node_modules/d3-timer/src/interval.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./timeout": [
+    {
+      "id": "./node_modules/d3-timer/src/timeout.js",
+      "name": "./node_modules/d3-timer/src/timeout.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./timer": [
+    {
+      "id": "./node_modules/d3-timer/src/timer.js",
+      "name": "./node_modules/d3-timer/src/timer.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
     }
   ],
   "define-properties": [
     {
       "id": "./node_modules/define-properties/index.js",
       "name": "./node_modules/define-properties/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/define-properties/index.js",
+      "name": "./node_modules/define-properties/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
+    }
+  ],
+  "exenv": [
+    {
+      "id": "./node_modules/exenv/index.js",
+      "name": "./node_modules/exenv/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
@@ -515,12 +595,38 @@
       "name": "./node_modules/object.assign/implementation.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/function-bind/implementation.js",
+      "name": "./node_modules/function-bind/implementation.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
+    },
+    {
+      "id": "./node_modules/object.assign/implementation.js",
+      "name": "./node_modules/object.assign/implementation.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "function-bind": [
     {
       "id": "./node_modules/function-bind/index.js",
       "name": "./node_modules/function-bind/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/function-bind/index.js",
+      "name": "./node_modules/function-bind/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
+    }
+  ],
+  "get-browser-rtc": [
+    {
+      "id": "./node_modules/get-browser-rtc/index.js",
+      "name": "./node_modules/get-browser-rtc/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
@@ -531,6 +637,12 @@
       "name": "./node_modules/has-symbols/shams.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/has-symbols/shams.js",
+      "name": "./node_modules/has-symbols/shams.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "has": [
@@ -539,6 +651,12 @@
       "name": "./node_modules/has/src/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/has/src/index.js",
+      "name": "./node_modules/has/src/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "hoist-non-react-statics": [
@@ -547,20 +665,364 @@
       "name": "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
-    }
-  ],
-  "is-buffer": [
-    {
-      "id": "./node_modules/is-buffer/index.js",
-      "name": "./node_modules/is-buffer/index.js",
-      "file": "static/chunks/1.js",
-      "publicPath": "static/chunks/1.js"
     },
     {
-      "id": "./node_modules/is-buffer/index.js",
-      "name": "./node_modules/is-buffer/index.js",
+      "id": "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js",
+      "name": "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js",
       "file": "static/chunks/2.js",
       "publicPath": "static/chunks/2.js"
+    }
+  ],
+  "./formats": [
+    {
+      "id": "./node_modules/mrz/src/formats.js",
+      "name": "./node_modules/mrz/src/formats.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./generated/states": [
+    {
+      "id": "./node_modules/mrz/src/generated/states.js",
+      "name": "./node_modules/mrz/src/generated/states.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "mrz": [
+    {
+      "id": "./node_modules/mrz/src/index.js",
+      "name": "./node_modules/mrz/src/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./checkLines": [
+    {
+      "id": "./node_modules/mrz/src/parse/checkLines.js",
+      "name": "./node_modules/mrz/src/parse/checkLines.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./createFieldParser": [
+    {
+      "id": "./node_modules/mrz/src/parse/createFieldParser.js",
+      "name": "./node_modules/mrz/src/parse/createFieldParser.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./fieldTemplates": [
+    {
+      "id": "./node_modules/mrz/src/parse/fieldTemplates.js",
+      "name": "./node_modules/mrz/src/parse/fieldTemplates.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./frenchNationalId": [
+    {
+      "id": "./node_modules/mrz/src/parse/frenchNationalId.js",
+      "name": "./node_modules/mrz/src/parse/frenchNationalId.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./frenchNationalIdFields": [
+    {
+      "id": "./node_modules/mrz/src/parse/frenchNationalIdFields.js",
+      "name": "./node_modules/mrz/src/parse/frenchNationalIdFields.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./getResult": [
+    {
+      "id": "./node_modules/mrz/src/parse/getResult.js",
+      "name": "./node_modules/mrz/src/parse/getResult.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./parse/parse": [
+    {
+      "id": "./node_modules/mrz/src/parse/parse.js",
+      "name": "./node_modules/mrz/src/parse/parse.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./parsers": [
+    {
+      "id": "./node_modules/mrz/src/parse/parsers.js",
+      "name": "./node_modules/mrz/src/parse/parsers.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./swissDrivingLicense": [
+    {
+      "id": "./node_modules/mrz/src/parse/swissDrivingLicense.js",
+      "name": "./node_modules/mrz/src/parse/swissDrivingLicense.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./swissDrivingLicenseFields": [
+    {
+      "id": "./node_modules/mrz/src/parse/swissDrivingLicenseFields.js",
+      "name": "./node_modules/mrz/src/parse/swissDrivingLicenseFields.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./td1": [
+    {
+      "id": "./node_modules/mrz/src/parse/td1.js",
+      "name": "./node_modules/mrz/src/parse/td1.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./td1Fields": [
+    {
+      "id": "./node_modules/mrz/src/parse/td1Fields.js",
+      "name": "./node_modules/mrz/src/parse/td1Fields.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./td2": [
+    {
+      "id": "./node_modules/mrz/src/parse/td2.js",
+      "name": "./node_modules/mrz/src/parse/td2.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./td2Fields": [
+    {
+      "id": "./node_modules/mrz/src/parse/td2Fields.js",
+      "name": "./node_modules/mrz/src/parse/td2Fields.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./td3": [
+    {
+      "id": "./node_modules/mrz/src/parse/td3.js",
+      "name": "./node_modules/mrz/src/parse/td3.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./td3Fields": [
+    {
+      "id": "./node_modules/mrz/src/parse/td3Fields.js",
+      "name": "./node_modules/mrz/src/parse/td3Fields.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./check": [
+    {
+      "id": "./node_modules/mrz/src/parsers/check.js",
+      "name": "./node_modules/mrz/src/parsers/check.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./cleanText": [
+    {
+      "id": "./node_modules/mrz/src/parsers/cleanText.js",
+      "name": "./node_modules/mrz/src/parsers/cleanText.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseAlpha": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseAlpha.js",
+      "name": "./node_modules/mrz/src/parsers/parseAlpha.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseCompositeCheckDigit": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseCompositeCheckDigit.js",
+      "name": "./node_modules/mrz/src/parsers/parseCompositeCheckDigit.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseDate": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseDate.js",
+      "name": "./node_modules/mrz/src/parsers/parseDate.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseDateCheckDigit": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseDateCheckDigit.js",
+      "name": "./node_modules/mrz/src/parsers/parseDateCheckDigit.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseDocumentCodeId": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseDocumentCodeId.js",
+      "name": "./node_modules/mrz/src/parsers/parseDocumentCodeId.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseDocumentCodePassport": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseDocumentCodePassport.js",
+      "name": "./node_modules/mrz/src/parsers/parseDocumentCodePassport.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseDocumentNumber": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseDocumentNumber.js",
+      "name": "./node_modules/mrz/src/parsers/parseDocumentNumber.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseDocumentNumberCheckDigit": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseDocumentNumberCheckDigit.js",
+      "name": "./node_modules/mrz/src/parsers/parseDocumentNumberCheckDigit.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseDocumentNumberOptional": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseDocumentNumberOptional.js",
+      "name": "./node_modules/mrz/src/parsers/parseDocumentNumberOptional.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseFirstName": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseFirstName.js",
+      "name": "./node_modules/mrz/src/parsers/parseFirstName.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseLastName": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseLastName.js",
+      "name": "./node_modules/mrz/src/parsers/parseLastName.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseNumber": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseNumber.js",
+      "name": "./node_modules/mrz/src/parsers/parseNumber.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseOptional": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseOptional.js",
+      "name": "./node_modules/mrz/src/parsers/parseOptional.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parsePersonalNumber": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parsePersonalNumber.js",
+      "name": "./node_modules/mrz/src/parsers/parsePersonalNumber.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parsePersonalNumberCheckDigit": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parsePersonalNumberCheckDigit.js",
+      "name": "./node_modules/mrz/src/parsers/parsePersonalNumberCheckDigit.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseSex": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseSex.js",
+      "name": "./node_modules/mrz/src/parsers/parseSex.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/parseState": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseState.js",
+      "name": "./node_modules/mrz/src/parsers/parseState.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./parseText": [
+    {
+      "id": "./node_modules/mrz/src/parsers/parseText.js",
+      "name": "./node_modules/mrz/src/parsers/parseText.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/swissDrivingLicense/checkSeparator": [
+    {
+      "id": "./node_modules/mrz/src/parsers/swissDrivingLicense/checkSeparator.js",
+      "name": "./node_modules/mrz/src/parsers/swissDrivingLicense/checkSeparator.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/swissDrivingLicense/parseDocumentCode": [
+    {
+      "id": "./node_modules/mrz/src/parsers/swissDrivingLicense/parseDocumentCode.js",
+      "name": "./node_modules/mrz/src/parsers/swissDrivingLicense/parseDocumentCode.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/swissDrivingLicense/parseDocumentNumber": [
+    {
+      "id": "./node_modules/mrz/src/parsers/swissDrivingLicense/parseDocumentNumber.js",
+      "name": "./node_modules/mrz/src/parsers/swissDrivingLicense/parseDocumentNumber.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/swissDrivingLicense/parseIssuingState": [
+    {
+      "id": "./node_modules/mrz/src/parsers/swissDrivingLicense/parseIssuingState.js",
+      "name": "./node_modules/mrz/src/parsers/swissDrivingLicense/parseIssuingState.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "../parsers/swissDrivingLicense/parseLanguageCode": [
+    {
+      "id": "./node_modules/mrz/src/parsers/swissDrivingLicense/parseLanguageCode.js",
+      "name": "./node_modules/mrz/src/parsers/swissDrivingLicense/parseLanguageCode.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
     }
   ],
   "next-routes": [
@@ -569,6 +1031,12 @@
       "name": "./node_modules/next-routes/dist/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next-routes/dist/index.js",
+      "name": "./node_modules/next-routes/dist/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "../lib/EventEmitter": [
@@ -577,6 +1045,12 @@
       "name": "./node_modules/next/dist/lib/EventEmitter.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/dist/lib/EventEmitter.js",
+      "name": "./node_modules/next/dist/lib/EventEmitter.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./dist/lib/link": [
@@ -585,6 +1059,12 @@
       "name": "./node_modules/next/dist/lib/link.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/dist/lib/link.js",
+      "name": "./node_modules/next/dist/lib/link.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "../p-queue": [
@@ -593,6 +1073,12 @@
       "name": "./node_modules/next/dist/lib/p-queue.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/dist/lib/p-queue.js",
+      "name": "./node_modules/next/dist/lib/p-queue.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "../lib/router": [
@@ -601,6 +1087,12 @@
       "name": "./node_modules/next/dist/lib/router/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/dist/lib/router/index.js",
+      "name": "./node_modules/next/dist/lib/router/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./router": [
@@ -609,6 +1101,12 @@
       "name": "./node_modules/next/dist/lib/router/router.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/dist/lib/router/router.js",
+      "name": "./node_modules/next/dist/lib/router/router.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./with-router": [
@@ -617,6 +1115,12 @@
       "name": "./node_modules/next/dist/lib/router/with-router.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/dist/lib/router/with-router.js",
+      "name": "./node_modules/next/dist/lib/router/with-router.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "../shallow-equals": [
@@ -625,6 +1129,12 @@
       "name": "./node_modules/next/dist/lib/shallow-equals.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/dist/lib/shallow-equals.js",
+      "name": "./node_modules/next/dist/lib/shallow-equals.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "next/link": [
@@ -633,6 +1143,12 @@
       "name": "./node_modules/next/link.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/link.js",
+      "name": "./node_modules/next/link.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "path-to-regexp": [
@@ -641,6 +1157,12 @@
       "name": "./node_modules/next/node_modules/path-to-regexp/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/node_modules/path-to-regexp/index.js",
+      "name": "./node_modules/next/node_modules/path-to-regexp/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "next/router": [
@@ -649,12 +1171,82 @@
       "name": "./node_modules/next/router.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/next/router.js",
+      "name": "./node_modules/next/router.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
-  "punycode": [
+  "./all-transitions": [
     {
-      "id": "./node_modules/node-libs-browser/node_modules/punycode/punycode.js",
-      "name": "./node_modules/node-libs-browser/node_modules/punycode/punycode.js",
+      "id": "./node_modules/nuka-carousel/es/all-transitions.js",
+      "name": "./node_modules/nuka-carousel/es/all-transitions.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./announce-slide": [
+    {
+      "id": "./node_modules/nuka-carousel/es/announce-slide.js",
+      "name": "./node_modules/nuka-carousel/es/announce-slide.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./default-controls": [
+    {
+      "id": "./node_modules/nuka-carousel/es/default-controls.js",
+      "name": "./node_modules/nuka-carousel/es/default-controls.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "nuka-carousel": [
+    {
+      "id": "./node_modules/nuka-carousel/es/index.js",
+      "name": "./node_modules/nuka-carousel/es/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./transitions/fade-transition": [
+    {
+      "id": "./node_modules/nuka-carousel/es/transitions/fade-transition.js",
+      "name": "./node_modules/nuka-carousel/es/transitions/fade-transition.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./transitions/scroll-transition": [
+    {
+      "id": "./node_modules/nuka-carousel/es/transitions/scroll-transition.js",
+      "name": "./node_modules/nuka-carousel/es/transitions/scroll-transition.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./utilities/bootstrapping-utilities": [
+    {
+      "id": "./node_modules/nuka-carousel/es/utilities/bootstrapping-utilities.js",
+      "name": "./node_modules/nuka-carousel/es/utilities/bootstrapping-utilities.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./utilities/style-utilities": [
+    {
+      "id": "./node_modules/nuka-carousel/es/utilities/style-utilities.js",
+      "name": "./node_modules/nuka-carousel/es/utilities/style-utilities.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./utilities/utilities": [
+    {
+      "id": "./node_modules/nuka-carousel/es/utilities/utilities.js",
+      "name": "./node_modules/nuka-carousel/es/utilities/utilities.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
@@ -665,6 +1257,12 @@
       "name": "./node_modules/object-keys/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/object-keys/index.js",
+      "name": "./node_modules/object-keys/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./isArguments": [
@@ -673,6 +1271,12 @@
       "name": "./node_modules/object-keys/isArguments.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/object-keys/isArguments.js",
+      "name": "./node_modules/object-keys/isArguments.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "object.assign": [
@@ -681,6 +1285,12 @@
       "name": "./node_modules/object.assign/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/object.assign/index.js",
+      "name": "./node_modules/object.assign/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./polyfill": [
@@ -689,12 +1299,32 @@
       "name": "./node_modules/object.assign/polyfill.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/object.assign/polyfill.js",
+      "name": "./node_modules/object.assign/polyfill.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "./shim": [
     {
       "id": "./node_modules/object.assign/shim.js",
       "name": "./node_modules/object.assign/shim.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/object.assign/shim.js",
+      "name": "./node_modules/object.assign/shim.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
+    }
+  ],
+  "otplib/otplib-browser": [
+    {
+      "id": "./node_modules/otplib/otplib-browser.js",
+      "name": "./node_modules/otplib/otplib-browser.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
@@ -705,6 +1335,12 @@
       "name": "./node_modules/prop-types-exact/build/helpers/isPlainObject.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/prop-types-exact/build/helpers/isPlainObject.js",
+      "name": "./node_modules/prop-types-exact/build/helpers/isPlainObject.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "prop-types-exact": [
@@ -713,44 +1349,178 @@
       "name": "./node_modules/prop-types-exact/build/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./node_modules/prop-types-exact/build/index.js",
+      "name": "./node_modules/prop-types-exact/build/index.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
-  "./decode": [
+  "pusher-js": [
     {
-      "id": "./node_modules/querystring-es3/decode.js",
-      "name": "./node_modules/querystring-es3/decode.js",
+      "id": "./node_modules/pusher-js/dist/web/pusher.js",
+      "name": "./node_modules/pusher-js/dist/web/pusher.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
   ],
-  "./encode": [
+  "react-image-crop": [
     {
-      "id": "./node_modules/querystring-es3/encode.js",
-      "name": "./node_modules/querystring-es3/encode.js",
+      "id": "./node_modules/react-image-crop/dist/ReactCrop.js",
+      "name": "./node_modules/react-image-crop/dist/ReactCrop.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
   ],
-  "querystring": [
+  "./Animate": [
     {
-      "id": "./node_modules/querystring-es3/index.js",
-      "name": "./node_modules/querystring-es3/index.js",
+      "id": "./node_modules/react-move/Animate/Animate.js",
+      "name": "./node_modules/react-move/Animate/Animate.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
   ],
-  "url": [
+  "react-move/Animate": [
     {
-      "id": "./node_modules/url/url.js",
-      "name": "./node_modules/url/url.js",
+      "id": "./node_modules/react-move/Animate/index.js",
+      "name": "./node_modules/react-move/Animate/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
   ],
-  "./util": [
+  "../core/transition": [
     {
-      "id": "./node_modules/url/util.js",
-      "name": "./node_modules/url/util.js",
+      "id": "./node_modules/react-move/core/transition/index.js",
+      "name": "./node_modules/react-move/core/transition/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./schedule": [
+    {
+      "id": "./node_modules/react-move/core/transition/schedule.js",
+      "name": "./node_modules/react-move/core/transition/schedule.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./stop": [
+    {
+      "id": "./node_modules/react-move/core/transition/stop.js",
+      "name": "./node_modules/react-move/core/transition/stop.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./transition": [
+    {
+      "id": "./node_modules/react-move/core/transition/transition.js",
+      "name": "./node_modules/react-move/core/transition/transition.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./tween": [
+    {
+      "id": "./node_modules/react-move/core/transition/tween.js",
+      "name": "./node_modules/react-move/core/transition/tween.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "react-otp-input": [
+    {
+      "id": "./node_modules/react-otp-input/lib/index.js",
+      "name": "./node_modules/react-otp-input/lib/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "recordrtc": [
+    {
+      "id": "./node_modules/recordrtc/RecordRTC.js",
+      "name": "./node_modules/recordrtc/RecordRTC.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "simple-peer": [
+    {
+      "id": "./node_modules/simple-peer/index.js",
+      "name": "./node_modules/simple-peer/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "debug": [
+    {
+      "id": "./node_modules/simple-peer/node_modules/debug/src/browser.js",
+      "name": "./node_modules/simple-peer/node_modules/debug/src/browser.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./common": [
+    {
+      "id": "./node_modules/simple-peer/node_modules/debug/src/common.js",
+      "name": "./node_modules/simple-peer/node_modules/debug/src/common.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "ms": [
+    {
+      "id": "./node_modules/simple-peer/node_modules/ms/index.js",
+      "name": "./node_modules/simple-peer/node_modules/ms/index.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "!style-loader!css-loader!react-image-crop/dist/ReactCrop.css": [
+    {
+      "id": "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/react-image-crop/dist/ReactCrop.css",
+      "name": "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/react-image-crop/dist/ReactCrop.css",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "!../../style-loader/lib/addStyles.js": [
+    {
+      "id": "./node_modules/style-loader/lib/addStyles.js",
+      "name": "./node_modules/style-loader/lib/addStyles.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "./urls": [
+    {
+      "id": "./node_modules/style-loader/lib/urls.js",
+      "name": "./node_modules/style-loader/lib/urls.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "sweetalert2": [
+    {
+      "id": "./node_modules/sweetalert2/dist/sweetalert2.all.js",
+      "name": "./node_modules/sweetalert2/dist/sweetalert2.all.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "tesseract.js/dist/tesseract": [
+    {
+      "id": "./node_modules/tesseract.js/dist/tesseract.js",
+      "name": "./node_modules/tesseract.js/dist/tesseract.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
+    }
+  ],
+  "tesseract.ts": [
+    {
+      "id": "./node_modules/tesseract.ts/dist/index.js",
+      "name": "./node_modules/tesseract.ts/dist/index.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
     }
@@ -761,6 +1531,12 @@
       "name": "./routes.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
+    },
+    {
+      "id": "./routes.js",
+      "name": "./routes.js",
+      "file": "static/chunks/2.js",
+      "publicPath": "static/chunks/2.js"
     }
   ],
   "../utils/CookieUtils": [
@@ -769,14 +1545,20 @@
       "name": "./utils/CookieUtils.js",
       "file": "static/chunks/1.js",
       "publicPath": "static/chunks/1.js"
-    }
-  ],
-  "../components/UserData": [
+    },
     {
-      "id": "./components/UserData.js",
-      "name": "./components/UserData.js",
+      "id": "./utils/CookieUtils.js",
+      "name": "./utils/CookieUtils.js",
       "file": "static/chunks/2.js",
       "publicPath": "static/chunks/2.js"
+    }
+  ],
+  "../webrtc/MediaHandler": [
+    {
+      "id": "./webrtc/MediaHandler.js",
+      "name": "./webrtc/MediaHandler.js",
+      "file": "static/chunks/1.js",
+      "publicPath": "static/chunks/1.js"
     }
   ]
 }
