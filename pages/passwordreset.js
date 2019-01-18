@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import { Link, Router } from "../routes";
-import {
-  Button,
-  Message,
-  Icon,
-  Segment,
-  Form,
-  Header
-} from "semantic-ui-react";
+import { Button, Message, Segment, Form, Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import swal from "sweetalert2";
@@ -17,14 +10,11 @@ class PwReset extends Component {
     super();
     this.state = {
       errorMessage: "",
-      username: "",
-      email: ""
     };
-    this.pwReset = e => this._pwReset();
   }
 
   //send username and email to server
-  async _pwReset() {
+  pwReset = async () => {
     const formData = new FormData();
     formData.append("username", this.state.username);
     formData.append("email", this.state.email);
@@ -39,7 +29,7 @@ class PwReset extends Component {
       );
       if (res.data.success) {
         //success message with swal
-        //function in swal to resend the email 
+        //function in swal to resend the email
         swal({
           title: "Success!",
           text:
@@ -64,7 +54,7 @@ class PwReset extends Component {
     }
 
     this.setState({ loading: false });
-  }
+  };
 
   //resend email to user
   resendEmail = async () => {
@@ -131,7 +121,6 @@ class PwReset extends Component {
                 />
               </Form.Field>
               <Form.Field>
-                {/* <label>Password</label> */}
                 <Form.Input
                   icon="mail"
                   iconPosition="left"

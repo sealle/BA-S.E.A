@@ -8,9 +8,9 @@ import {
   Icon,
   Segment,
   Form,
-  Message
+  Message,
+  Header
 } from "semantic-ui-react";
-import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import { setCookie } from "../utils/CookieUtils";
@@ -22,11 +22,9 @@ class Assets extends Component {
   constructor() {
     super();
     this.state = {
-      moreThanTwo: "",
       loading: false,
       checkedAssets1: false,
       checkedAssets2: false,
-      countMembers: "",
       terms: false,
       pay: false,
       checked3: false,
@@ -34,9 +32,9 @@ class Assets extends Component {
       checked5: false,
       checked6: false,
       error: false,
-      value: "",
+      etherValue: "",
       metaMask: true,
-      waiting: false
+      waitingForTransactionSuccess: false
     };
   }
 
@@ -134,12 +132,16 @@ class Assets extends Component {
     //get eth accounts
     let accounts = await web3.eth.getAccounts();
 
-    if (this.state.value > 0) {
-      this.setState({ loading: true, waiting: true, error: false });
-      //execute payment to admin address if value > 0
+    if (this.state.etherValue > 0) {
+      this.setState({
+        loading: true,
+        waitingForTransactionSuccess: true,
+        error: false
+      });
+      //execute payment to admin address if etherValue > 0
       await contract.methods.payKYC().send({
         from: accounts[0],
-        value: web3.utils.toWei(this.state.value, "ether")
+        value: web3.utils.toWei(this.state.etherValue, "ether")
       });
       swal({
         title: "Thank You!",
@@ -157,10 +159,10 @@ class Assets extends Component {
           }
         }
       });
-    } else if (this.state.value === "") {
+    } else if (this.state.etherValue === "") {
       this.setState({ error: true });
     } else {
-      //if value = 0 redirect user to video chat
+      //if etherValue = 0 redirect user to video chat
       swal({
         title: "Thank You!",
         text: "You will be redirected to the video identification",
@@ -178,7 +180,7 @@ class Assets extends Component {
         }
       });
     }
-    this.setState({ loading: false, waiting: false });
+    this.setState({ loading: false, waitingForTransactionSuccess: false });
   };
 
   render() {
@@ -826,10 +828,10 @@ class Assets extends Component {
                 {this.state.metaMask == false ? (
                   <Message error content="Please login to Metamask" />
                 ) : null}
-                {this.state.waiting == true ? (
+                {this.state.waitingForTransactionSuccess == true ? (
                   <Message
                     warning
-                    content="Waiting on transaction success..."
+                    content="waiting for transaction success..."
                   />
                 ) : null}
                 <Form onSubmit={this.submit} error={this.state.error}>
@@ -838,13 +840,13 @@ class Assets extends Component {
                       icon="ethereum"
                       iconPosition="left"
                       placeholder="Ether"
-                      id="value"
+                      id="etherValue"
                       type="number"
                       min="0"
                       step="0.0001"
-                      value={this.state.value}
+                      value={this.state.etherValue}
                       onChange={event =>
-                        this.setState({ value: event.target.value })
+                        this.setState({ etherValue: event.target.value })
                       }
                     />
                   </Form.Field>

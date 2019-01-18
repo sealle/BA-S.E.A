@@ -7,7 +7,6 @@ import { setCookie } from "../utils/CookieUtils";
 import OtpInput from "react-otp-input";
 import RecordRTC from "recordrtc";
 const StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
-import "!style-loader!css-loader!react-image-crop/dist/ReactCrop.css";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
 import {
@@ -34,36 +33,13 @@ let firstMember;
 export default class VideoChat extends Component {
   constructor() {
     super();
-    this.imageCropPreviewCanvasRef = React.createRef();
     this.state = {
       hasMedia: false,
       userName: "",
-      otherUserId: null,
-      role: 1,
-      isNotCalled: "true",
       message: "",
-      waitingMessage: "",
-      loading: false,
-      countMembers: "",
-      isEdited: "",
-      activeItem: "videochat",
-      ethAddresses: [],
-      ethAddressArray: [],
-      message: "",
-      sent: false,
-      idIsValid: "",
-      users: [],
       isConnected: false,
       disableButton: true,
-      recordAudio: null,
       isRecording: "",
-      crop: {
-        x: 10,
-        y: 10,
-        width: 80,
-        height: 80,
-      },
-      modalOpen: false
     };
 
     this.currentUser = {
@@ -84,7 +60,6 @@ export default class VideoChat extends Component {
       );
       this.setState({
         userName: response.data.currentUser,
-        role: response.data.role
       });
       this.currentUser.id = this.state.userName;
       xsrfToken = response.data.token;
@@ -121,7 +96,7 @@ export default class VideoChat extends Component {
   //setting up pusher API
   setupPusher = () => {
     //log pusher to console
-    // Pusher.logToConsole = true;
+    //Pusher.logToConsole = true;
 
     //create new Pusher
     pusher = new Pusher(APP_KEY, {
@@ -173,11 +148,9 @@ export default class VideoChat extends Component {
       let peer = this.peers[signal.userId];
       // if peer does not already exist, we got an incoming call
       if (peer === undefined) {
-        // this.setState({ otherUserId: signal.userId });
         //start peer where initiator = false
         peer = this.startPeer(signal.userId, false);
         this.setState({ isConnected: true });
-        //callee //if offer is sent, stop!
       }
       peer.signal(signal.data);
     });
@@ -244,7 +217,8 @@ export default class VideoChat extends Component {
       trickle: false
     });
 
-    peer._debug = console.log
+    //log simple-peer to console
+    // peer._debug = console.log
 
     //sends offer signal to peer
     //connection established when peer sends answer
@@ -364,13 +338,6 @@ export default class VideoChat extends Component {
                   }}
                 />
               </Container>
-              {this.state.sent ? (
-                <Message
-                  success
-                  header="Success"
-                  content={this.state.message}
-                />
-              ) : null}
               <br />
               <Container style={{ width: "71%", marginBottom: "13px" }}>
                 <OtpInput
@@ -379,7 +346,6 @@ export default class VideoChat extends Component {
                   onChange={otp => {
                     this.setState({ otp: otp, otpEntered: true });
                   }}
-                  // onChange={otp => console.log(otp)}
                   numInputs={6}
                   separator={<span>-</span>}
                 />

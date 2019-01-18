@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { Link, Router } from "../routes";
 import {
   Button,
-  Checkbox,
-  Container,
-  Divider,
   Icon,
   Segment,
   Form,
@@ -22,11 +19,7 @@ class PwChange extends Component {
     super();
     this.state = {
       errorMessage: "",
-      password: "",
-      confirmPassword: "",
-      username: ""
     };
-    // this.confirmP = e => this._confirmP();
   }
 
   //decode token in link to receive username
@@ -37,8 +30,8 @@ class PwChange extends Component {
   }
 
   //send new password to server
-  confirmP = async () => {
-    if (this.state.password == this.state.confirmPassword) {
+  confirmPassword = async () => {
+    if (this.state.password == this.state.confirmedPassword) {
       const formData = new FormData();
       formData.append("password", this.state.password);
       formData.append("username", this.state.username);
@@ -106,7 +99,7 @@ class PwChange extends Component {
                 content="The password must contain at least 1 upper case letter, 1 lower case letter, 1 digit, 1 special character and minimum eight in length!"
                 hideOnScroll
               />
-            <Form onSubmit={this.confirmP} error={this.state.errorMessage}>
+            <Form onSubmit={this.confirmPassword} error={this.state.errorMessage}>
               <Form.Field>
                 <Form.Input
                   icon="lock"
@@ -123,17 +116,16 @@ class PwChange extends Component {
                 />
               </Form.Field>
               <Form.Field>
-                {/* <label>Password</label> */}
                 <Form.Input
                 width="sixteen"
                   icon="lock"
                   iconPosition="left"
                   type="password"
                   placeholder="Confirm Password"
-                  name="confirmPassword"
-                  value={this.state.confirmPassword}
+                  name="confirmedPassword"
+                  value={this.state.confirmedPassword}
                   onChange={event =>
-                    this.setState({ confirmPassword: event.target.value })
+                    this.setState({ confirmedPassword: event.target.value })
                   }
                 />
               </Form.Field>

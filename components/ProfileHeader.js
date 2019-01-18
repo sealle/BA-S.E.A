@@ -1,19 +1,16 @@
 import React, { Component } from "react";
-import { Menu, Icon, Container, Header, Segment } from "semantic-ui-react";
+import { Menu, Icon } from "semantic-ui-react";
 import { setCookie } from "../utils/CookieUtils";
 import { Router, Link } from "../routes";
 import axios from "axios";
 import Layout from "./Layout";
 
 export default class ProfileHeader extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      isAdmin: false,
       currentUser: "",
-      // activeItem: "videochat"
     };
-    // this.logout = e => this._logout();
   }
 
   //get current user to display 
@@ -40,7 +37,6 @@ export default class ProfileHeader extends Component {
   // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-    // const { activeItem } = this.state;
     return (
       <div>
         <Menu pointing>

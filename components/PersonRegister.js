@@ -15,8 +15,8 @@ const idTypeOptions = [
 ];
 
 class PersonRegister extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       errorMessage: "",
       successMessage: "",
@@ -28,8 +28,6 @@ class PersonRegister extends Component {
       prev2: "",
       showResults: false
     };
-
-    // this.handleSubmit = e => this._handleSubmit();
   }
 
   //handle form submit and send data to server
@@ -89,7 +87,7 @@ class PersonRegister extends Component {
 
   //resend confirmation email function
   resendEmail = async () => {
-    console.log(this.state.email, this.state.username); //TODO: why undefined?
+    console.log(this.state.email, this.state.username);
     let email = this.state.email;
     let username = this.state.username;
     let response = await axios.post(
@@ -331,7 +329,6 @@ class PersonRegister extends Component {
                 options={idTypeOptions}
                 name="idType"
                 placeholder="Choose a ID Type"
-                // value={this.state.idType}
                 onChange={(event, { value }) => {
                   this.setState({ idType: value });
                 }}

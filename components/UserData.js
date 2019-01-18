@@ -33,7 +33,7 @@ export default class UserData extends Component {
         this.setState({
           users: response.data.userData,
           beneficialOwners: response.data.beneficialOwners,
-          isComp: response.data.isComp          
+          isComp: response.data.isComp
         });
       }
     } catch (err) {
@@ -495,9 +495,25 @@ export default class UserData extends Component {
                         </Accordion.Content>
                       </Accordion>
                     ) : null}
-                    <br />
+                    <br/>
 
-                    <p style={{ fontWeight: "bold" }}>Identity Card</p>
+                    <p style={{ fontWeight: "bold", display: "inline-block", paddingRight: "5px"}}>Identity Card</p>
+
+                    <Popup
+                      trigger={<Icon name="question circle outline" />}
+                      content={
+                        <div>
+                          <p>
+                            Note: If you receive a new identity card, you will
+                            need to re-register and redo the identification
+                            process!
+                            Request a re-registration below.
+                          </p>
+                        </div>
+                      }
+                      hideOnScroll
+                    />
+
                     <Form.Group widths="equal" style={{ margin: "0px auto" }}>
                       <a
                         href={`../static/${this.state.users[0].ID1}`}
@@ -796,6 +812,9 @@ export default class UserData extends Component {
                 </Container>
               </Form>
             ) : null}
+            <br/>
+            {/* Button to re-register */}
+            <p style={{fontWeight: "bold", textAlign: "center"}}>Request re-registration!</p>
           </Container>
         </Segment>
       </div>

@@ -7,15 +7,12 @@ import axios from "axios";
 import { setCookie } from "../utils/CookieUtils";
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      password: "",
-      username: "",
       errorMessage: "",
       loading: false
     };
-    // this.login = e => this._login();
   }
 
   //send email and pasword to server
@@ -87,7 +84,6 @@ class Login extends Component {
             <br />
             <Form onSubmit={this.login} error={this.state.errorMessage}>
               <Form.Field>
-                {/* <label> Username </label> */}
                 <Form.Input
                   icon="user"
                   iconPosition="left"
@@ -100,7 +96,6 @@ class Login extends Component {
                 />
               </Form.Field>
               <Form.Field>
-                {/* <label>Password</label> */}
                 <Form.Input
                   icon="lock"
                   iconPosition="left"

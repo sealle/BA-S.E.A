@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import { Link, Router } from "../routes";
-import { Form, Button, Message, Segment, Icon, Grid } from "semantic-ui-react";
+import { Form, Button, Message, Segment, Icon } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
 
 class Validation extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       loading: false,
       successMessage: "",
       errorMessage: ""
     };
+  }
+
+  backToLogin = () => {
+    Router.push("/login")
   }
 
   //send email and pasword to server
@@ -149,6 +153,13 @@ class Validation extends Component {
                 <Icon name="sign-in" />
               </Button>
             </Form>
+            <Button
+                  style={{ backgroundColor: "white" }}
+                  fluid
+                  onClick={this.backToLogin}
+                >
+                  <Icon name="arrow left" /> back
+                </Button>
           </Segment>
         </Layout>
       </div>

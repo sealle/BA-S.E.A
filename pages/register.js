@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Container, Header, Segment, Icon } from "semantic-ui-react";
+import { Menu, Header, Segment, Icon } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import dynamic from "next/dynamic"
 const PersonRegister = dynamic(import('../components/PersonRegister'), {

@@ -627,9 +627,17 @@ function (_Component) {
           })));
         }))) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
           style: {
-            fontWeight: "bold"
+            fontWeight: "bold",
+            display: "inline-block",
+            paddingRight: "5px"
           }
-        }, "Identity Card"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Form"].Group, {
+        }, "Identity Card"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Popup"], {
+          trigger: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Icon"], {
+            name: "question circle outline"
+          }),
+          content: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Note: If you receive a new identity card, you will need to re-register and redo the identification process!")),
+          hideOnScroll: true
+        }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Form"].Group, {
           widths: "equal",
           style: {
             margin: "0px auto"
@@ -904,7 +912,12 @@ function (_Component) {
           display: "inline-block",
           textAlign: "center"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], null, "Save"))) : null)));
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], null, "Save"))) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        style: {
+          fontWeight: "bold",
+          textAlign: "center"
+        }
+      }, "Request re-registration!"))));
     }
   }]);
 

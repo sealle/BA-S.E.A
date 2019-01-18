@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -192,12 +192,12 @@ var Login =
 function (_Component) {
   _inherits(Login, _Component);
 
-  function Login(props) {
+  function Login() {
     var _this;
 
     _classCallCheck(this, Login);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "login",
     /*#__PURE__*/
@@ -269,12 +269,9 @@ function (_Component) {
     })));
 
     _this.state = {
-      password: "",
-      username: "",
       errorMessage: "",
       loading: false
-    }; // this.login = e => this._login();
-
+    };
     return _this;
   } //send email and pasword to server
 
@@ -445,7 +442,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/

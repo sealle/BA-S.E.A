@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  Header,
-  Container,
-  Message,
-  Segment,
-} from "semantic-ui-react";
+import { Header, Container, Message, Segment } from "semantic-ui-react";
 import axios from "axios";
 import Head from "next/head";
 import web3 from "../ethereum/src/web3";
@@ -23,30 +18,6 @@ class adminPage extends Component {
     this.state = {
       metaMask: true,
       myAddress: "",
-      isVideo: true,
-      users: [],
-      usrs: [],
-      isChosen: false,
-      isPromoted: false,
-      isComp: "",
-      inEdit: false,
-      isAdmin: false,
-      hasMedia: false,
-      userName: "",
-      otherUserId: null,
-      role: "",
-      isNotCalled: "true",
-      message: "",
-      waitingMessage: "",
-      loading: false,
-      countMembers: "",
-      isEdited: "",
-      activeItem: "videochat",
-      ethAddresses: [],
-      ethAddressArray: [],
-      message: "",
-      sent: false,
-      beneficialOwners: []
     };
   }
 
@@ -58,7 +29,6 @@ class adminPage extends Component {
         else if (accounts.length == 0) this.setState({ metaMask: false });
         else this.setState({ metaMask: true, myAddress: accounts[0] });
       });
-      //listen to user data changes from server
     }, 1000);
 
     //listener for smart contract where user requests come in
@@ -123,7 +93,6 @@ class adminPage extends Component {
       `}</style>
           </Container>
         </Segment>
-        {/* </Layout> */}
       </div>
     );
   }

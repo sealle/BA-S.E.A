@@ -56996,12 +56996,12 @@ var Login =
 function (_Component) {
   _inherits(Login, _Component);
 
-  function Login(props) {
+  function Login() {
     var _this;
 
     _classCallCheck(this, Login);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "login",
     /*#__PURE__*/
@@ -57073,12 +57073,9 @@ function (_Component) {
     })));
 
     _this.state = {
-      password: "",
-      username: "",
       errorMessage: "",
       loading: false
-    }; // this.login = e => this._login();
-
+    };
     return _this;
   } //send email and pasword to server
 
@@ -57268,7 +57265,7 @@ function getCookie(cname) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/
@@ -57293,5 +57290,5 @@ module.exports = dll_34718705b6f81f095be8;
 
 /***/ })
 
-},[[4,"static/runtime/webpack.js"]]]));;
+},[[3,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=login.js.map

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link, Router } from "../routes";
 import { Form, Button, Icon, Popup, Message, Grid } from "semantic-ui-react";
-import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import swal from "sweetalert2";
@@ -16,8 +15,8 @@ const idTypeOptions = [
 ];
 
 class CompanyRegister extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       errorMessage: "",
       successMessage: "",
@@ -31,8 +30,6 @@ class CompanyRegister extends Component {
       prev2: "",
       showResults: false
     };
-
-    // this.handleSubmit = e => this._handleSubmit();
   }
 
   //handle form submit and send data to server
