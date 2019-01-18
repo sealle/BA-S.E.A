@@ -40,7 +40,7 @@
     "react-easy-crop": "^1.6.0",
     "react-helmet": "^5.2.0",
     "react-image": "^1.5.1",
-    "react-image-crop": "^6.0.11",
+    "react-image-crop": "^4.0.4",
     "react-notifications": "^1.4.3",
     "react-otp-input": "^0.2.1",
     "react-pdf": "^3.0.5",

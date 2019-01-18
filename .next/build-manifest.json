@@ -11,11 +11,19 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
+    "/clickandpay": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/admin": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/videochat": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/validate": [
+    "/login": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

@@ -1,213 +1,47 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[1],{
 
-/***/ "./components/ProfileHeader.js":
-/*!*************************************!*\
-  !*** ./components/ProfileHeader.js ***!
-  \*************************************/
+/***/ "./components/Admin.js":
+/*!*****************************!*\
+  !*** ./components/Admin.js ***!
+  \*****************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ProfileHeader; });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-jsx/style */ "./node_modules/styled-jsx/style.js");
-/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-/* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../routes */ "./routes.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _Layout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Layout */ "./components/Layout.js");
-
-
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-
-
-
-var ProfileHeader =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(ProfileHeader, _Component);
-
-  function ProfileHeader(props) {
-    var _this;
-
-    _classCallCheck(this, ProfileHeader);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProfileHeader).call(this, props));
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "logout", function () {
-      Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_4__["setCookie"])("x-access-token", "", -60 * 60);
-      _routes__WEBPACK_IMPORTED_MODULE_5__["Router"].pushRoute("/login");
-      window.location.href = "/login";
-    });
-
-    _this.state = {
-      isAdmin: false,
-      currentUser: "" // activeItem: "videochat"
-
-    }; // this.logout = e => this._logout();
-
-    return _this;
-  } //get current user to display 
-
-
-  _createClass(ProfileHeader, [{
-    key: "componentDidMount",
-    value: function () {
-      var _componentDidMount = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.prev = 0;
-                _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_6___default.a.post(window.location.origin + "/currentuser");
-
-              case 3:
-                response = _context.sent;
-
-                if (response.data.success) {
-                  this.setState({
-                    currentUser: response.data.currentUser
-                  });
-                }
-
-                _context.next = 10;
-                break;
-
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
-
-              case 10:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[0, 7]]);
-      }));
-
-      return function componentDidMount() {
-        return _componentDidMount.apply(this, arguments);
-      };
-    }() //on logout, delete cookies
-
-  }, {
-    key: "render",
-    // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-    value: function render() {
-      // const { activeItem } = this.state;
-      return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"], {
-        pointing: true
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"].Item, {
-        name: "home"
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
-        name: "home",
-        size: "small"
-      })), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"].Menu, {
-        position: "right"
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"].Item, {
-        name: "logout",
-        onClick: this.logout
-      }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"].Item, null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
-        name: "user",
-        size: "small"
-      }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", null, this.state.currentUser)))), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Layout__WEBPACK_IMPORTED_MODULE_7__["default"], null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        styleId: "3698465938",
-        css: "body{background:#e6e6e6;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9TdXNhbi9CQS1TLkUuQS9jb21wb25lbnRzL1Byb2ZpbGVIZWFkZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBMEQ2QixBQUdrQyxtQkFDckIiLCJmaWxlIjoiL1VzZXJzL1N1c2FuL0JBLVMuRS5BL2NvbXBvbmVudHMvUHJvZmlsZUhlYWRlci5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyBDb21wb25lbnQgfSBmcm9tIFwicmVhY3RcIjtcbmltcG9ydCB7IE1lbnUsIEljb24sIENvbnRhaW5lciwgSGVhZGVyLCBTZWdtZW50IH0gZnJvbSBcInNlbWFudGljLXVpLXJlYWN0XCI7XG5pbXBvcnQgeyBzZXRDb29raWUgfSBmcm9tIFwiLi4vdXRpbHMvQ29va2llVXRpbHNcIjtcbmltcG9ydCB7IFJvdXRlciwgTGluayB9IGZyb20gXCIuLi9yb3V0ZXNcIjtcbmltcG9ydCBheGlvcyBmcm9tIFwiYXhpb3NcIjtcbmltcG9ydCBMYXlvdXQgZnJvbSBcIi4vTGF5b3V0XCI7XG5cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIFByb2ZpbGVIZWFkZXIgZXh0ZW5kcyBDb21wb25lbnQge1xuICBjb25zdHJ1Y3Rvcihwcm9wcykge1xuICAgIHN1cGVyKHByb3BzKTtcbiAgICB0aGlzLnN0YXRlID0ge1xuICAgICAgaXNBZG1pbjogZmFsc2UsXG4gICAgICBjdXJyZW50VXNlcjogXCJcIixcbiAgICAgIC8vIGFjdGl2ZUl0ZW06IFwidmlkZW9jaGF0XCJcbiAgICB9O1xuICAgIC8vIHRoaXMubG9nb3V0ID0gZSA9PiB0aGlzLl9sb2dvdXQoKTtcbiAgfVxuXG4gIC8vZ2V0IGN1cnJlbnQgdXNlciB0byBkaXNwbGF5IFxuICBhc3luYyBjb21wb25lbnREaWRNb3VudCgpIHtcbiAgICB0cnkge1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBheGlvcy5wb3N0KFxuICAgICAgICB3aW5kb3cubG9jYXRpb24ub3JpZ2luICsgXCIvY3VycmVudHVzZXJcIlxuICAgICAgKTtcbiAgICAgIGlmIChyZXNwb25zZS5kYXRhLnN1Y2Nlc3MpIHtcbiAgICAgICAgdGhpcy5zZXRTdGF0ZSh7IGN1cnJlbnRVc2VyOiByZXNwb25zZS5kYXRhLmN1cnJlbnRVc2VyIH0pO1xuICAgICAgfVxuICAgIH0gY2F0Y2ggKGVycikge1xuICAgICAgY29uc29sZS5sb2coZXJyKTtcbiAgICB9XG4gIH1cblxuICAvL29uIGxvZ291dCwgZGVsZXRlIGNvb2tpZXNcbiAgbG9nb3V0ID0gKCkgPT4ge1xuICAgIHNldENvb2tpZShcIngtYWNjZXNzLXRva2VuXCIsIFwiXCIsIC02MCAqIDYwKTtcbiAgICBSb3V0ZXIucHVzaFJvdXRlKFwiL2xvZ2luXCIpO1xuICAgIHdpbmRvdy5sb2NhdGlvbi5ocmVmID0gXCIvbG9naW5cIjtcbiAgfVxuXG4gIC8vIGhhbmRsZUl0ZW1DbGljayA9IChlLCB7IG5hbWUgfSkgPT4gdGhpcy5zZXRTdGF0ZSh7IGFjdGl2ZUl0ZW06IG5hbWUgfSk7XG5cbiAgcmVuZGVyKCkge1xuICAgIC8vIGNvbnN0IHsgYWN0aXZlSXRlbSB9ID0gdGhpcy5zdGF0ZTtcbiAgICByZXR1cm4gKFxuICAgICAgPGRpdj5cbiAgICAgICAgPE1lbnUgcG9pbnRpbmc+XG4gICAgICAgICAgPE1lbnUuSXRlbSBuYW1lPVwiaG9tZVwiPlxuICAgICAgICAgICAgPEljb24gbmFtZT1cImhvbWVcIiBzaXplPVwic21hbGxcIiAvPlxuICAgICAgICAgIDwvTWVudS5JdGVtPlxuICAgICAgICAgIDxNZW51Lk1lbnUgcG9zaXRpb249XCJyaWdodFwiPlxuICAgICAgICAgICAgPE1lbnUuSXRlbSBuYW1lPVwibG9nb3V0XCIgb25DbGljaz17dGhpcy5sb2dvdXR9IC8+XG4gICAgICAgICAgICA8TWVudS5JdGVtPlxuICAgICAgICAgICAgICA8SWNvbiBuYW1lPVwidXNlclwiIHNpemU9XCJzbWFsbFwiIC8+XG4gICAgICAgICAgICAgIDxwPnt0aGlzLnN0YXRlLmN1cnJlbnRVc2VyfTwvcD5cbiAgICAgICAgICAgIDwvTWVudS5JdGVtPlxuICAgICAgICAgIDwvTWVudS5NZW51PlxuICAgICAgICA8L01lbnU+XG4gICAgICAgIDxMYXlvdXQ+XG4gICAgICAgICAgPHN0eWxlIGpzeCBnbG9iYWw+e2BcbiAgICAgICAgICAgIGJvZHkge1xuICAgICAgICAgICAgICBiYWNrZ3JvdW5kOiAjZTZlNmU2O1xuICAgICAgICAgICAgfVxuICAgICAgICAgIGB9PC9zdHlsZT5cbiAgICAgICAgPC9MYXlvdXQ+XG4gICAgICA8L2Rpdj5cbiAgICApO1xuICB9XG59XG4iXX0= */\n/*@ sourceURL=/Users/Susan/BA-S.E.A/components/ProfileHeader.js */"
-      })));
-    }
-  }]);
-
-  return ProfileHeader;
-}(react__WEBPACK_IMPORTED_MODULE_2__["Component"]);
-
-
-
-/***/ }),
-
-/***/ "./components/VideoChat.js":
-/*!*********************************!*\
-  !*** ./components/VideoChat.js ***!
-  \*********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoChat; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Admin; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_ProfileHeader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ProfileHeader */ "./components/ProfileHeader.js");
-/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.js");
-/* harmony import */ var _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../webrtc/MediaHandler */ "./webrtc/MediaHandler.js");
-/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! simple-peer */ "./node_modules/simple-peer/index.js");
-/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
-/* harmony import */ var otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! otplib/otplib-browser */ "./node_modules/otplib/otplib-browser.js");
-/* harmony import */ var otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-otp-input */ "./node_modules/react-otp-input/lib/index.js");
-/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_otp_input__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var tesseract_ts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tesseract.ts */ "./node_modules/tesseract.ts/dist/index.js");
-/* harmony import */ var tesseract_ts__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(tesseract_ts__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var recordrtc__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! recordrtc */ "./node_modules/recordrtc/RecordRTC.js");
-/* harmony import */ var recordrtc__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(recordrtc__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var nuka_carousel__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! nuka-carousel */ "./node_modules/nuka-carousel/es/index.js");
-/* harmony import */ var react_image_crop__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-image-crop */ "./node_modules/react-image-crop/dist/ReactCrop.js");
-/* harmony import */ var react_image_crop__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_image_crop__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var _style_loader_css_loader_react_image_crop_dist_ReactCrop_css__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! style-loader!css-loader!react-image-crop/dist/ReactCrop.css */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/react-image-crop/dist/ReactCrop.css");
-/* harmony import */ var _style_loader_css_loader_react_image_crop_dist_ReactCrop_css__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_style_loader_css_loader_react_image_crop_dist_ReactCrop_css__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../ethereum/src/web3 */ "./ethereum/src/web3.js");
-/* harmony import */ var _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../ethereum/src/contract */ "./ethereum/src/contract.js");
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_18__);
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../routes */ "./routes.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_19__);
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../webrtc/MediaHandler */ "./webrtc/MediaHandler.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! simple-peer */ "./node_modules/simple-peer/index.js");
+/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
+/* harmony import */ var otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! otplib/otplib-browser */ "./node_modules/otplib/otplib-browser.js");
+/* harmony import */ var otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-otp-input */ "./node_modules/react-otp-input/lib/index.js");
+/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_otp_input__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var tesseract_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tesseract.ts */ "./node_modules/tesseract.ts/dist/index.js");
+/* harmony import */ var tesseract_ts__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(tesseract_ts__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var recordrtc__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! recordrtc */ "./node_modules/recordrtc/RecordRTC.js");
+/* harmony import */ var recordrtc__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(recordrtc__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var nuka_carousel__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! nuka-carousel */ "./node_modules/nuka-carousel/es/index.js");
+/* harmony import */ var react_image_crop__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-image-crop */ "./node_modules/react-image-crop/index.js");
+/* harmony import */ var react_image_crop__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_image_crop__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _style_loader_css_loader_react_image_crop_dist_ReactCrop_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! style-loader!css-loader!react-image-crop/dist/ReactCrop.css */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/react-image-crop/dist/ReactCrop.css");
+/* harmony import */ var _style_loader_css_loader_react_image_crop_dist_ReactCrop_css__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_style_loader_css_loader_react_image_crop_dist_ReactCrop_css__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../ethereum/src/web3 */ "./ethereum/src/web3.js");
+/* harmony import */ var _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../ethereum/src/contract */ "./ethereum/src/contract.js");
+/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../routes */ "./routes.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_18__);
 
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -233,8 +67,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
 
 
 
@@ -250,7 +82,7 @@ var APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 var parse = __webpack_require__(/*! mrz */ "./node_modules/mrz/src/index.js").parse;
 
 
-var StereoAudioRecorder = recordrtc__WEBPACK_IMPORTED_MODULE_11___default.a.StereoAudioRecorder;
+var StereoAudioRecorder = recordrtc__WEBPACK_IMPORTED_MODULE_9___default.a.StereoAudioRecorder;
 
 
 
@@ -267,25 +99,186 @@ var channelName;
 var userName;
 var userNames = [];
 var recordRTC;
-var firstMember;
+var firstMember; //Videochat and User list
 
-var VideoChat =
+var Admin =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(VideoChat, _Component);
+  _inherits(Admin, _Component);
 
-  function VideoChat() {
+  function Admin() {
     var _this$state;
 
     var _this;
 
-    _classCallCheck(this, VideoChat);
+    _classCallCheck(this, Admin);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(VideoChat).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Admin).call(this));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "selectUser",
+    /*#__PURE__*/
+    function () {
+      var _ref = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(member, e, dimmer) {
+        var currentUser, response, i;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                currentUser = member.username;
+                _context.prev = 1;
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/usrs", {
+                  currentUser: currentUser
+                });
+
+              case 4:
+                response = _context.sent;
+
+                if (response.data.success) {
+                  _this.setState({
+                    usrs: response.data.userData,
+                    beneficialOwners: response.data.beneficialOwners
+                  }); //get Array of ethAddresses
+
+
+                  for (i = 1; i < _this.state.usrs.length; i++) {
+                    _this.state.ethAddresses[i] = _this.state.usrs[i].ethAddress;
+                  }
+                }
+
+                _context.next = 11;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](1);
+                console.log(_context.t0);
+
+              case 11:
+                _this.setState({
+                  dimmer: dimmer,
+                  open: true,
+                  isChosen: true
+                });
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 8]]);
+      }));
+
+      return function (_x, _x2, _x3) {
+        return _ref.apply(this, arguments);
+      };
+    }());
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "closeModal",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var userName, response, a, i;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              userName = _this.state.usrs[0].username; //when closed, change edit state in DB
+
+              _context2.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/changeEdit", {
+                userName: userName
+              });
+
+            case 3:
+              response = _context2.sent;
+
+              if (response.data.success) {
+                _this.setState({
+                  open: false,
+                  ethAddresses: []
+                });
+
+                a = false;
+
+                for (i = 0; i < _this.state.users.length; i++) {
+                  if (!_this.state.users[i].edited) {
+                    _this.setState({
+                      isEdited: null
+                    });
+                  }
+                }
+              }
+
+            case 5:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "toList", function () {
+      _this.setState({
+        isVideo: false,
+        activeItem: "users"
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "toVideo", function () {
+      _this.setState({
+        isVideo: true,
+        activeItem: "videochat"
+      });
+
+      _this.mediaHandler.getPermissions().then(function (stream) {
+        _this.setState({
+          hasMedia: true
+        });
+
+        _this.currentUser.stream = stream;
+
+        try {
+          var myVideo = document.getElementById("my-video");
+          myVideo.srcObject = stream;
+          var playPromise = myVideo.play();
+
+          if (playPromise !== null) {
+            playPromise.then(function () {
+              return myVideo.play();
+            }).catch(function (e) {
+              console.log(e);
+            });
+          }
+        } catch (e) {
+          console.log(e.stack);
+        }
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "show", function (dimmer) {
+      _this.setState({
+        dimmer: dimmer,
+        open: true
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleAccordionClick", function (e, titleProps) {
+      var index = titleProps.index;
+      var activeIndex = _this.state.activeIndex;
+      var newIndex = activeIndex === index ? -1 : index;
+
+      _this.setState({
+        activeIndex: newIndex
+      });
+    });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "setupPusher", function () {
       // Pusher.logToConsole = true;
-      pusher = new pusher_js__WEBPACK_IMPORTED_MODULE_5___default.a(APP_KEY, {
+      pusher = new pusher_js__WEBPACK_IMPORTED_MODULE_3___default.a(APP_KEY, {
         authEndpoint: "/pusher/auth",
         cluster: "eu",
         auth: {
@@ -305,7 +298,8 @@ function (_Component) {
       }); //listener for added members to the channel
 
       channelName.bind("pusher:member_added", function (member) {
-        // swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
+        console.log("connected to" + member.id); // swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
+
         if (userNames.includes(member.id) === false) {
           userNames.push(member.id);
         }
@@ -322,7 +316,8 @@ function (_Component) {
         _this.setState({
           img1: !_this.state.img1,
           showMrzValidationButton: !_this.state.showMrzValidationButton,
-          disableButton: true
+          disableButton: true,
+          disableUserList: false
         });
       }); //bind client signal to channel
       //this is executed for the callee when the initiator triggers a call
@@ -344,12 +339,12 @@ function (_Component) {
         peer.signal(signal.data);
       });
       channelName.bind("client-message-".concat(_this.currentUser.id), function (message) {
-        Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__["setCookie"])("x-access-token", "", -60 * 60);
+        Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_5__["setCookie"])("x-access-token", "", -60 * 60);
         window.location.href = "/login";
-        _routes__WEBPACK_IMPORTED_MODULE_19__["Router"].push("/login");
+        _routes__WEBPACK_IMPORTED_MODULE_17__["Router"].push("/login");
       });
       channelName.bind("client-approval-".concat(_this.currentUser.id), function (message) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_20___default()({
+        sweetalert2__WEBPACK_IMPORTED_MODULE_18___default()({
           title: "Success!",
           text: "The user has entered the correct OTP",
           type: "success",
@@ -360,11 +355,11 @@ function (_Component) {
             /*#__PURE__*/
             _asyncToGenerator(
             /*#__PURE__*/
-            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
               var formData, recordedBlob, fileName, file, response, accounts, fname, lname, idNum, kycKey, hash;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
                 while (1) {
-                  switch (_context.prev = _context.next) {
+                  switch (_context3.prev = _context3.next) {
                     case 0:
                       formData = new FormData();
                       recordedBlob = recordRTC.getBlob();
@@ -382,32 +377,32 @@ function (_Component) {
                         isRecording: ""
                       });
 
-                      _context.next = 12;
-                      return axios__WEBPACK_IMPORTED_MODULE_18___default.a.post(window.location.origin + "/approval", formData);
+                      _context3.next = 12;
+                      return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/approval", formData);
 
                     case 12:
-                      response = _context.sent;
+                      response = _context3.sent;
 
                       if (!response.data.success) {
-                        _context.next = 26;
+                        _context3.next = 26;
                         break;
                       }
 
-                      _context.next = 16;
-                      return _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_15__["default"].eth.getAccounts();
+                      _context3.next = 16;
+                      return _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_13__["default"].eth.getAccounts();
 
                     case 16:
-                      accounts = _context.sent;
+                      accounts = _context3.sent;
                       fname = response.data.fname;
                       lname = response.data.lname;
                       idNum = response.data.idNum;
                       kycKey = response.data.kycKey;
                       console.log(fname, lname, idNum, kycKey);
-                      hash = _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_15__["default"].utils.soliditySha3("".concat(fname, " ").concat(lname, " ").concat(idNum, " ").concat(kycKey));
-                      _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_16__["default"].methods.storeHash(hash).send({
+                      hash = _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_13__["default"].utils.soliditySha3("".concat(fname, " ").concat(lname, " ").concat(idNum, " ").concat(kycKey));
+                      _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_14__["default"].methods.storeHash(hash).send({
                         from: accounts[0]
                       });
-                      _context.next = 27;
+                      _context3.next = 27;
                       break;
 
                     case 26:
@@ -415,10 +410,10 @@ function (_Component) {
 
                     case 27:
                     case "end":
-                      return _context.stop();
+                      return _context3.stop();
                   }
                 }
-              }, _callee, this);
+              }, _callee3, this);
             })));
           }
         });
@@ -428,11 +423,12 @@ function (_Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "startPeer", function (userId) {
       var initiator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       //create new Peer
-      peer = new simple_peer__WEBPACK_IMPORTED_MODULE_6___default.a({
+      peer = new simple_peer__WEBPACK_IMPORTED_MODULE_4___default.a({
         initiator: initiator,
         stream: _this.currentUser.stream,
         trickle: false
-      }); //sends offer signal to peer
+      }); // peer._debug = console.log;
+      //sends offer signal to peer
       //connection established when peer sends answer
 
       peer.on("signal", function (data) {
@@ -458,7 +454,7 @@ function (_Component) {
           } //start recording the audio line
 
 
-          recordRTC = recordrtc__WEBPACK_IMPORTED_MODULE_11___default()(stream, {
+          recordRTC = recordrtc__WEBPACK_IMPORTED_MODULE_9___default()(stream, {
             //TODO: Which stream is beeing recorded? How to record both streams?
             recorderType: StereoAudioRecorder,
             mimeType: "audio/wav"
@@ -478,30 +474,31 @@ function (_Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "callTo",
     /*#__PURE__*/
     function () {
-      var _ref2 = _asyncToGenerator(
+      var _ref4 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(userId) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(userId) {
         var currentUser, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this.setState({
                   isNotCalled: false,
-                  disableButton: false
+                  disableButton: false,
+                  disableUserList: true
                 });
 
                 _this.peers[userId] = _this.startPeer(userId);
                 currentUser = userId;
                 console.log(userId); //get the peer's data
 
-                _context2.next = 6;
-                return axios__WEBPACK_IMPORTED_MODULE_18___default.a.post(window.location.origin + "/videochat/user", {
+                _context4.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/videochat/user", {
                   currentUser: currentUser
                 });
 
               case 6:
-                response = _context2.sent;
+                response = _context4.sent;
 
                 if (response.data.success) {
                   _this.setState({
@@ -511,16 +508,18 @@ function (_Component) {
                   });
                 }
 
-              case 8:
+                console.log(_this.state.img1);
+
+              case 9:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
 
-      return function (_x) {
-        return _ref2.apply(this, arguments);
+      return function (_x4) {
+        return _ref4.apply(this, arguments);
       };
     }());
 
@@ -528,23 +527,27 @@ function (_Component) {
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context4.prev = _context4.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              //destroy P2P connection
+              _this.setState({
+                declineLoading: true
+              }); //destroy P2P connection
+
+
               peer.destroy(); //stop audio recording
 
               recordRTC.stopRecording(
               /*#__PURE__*/
               _asyncToGenerator(
               /*#__PURE__*/
-              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
                 var formData, recordedBlob, fileName, file, response;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
                   while (1) {
-                    switch (_context3.prev = _context3.next) {
+                    switch (_context5.prev = _context5.next) {
                       case 0:
                         formData = new FormData();
                         recordedBlob = recordRTC.getBlob();
@@ -563,14 +566,14 @@ function (_Component) {
                           isRecording: ""
                         });
 
-                        _context3.next = 12;
-                        return axios__WEBPACK_IMPORTED_MODULE_18___default.a.post(window.location.origin + "/decline", formData);
+                        _context5.next = 12;
+                        return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/decline", formData);
 
                       case 12:
-                        response = _context3.sent;
+                        response = _context5.sent;
 
                         if (response.data.success) {
-                          sweetalert2__WEBPACK_IMPORTED_MODULE_20___default()("User declined", "", "success"); // this.setState({ isCalled: false});
+                          sweetalert2__WEBPACK_IMPORTED_MODULE_18___default()("User declined", "", "success"); // this.setState({ isCalled: false});
 
                           channelName.trigger("client-message-".concat(userName), {
                             message: "You have been declined!"
@@ -581,52 +584,56 @@ function (_Component) {
 
                       case 14:
                       case "end":
-                        return _context3.stop();
+                        return _context5.stop();
                     }
                   }
-                }, _callee3, this);
+                }, _callee5, this);
               })));
 
-            case 2:
+              _this.setState({
+                declineLoading: false
+              });
+
+            case 4:
             case "end":
-              return _context4.stop();
+              return _context6.stop();
           }
         }
-      }, _callee4, this);
+      }, _callee6, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "sendOTP",
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
       var otpSecret, otpToken, formData, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context7.prev = _context7.next) {
             case 0:
               _this.setState({
                 loading: true
               }); //genereate a otp secret
 
 
-              otpSecret = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].generateSecret();
+              otpSecret = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_6__["authenticator"].generateSecret();
               console.log(otpSecret); //generate otp
 
-              otpToken = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_8__["authenticator"].generate(otpSecret);
+              otpToken = otplib_otplib_browser__WEBPACK_IMPORTED_MODULE_6__["authenticator"].generate(otpSecret);
               console.log(otpToken);
               console.log(userName);
               formData = new FormData();
               formData.append("otpToken", otpToken);
               formData.append("userName", userName);
-              _context5.next = 11;
-              return axios__WEBPACK_IMPORTED_MODULE_18___default.a.post(window.location.origin + "/createOTP", formData);
+              _context7.next = 11;
+              return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/createOTP", formData);
 
             case 11:
-              response = _context5.sent;
+              response = _context7.sent;
 
               if (response.data.success) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_20___default()("OTP sent!", "", "success");
+                sweetalert2__WEBPACK_IMPORTED_MODULE_18___default()("OTP sent!", "", "success");
 
                 _this.setState({
                   // isCalled: false,
@@ -638,30 +645,30 @@ function (_Component) {
 
             case 13:
             case "end":
-              return _context5.stop();
+              return _context7.stop();
           }
         }
-      }, _callee5, this);
+      }, _callee7, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "otpVerify",
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
       var res, otpToken;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context8.prev = _context8.next) {
             case 0:
-              _context6.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_18___default.a.post(window.location.origin + "/otpToken");
+              _context8.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/otpToken");
 
             case 2:
-              res = _context6.sent;
+              res = _context8.sent;
 
               if (!res.data.success) {
-                _context6.next = 17;
+                _context8.next = 17;
                 break;
               }
 
@@ -671,11 +678,11 @@ function (_Component) {
               console.log(otpToken);
 
               if (!(otpToken === _this.state.otp)) {
-                _context6.next = 16;
+                _context8.next = 16;
                 break;
               }
 
-              _context6.next = 10;
+              _context8.next = 10;
               return channelName.trigger("client-approval-".concat(firstMember), {
                 message: "User entered correct OTP"
               });
@@ -683,10 +690,10 @@ function (_Component) {
             case 10:
               //destroy P2P connection
               peer.destroy();
-              Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_7__["setCookie"])("x-access-token", "", -60 * 60);
+              Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_5__["setCookie"])("x-access-token", "", -60 * 60);
               window.location.href = "/login";
-              _routes__WEBPACK_IMPORTED_MODULE_19__["Router"].push("/login");
-              _context6.next = 17;
+              _routes__WEBPACK_IMPORTED_MODULE_17__["Router"].push("/login");
+              _context8.next = 17;
               break;
 
             case 16:
@@ -696,10 +703,10 @@ function (_Component) {
 
             case 17:
             case "end":
-              return _context6.stop();
+              return _context8.stop();
           }
         }
-      }, _callee6, this);
+      }, _callee8, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "ocrScan", function () {
@@ -710,7 +717,7 @@ function (_Component) {
 
       var image = document.getElementById("mrz-code"); //use tesseract to read the mrz code
 
-      tesseract_ts__WEBPACK_IMPORTED_MODULE_10__["Tesseract"].recognize(image).then(function (result, err) {
+      tesseract_ts__WEBPACK_IMPORTED_MODULE_8__["Tesseract"].recognize(image).then(function (result, err) {
         if (err) {
           console.log(err);
         }
@@ -763,7 +770,7 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleImageLoaded1", function (image) {
-      console.log("image");
+      console.log(image);
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleOnCropComplete1", function (crop, pixelCrop) {
@@ -822,11 +829,11 @@ function (_Component) {
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
       var img, canvas, context;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
         while (1) {
-          switch (_context8.prev = _context8.next) {
+          switch (_context10.prev = _context10.next) {
             case 0:
               img = document.getElementById("user-video");
               canvas = document.getElementById("snapshot");
@@ -835,13 +842,13 @@ function (_Component) {
               canvas.toBlob(
               /*#__PURE__*/
               function () {
-                var _ref8 = _asyncToGenerator(
+                var _ref10 = _asyncToGenerator(
                 /*#__PURE__*/
-                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(blob) {
+                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(blob) {
                   var imageName, image, formData, response;
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
                     while (1) {
-                      switch (_context7.prev = _context7.next) {
+                      switch (_context9.prev = _context9.next) {
                         case 0:
                           imageName = "".concat(userName, ".png");
                           image = new File([blob], imageName, {
@@ -851,11 +858,11 @@ function (_Component) {
                           formData.append("imageName", imageName);
                           formData.append("image", image);
                           formData.append("userName", userName);
-                          _context7.next = 8;
-                          return axios__WEBPACK_IMPORTED_MODULE_18___default.a.post(window.location.origin + "/storeSnapshot", formData);
+                          _context9.next = 8;
+                          return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/storeSnapshot", formData);
 
                         case 8:
-                          response = _context7.sent;
+                          response = _context9.sent;
 
                           if (response.data.success) {
                             console.log("success");
@@ -865,23 +872,23 @@ function (_Component) {
 
                         case 10:
                         case "end":
-                          return _context7.stop();
+                          return _context9.stop();
                       }
                     }
-                  }, _callee7, this);
+                  }, _callee9, this);
                 }));
 
-                return function (_x2) {
-                  return _ref8.apply(this, arguments);
+                return function (_x5) {
+                  return _ref10.apply(this, arguments);
                 };
               }());
 
             case 5:
             case "end":
-              return _context8.stop();
+              return _context10.stop();
           }
         }
-      }, _callee8, this);
+      }, _callee10, this);
     })));
 
     _this.imageCropPreviewCanvasRef = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
@@ -899,52 +906,102 @@ function (_Component) {
       activeItem: "videochat",
       ethAddresses: [],
       ethAddressArray: []
-    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _defineProperty(_this$state, "idIsValid", ""), _defineProperty(_this$state, "users", []), _defineProperty(_this$state, "isConnected", false), _defineProperty(_this$state, "disableButton", true), _defineProperty(_this$state, "recordAudio", null), _defineProperty(_this$state, "isRecording", ""), _defineProperty(_this$state, "crop", {
-      aspect: 8 / 1.5
+    }, _defineProperty(_this$state, "message", ""), _defineProperty(_this$state, "sent", false), _defineProperty(_this$state, "idIsValid", ""), _defineProperty(_this$state, "users", []), _defineProperty(_this$state, "isConnected", false), _defineProperty(_this$state, "disableButton", true), _defineProperty(_this$state, "recordAudio", null), _defineProperty(_this$state, "isRecording", ""), _defineProperty(_this$state, "activeItem", "videochat"), _defineProperty(_this$state, "isVideo", true), _defineProperty(_this$state, "crop", {
+      x: 0,
+      y: 60,
+      width: 100,
+      height: 40
     }), _defineProperty(_this$state, "modalOpen", false), _this$state);
     _this.currentUser = {
       id: "",
       stream: undefined
     };
     _this.peers = [];
-    _this.mediaHandler = new _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    _this.mediaHandler = new _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_2__["default"]();
     return _this;
   }
 
-  _createClass(VideoChat, [{
+  _createClass(Admin, [{
     key: "componentWillMount",
     value: function () {
       var _componentWillMount = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
         var _this2 = this;
 
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                _context9.prev = 0;
-                _context9.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_18___default.a.post(window.location.origin + "/videochat/stream");
+                setInterval(
+                /*#__PURE__*/
+                _asyncToGenerator(
+                /*#__PURE__*/
+                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+                  var response, i;
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+                    while (1) {
+                      switch (_context11.prev = _context11.next) {
+                        case 0:
+                          _context11.prev = 0;
+                          _context11.next = 3;
+                          return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/userlist");
 
-              case 3:
-                response = _context9.sent;
+                        case 3:
+                          response = _context11.sent;
+
+                          if (response.data.success) {
+                            _this2.setState({
+                              users: response.data.userData
+                            });
+
+                            for (i = 0; i < _this2.state.users.length; i++) {
+                              if (_this2.state.users[i].edited) {
+                                _this2.setState({
+                                  isEdited: _this2.state.users[i].edited
+                                });
+                              }
+                            }
+                          }
+
+                          _context11.next = 10;
+                          break;
+
+                        case 7:
+                          _context11.prev = 7;
+                          _context11.t0 = _context11["catch"](0);
+                          console.log(_context11.t0);
+
+                        case 10:
+                        case "end":
+                          return _context11.stop();
+                      }
+                    }
+                  }, _callee11, this, [[0, 7]]);
+                })), 1000); //request user data from server
+
+                _context12.prev = 1;
+                _context12.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_16___default.a.post(window.location.origin + "/videochat/stream");
+
+              case 4:
+                response = _context12.sent;
                 this.setState({
                   userName: response.data.currentUser,
                   role: response.data.role
                 });
                 this.currentUser.id = this.state.userName;
                 xsrfToken = response.data.token;
-                _context9.next = 12;
+                _context12.next = 13;
                 break;
 
-              case 9:
-                _context9.prev = 9;
-                _context9.t0 = _context9["catch"](0);
-                console.log(_context9.t0);
+              case 10:
+                _context12.prev = 10;
+                _context12.t0 = _context12["catch"](1);
+                console.log(_context12.t0);
 
-              case 12:
+              case 13:
                 //ask for permission to allow microphone and webcam
                 this.mediaHandler.getPermissions().then(function (stream) {
                   _this2.setState({
@@ -970,34 +1027,86 @@ function (_Component) {
                   }
                 });
                 this.setupPusher();
-                return _context9.abrupt("return");
+                return _context12.abrupt("return");
 
-              case 15:
+              case 16:
               case "end":
-                return _context9.stop();
+                return _context12.stop();
             }
           }
-        }, _callee9, this, [[0, 9]]);
+        }, _callee12, this, [[1, 10]]);
       }));
 
       return function componentWillMount() {
         return _componentWillMount.apply(this, arguments);
       };
-    }() //setting up pusher API
+    }() //get data of the selected user in the user list
 
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Segment"], {
+      var activeIndex = this.state.activeIndex;
+      var _this$state2 = this.state,
+          open = _this$state2.open,
+          dimmer = _this$state2.dimmer,
+          activeItem = _this$state2.activeItem;
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Menu"], {
+        pointing: true,
+        secondary: true
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Menu"].Item, {
+        active: activeItem === "videochat",
+        name: "video",
+        onClick: this.toVideo,
+        style: {
+          color: "#2985d0"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+        name: "video"
+      }), "Videochat"), this.state.disableUserList ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Menu"].Item, {
+        disabled: true,
+        active: activeItem === "users",
+        name: "users",
+        onClick: this.toList,
+        style: {
+          color: "#2985d0"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+        name: "users"
+      }), "Userlist", this.state.isEdited ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+        name: "circle thin",
+        size: "tiny",
+        color: "red",
+        style: {
+          marginBottom: "10px",
+          marginLeft: "2px"
+        }
+      }) : null) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Menu"].Item, {
+        active: activeItem === "users",
+        name: "users",
+        onClick: this.toList,
+        style: {
+          color: "#2985d0"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+        name: "users"
+      }), "Userlist", this.state.isEdited ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+        name: "circle thin",
+        size: "tiny",
+        color: "red",
+        style: {
+          marginBottom: "10px",
+          marginLeft: "2px"
+        }
+      }) : null)) : null, this.state.isVideo ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Segment"], {
         style: {
           marginTop: "16px",
           width: "100%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Grid"].Column, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Column, {
         width: 8
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Container"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Container"], {
         className: "video-container",
         style: {
           width: "500px",
@@ -1030,12 +1139,12 @@ function (_Component) {
           height: "100%",
           zIndex: "1"
         }
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Container"], {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Container"], {
         style: {
           width: "500px",
           margin: "0px auto"
         }
-      }, this.state.disableButton === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], {
+      }, this.state.disableButton === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
         animated: true,
         floated: "left",
         onClick: this.takeSnapshot,
@@ -1044,13 +1153,13 @@ function (_Component) {
           border: "1px solid black",
           width: "32%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
         name: "camera"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         hidden: true
-      }, "Snapshot")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], {
+      }, "Snapshot")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
         animated: true,
         loading: this.state.loading,
         floated: "left",
@@ -1060,15 +1169,16 @@ function (_Component) {
           border: "1px solid black",
           width: "32.5%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
         name: "send",
         color: "green"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         hidden: true
-      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], {
+      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
         animated: true,
+        loading: this.state.declineLoading,
         floated: "left",
         onClick: this.decline,
         style: {
@@ -1076,14 +1186,14 @@ function (_Component) {
           border: "1px solid black",
           width: "32.5%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
         name: "close",
         color: "red"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         hidden: true
-      }, "Quit Call")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, this.state.isRecording)) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], {
+      }, "Quit Call")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, this.state.isRecording)) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
         animated: true,
         floated: "left",
         onClick: this.takeSnapshot,
@@ -1093,13 +1203,13 @@ function (_Component) {
           width: "32.5%"
         },
         disabled: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
         name: "camera"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         hidden: true
-      }, "Snapshot")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], {
+      }, "Snapshot")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
         animated: true,
         floated: "left",
         onClick: this.sendOTP,
@@ -1109,14 +1219,14 @@ function (_Component) {
           width: "32.5%"
         },
         disabled: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
         name: "send",
         color: "green"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         hidden: true
-      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], {
+      }, "Send OTP")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
         animated: true,
         floated: "left",
         onClick: this.decline,
@@ -1126,16 +1236,16 @@ function (_Component) {
           width: "32.5%"
         },
         disabled: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         visible: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Icon"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
         name: "close",
         color: "red"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
         hidden: true
-      }, "Quit Call")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, this.state.isRecording)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Grid"].Column, {
+      }, "Quit Call")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, this.state.isRecording)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Column, {
         width: "eight"
-      }, this.state.img1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(nuka_carousel__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      }, this.state.img1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(nuka_carousel__WEBPACK_IMPORTED_MODULE_10__["default"], {
         ref: function ref(node) {
           _this3.carouselRef = node;
         },
@@ -1148,10 +1258,10 @@ function (_Component) {
         renderBottomCenterControls: false
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         onLoad: this.handleLoadImage
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_image_crop__WEBPACK_IMPORTED_MODULE_13___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_image_crop__WEBPACK_IMPORTED_MODULE_11___default.a, {
         style: {
-          maxWidth: "451px",
-          maxHeight: "287px",
+          width: "451px",
+          height: "287px",
           margin: "auto"
         },
         src: "../static/".concat(this.state.img1) // src={"static/qwer-DLBack.jpeg"}
@@ -1160,10 +1270,10 @@ function (_Component) {
         onChange: this.handleOnCropChange1,
         onImageLoaded: this.handleImageLoaded1,
         onComplete: this.handleOnCropComplete1
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_image_crop__WEBPACK_IMPORTED_MODULE_13___default.a, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_image_crop__WEBPACK_IMPORTED_MODULE_11___default.a, {
         style: {
-          maxWidth: "451px",
-          maxHeight: "287px",
+          width: "451px",
+          height: "287px",
           margin: "auto"
         },
         src: "../static/".concat(this.state.img2) // src={"static/cvbn-IDfront.jpg"}
@@ -1172,11 +1282,11 @@ function (_Component) {
         onChange: this.handleOnCropChange2,
         onImageLoaded: this.handleImageLoaded2,
         onComplete: this.handleOnCropComplete2
-      }))), this.state.showMrzValidationButton ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Container"], {
+      }))), this.state.showMrzValidationButton ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Container"], {
         style: {
           textAlign: "center"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
         onClick: this.ocrScan,
         loading: this.state.loadingOCR
       }, "Validate MRZ Code")) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("canvas", {
@@ -1186,7 +1296,7 @@ function (_Component) {
           width: "300%",
           display: "none"
         }
-      }), this.state.idIsValid ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Message"], {
+      }), this.state.idIsValid ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Message"], {
         header: "Valid! Type: ".concat(this.state.ocrFormat),
         success: true,
         content: this.state.ocr,
@@ -1196,7 +1306,7 @@ function (_Component) {
           boxShadow: "1px 1px 11px green",
           border: "1px solid green"
         }
-      }) : this.state.idIsValid === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Message"], {
+      }) : this.state.idIsValid === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Message"], {
         header: "Not Valid! Type: ".concat(this.state.ocrFormat),
         success: true,
         content: this.state.ocr,
@@ -1204,9 +1314,9 @@ function (_Component) {
           boxShadow: "1px 1px 11px red",
           border: "1px solid red"
         }
-      }) : null) : null)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Grid"].Column, {
+      }) : null) : null)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Row, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Column, {
         width: "eight"
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Container"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Container"], {
         style: {
           width: "500px",
           margin: "0px auto"
@@ -1214,8 +1324,7 @@ function (_Component) {
       }, userNames.map(function (userId) {
         var _React$createElement;
 
-        return _this3.currentUser.id !== userId && // this.state.isNotCalled ? (
-        userNames != [] ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], (_React$createElement = {
+        return _this3.currentUser.id !== userId && userNames != [] ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], (_React$createElement = {
           key: userId,
           animated: true,
           floated: "left"
@@ -1227,11 +1336,11 @@ function (_Component) {
           backgroundColor: "white",
           border: "1px solid black",
           width: "32.5%"
-        }), _React$createElement), " ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+        }), _React$createElement), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
           visible: true
-        }, "Call ", userId), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"].Content, {
+        }, "Call ", userId), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"].Content, {
           hidden: true
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Icon"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
           name: "phone",
           color: "blue"
         }))) : null;
@@ -1242,18 +1351,18 @@ function (_Component) {
         style: {
           display: "none"
         }
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Grid"].Column, {
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Grid"].Column, {
         width: "eight"
       }))))) : // User view
-      react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.isConnected === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Dimmer"], {
+      react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.isConnected === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Dimmer"], {
         active: true
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Loader"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Loader"], {
         indeterminate: true
-      }, "Waiting for Admin")) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Segment"], {
+      }, "Waiting for Admin")) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Segment"], {
         style: {
           marginTop: "50px"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Container"], {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Container"], {
         className: "video-container",
         style: {
           width: "500px",
@@ -1286,16 +1395,16 @@ function (_Component) {
           height: "100%",
           zIndex: "1"
         }
-      })), this.state.sent ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Message"], {
+      })), this.state.sent ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Message"], {
         success: true,
         header: "Success",
         content: this.state.message
-      }) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Container"], {
+      }) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Container"], {
         style: {
           width: "71%",
           marginBottom: "13px"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_otp_input__WEBPACK_IMPORTED_MODULE_9___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_otp_input__WEBPACK_IMPORTED_MODULE_7___default.a, {
         style: {
           margin: "auto",
           width: "70%"
@@ -1306,15 +1415,14 @@ function (_Component) {
             otp: otp,
             otpEntered: true
           });
-        } // onChange={otp => console.log(otp)}
-        ,
+        },
         numInputs: 6,
         separator: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, "-")
-      }), this.state.message ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Message"], {
+      }), this.state.message ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Message"], {
         error: true,
         header: "Oops!",
         content: this.state.message
-      }) : null), this.state.otpEntered ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Button"], {
+      }) : null), this.state.otpEntered ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
         style: {
           color: "white",
           backgroundColor: "#ff3344",
@@ -1323,11 +1431,422 @@ function (_Component) {
         },
         fluid: true,
         onClick: this.otpVerify
-      }, "Submit") : null)));
+      }, "Submit") : null))) : //user list
+      react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.users.map(function (member) {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Card"], {
+          key: member.id,
+          raised: true,
+          style: member.kycKey === "declined" ? {
+            height: "400x",
+            width: "180px",
+            display: "inline-block",
+            margin: "18px",
+            border: "1px solid red"
+          } : {
+            height: "400x",
+            width: "180px",
+            display: "inline-block",
+            margin: "18px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Card"].Content, null, member.edited ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+          name: "circle thin",
+          size: "small",
+          color: "red",
+          style: {
+            float: "right",
+            marginRight: "-21px",
+            marginTop: "-19px"
+          }
+        }) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Card"].Header, null, member.username, member.isRegistered == "yes" ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+          name: "checkmark",
+          color: "green",
+          style: {
+            float: "right"
+          }
+        }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+          name: "x",
+          color: "red",
+          style: {
+            float: "right"
+          }
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Card"].Meta, {
+          style: {
+            marginTop: "2px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, "Last Modified: ", member.lastModified)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Card"].Description, null, member.lname, ", ", member.fname)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Card"].Content, {
+          extra: true,
+          style: {
+            textAlign: "center"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
+          onClick: _this3.selectUser.bind(_this3, member)
+        }, "View Profile")));
+      }), this.state.isChosen ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Modal"], {
+        dimmer: dimmer,
+        open: open,
+        onClose: this.closeModal
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Modal"].Header, null, "Profile of ", this.state.usrs[0].username), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Modal"].Content, {
+        image: true
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Modal"].Description, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        widths: "equal"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        fluid: true,
+        label: "Username",
+        value: this.state.usrs[0].username
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        fluid: true,
+        label: "ID",
+        value: this.state.usrs[0].id
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        widths: "equal"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        fluid: true,
+        label: "First Name",
+        value: this.state.usrs[0].fname
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        fluid: true,
+        label: "Last Name",
+        value: this.state.usrs[0].lname
+      })), this.state.usrs[0].edited == "address" ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "eleven",
+        fluid: true,
+        label: "Street",
+        value: this.state.usrs[0].street
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "five",
+        fluid: true,
+        label: "House Number",
+        value: this.state.usrs[0].houseNr
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "six",
+        fluid: true,
+        type: "number",
+        label: "Postal Code",
+        value: this.state.usrs[0].postCode
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "ten",
+        fluid: true,
+        label: "Place of Residence",
+        value: this.state.usrs[0].placeOfRes
+      }))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "eleven",
+        fluid: true,
+        label: "Street",
+        value: this.state.usrs[0].street
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "five",
+        fluid: true,
+        label: "House Number",
+        value: this.state.usrs[0].houseNr
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "six",
+        fluid: true,
+        type: "number",
+        label: "Postal Code",
+        value: this.state.usrs[0].postCode
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "ten",
+        fluid: true,
+        label: "Place of Residence",
+        value: this.state.usrs[0].placeOfRes
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        widths: "equal"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        fluid: true,
+        label: "Date of Birth",
+        value: this.state.usrs[0].dateOfBirth
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        fluid: true,
+        label: "Nationality",
+        value: this.state.usrs[0].nat
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        widths: "equal"
+      }, this.state.usrs[0].edited == "email" ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        fluid: true,
+        label: "Email",
+        type: "email",
+        value: this.state.usrs[0].email
+      }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        fluid: true,
+        label: "Email",
+        type: "email",
+        value: this.state.usrs[0].email
+      }), this.state.usrs[0].edited == "mobNr" ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        fluid: true,
+        label: "Mobile Number",
+        type: "number",
+        value: this.state.usrs[0].mobNr
+      }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        fluid: true,
+        label: "Mobile Number",
+        type: "number",
+        value: this.state.usrs[0].mobNr
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        width: "sixteen"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        width: "sixteen",
+        readOnly: true,
+        fluid: true,
+        label: "Registration Date",
+        value: this.state.usrs[0].regDate
+      })), this.state.beneficialOwners.length > 0 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Accordion"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Accordion"].Title, {
+        active: activeIndex === 0,
+        index: 0,
+        onClick: this.handleAccordionClick,
+        style: {
+          fontWeight: "bold"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+        name: "dropdown"
+      }), "Beneficial Owners of the Assets"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Accordion"].Content, {
+        active: activeIndex === 0
+      }, this.state.beneficialOwners.map(function (beneficialOwner) {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Segment"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+          widths: "equal"
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+          readOnly: true,
+          fluid: true,
+          label: "First Name",
+          value: beneficialOwner.ownerName
+        }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+          readOnly: true,
+          fluid: true,
+          label: "Last Name",
+          value: beneficialOwner.ownerLastName
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+          readOnly: true,
+          width: "eleven",
+          fluid: true,
+          label: "Street",
+          value: beneficialOwner.ownerStreet
+        }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+          readOnly: true,
+          width: "five",
+          fluid: true,
+          label: "House Number",
+          value: beneficialOwner.ownerHouseNr
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+          readOnly: true,
+          width: "six",
+          fluid: true,
+          label: "Postal Code",
+          value: beneficialOwner.ownerPostCode
+        }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+          readOnly: true,
+          width: "ten",
+          fluid: true,
+          label: "Place of Residenz",
+          value: beneficialOwner.ownerPlaceOfRes
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+          widths: "equal"
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+          readOnly: true,
+          fluid: true,
+          label: "Date of Birth",
+          value: beneficialOwner.ownerDateOfBirth
+        })));
+      }))) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.state.ethAddresses.length > 0 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        style: {
+          fontWeight: "bold"
+        }
+      }, "EthAddresses which requested the KycKey") : null, this.state.ethAddresses.map(function (ethAddress) {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+          width: "sixteen"
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+          width: "sixteen",
+          readOnly: true,
+          fluid: true,
+          value: ethAddress
+        }));
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        style: {
+          fontWeight: "bold"
+        }
+      }, "Identity Card"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        widths: "equal",
+        style: {
+          margin: "0px auto"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "../static/".concat(this.state.usrs[0].ID1),
+        target: "_blank",
+        style: {
+          width: "50%"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+        className: "img-responsive",
+        src: "../static/".concat(this.state.usrs[0].ID1),
+        style: {
+          width: "200px",
+          height: "113px" // float: "left"
+
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "../static/".concat(this.state.usrs[0].ID2),
+        target: "_blank",
+        style: {
+          width: "50%"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+        className: "img-responsive",
+        src: "../static/".concat(this.state.usrs[0].ID2),
+        style: {
+          width: "200px",
+          height: "113px"
+        }
+      })), this.state.usrs[0].snapshot ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "../static/".concat(this.state.usrs[0].snapshot),
+        target: "_blank"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+        className: "img-responsive",
+        src: "../static/".concat(this.state.usrs[0].snapshot),
+        style: {
+          width: "200px",
+          height: "113px"
+        }
+      })) : null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        style: {
+          fontWeight: "bold"
+        }
+      }, "Audio Recording"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        colSpan: 2
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("audio", {
+        controls: true
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("source", {
+        src: "../static/".concat(this.state.usrs[0].audio),
+        type: "audio/wav"
+      }))), this.state.usrs[0].isComp == "1" ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        style: {
+          marginTop: "10px"
+        }
+      }, this.state.usrs[0].edited == "compName" ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "sixteen",
+        fluid: true,
+        label: "Company Name",
+        value: this.state.usrs[0].compName
+      }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "sixteen",
+        fluid: true,
+        label: "Company Name",
+        value: this.state.usrs[0].compName
+      })), this.state.usrs[0].edited == "compAddress" ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "eleven",
+        fluid: true,
+        label: "Business Address",
+        value: this.state.usrs[0].businessAd
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "five",
+        fluid: true,
+        label: "House Number",
+        value: this.state.usrs[0].compHouseNr
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        widths: "equal"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "six",
+        fluid: true,
+        label: "Postal Code",
+        value: this.state.usrs[0].compPostCode
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        error: true,
+        readOnly: true,
+        width: "ten",
+        fluid: true,
+        label: "Place of Residenz",
+        value: this.state.usrs[0].residence
+      }))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "eleven",
+        fluid: true,
+        label: "Business Address",
+        value: this.state.usrs[0].businessAd
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "five",
+        fluid: true,
+        label: "House Number",
+        value: this.state.usrs[0].compHouseNr
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        widths: "equal"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "six",
+        fluid: true,
+        label: "Postal Code",
+        value: this.state.usrs[0].compPostCode
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Input, {
+        readOnly: true,
+        width: "ten",
+        fluid: true,
+        label: "Place of Residenz",
+        value: this.state.usrs[0].residence
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        width: "sixteen",
+        style: {
+          margin: "0px auto"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+        name: "linkify"
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "../static/".concat(this.state.usrs[0].doc1),
+        type: "application/pdf",
+        target: "_blank"
+      }, "View extract of the relevant registration authority")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Form"].Group, {
+        width: "sixteen",
+        style: {
+          margin: "0px auto"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Icon"], {
+        name: "linkify"
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "../static/".concat(this.state.usrs[0].doc2),
+        type: "application/pdf",
+        target: "_blank"
+      }, "View electronic copy of the power of attorney"))) : null)))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Modal"].Actions, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Container"], {
+        style: {
+          textAlign: "center",
+          display: "inline-block"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_15__["Button"], {
+        color: "black",
+        onClick: this.closeModal
+      }, "Close")))) : null));
     }
   }]);
 
-  return VideoChat;
+  return Admin;
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
 
@@ -1629,7 +2148,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, ".ReactCrop {\n  position: relative;\n  display: inline-block;\n  cursor: crosshair;\n  overflow: hidden;\n  max-width: 100%;\n  background-color: #000; }\n  .ReactCrop:focus {\n    outline: none; }\n  .ReactCrop--disabled, .ReactCrop--locked {\n    cursor: inherit; }\n  .ReactCrop__image {\n    /* autoprefixer: off */\n    display: block;\n    width: 100%;\n    height: 100%;\n    max-height: -moz-available;\n    max-height: fill-available; }\n  .ReactCrop--crop-invisible .ReactCrop__image {\n    opacity: 0.5; }\n  .ReactCrop__crop-selection {\n    position: absolute;\n    top: 0;\n    left: 0;\n    transform: translate3d(0, 0, 0);\n    box-sizing: border-box;\n    cursor: move;\n    box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);\n    border: 1px solid;\n    border-image-source: url(\"data:image/gif;base64,R0lGODlhCgAKAJECAAAAAP///////wAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OEI5RDc5MTFDNkE2MTFFM0JCMDZEODI2QTI4MzJBOTIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OEI5RDc5MTBDNkE2MTFFM0JCMDZEODI2QTI4MzJBOTIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTE4MDgzQzNDMjA5MzREQ0ZDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTE4MDgzQzNDMjA5MzREQ0ZDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEBQoAAgAsAAAAAAoACgAAAhWEERkn7W3ei7KlagMWF/dKgYeyGAUAIfkEBQoAAgAsAAAAAAoACgAAAg+UYwLJ7RnQm7QmsCyVKhUAIfkEBQoAAgAsAAAAAAoACgAAAhCUYgLJHdiinNSAVfOEKoUCACH5BAUKAAIALAAAAAAKAAoAAAIRVISAdusPo3RAzYtjaMIaUQAAIfkEBQoAAgAsAAAAAAoACgAAAg+MDiem7Q8bSLFaG5il6xQAIfkEBQoAAgAsAAAAAAoACgAAAg+UYRLJ7QnQm7SmsCyVKhUAIfkEBQoAAgAsAAAAAAoACgAAAhCUYBLJDdiinNSEVfOEKoECACH5BAUKAAIALAAAAAAKAAoAAAIRFISBdusPo3RBzYsjaMIaUQAAOw==\");\n    border-image-slice: 1;\n    border-image-repeat: repeat; }\n    .ReactCrop--disabled .ReactCrop__crop-selection {\n      cursor: inherit; }\n  .ReactCrop__drag-handle {\n    position: absolute;\n    width: 9px;\n    height: 9px;\n    background-color: rgba(0, 0, 0, 0.2);\n    border: 1px solid rgba(255, 255, 255, 0.7);\n    box-sizing: border-box;\n    outline: 1px solid transparent; }\n  .ReactCrop .ord-nw {\n    top: 0;\n    left: 0;\n    margin-top: -5px;\n    margin-left: -5px;\n    cursor: nw-resize; }\n  .ReactCrop .ord-n {\n    top: 0;\n    left: 50%;\n    margin-top: -5px;\n    margin-left: -5px;\n    cursor: n-resize; }\n  .ReactCrop .ord-ne {\n    top: 0;\n    right: 0;\n    margin-top: -5px;\n    margin-right: -5px;\n    cursor: ne-resize; }\n  .ReactCrop .ord-e {\n    top: 50%;\n    right: 0;\n    margin-top: -5px;\n    margin-right: -5px;\n    cursor: e-resize; }\n  .ReactCrop .ord-se {\n    bottom: 0;\n    right: 0;\n    margin-bottom: -5px;\n    margin-right: -5px;\n    cursor: se-resize; }\n  .ReactCrop .ord-s {\n    bottom: 0;\n    left: 50%;\n    margin-bottom: -5px;\n    margin-left: -5px;\n    cursor: s-resize; }\n  .ReactCrop .ord-sw {\n    bottom: 0;\n    left: 0;\n    margin-bottom: -5px;\n    margin-left: -5px;\n    cursor: sw-resize; }\n  .ReactCrop .ord-w {\n    top: 50%;\n    left: 0;\n    margin-top: -5px;\n    margin-left: -5px;\n    cursor: w-resize; }\n  .ReactCrop__disabled .ReactCrop__drag-handle {\n    cursor: inherit; }\n  .ReactCrop__drag-bar {\n    position: absolute; }\n    .ReactCrop__drag-bar.ord-n {\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 6px;\n      margin-top: -3px; }\n    .ReactCrop__drag-bar.ord-e {\n      right: 0;\n      top: 0;\n      width: 6px;\n      height: 100%;\n      margin-right: -3px; }\n    .ReactCrop__drag-bar.ord-s {\n      bottom: 0;\n      left: 0;\n      width: 100%;\n      height: 6px;\n      margin-bottom: -3px; }\n    .ReactCrop__drag-bar.ord-w {\n      top: 0;\n      left: 0;\n      width: 6px;\n      height: 100%;\n      margin-left: -3px; }\n  .ReactCrop--new-crop .ReactCrop__drag-bar,\n  .ReactCrop--new-crop .ReactCrop__drag-handle,\n  .ReactCrop--fixed-aspect .ReactCrop__drag-bar {\n    display: none; }\n  .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-n,\n  .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-e,\n  .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-s,\n  .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-w {\n    display: none; }\n  @media (max-width: 768px), (pointer: coarse) {\n    .ReactCrop__drag-handle {\n      width: 17px;\n      height: 17px; }\n    .ReactCrop .ord-nw {\n      margin-top: -9px;\n      margin-left: -9px; }\n    .ReactCrop .ord-n {\n      margin-top: -9px;\n      margin-left: -9px; }\n    .ReactCrop .ord-ne {\n      margin-top: -9px;\n      margin-right: -9px; }\n    .ReactCrop .ord-e {\n      margin-top: -9px;\n      margin-right: -9px; }\n    .ReactCrop .ord-se {\n      margin-bottom: -9px;\n      margin-right: -9px; }\n    .ReactCrop .ord-s {\n      margin-bottom: -9px;\n      margin-left: -9px; }\n    .ReactCrop .ord-sw {\n      margin-bottom: -9px;\n      margin-left: -9px; }\n    .ReactCrop .ord-w {\n      margin-top: -9px;\n      margin-left: -9px; }\n    .ReactCrop__drag-bar.ord-n {\n      height: 14px;\n      margin-top: -7px; }\n    .ReactCrop__drag-bar.ord-e {\n      width: 14px;\n      margin-right: -7px; }\n    .ReactCrop__drag-bar.ord-s {\n      height: 14px;\n      margin-bottom: -7px; }\n    .ReactCrop__drag-bar.ord-w {\n      width: 14px;\n      margin-left: -7px; } }\n", ""]);
+exports.push([module.i, ".ReactCrop {\n  position: relative;\n  display: inline-block;\n  cursor: crosshair;\n  overflow: hidden;\n  max-width: 100%;\n  background-color: #000; }\n  .ReactCrop:focus {\n    outline: none; }\n  .ReactCrop--disabled {\n    cursor: inherit; }\n  .ReactCrop__image {\n    /* autoprefixer: off */\n    display: block;\n    max-width: 100%;\n    max-height: -webkit-fill-available;\n    max-height: -moz-available;\n    max-height: stretch; }\n  .ReactCrop--crop-invisible .ReactCrop__image {\n    opacity: 0.5; }\n  .ReactCrop__crop-selection {\n    position: absolute;\n    top: 0;\n    left: 0;\n    transform: translate3d(0, 0, 0);\n    box-sizing: border-box;\n    cursor: move;\n    box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);\n    border: 1px solid;\n    border-image-source: url(\"data:image/gif;base64,R0lGODlhCgAKAJECAAAAAP///////wAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OEI5RDc5MTFDNkE2MTFFM0JCMDZEODI2QTI4MzJBOTIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OEI5RDc5MTBDNkE2MTFFM0JCMDZEODI2QTI4MzJBOTIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTE4MDgzQzNDMjA5MzREQ0ZDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTE4MDgzQzNDMjA5MzREQ0ZDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEBQoAAgAsAAAAAAoACgAAAhWEERkn7W3ei7KlagMWF/dKgYeyGAUAIfkEBQoAAgAsAAAAAAoACgAAAg+UYwLJ7RnQm7QmsCyVKhUAIfkEBQoAAgAsAAAAAAoACgAAAhCUYgLJHdiinNSAVfOEKoUCACH5BAUKAAIALAAAAAAKAAoAAAIRVISAdusPo3RAzYtjaMIaUQAAIfkEBQoAAgAsAAAAAAoACgAAAg+MDiem7Q8bSLFaG5il6xQAIfkEBQoAAgAsAAAAAAoACgAAAg+UYRLJ7QnQm7SmsCyVKhUAIfkEBQoAAgAsAAAAAAoACgAAAhCUYBLJDdiinNSEVfOEKoECACH5BAUKAAIALAAAAAAKAAoAAAIRFISBdusPo3RBzYsjaMIaUQAAOw==\");\n    border-image-slice: 1;\n    border-image-repeat: repeat; }\n    .ReactCrop--disabled .ReactCrop__crop-selection {\n      cursor: inherit; }\n  .ReactCrop__drag-handle {\n    position: absolute;\n    width: 9px;\n    height: 9px;\n    background-color: rgba(0, 0, 0, 0.2);\n    border: 1px solid rgba(255, 255, 255, 0.7);\n    box-sizing: border-box;\n    outline: 1px solid transparent; }\n  .ReactCrop .ord-nw {\n    top: 0;\n    left: 0;\n    margin-top: -5px;\n    margin-left: -5px;\n    cursor: nw-resize; }\n  .ReactCrop .ord-n {\n    top: 0;\n    left: 50%;\n    margin-top: -5px;\n    margin-left: -5px;\n    cursor: n-resize; }\n  .ReactCrop .ord-ne {\n    top: 0;\n    right: 0;\n    margin-top: -5px;\n    margin-right: -5px;\n    cursor: ne-resize; }\n  .ReactCrop .ord-e {\n    top: 50%;\n    right: 0;\n    margin-top: -5px;\n    margin-right: -5px;\n    cursor: e-resize; }\n  .ReactCrop .ord-se {\n    bottom: 0;\n    right: 0;\n    margin-bottom: -5px;\n    margin-right: -5px;\n    cursor: se-resize; }\n  .ReactCrop .ord-s {\n    bottom: 0;\n    left: 50%;\n    margin-bottom: -5px;\n    margin-left: -5px;\n    cursor: s-resize; }\n  .ReactCrop .ord-sw {\n    bottom: 0;\n    left: 0;\n    margin-bottom: -5px;\n    margin-left: -5px;\n    cursor: sw-resize; }\n  .ReactCrop .ord-w {\n    top: 50%;\n    left: 0;\n    margin-top: -5px;\n    margin-left: -5px;\n    cursor: w-resize; }\n  .ReactCrop__disabled .ReactCrop__drag-handle {\n    cursor: inherit; }\n  .ReactCrop__drag-bar {\n    position: absolute; }\n    .ReactCrop__drag-bar.ord-n {\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 6px;\n      margin-top: -3px; }\n    .ReactCrop__drag-bar.ord-e {\n      right: 0;\n      top: 0;\n      width: 6px;\n      height: 100%;\n      margin-right: -3px; }\n    .ReactCrop__drag-bar.ord-s {\n      bottom: 0;\n      left: 0;\n      width: 100%;\n      height: 6px;\n      margin-bottom: -3px; }\n    .ReactCrop__drag-bar.ord-w {\n      top: 0;\n      left: 0;\n      width: 6px;\n      height: 100%;\n      margin-left: -3px; }\n  .ReactCrop--new-crop .ReactCrop__drag-bar,\n  .ReactCrop--new-crop .ReactCrop__drag-handle,\n  .ReactCrop--fixed-aspect .ReactCrop__drag-bar {\n    display: none; }\n  .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-n,\n  .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-e,\n  .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-s,\n  .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-w {\n    display: none; }\n  @media (max-width: 768px), (pointer: coarse) {\n    .ReactCrop__drag-handle {\n      width: 17px;\n      height: 17px; }\n    .ReactCrop .ord-nw {\n      margin-top: -9px;\n      margin-left: -9px; }\n    .ReactCrop .ord-n {\n      margin-top: -9px;\n      margin-left: -9px; }\n    .ReactCrop .ord-ne {\n      margin-top: -9px;\n      margin-right: -9px; }\n    .ReactCrop .ord-e {\n      margin-top: -9px;\n      margin-right: -9px; }\n    .ReactCrop .ord-se {\n      margin-bottom: -9px;\n      margin-right: -9px; }\n    .ReactCrop .ord-s {\n      margin-bottom: -9px;\n      margin-left: -9px; }\n    .ReactCrop .ord-sw {\n      margin-bottom: -9px;\n      margin-left: -9px; }\n    .ReactCrop .ord-w {\n      margin-top: -9px;\n      margin-left: -9px; }\n    .ReactCrop__drag-bar.ord-n {\n      height: 14px;\n      margin-top: -7px; }\n    .ReactCrop__drag-bar.ord-e {\n      width: 14px;\n      margin-right: -7px; }\n    .ReactCrop__drag-bar.ord-s {\n      height: 14px;\n      margin-bottom: -7px; }\n    .ReactCrop__drag-bar.ord-w {\n      width: 14px;\n      margin-left: -7px; } }\n", ""]);
 
 // exports
 
@@ -20629,9 +21148,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(/*! react */ "./node_modules/react/index.js"), __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+		module.exports = factory(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 	else {}
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__) {
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_3__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -20694,31 +21213,235 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.containCrop = exports.makeAspectCrop = exports.getPixelCrop = exports.Component = exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /* globals document, window */
 
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -20746,6 +21469,19 @@ try {
 
 var EMPTY_GIF = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
+function getElementOffset(el) {
+  var rect = el.getBoundingClientRect();
+  var docEl = document.documentElement;
+
+  var rectTop = rect.top + window.pageYOffset - docEl.clientTop;
+  var rectLeft = rect.left + window.pageXOffset - docEl.clientLeft;
+
+  return {
+    top: rectTop,
+    left: rectLeft
+  };
+}
+
 function getClientPos(e) {
   var pageX = void 0;
   var pageY = void 0;
@@ -20769,7 +21505,7 @@ function clamp(num, min, max) {
 }
 
 function isCropValid(crop) {
-  return crop && crop.width && crop.height && !isNaN(crop.width) && !isNaN(crop.height);
+  return crop && crop.width && crop.height;
 }
 
 function inverseOrd(ord) {
@@ -20782,7 +21518,7 @@ function inverseOrd(ord) {
 
 function makeAspectCrop(crop, imageAspect) {
   if (isNaN(crop.aspect) || isNaN(imageAspect)) {
-    console.warn('`crop.aspect` and `imageAspect` need to be numbers in order to make an aspect crop', crop);
+    console.warn('`crop.aspect` and `imageAspect` need to be numbers in order to make an aspect crop');
     return crop;
   }
 
@@ -20808,31 +21544,7 @@ function makeAspectCrop(crop, imageAspect) {
   return completeCrop;
 }
 
-function isAspectInvalid(crop, width, height) {
-  if (!crop.width && crop.height || crop.width && !crop.height) {
-    return true;
-  }
-
-  if (crop.width && crop.height && Math.round(height * (crop.height / 100) * crop.aspect) !== Math.round(width * (crop.width / 100))) {
-    return true;
-  }
-
-  return false;
-}
-
-function resolveCrop(crop, image) {
-  if (crop && crop.aspect && isAspectInvalid(crop, image.naturalWidth, image.naturalHeight)) {
-    return makeAspectCrop(crop, image.naturalWidth / image.naturalHeight);
-  }
-
-  return crop;
-}
-
 function getPixelCrop(image, percentCrop) {
-  if (!image || !percentCrop) {
-    return null;
-  }
-
   var x = Math.round(image.naturalWidth * (percentCrop.x / 100));
   var y = Math.round(image.naturalHeight * (percentCrop.y / 100));
   var width = Math.round(image.naturalWidth * (percentCrop.width / 100));
@@ -20847,7 +21559,7 @@ function getPixelCrop(image, percentCrop) {
   };
 }
 
-function containCrop(previousCrop, crop, imageAspect) {
+function containCrop(crop, imageAspect) {
   var contained = _extends({}, crop);
 
   // Don't let the crop grow on the opposite side when hitting an x image boundary.
@@ -20867,7 +21579,7 @@ function containCrop(previousCrop, crop, imageAspect) {
     contained.height = contained.width / crop.aspect * imageAspect;
     // If sizing in up direction we need to pin Y at the point it
     // would be at the boundary.
-    if (previousCrop.y > contained.y) {
+    if (contained.y < crop.y) {
       contained.y = crop.y + (crop.height - contained.height);
     }
   }
@@ -20911,7 +21623,7 @@ var ReactCrop = function (_PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ReactCrop.__proto__ || Object.getPrototypeOf(ReactCrop)).call.apply(_ref, [this].concat(args))), _this), _this.window = window, _this.document = document, _this.state = {}, _this.onCropMouseTouchDown = function (e) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ReactCrop.__proto__ || Object.getPrototypeOf(ReactCrop)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _this.onCropMouseTouchDown = function (e) {
       var _this$props = _this.props,
           crop = _this$props.crop,
           disabled = _this$props.disabled;
@@ -20936,7 +21648,7 @@ var ReactCrop = function (_PureComponent) {
       var cropOffset = void 0;
 
       if (crop.aspect) {
-        cropOffset = _this.getElementOffset(_this.cropSelectRef);
+        cropOffset = getElementOffset(_this.cropSelectRef);
       }
 
       _this.evData = {
@@ -20963,7 +21675,6 @@ var ReactCrop = function (_PureComponent) {
       var _this$props2 = _this.props,
           crop = _this$props2.crop,
           disabled = _this$props2.disabled,
-          locked = _this$props2.locked,
           keepSelection = _this$props2.keepSelection,
           onChange = _this$props2.onChange;
 
@@ -20972,7 +21683,7 @@ var ReactCrop = function (_PureComponent) {
         return;
       }
 
-      if (disabled || locked || keepSelection && isCropValid(crop)) {
+      if (disabled || keepSelection && isCropValid(crop)) {
         return;
       }
 
@@ -20983,7 +21694,7 @@ var ReactCrop = function (_PureComponent) {
       // Focus for detecting keypress.
       _this.componentRef.focus({ preventScroll: true });
 
-      var imageOffset = _this.getElementOffset(_this.imageRef);
+      var imageOffset = getElementOffset(_this.imageRef);
       var xPc = (clientPos.x - imageOffset.left) / _this.imageRef.width * 100;
       var yPc = (clientPos.y - imageOffset.top) / _this.imageRef.height * 100;
 
@@ -21058,9 +21769,7 @@ var ReactCrop = function (_PureComponent) {
         nextCrop = _this.dragCrop();
       }
 
-      if (nextCrop !== crop) {
-        onChange(nextCrop, getPixelCrop(_this.imageRef, nextCrop));
-      }
+      onChange(nextCrop, getPixelCrop(_this.imageRef, nextCrop));
     }, _this.onComponentKeyDown = function (e) {
       var _this$props4 = _this.props,
           crop = _this$props4.crop,
@@ -21132,12 +21841,12 @@ var ReactCrop = function (_PureComponent) {
     value: function componentDidMount() {
       var options = passiveSupported ? { passive: false } : false;
 
-      this.document.addEventListener('mousemove', this.onDocMouseTouchMove, options);
-      this.document.addEventListener('touchmove', this.onDocMouseTouchMove, options);
+      document.addEventListener('mousemove', this.onDocMouseTouchMove, options);
+      document.addEventListener('touchmove', this.onDocMouseTouchMove, options);
 
-      this.document.addEventListener('mouseup', this.onDocMouseTouchEnd, options);
-      this.document.addEventListener('touchend', this.onDocMouseTouchEnd, options);
-      this.document.addEventListener('touchcancel', this.onDocMouseTouchEnd, options);
+      document.addEventListener('mouseup', this.onDocMouseTouchEnd, options);
+      document.addEventListener('touchend', this.onDocMouseTouchEnd, options);
+      document.addEventListener('touchcancel', this.onDocMouseTouchEnd, options);
 
       if (this.imageRef.complete || this.imageRef.readyState) {
         if (this.imageRef.naturalWidth === 0) {
@@ -21154,41 +21863,19 @@ var ReactCrop = function (_PureComponent) {
       }
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps) {
-      if (prevProps.crop !== this.props.crop) {
-        this.resolveCropAndTriggerChange(this.props.crop, this.imageRef);
-      }
-    }
-  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.document.removeEventListener('mousemove', this.onDocMouseTouchMove);
-      this.document.removeEventListener('touchmove', this.onDocMouseTouchMove);
+      document.removeEventListener('mousemove', this.onDocMouseTouchMove);
+      document.removeEventListener('touchmove', this.onDocMouseTouchMove);
 
-      this.document.removeEventListener('mouseup', this.onDocMouseTouchEnd);
-      this.document.removeEventListener('touchend', this.onDocMouseTouchEnd);
-      this.document.removeEventListener('touchcancel', this.onDocMouseTouchEnd);
+      document.removeEventListener('mouseup', this.onDocMouseTouchEnd);
+      document.removeEventListener('touchend', this.onDocMouseTouchEnd);
+      document.removeEventListener('touchcancel', this.onDocMouseTouchEnd);
     }
   }, {
     key: 'onImageLoad',
     value: function onImageLoad(image) {
-      var crop = this.resolveCropAndTriggerChange(this.props.crop, image);
-      this.props.onImageLoaded(image, getPixelCrop(image, crop));
-    }
-  }, {
-    key: 'getElementOffset',
-    value: function getElementOffset(el) {
-      var rect = el.getBoundingClientRect();
-      var docEl = this.document.documentElement;
-
-      var rectTop = rect.top + this.window.pageYOffset - docEl.clientTop;
-      var rectLeft = rect.left + this.window.pageXOffset - docEl.clientLeft;
-
-      return {
-        top: rectTop,
-        left: rectLeft
-      };
+      this.props.onImageLoaded(image, getPixelCrop(image, this.props.crop));
     }
   }, {
     key: 'getCropStyle',
@@ -21250,16 +21937,6 @@ var ReactCrop = function (_PureComponent) {
       };
     }
   }, {
-    key: 'resolveCropAndTriggerChange',
-    value: function resolveCropAndTriggerChange(crop, image) {
-      var resolvedCrop = resolveCrop(crop, image);
-      if (resolvedCrop !== crop) {
-        this.props.onChange(resolvedCrop, getPixelCrop(image, resolvedCrop));
-        this.props.onComplete(resolvedCrop, getPixelCrop(image, resolvedCrop));
-      }
-      return resolvedCrop;
-    }
-  }, {
     key: 'dragCrop',
     value: function dragCrop() {
       var nextCrop = this.makeNewCrop();
@@ -21274,10 +21951,6 @@ var ReactCrop = function (_PureComponent) {
     value: function resizeCrop() {
       var nextCrop = this.makeNewCrop();
       var evData = this.evData;
-      var _props2 = this.props,
-          crop = _props2.crop,
-          minWidth = _props2.minWidth,
-          minHeight = _props2.minHeight;
       var ord = evData.ord;
 
       var imageAspect = this.imageRef.width / this.imageRef.height;
@@ -21314,7 +21987,7 @@ var ReactCrop = function (_PureComponent) {
         }
       }
 
-      var containedCrop = containCrop(this.props.crop, {
+      var containedCrop = containCrop({
         x: newX,
         y: newY,
         width: newSize.width,
@@ -21338,16 +22011,6 @@ var ReactCrop = function (_PureComponent) {
 
       evData.lastYCrossover = evData.yCrossOver;
       this.crossOverCheck();
-
-      // Ensure new dimensions aren't less than min dimensions.
-      if (minWidth && nextCrop.width < minWidth) {
-        return crop;
-      }
-
-      if (minHeight && nextCrop.height < minHeight) {
-        return crop;
-      }
-
       return nextCrop;
     }
   }, {
@@ -21377,9 +22040,7 @@ var ReactCrop = function (_PureComponent) {
     value: function createCropSelection() {
       var _this3 = this;
 
-      var _props3 = this.props,
-          disabled = _props3.disabled,
-          locked = _props3.locked;
+      var disabled = this.props.disabled;
 
       var style = this.getCropStyle();
 
@@ -21395,7 +22056,7 @@ var ReactCrop = function (_PureComponent) {
           onTouchStart: this.onCropMouseTouchDown,
           role: 'presentation'
         },
-        !disabled && !locked && _react2.default.createElement(
+        !disabled && _react2.default.createElement(
           'div',
           { className: 'ReactCrop__drag-elements' },
           _react2.default.createElement('div', { className: 'ReactCrop__drag-bar ord-n', 'data-ord': 'n' }),
@@ -21443,18 +22104,17 @@ var ReactCrop = function (_PureComponent) {
     value: function render() {
       var _this4 = this;
 
-      var _props4 = this.props,
-          children = _props4.children,
-          className = _props4.className,
-          crossorigin = _props4.crossorigin,
-          crop = _props4.crop,
-          disabled = _props4.disabled,
-          locked = _props4.locked,
-          imageAlt = _props4.imageAlt,
-          onImageError = _props4.onImageError,
-          src = _props4.src,
-          style = _props4.style,
-          imageStyle = _props4.imageStyle;
+      var _props2 = this.props,
+          children = _props2.children,
+          className = _props2.className,
+          crossorigin = _props2.crossorigin,
+          crop = _props2.crop,
+          disabled = _props2.disabled,
+          imageAlt = _props2.imageAlt,
+          onImageError = _props2.onImageError,
+          src = _props2.src,
+          style = _props2.style,
+          imageStyle = _props2.imageStyle;
       var cropIsActive = this.state.cropIsActive;
 
       var cropSelection = void 0;
@@ -21483,10 +22143,6 @@ var ReactCrop = function (_PureComponent) {
 
       if (disabled) {
         componentClasses.push('ReactCrop--disabled');
-      }
-
-      if (locked) {
-        componentClasses.push('ReactCrop--locked');
       }
 
       if (className) {
@@ -21562,7 +22218,6 @@ ReactCrop.propTypes = {
     height: _propTypes2.default.number
   }),
   disabled: _propTypes2.default.bool,
-  locked: _propTypes2.default.bool,
   imageAlt: _propTypes2.default.string,
   imageStyle: _propTypes2.default.shape({}),
   keepSelection: _propTypes2.default.bool,
@@ -21585,7 +22240,6 @@ ReactCrop.defaultProps = {
   crop: undefined,
   crossorigin: undefined,
   disabled: false,
-  locked: false,
   imageAlt: '',
   maxWidth: 100,
   maxHeight: 100,
@@ -21602,27 +22256,892 @@ ReactCrop.defaultProps = {
   imageStyle: undefined
 };
 
-exports.default = ReactCrop;
-exports.Component = ReactCrop;
-exports.getPixelCrop = getPixelCrop;
-exports.makeAspectCrop = makeAspectCrop;
-exports.containCrop = containCrop;
+module.exports = ReactCrop;
+module.exports.getPixelCrop = getPixelCrop;
+module.exports.makeAspectCrop = makeAspectCrop;
+module.exports.containCrop = containCrop;
 
 /***/ }),
-/* 1 */
+/* 3 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(5)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(8)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var assign = __webpack_require__(6);
+
+var ReactPropTypesSecret = __webpack_require__(1);
+var checkPropTypes = __webpack_require__(7);
+
+var printWarning = function() {};
+
+if (process.env.NODE_ENV !== 'production') {
+  printWarning = function(text) {
+    var message = 'Warning: ' + text;
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+}
+
+function emptyFunctionThatReturnsNull() {
+  return null;
+}
+
+module.exports = function(isValidElement, throwOnDirectAccess) {
+  /* global Symbol */
+  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
+
+  /**
+   * Returns the iterator method function contained on the iterable object.
+   *
+   * Be sure to invoke the function with the iterable as context:
+   *
+   *     var iteratorFn = getIteratorFn(myIterable);
+   *     if (iteratorFn) {
+   *       var iterator = iteratorFn.call(myIterable);
+   *       ...
+   *     }
+   *
+   * @param {?object} maybeIterable
+   * @return {?function}
+   */
+  function getIteratorFn(maybeIterable) {
+    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
+    if (typeof iteratorFn === 'function') {
+      return iteratorFn;
+    }
+  }
+
+  /**
+   * Collection of methods that allow declaration and validation of props that are
+   * supplied to React components. Example usage:
+   *
+   *   var Props = require('ReactPropTypes');
+   *   var MyArticle = React.createClass({
+   *     propTypes: {
+   *       // An optional string prop named "description".
+   *       description: Props.string,
+   *
+   *       // A required enum prop named "category".
+   *       category: Props.oneOf(['News','Photos']).isRequired,
+   *
+   *       // A prop named "dialog" that requires an instance of Dialog.
+   *       dialog: Props.instanceOf(Dialog).isRequired
+   *     },
+   *     render: function() { ... }
+   *   });
+   *
+   * A more formal specification of how these methods are used:
+   *
+   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
+   *   decl := ReactPropTypes.{type}(.isRequired)?
+   *
+   * Each and every declaration produces a function with the same signature. This
+   * allows the creation of custom validation functions. For example:
+   *
+   *  var MyLink = React.createClass({
+   *    propTypes: {
+   *      // An optional string or URI prop named "href".
+   *      href: function(props, propName, componentName) {
+   *        var propValue = props[propName];
+   *        if (propValue != null && typeof propValue !== 'string' &&
+   *            !(propValue instanceof URI)) {
+   *          return new Error(
+   *            'Expected a string or an URI for ' + propName + ' in ' +
+   *            componentName
+   *          );
+   *        }
+   *      }
+   *    },
+   *    render: function() {...}
+   *  });
+   *
+   * @internal
+   */
+
+  var ANONYMOUS = '<<anonymous>>';
+
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
+  var ReactPropTypes = {
+    array: createPrimitiveTypeChecker('array'),
+    bool: createPrimitiveTypeChecker('boolean'),
+    func: createPrimitiveTypeChecker('function'),
+    number: createPrimitiveTypeChecker('number'),
+    object: createPrimitiveTypeChecker('object'),
+    string: createPrimitiveTypeChecker('string'),
+    symbol: createPrimitiveTypeChecker('symbol'),
+
+    any: createAnyTypeChecker(),
+    arrayOf: createArrayOfTypeChecker,
+    element: createElementTypeChecker(),
+    instanceOf: createInstanceTypeChecker,
+    node: createNodeChecker(),
+    objectOf: createObjectOfTypeChecker,
+    oneOf: createEnumTypeChecker,
+    oneOfType: createUnionTypeChecker,
+    shape: createShapeTypeChecker,
+    exact: createStrictShapeTypeChecker,
+  };
+
+  /**
+   * inlined Object.is polyfill to avoid requiring consumers ship their own
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+   */
+  /*eslint-disable no-self-compare*/
+  function is(x, y) {
+    // SameValue algorithm
+    if (x === y) {
+      // Steps 1-5, 7-10
+      // Steps 6.b-6.e: +0 != -0
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      // Step 6.a: NaN == NaN
+      return x !== x && y !== y;
+    }
+  }
+  /*eslint-enable no-self-compare*/
+
+  /**
+   * We use an Error-like object for backward compatibility as people may call
+   * PropTypes directly and inspect their output. However, we don't use real
+   * Errors anymore. We don't inspect their stack anyway, and creating them
+   * is prohibitively expensive if they are created too often, such as what
+   * happens in oneOfType() for any type before the one that matched.
+   */
+  function PropTypeError(message) {
+    this.message = message;
+    this.stack = '';
+  }
+  // Make `instanceof Error` still work for returned errors.
+  PropTypeError.prototype = Error.prototype;
+
+  function createChainableTypeChecker(validate) {
+    if (process.env.NODE_ENV !== 'production') {
+      var manualPropTypeCallCache = {};
+      var manualPropTypeWarningCount = 0;
+    }
+    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+      componentName = componentName || ANONYMOUS;
+      propFullName = propFullName || propName;
+
+      if (secret !== ReactPropTypesSecret) {
+        if (throwOnDirectAccess) {
+          // New behavior only for users of `prop-types` package
+          var err = new Error(
+            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+            'Use `PropTypes.checkPropTypes()` to call them. ' +
+            'Read more at http://fb.me/use-check-prop-types'
+          );
+          err.name = 'Invariant Violation';
+          throw err;
+        } else if (process.env.NODE_ENV !== 'production' && typeof console !== 'undefined') {
+          // Old behavior for people using React.PropTypes
+          var cacheKey = componentName + ':' + propName;
+          if (
+            !manualPropTypeCallCache[cacheKey] &&
+            // Avoid spamming the console because they are often not actionable except for lib authors
+            manualPropTypeWarningCount < 3
+          ) {
+            printWarning(
+              'You are manually calling a React.PropTypes validation ' +
+              'function for the `' + propFullName + '` prop on `' + componentName  + '`. This is deprecated ' +
+              'and will throw in the standalone `prop-types` package. ' +
+              'You may be seeing this warning due to a third-party PropTypes ' +
+              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.'
+            );
+            manualPropTypeCallCache[cacheKey] = true;
+            manualPropTypeWarningCount++;
+          }
+        }
+      }
+      if (props[propName] == null) {
+        if (isRequired) {
+          if (props[propName] === null) {
+            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
+          }
+          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
+        }
+        return null;
+      } else {
+        return validate(props, propName, componentName, location, propFullName);
+      }
+    }
+
+    var chainedCheckType = checkType.bind(null, false);
+    chainedCheckType.isRequired = checkType.bind(null, true);
+
+    return chainedCheckType;
+  }
+
+  function createPrimitiveTypeChecker(expectedType) {
+    function validate(props, propName, componentName, location, propFullName, secret) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== expectedType) {
+        // `propValue` being instance of, say, date/regexp, pass the 'object'
+        // check, but we can offer a more precise error message here rather than
+        // 'of type `object`'.
+        var preciseType = getPreciseType(propValue);
+
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createAnyTypeChecker() {
+    return createChainableTypeChecker(emptyFunctionThatReturnsNull);
+  }
+
+  function createArrayOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
+      }
+      var propValue = props[propName];
+      if (!Array.isArray(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
+      }
+      for (var i = 0; i < propValue.length; i++) {
+        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
+        if (error instanceof Error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createElementTypeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      if (!isValidElement(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createInstanceTypeChecker(expectedClass) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!(props[propName] instanceof expectedClass)) {
+        var expectedClassName = expectedClass.name || ANONYMOUS;
+        var actualClassName = getClassName(props[propName]);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createEnumTypeChecker(expectedValues) {
+    if (!Array.isArray(expectedValues)) {
+      process.env.NODE_ENV !== 'production' ? printWarning('Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
+      return emptyFunctionThatReturnsNull;
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      for (var i = 0; i < expectedValues.length; i++) {
+        if (is(propValue, expectedValues[i])) {
+          return null;
+        }
+      }
+
+      var valuesString = JSON.stringify(expectedValues);
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createObjectOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
+      }
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
+      }
+      for (var key in propValue) {
+        if (propValue.hasOwnProperty(key)) {
+          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+          if (error instanceof Error) {
+            return error;
+          }
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createUnionTypeChecker(arrayOfTypeCheckers) {
+    if (!Array.isArray(arrayOfTypeCheckers)) {
+      process.env.NODE_ENV !== 'production' ? printWarning('Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
+      return emptyFunctionThatReturnsNull;
+    }
+
+    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+      var checker = arrayOfTypeCheckers[i];
+      if (typeof checker !== 'function') {
+        printWarning(
+          'Invalid argument supplied to oneOfType. Expected an array of check functions, but ' +
+          'received ' + getPostfixForTypeWarning(checker) + ' at index ' + i + '.'
+        );
+        return emptyFunctionThatReturnsNull;
+      }
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+        var checker = arrayOfTypeCheckers[i];
+        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
+          return null;
+        }
+      }
+
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createNodeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!isNode(props[propName])) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      for (var key in shapeTypes) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          continue;
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createStrictShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      // We need to check all keys in case some are required but missing from
+      // props.
+      var allKeys = assign({}, props[propName], shapeTypes);
+      for (var key in allKeys) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          return new PropTypeError(
+            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`.' +
+            '\nBad object: ' + JSON.stringify(props[propName], null, '  ') +
+            '\nValid keys: ' +  JSON.stringify(Object.keys(shapeTypes), null, '  ')
+          );
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+
+    return createChainableTypeChecker(validate);
+  }
+
+  function isNode(propValue) {
+    switch (typeof propValue) {
+      case 'number':
+      case 'string':
+      case 'undefined':
+        return true;
+      case 'boolean':
+        return !propValue;
+      case 'object':
+        if (Array.isArray(propValue)) {
+          return propValue.every(isNode);
+        }
+        if (propValue === null || isValidElement(propValue)) {
+          return true;
+        }
+
+        var iteratorFn = getIteratorFn(propValue);
+        if (iteratorFn) {
+          var iterator = iteratorFn.call(propValue);
+          var step;
+          if (iteratorFn !== propValue.entries) {
+            while (!(step = iterator.next()).done) {
+              if (!isNode(step.value)) {
+                return false;
+              }
+            }
+          } else {
+            // Iterator will provide entry [k,v] tuples rather than values.
+            while (!(step = iterator.next()).done) {
+              var entry = step.value;
+              if (entry) {
+                if (!isNode(entry[1])) {
+                  return false;
+                }
+              }
+            }
+          }
+        } else {
+          return false;
+        }
+
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  function isSymbol(propType, propValue) {
+    // Native Symbol.
+    if (propType === 'symbol') {
+      return true;
+    }
+
+    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
+    if (propValue['@@toStringTag'] === 'Symbol') {
+      return true;
+    }
+
+    // Fallback for non-spec compliant Symbols which are polyfilled.
+    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Equivalent of `typeof` but with special handling for array and regexp.
+  function getPropType(propValue) {
+    var propType = typeof propValue;
+    if (Array.isArray(propValue)) {
+      return 'array';
+    }
+    if (propValue instanceof RegExp) {
+      // Old webkits (at least until Android 4.0) return 'function' rather than
+      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
+      // passes PropTypes.object.
+      return 'object';
+    }
+    if (isSymbol(propType, propValue)) {
+      return 'symbol';
+    }
+    return propType;
+  }
+
+  // This handles more types than `getPropType`. Only used for error messages.
+  // See `createPrimitiveTypeChecker`.
+  function getPreciseType(propValue) {
+    if (typeof propValue === 'undefined' || propValue === null) {
+      return '' + propValue;
+    }
+    var propType = getPropType(propValue);
+    if (propType === 'object') {
+      if (propValue instanceof Date) {
+        return 'date';
+      } else if (propValue instanceof RegExp) {
+        return 'regexp';
+      }
+    }
+    return propType;
+  }
+
+  // Returns a string that is postfixed to a warning about an invalid type.
+  // For example, "undefined" or "of type array"
+  function getPostfixForTypeWarning(value) {
+    var type = getPreciseType(value);
+    switch (type) {
+      case 'array':
+      case 'object':
+        return 'an ' + type;
+      case 'boolean':
+      case 'date':
+      case 'regexp':
+        return 'a ' + type;
+      default:
+        return type;
+    }
+  }
+
+  // Returns class name of the object, if any.
+  function getClassName(propValue) {
+    if (!propValue.constructor || !propValue.constructor.name) {
+      return ANONYMOUS;
+    }
+    return propValue.constructor.name;
+  }
+
+  ReactPropTypes.checkPropTypes = checkPropTypes;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var printWarning = function() {};
+
+if (process.env.NODE_ENV !== 'production') {
+  var ReactPropTypesSecret = __webpack_require__(1);
+  var loggedTypeFailures = {};
+
+  printWarning = function(text) {
+    var message = 'Warning: ' + text;
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+}
+
+/**
+ * Assert that the values match with the type specs.
+ * Error messages are memorized and will only be shown once.
+ *
+ * @param {object} typeSpecs Map of name to a ReactPropType
+ * @param {object} values Runtime values that need to be type-checked
+ * @param {string} location e.g. "prop", "context", "child context"
+ * @param {string} componentName Name of the component for error messages.
+ * @param {?Function} getStack Returns the component stack.
+ * @private
+ */
+function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+  if (process.env.NODE_ENV !== 'production') {
+    for (var typeSpecName in typeSpecs) {
+      if (typeSpecs.hasOwnProperty(typeSpecName)) {
+        var error;
+        // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+        try {
+          // This is intentionally an invariant that gets caught. It's the same
+          // behavior as without this statement except with a better message.
+          if (typeof typeSpecs[typeSpecName] !== 'function') {
+            var err = Error(
+              (componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' +
+              'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.'
+            );
+            err.name = 'Invariant Violation';
+            throw err;
+          }
+          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+        } catch (ex) {
+          error = ex;
+        }
+        if (error && !(error instanceof Error)) {
+          printWarning(
+            (componentName || 'React class') + ': type specification of ' +
+            location + ' `' + typeSpecName + '` is invalid; the type checker ' +
+            'function must return `null` or an `Error` but returned a ' + typeof error + '. ' +
+            'You may have forgotten to pass an argument to the type checker ' +
+            'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +
+            'shape all require an argument).'
+          )
+
+        }
+        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
+          // Only monitor this failure once because there tends to be a lot of the
+          // same error.
+          loggedTypeFailures[error.message] = true;
+
+          var stack = getStack ? getStack() : '';
+
+          printWarning(
+            'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
+          );
+        }
+      }
+    }
+  }
+}
+
+module.exports = checkPropTypes;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = __webpack_require__(1);
+
+function emptyFunction() {}
+
+module.exports = function() {
+  function shim(props, propName, componentName, location, propFullName, secret) {
+    if (secret === ReactPropTypesSecret) {
+      // It is still safe when called from React.
+      return;
+    }
+    var err = new Error(
+      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+      'Use PropTypes.checkPropTypes() to call them. ' +
+      'Read more at http://fb.me/use-check-prop-types'
+    );
+    err.name = 'Invariant Violation';
+    throw err;
+  };
+  shim.isRequired = shim;
+  function getShim() {
+    return shim;
+  };
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+  var ReactPropTypes = {
+    array: shim,
+    bool: shim,
+    func: shim,
+    number: shim,
+    object: shim,
+    string: shim,
+    symbol: shim,
+
+    any: shim,
+    arrayOf: getShim,
+    element: shim,
+    instanceOf: getShim,
+    node: shim,
+    objectOf: getShim,
+    oneOf: getShim,
+    oneOfType: getShim,
+    shape: getShim,
+    exact: getShim
+  };
+
+  ReactPropTypes.checkPropTypes = emptyFunction;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
 
 /***/ })
 /******/ ]);
 });
+
+/***/ }),
+
+/***/ "./node_modules/react-image-crop/index.js":
+/*!************************************************!*\
+  !*** ./node_modules/react-image-crop/index.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./dist/ReactCrop */ "./node_modules/react-image-crop/dist/ReactCrop.js");
+
 
 /***/ }),
 

@@ -50244,15 +50244,15 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var VideoChat = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(function () {
-  return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../components/VideoChat */ "./components/VideoChat.js"));
+var VideoChatUser = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(function () {
+  return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../components/VideoChatUser */ "./components/VideoChatUser.js"));
 }, {
   ssr: false,
   loadableGenerated: {
     webpack: function webpack() {
-      return [/*require.resolve*/(/*! ../components/VideoChat */ "./components/VideoChat.js")];
+      return [/*require.resolve*/(/*! ../components/VideoChatUser */ "./components/VideoChatUser.js")];
     },
-    modules: ['../components/VideoChat']
+    modules: ['../components/VideoChatUser']
   }
 }); //render video chat component
 
@@ -50270,7 +50270,7 @@ function (_Component) {
   _createClass(VideoChatPage, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_1__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(VideoChat, null)));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_1__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(VideoChatUser, null)));
     }
   }]);
 

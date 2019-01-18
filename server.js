@@ -124,70 +124,67 @@ app
                 console.log("User already exists");
               } else {
                 //check if email address exists
-                database.connection.query(searchEmail, function(err, res) {
-                  //check if email exists
+                // database.connection.query(searchEmail, function(err, res) {
+                //   //check if email exists
+                //   if (err) {
+                //     response
+                //       .status(400)
+                //       .json({ message: "Database Server is not connected!" });
+                //   } else {
+                // if (res.length) {
+                //   response.status(400).json({
+                //     success: false,
+                //     message: "Email already exists! Choose a different one."
+                //   });
+                //   console.log("Email already exists");
+                // } else {
+                database.connection.query(insertSQL, function(err, result) {
                   if (err) {
-                    response
-                      .status(400)
-                      .json({ message: "Database Server is not connected!" });
+                    response.status(400).json({
+                      message: "Database Server is not connected!"
+                    });
                   } else {
-                    if (res.length) {
-                      response.status(400).json({
-                        success: false,
-                        message: "Email already exists! Choose a different one."
-                      });
-                      console.log("Email already exists");
-                    } else {
-                      database.connection.query(insertSQL, function(
-                        err,
-                        result
-                      ) {
-                        if (err) {
-                          response.status(400).json({
-                            message: "Database Server is not connected!"
-                          });
-                        } else {
-                          //sign a token and send it via email to user
-                          jwt.sign(
-                            {
-                              username: body.username,
-                              emailToken: crypto
-                                .createHash("sha256")
-                                .update(body.username)
-                                .digest("hex")
-                            },
-                            EMAIL_SECRET,
-                            {
-                              expiresIn: 36000 //1h
-                            },
-                            (err, emailToken) => {
-                              const url = `http://localhost:3000/activate/${emailToken}`;
-                              transporter.sendMail({
-                                from: "no.reply.sealle@gmail.com",
-                                to: body.email,
-                                subject: "Confirm Email",
-                                html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
-                              });
-                            }
-                          );
-                          //store image in static folder
-                          image.mv("static/" + imageName, function(err) {
-                            if (err) return response.status(500).send(err);
-                          });
-                          image2.mv("static/" + imageName2, function(err) {
-                            if (err) return response.status(500).send(err);
-                          });
-                          response.status(200).json({
-                            success: true,
-                            message: "successfully registered!"
-                          });
-                          console.log("1 record inserted");
-                        }
-                      });
-                    }
+                    //sign a token and send it via email to user
+                    jwt.sign(
+                      {
+                        username: body.username,
+                        emailToken: crypto
+                          .createHash("sha256")
+                          .update(body.username)
+                          .digest("hex")
+                      },
+                      EMAIL_SECRET,
+                      {
+                        expiresIn: 36000 //1h
+                      },
+                      (err, emailToken) => {
+                        const url = `http://localhost:3000/activate/${emailToken}`;
+                        transporter.sendMail({
+                          from: "no.reply.sealle@gmail.com",
+                          to: body.email,
+                          subject: "Confirm Email",
+                          html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
+                        });
+                      }
+                    );
+                    //store image in static folder
+                    image.mv("static/" + imageName, function(err) {
+                      if (err) return response.status(500).send(err);
+                    });
+                    image2.mv("static/" + imageName2, function(err) {
+                      if (err) return response.status(500).send(err);
+                    });
+                    response.status(200).json({
+                      success: true,
+                      message: "successfully registered!"
+                    });
+                    console.log("1 record inserted");
                   }
                 });
               }
+              //     }
+              //   });
+              // }
             }
           });
         });
@@ -268,19 +265,19 @@ app
                 console.log("User already exists");
               } else {
                 //check if email address exists
-                database.connection.query(searchEmail, function(err, res) {
-                  if (err) {
-                    response
-                      .status(400)
-                      .json({ message: "Database Server is not connected!" });
-                  } else {
-                    if (res.length) {
-                      response.status(400).json({
-                        success: false,
-                        message: "Email already exists! Choose a different one."
-                      });
-                      console.log("Email already exists");
-                    } else {
+                // database.connection.query(searchEmail, function(err, res) {
+                //   if (err) {
+                //     response
+                //       .status(400)
+                //       .json({ message: "Database Server is not connected!" });
+                //   } else {
+                //     if (res.length) {
+                //       response.status(400).json({
+                //         success: false,
+                //         message: "Email already exists! Choose a different one."
+                //       });
+                //       console.log("Email already exists");
+                //     } else {
                       database.connection.query(insertSQL, function(
                         err,
                         result
@@ -333,9 +330,9 @@ app
                         }
                       });
                     }
-                  }
-                });
-              }
+              //     }
+              //   });
+              // }
             }
           });
         });
@@ -818,7 +815,6 @@ app
         if (err) {
           throw err;
         } else {
-          console.log(res[0].ID1);
           response.status(200).send({
             success: true,
             userData: res[0],
