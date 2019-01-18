@@ -713,14 +713,27 @@ function (_Component) {
       tesseract_ts__WEBPACK_IMPORTED_MODULE_10__["Tesseract"].recognize(image).then(function (result, err) {
         if (err) {
           console.log(err);
-        } //prepare data for mrz verification
+        }
 
-
-        var ocrText1 = JSON.stringify(result.text).substring(1, 31);
-        var ocrText2 = JSON.stringify(result.text).substring(33, 63);
-        var ocrText3 = JSON.stringify(result.text).substring(65, 95);
         var ocrLines = [];
-        ocrLines.push(ocrText1, ocrText2, ocrText3); //verify mrz code
+
+        if (_this.state.users[0].idType === "id") {
+          //prepare data for identity card mrz verification
+          var ocrText1 = JSON.stringify(result.text).substring(1, 31);
+          var ocrText2 = JSON.stringify(result.text).substring(33, 63);
+          var ocrText3 = JSON.stringify(result.text).substring(65, 95);
+          ocrLines.push(ocrText1, ocrText2, ocrText3);
+        } else {
+          //prepare data for drivers license mrz verification
+          var _ocrText = JSON.stringify(result.text).substring(1, 10);
+
+          var _ocrText2 = JSON.stringify(result.text).substring(12, 42);
+
+          var _ocrText3 = JSON.stringify(result.text).substring(44, 74);
+
+          ocrLines.push(_ocrText, _ocrText2, _ocrText3);
+        } //verify mrz code
+
 
         var res = parse(ocrLines);
 
@@ -736,7 +749,8 @@ function (_Component) {
 
         _this.setState({
           loadingOCR: false,
-          ocr: result.text // isCalled: true
+          ocr: result.text,
+          ocrFormat: res.format // isCalled: true
 
         });
       });
@@ -758,9 +772,9 @@ function (_Component) {
       }); //get canvas, the image and the pixelCrop
 
 
-      var canvasRef = _this.imageCropPreviewCanvasRef.current; // let image1 = "static/Admin-ScanBack.jpeg";
+      var canvasRef = _this.imageCropPreviewCanvasRef.current; // let image1 = "static/qwer-DLBack.jpeg";
 
-      var image1 = "static/" + _this.state.img1; //trigger function to crop image to canvas
+      var image1 = "static/" + _this.state.img1;
 
       _this.cropImage(canvasRef, image1, pixelCrop);
     });
@@ -781,9 +795,8 @@ function (_Component) {
       }); //get canvas, the image and the pixelCrop
 
 
-      var canvasRef = _this.imageCropPreviewCanvasRef.current; // let image2 = "static/cvbn-IDfront.jpg";
-
-      var image2 = "static/" + _this.state.img2; //trigger function to crop image to canvas
+      var canvasRef = _this.imageCropPreviewCanvasRef.current;
+      var image2 = "static/" + _this.state.img2;
 
       _this.cropImage(canvasRef, image2, pixelCrop);
     });
@@ -1141,7 +1154,7 @@ function (_Component) {
           maxHeight: "287px",
           margin: "auto"
         },
-        src: "../static/".concat(this.state.img1) // src={"static/Admin-ScanBack.jpeg"}
+        src: "../static/".concat(this.state.img1) // src={"static/qwer-DLBack.jpeg"}
         ,
         crop: this.state.crop,
         onChange: this.handleOnCropChange1,
@@ -1174,7 +1187,7 @@ function (_Component) {
           display: "none"
         }
       }), this.state.idIsValid ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Message"], {
-        header: "Valid!",
+        header: "Valid! Type: ".concat(this.state.ocrFormat),
         success: true,
         content: this.state.ocr,
         style: {
@@ -1184,7 +1197,7 @@ function (_Component) {
           border: "1px solid green"
         }
       }) : this.state.idIsValid === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_17__["Message"], {
-        header: "NOT Valid!",
+        header: "Not Valid! Type: ".concat(this.state.ocrFormat),
         success: true,
         content: this.state.ocr,
         style: {

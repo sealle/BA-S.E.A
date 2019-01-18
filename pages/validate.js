@@ -18,26 +18,31 @@ class Validation extends Component {
 
   //send email and pasword to server
   handleFormSubmit = () => {
-    this.setState({ loading: true });
+    this.setState({ loading: true, errorMessage: "", successMessage:"" });
     let fname = this.state.fname;
     let lname = this.state.lname;
     let idNum = this.state.idNum;
     let kycKey = this.state.kycKey;
 
     //get array of hasches from smart contract
-    contract.methods.getHashes().call().then((result) => {
-      console.log(result);
-      //hash the user data to compare the hash
-      let userHash = web3.utils.soliditySha3(`${fname} ${lname} ${idNum} ${kycKey}`);
-      console.log(userHash);
-      //check if the user hash is in the array from smart contract
-      if (result.includes(userHash) === true) {
-        this.setState({successMessage: "Your KycKey is valid!"})
-      } else {
-        this.setState({errorMessage: "Your KycKey is not valid!"})
-        console.log(this.state.errorMessage);
-      }
-    })
+    contract.methods
+      .getHashes()
+      .call()
+      .then(result => {
+        console.log(result);
+        //hash the user data to compare the hash
+        let userHash = web3.utils.soliditySha3(
+          `${fname} ${lname} ${idNum} ${kycKey}`
+        );
+        console.log(userHash);
+        //check if the user hash is in the array from smart contract
+        if (result.includes(userHash) === true) {
+          this.setState({ successMessage: "Your KycKey is valid!" });
+        } else {
+          this.setState({ errorMessage: "Your KycKey is not valid!" });
+          console.log(this.state.errorMessage);
+        }
+      });
     this.setState({ loading: false });
   };
 
@@ -63,7 +68,11 @@ class Validation extends Component {
               Note: The information must be the same as the as the information
               provided at your registration process
             </Header>
-            <Form onSubmit={this.handleFormSubmit} success={this.state.successMessage} error={this.state.errorMessage}>
+            <Form
+              onSubmit={this.handleFormSubmit}
+              success={this.state.successMessage}
+              error={this.state.errorMessage}
+            >
               <Form.Field>
                 <Form.Input
                   required
@@ -116,8 +125,19 @@ class Validation extends Component {
                   }
                 />
               </Form.Field>
-              <Message error header="Oops!" content={this.state.errorMessage}/>
-              <Message success header="Success!" content={this.state.successMessage}/>
+              {this.state.errorMessage ? (
+                <Message
+                  error
+                  header="Oops!"
+                  content={this.state.errorMessage}
+                />
+              ) : (
+                <Message
+                  success
+                  header="Success!"
+                  content={this.state.successMessage}
+                />
+              )}
               <Button
                 fluid
                 icon

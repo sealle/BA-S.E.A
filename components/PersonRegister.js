@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import { Link, Router } from "../routes";
-import {
-  Form,
-  Button,
-  Icon,
-  Popup,
-  Message,
-  Container
-} from "semantic-ui-react";
-import { Header } from "semantic-ui-react";
+import { Form, Button, Icon, Popup, Message } from "semantic-ui-react";
 import Layout from "./Layout";
-import HomeHeader from "./HomeHeader";
 import axios from "axios";
 import swal from "sweetalert2";
-import { setCookie } from "../utils/CookieUtils";
+
+const idTypeOptions = [
+  {
+    key: "Swiss Identity Card",
+    text: "Swiss Identity Card",
+    value: "id"
+  },
+  { key: "Swiss Drivers License", text: "Swiss Drivers License", value: "dl" }
+];
 
 class PersonRegister extends Component {
   constructor(props) {
@@ -34,7 +33,7 @@ class PersonRegister extends Component {
   }
 
   //handle form submit and send data to server
-  handleSubmit = async() => {
+  handleSubmit = async () => {
     this.setState({ loading: true });
 
     const formData = new FormData();
@@ -52,7 +51,11 @@ class PersonRegister extends Component {
     formData.append("mobNr", this.state.mobNr);
     formData.append("username", this.state.username);
     formData.append("password", this.state.password);
+    formData.append("idNum", this.state.idNum);
+    formData.append("idType", this.state.idType);
     formData.append("errorMessage", this.state.errorMessage);
+
+    console.log(this.state.idType);
 
     try {
       const response = await axios.post(
@@ -82,17 +85,20 @@ class PersonRegister extends Component {
       this.setState({ errorMessage: error.response.data.message });
     }
     this.setState({ loading: false });
-  }
+  };
 
   //resend confirmation email function
   resendEmail = async () => {
     console.log(this.state.email, this.state.username); //TODO: why undefined?
     let email = this.state.email;
     let username = this.state.username;
-    let response = await axios.post(window.location.origin + "/resendConfirmEmail", {
-      username,
-      email
-    });
+    let response = await axios.post(
+      window.location.origin + "/resendConfirmEmail",
+      {
+        username,
+        email
+      }
+    );
     if (response.data.success) {
       swal({
         title: "Success!",
@@ -113,7 +119,7 @@ class PersonRegister extends Component {
     }
   };
 
-  //handle file input 
+  //handle file input
   handleFileChange = e => {
     //check if two images have been uplaoded
     if (!e.target.files[0] || !e.target.files[1] || e.target.files[2]) {
@@ -290,6 +296,45 @@ class PersonRegister extends Component {
                 name="mobNr"
                 value={this.state.mobNr}
                 onChange={event => this.setState({ mobNr: event.target.value })}
+              />
+            </Form.Group>
+            <Popup
+              trigger={
+                <Icon
+                  name="question circle outline"
+                />
+              }
+              content={
+                <div>
+                  <p style={{ fontWeight: "bold" }}>Identity card:</p>
+                  <p>upper right on the front</p>
+                  <p style={{ fontWeight: "bold" }}>Drivers license:</p>
+                  <p>number 5 on the front</p>
+                </div>
+              }
+              hideOnScroll
+            />
+            <Form.Group widths="equal">
+              <Form.Input
+                fluid
+                label="ID Number"
+                required
+                name="idNum"
+                placeholder="ID Number"
+                value={this.state.idNum}
+                onChange={event => this.setState({ idNum: event.target.value })}
+              />
+              <Form.Select
+                fluid
+                label="ID Type"
+                required
+                options={idTypeOptions}
+                name="idType"
+                placeholder="Choose a ID Type"
+                // value={this.state.idType}
+                onChange={(event, { value }) => {
+                  this.setState({ idType: value });
+                }}
               />
             </Form.Group>
             <Form.Group>

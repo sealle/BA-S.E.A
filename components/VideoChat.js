@@ -412,12 +412,20 @@ export default class VideoChat extends Component {
       if (err) {
         console.log(err);
       }
-      //prepare data for mrz verification
-      let ocrText1 = JSON.stringify(result.text).substring(1, 31);
-      let ocrText2 = JSON.stringify(result.text).substring(33, 63);
-      let ocrText3 = JSON.stringify(result.text).substring(65, 95);
       let ocrLines = [];
-      ocrLines.push(ocrText1, ocrText2, ocrText3);
+      if (this.state.users[0].idType === "id") {
+        //prepare data for identity card mrz verification
+        let ocrText1 = JSON.stringify(result.text).substring(1, 31);
+        let ocrText2 = JSON.stringify(result.text).substring(33, 63);
+        let ocrText3 = JSON.stringify(result.text).substring(65, 95);
+        ocrLines.push(ocrText1, ocrText2, ocrText3);
+      } else {
+        //prepare data for drivers license mrz verification
+        let ocrText1 = JSON.stringify(result.text).substring(1, 10);
+        let ocrText2 = JSON.stringify(result.text).substring(12, 42);
+        let ocrText3 = JSON.stringify(result.text).substring(44, 74);
+        ocrLines.push(ocrText1, ocrText2, ocrText3);
+      }
       //verify mrz code
       let res = parse(ocrLines);
       if (res.valid === true) {
@@ -427,7 +435,8 @@ export default class VideoChat extends Component {
       }
       this.setState({
         loadingOCR: false,
-        ocr: result.text
+        ocr: result.text,
+        ocrFormat: res.format
         // isCalled: true
       });
     });
@@ -440,17 +449,16 @@ export default class VideoChat extends Component {
 
   //handle image loaded for first image in carousel
   handleImageLoaded1 = image => {
-    console.log("image")
+    console.log("image");
   };
 
   //handle crop complete for first image in carousel
   handleOnCropComplete1 = (crop, pixelCrop) => {
-    this.setState({showMrzValidationButton: true})
+    this.setState({ showMrzValidationButton: true });
     //get canvas, the image and the pixelCrop
     const canvasRef = this.imageCropPreviewCanvasRef.current;
-    // let image1 = "static/Admin-ScanBack.jpeg";
+    // let image1 = "static/qwer-DLBack.jpeg";
     let image1 = "static/" + this.state.img1;
-    //trigger function to crop image to canvas
     this.cropImage(canvasRef, image1, pixelCrop);
   };
 
@@ -461,17 +469,15 @@ export default class VideoChat extends Component {
 
   //handle image loaded for second image in carousel
   handleImageLoaded2 = image => {
-    console.log("image")
+    console.log("image");
   };
 
   //handle crop complete for second image in carousel
   handleOnCropComplete2 = (crop, pixelCrop) => {
-    this.setState({showMrzValidationButton: true})
+    this.setState({ showMrzValidationButton: true });
     //get canvas, the image and the pixelCrop
     const canvasRef = this.imageCropPreviewCanvasRef.current;
-    // let image2 = "static/cvbn-IDfront.jpg";
     let image2 = "static/" + this.state.img2;
-    //trigger function to crop image to canvas
     this.cropImage(canvasRef, image2, pixelCrop);
   };
 
@@ -504,8 +510,8 @@ export default class VideoChat extends Component {
   };
 
   //take snapshot from user-video
-  //convert to Blob and then into a file
-  //send image to server
+  //convert image to Blob and then into a file
+  //send file to server
   takeSnapshot = async () => {
     let img = document.getElementById("user-video");
     let canvas = document.getElementById("snapshot");
@@ -535,7 +541,6 @@ export default class VideoChat extends Component {
   render() {
     return (
       <div>
-        {/* <Layout> */}
         <style>{`
         body {
           background: #e6e6e6;
@@ -711,7 +716,7 @@ export default class VideoChat extends Component {
                                 margin: "auto"
                               }}
                               src={`../static/${this.state.img1}`}
-                              // src={"static/Admin-ScanBack.jpeg"}
+                              // src={"static/qwer-DLBack.jpeg"}
                               crop={this.state.crop}
                               onChange={this.handleOnCropChange1}
                               onImageLoaded={this.handleImageLoaded1}
@@ -735,14 +740,14 @@ export default class VideoChat extends Component {
                           </div>
                         </Carousel>
                         {this.state.showMrzValidationButton ? (
-                      <Container style={{ textAlign: "center" }}>
-                        <Button
-                          onClick={this.ocrScan}
-                          loading={this.state.loadingOCR}
-                        >
-                          Validate MRZ Code
-                        </Button>
-                      </Container>
+                          <Container style={{ textAlign: "center" }}>
+                            <Button
+                              onClick={this.ocrScan}
+                              loading={this.state.loadingOCR}
+                            >
+                              Validate MRZ Code
+                            </Button>
+                          </Container>
                         ) : null}
                         <br />
                         <canvas
@@ -755,7 +760,7 @@ export default class VideoChat extends Component {
                         />
                         {this.state.idIsValid ? (
                           <Message
-                            header="Valid!"
+                            header={`Valid! Type: ${this.state.ocrFormat}`}
                             success
                             content={this.state.ocr}
                             style={{
@@ -767,7 +772,7 @@ export default class VideoChat extends Component {
                           />
                         ) : this.state.idIsValid === false ? (
                           <Message
-                            header="NOT Valid!"
+                            header={`Not Valid! Type: ${this.state.ocrFormat}`}
                             success
                             content={this.state.ocr}
                             style={{
@@ -827,8 +832,7 @@ export default class VideoChat extends Component {
                       }}
                     />
                   </Grid.Column>
-                  <Grid.Column width="eight">
-                  </Grid.Column>
+                  <Grid.Column width="eight" />
                 </Grid.Row>
               </Grid>
             </Segment>
