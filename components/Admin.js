@@ -28,7 +28,7 @@ import {
   Menu,
   Card,
   Accordion,
-  Form
+  Form,
 } from "semantic-ui-react";
 import axios from "axios";
 import { Router } from "../routes";
@@ -75,9 +75,10 @@ export default class Admin extends Component {
         x: 0,
         y: 60,
         width: 100,
-        height: 40,
+        height: 40
       },
-      modalOpen: false
+      modalOpen: false,
+      connectedTo: ""
     };
 
     this.currentUser = {
@@ -258,8 +259,7 @@ export default class Admin extends Component {
 
     //listener for added members to the channel
     channelName.bind("pusher:member_added", member => {
-      console.log("connected to" + member.id);
-      // swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
+      swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
       if (userNames.includes(member.id) === false) {
         userNames.push(member.id);
       }
@@ -667,57 +667,57 @@ export default class Admin extends Component {
           background: #e6e6e6;
         }
       `}</style>
-      {this.state.role == 1 ?
-        <Menu pointing secondary>
-          <Menu.Item
-            active={activeItem === "videochat"}
-            name="video"
-            onClick={this.toVideo}
-            style={{ color: "#2985d0" }}
-          >
-            <Icon name="video" />
-            Videochat
-          </Menu.Item>
-          {this.state.disableUserList ? (
+        {this.state.role == 1 ? (
+          <Menu pointing secondary>
             <Menu.Item
-              disabled
-              active={activeItem === "users"}
-              name="users"
-              onClick={this.toList}
+              active={activeItem === "videochat"}
+              name="video"
+              onClick={this.toVideo}
               style={{ color: "#2985d0" }}
             >
-              <Icon name="users" />
-              Userlist
-              {this.state.isEdited ? (
-                <Icon
-                  name="circle thin"
-                  size="tiny"
-                  color="red"
-                  style={{ marginBottom: "10px", marginLeft: "2px" }}
-                />
-              ) : null}
+              <Icon name="video" />
+              Videochat
             </Menu.Item>
-          ) : (
-            <Menu.Item
-              active={activeItem === "users"}
-              name="users"
-              onClick={this.toList}
-              style={{ color: "#2985d0" }}
-            >
-              <Icon name="users" />
-              Userlist
-              {this.state.isEdited ? (
-                <Icon
-                  name="circle thin"
-                  size="tiny"
-                  color="red"
-                  style={{ marginBottom: "10px", marginLeft: "2px" }}
-                />
-              ) : null}
-            </Menu.Item>
-          )}
-        </Menu>
-        : null}
+            {this.state.disableUserList ? (
+              <Menu.Item
+                disabled
+                active={activeItem === "users"}
+                name="users"
+                onClick={this.toList}
+                style={{ color: "#2985d0" }}
+              >
+                <Icon name="users" />
+                Userlist
+                {this.state.isEdited ? (
+                  <Icon
+                    name="circle thin"
+                    size="tiny"
+                    color="red"
+                    style={{ marginBottom: "10px", marginLeft: "2px" }}
+                  />
+                ) : null}
+              </Menu.Item>
+            ) : (
+              <Menu.Item
+                active={activeItem === "users"}
+                name="users"
+                onClick={this.toList}
+                style={{ color: "#2985d0" }}
+              >
+                <Icon name="users" />
+                Userlist
+                {this.state.isEdited ? (
+                  <Icon
+                    name="circle thin"
+                    size="tiny"
+                    color="red"
+                    style={{ marginBottom: "10px", marginLeft: "2px" }}
+                  />
+                ) : null}
+              </Menu.Item>
+            )}
+          </Menu>
+        ) : null}
         {this.state.isVideo ? (
           <div>
             {this.state.role == 1 ? (

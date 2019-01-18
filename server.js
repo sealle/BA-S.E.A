@@ -9,23 +9,21 @@ const database = require("./db.config");
 const Pusher = require("pusher");
 const bcrypt = require("bcrypt-nodejs");
 const saltRounds = 10;
-const fs = require("fs");
-const path = require("path");
 const jwtDecode = require("jwt-decode");
 const nodemailer = require("nodemailer");
 const SqlString = require("sqlstring");
 const Web3 = require("web3");
 const web3 = new Web3();
-// const https = require("https");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
 const bodyParser = require("body-parser");
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
-//jwt secret
+//jwt and email secrets
 const secret = "iliketurtles";
 const EMAIL_SECRET = "yello15873";
+
 const date = require("date-and-time");
 
 //Nodemailer setup

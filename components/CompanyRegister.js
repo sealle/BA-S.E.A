@@ -3,7 +3,6 @@ import { Link, Router } from "../routes";
 import { Form, Button, Icon, Popup, Message, Grid } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import Layout from "../components/Layout";
-import HomeHeader from "../components/HomeHeader";
 import axios from "axios";
 import swal from "sweetalert2";
 

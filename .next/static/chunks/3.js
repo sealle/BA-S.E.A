@@ -5503,7 +5503,7 @@ function fromByteArray (uint8) {
 
   var Buffer;
   try {
-    Buffer = __webpack_require__(/*! buffer */ 7).Buffer;
+    Buffer = __webpack_require__(/*! buffer */ 8).Buffer;
   } catch (e) {
   }
 
@@ -8945,7 +8945,7 @@ if (typeof self === 'object') {
 } else {
   // Node.js or Web worker with no crypto support
   try {
-    var crypto = __webpack_require__(/*! crypto */ 8);
+    var crypto = __webpack_require__(/*! crypto */ 9);
     if (typeof crypto.randomBytes !== 'function')
       throw new Error('Not supported');
 
@@ -50097,7 +50097,7 @@ util.inherits = __webpack_require__(/*! inherits */ "./node_modules/inherits/inh
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(/*! util */ 5);
+var debugUtil = __webpack_require__(/*! util */ 6);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -51986,7 +51986,7 @@ Writable.prototype._destroy = function (err, cb) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(/*! safe-buffer */ "./node_modules/safe-buffer/index.js").Buffer;
-var util = __webpack_require__(/*! util */ 6);
+var util = __webpack_require__(/*! util */ 7);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -88734,17 +88734,6 @@ function () {
 
 /***/ }),
 
-/***/ 5:
-/*!**********************!*\
-  !*** util (ignored) ***!
-  \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-
 /***/ 6:
 /*!**********************!*\
   !*** util (ignored) ***!
@@ -88757,6 +88746,17 @@ function () {
 /***/ }),
 
 /***/ 7:
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 8:
 /*!************************!*\
   !*** buffer (ignored) ***!
   \************************/
@@ -88767,7 +88767,7 @@ function () {
 
 /***/ }),
 
-/***/ 8:
+/***/ 9:
 /*!************************!*\
   !*** crypto (ignored) ***!
   \************************/

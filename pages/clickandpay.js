@@ -7,11 +7,7 @@ import {
   Divider,
   Icon,
   Segment,
-  Dimmer,
-  Loader,
-  Image,
   Form,
-  Radio,
   Message
 } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
@@ -22,7 +18,6 @@ import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
 import swal from "sweetalert2";
 
-//only for banks
 class Assets extends Component {
   constructor() {
     super();
@@ -43,11 +38,6 @@ class Assets extends Component {
       metaMask: true,
       waiting: false
     };
-    // this.getMembersCount();
-    // this.submit = e => this._submit();
-    this.ownerFormSubmit = e => this._ownerFormSubmit();
-    // this.handleCheckAssets1 = this.handleCheckAssets1.bind(this);
-    // this.handleCheckAssets2 = this.handleCheckAssets2.bind(this);
   }
 
   async componentWillMount() {
@@ -61,24 +51,24 @@ class Assets extends Component {
     }, 500);
   }
 
-  //handle the checkboxes for beneficial owners 
+  //handle the checkboxes for beneficial owners
   handleCheckAssets1 = () => {
     if (this.state.checkedAssets2 === true) {
       this.setState({ checkedAssets2: false, checkedAssets1: true });
     }
     this.setState({ checkedAssets1: !this.state.checkedAssets1 });
-  }
+  };
 
-  //handle the checkboxes for beneficial owners 
+  //handle the checkboxes for beneficial owners
   handleCheckAssets2 = () => {
     if (this.state.checkedAssets1 === true) {
       this.setState({ checkedAssets1: false, checkedAssets2: true });
     }
     this.setState({ checkedAssets2: !this.state.checkedAssets2 });
-  }
+  };
 
   //send beneficial owner data to server
-  async _ownerFormSubmit() {
+  ownerFormSubmit = async () => {
     this.setState({ loading: true });
 
     const formData = new FormData();
@@ -137,11 +127,11 @@ class Assets extends Component {
     if (response.data.success) {
       this.setState({ loading: false, terms: true, pay: false });
     }
-  }
+  };
 
   //execute ether payment
-  submit = async() => {
-    //get eth account from metamask
+  submit = async () => {
+    //get eth accounts
     let accounts = await web3.eth.getAccounts();
 
     if (this.state.value > 0) {
@@ -155,15 +145,18 @@ class Assets extends Component {
         title: "Thank You!",
         text: "You will be redirected to the video identification",
         type: "success",
-        onClose: () => {
-          Router.push("/videochat");
+        onClose: async () => {
+          //get videochat token from server to store in cookie
+          let response = await axios.post(
+            window.location.origin + "/clickandpay"
+          );
+          if (response.data.success) {
+            console.log("success");
+            setCookie("x-access-token", response.data.videoCookie, 1);
+            Router.push("/videochat");
+          }
         }
       });
-      //if payment successfull, set new cookie  
-      let response = await axios.post(window.location.origin + "/clickandpay");
-      if (response.data.success) {
-        setCookie("x-access-token", response.data.videoCookie, 1);
-      }
     } else if (this.state.value === "") {
       this.setState({ error: true });
     } else {
@@ -172,23 +165,26 @@ class Assets extends Component {
         title: "Thank You!",
         text: "You will be redirected to the video identification",
         type: "success",
-        onClose: () => {
-          Router.push("/videochat");
+        onClose: async () => {
+          //get videochat token from server to store in cookie
+          let response = await axios.post(
+            window.location.origin + "/clickandpay"
+          );
+          if (response.data.success) {
+            console.log("success");
+            setCookie("x-access-token", response.data.videoCookie, 1);
+            Router.push("/videochat");
+          }
         }
       });
-      let response = await axios.post(window.location.origin + "/clickandpay");
-      if (response.data.success) {
-        setCookie("x-access-token", response.data.videoCookie, 1);
-      }
     }
     this.setState({ loading: false, waiting: false });
-  }
+  };
 
   render() {
     return (
       <div>
         <Layout>
-          {/* <p>{this.state.moreThanTwo}</p> */}
           <style>{`
         body {
           background: #e6e6e6;
@@ -196,9 +192,6 @@ class Assets extends Component {
       `}</style>
           {this.state.terms == false && this.state.pay == false ? (
             <Segment style={{ marginTop: "50px" }}>
-              {/* <Dimmer active={this.state.loading}>
-                <Loader>Admin is in a Call...</Loader>
-              </Dimmer> */}
               <br />
               <Header
                 as="h1"
@@ -605,7 +598,6 @@ class Assets extends Component {
                             icon
                             floated="right"
                             labelPosition="right"
-                            // onClick={this.toTerms}
                           >
                             Next
                             <Icon name="right arrow" />
@@ -644,9 +636,6 @@ class Assets extends Component {
             </Segment>
           ) : this.state.terms == true && this.state.pay == false ? (
             <Segment style={{ marginTop: "50px" }}>
-              {/* <Dimmer active={this.state.loading}>
-                <Loader>Admin is in a Call...</Loader>
-              </Dimmer> */}
               <br />
               <Header
                 as="h1"
@@ -663,7 +652,9 @@ class Assets extends Component {
                   label="I confirm to have my identity card ready"
                   required
                   checked={this.state.checked1}
-                  onClick={() => this.setState({checked1: !this.state.checked1})}
+                  onClick={() =>
+                    this.setState({ checked1: !this.state.checked1 })
+                  }
                 />
                 {this.state.checked1 ? (
                   <Icon
@@ -678,7 +669,9 @@ class Assets extends Component {
                   label="I agree that the audio line is beeing recorded"
                   required
                   checked={this.state.checked2}
-                  onClick={() => this.setState({checked2: !this.state.checked2})}
+                  onClick={() =>
+                    this.setState({ checked2: !this.state.checked2 })
+                  }
                 />
                 {this.state.checked2 ? (
                   <Icon
@@ -693,7 +686,9 @@ class Assets extends Component {
                   label="I confirm that I have a good internet connection"
                   required
                   checked={this.state.checked3}
-                  onClick={() => this.setState({checked3: !this.state.checked3})}
+                  onClick={() =>
+                    this.setState({ checked3: !this.state.checked3 })
+                  }
                 />
                 {this.state.checked3 ? (
                   <Icon
@@ -708,7 +703,9 @@ class Assets extends Component {
                   label="I confirm that I am in a silent environment"
                   required
                   checked={this.state.checked4}
-                  onClick={() => this.setState({checked4: !this.state.checked4})}
+                  onClick={() =>
+                    this.setState({ checked4: !this.state.checked4 })
+                  }
                 />
                 {this.state.checked4 ? (
                   <Icon
@@ -723,7 +720,9 @@ class Assets extends Component {
                   label="I confirm that I have a good microphone (preferably headset)"
                   required
                   checked={this.state.checked5}
-                  onClick={() => this.setState({checked5: !this.state.checked5})}
+                  onClick={() =>
+                    this.setState({ checked5: !this.state.checked5 })
+                  }
                 />
                 {this.state.checked5 ? (
                   <Icon
@@ -738,7 +737,9 @@ class Assets extends Component {
                   label="I agree to pay a fee for the video identification"
                   required
                   checked={this.state.checked6}
-                  onClick={() => this.setState({checked6: !this.state.checked6})}
+                  onClick={() =>
+                    this.setState({ checked6: !this.state.checked6 })
+                  }
                 />
                 {this.state.checked6 ? (
                   <Icon
@@ -760,7 +761,9 @@ class Assets extends Component {
                       icon
                       labelPosition="left"
                       floated="left"
-                      onClick={() => this.setState({ terms: false, pay: false })}
+                      onClick={() =>
+                        this.setState({ terms: false, pay: false })
+                      }
                     >
                       <Icon name="left arrow" />
                       Back
@@ -781,7 +784,9 @@ class Assets extends Component {
                       icon
                       labelPosition="left"
                       floated="left"
-                      onClick={() => this.setState({ terms: false, pay: false })}
+                      onClick={() =>
+                        this.setState({ terms: false, pay: false })
+                      }
                       style={{ display: "inline-block" }}
                     >
                       <Icon name="left arrow" />
@@ -805,8 +810,6 @@ class Assets extends Component {
             <div>
               <Segment
                 style={{
-                  // maxWidth: "450px",
-                  // margin: "auto",
                   marginTop: "50px"
                 }}
               >
@@ -831,7 +834,6 @@ class Assets extends Component {
                 ) : null}
                 <Form onSubmit={this.submit} error={this.state.error}>
                   <Form.Field>
-                    {/* <label> Username </label> */}
                     <Form.Input
                       icon="ethereum"
                       iconPosition="left"
@@ -846,7 +848,6 @@ class Assets extends Component {
                       }
                     />
                   </Form.Field>
-                  {/* {this.state.error ?  */}
                   <Message
                     error
                     header="Oops!"
@@ -867,7 +868,6 @@ class Assets extends Component {
                   fluid
                   onClick={() => this.setState({ terms: true, pay: false })}
                 >
-                  {" "}
                   <Icon name="arrow left" /> back
                 </Button>
               </Segment>

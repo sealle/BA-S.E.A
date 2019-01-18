@@ -350,25 +350,91 @@ function (_Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "submit",
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "ownerFormSubmit",
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var accounts, response, _response;
-
+      var formData, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              _this.setState({
+                loading: true
+              });
+
+              formData = new FormData(); //send data of the first beneficial owner because it is required
+
+              formData.append("ownerFname", _this.state.ownerFname);
+              formData.append("ownerLname", _this.state.ownerLname);
+              formData.append("ownerStreet", _this.state.ownerStreet);
+              formData.append("ownerHouseNr", _this.state.ownerHouseNr);
+              formData.append("ownerPostCode", _this.state.ownerPostCode);
+              formData.append("ownerPlaceOfRes", _this.state.ownerPlaceOfRes);
+              formData.append("ownerDateOfBirth", _this.state.ownerDateOfBirth); //check if the user has entered data for a second beneficial Owner
+
+              if (_this.state.ownerFname2 && _this.state.ownerLname2 && _this.state.ownerStreet2 && _this.state.ownerHouseNr2 && _this.state.ownerPostCode2 && _this.state.ownerPlaceOfRes2 && _this.state.ownerDateOfBirth2) {
+                formData.append("ownerFname2", _this.state.ownerFname2);
+                formData.append("ownerLname2", _this.state.ownerLname2);
+                formData.append("ownerStreet2", _this.state.ownerStreet2);
+                formData.append("ownerHouseNr2", _this.state.ownerHouseNr2);
+                formData.append("ownerPostCode2", _this.state.ownerPostCode2);
+                formData.append("ownerPlaceOfRes2", _this.state.ownerPlaceOfRes2);
+                formData.append("ownerDateOfBirth2", _this.state.ownerDateOfBirth2);
+              } //check if the user has entered data for a third beneficial Owner
+
+
+              if (_this.state.ownerFname3 && _this.state.ownerLname3 && _this.state.ownerStreet3 && _this.state.ownerHouseNr3 && _this.state.ownerPostCode3 && _this.state.ownerPlaceOfRes3 && _this.state.ownerDateOfBirth3) {
+                formData.append("ownerFname3", _this.state.ownerFname3);
+                formData.append("ownerLname3", _this.state.ownerLname3);
+                formData.append("ownerStreet3", _this.state.ownerStreet3);
+                formData.append("ownerHouseNr3", _this.state.ownerHouseNr3);
+                formData.append("ownerPostCode3", _this.state.ownerPostCode3);
+                formData.append("ownerPlaceOfRes3", _this.state.ownerPlaceOfRes3);
+                formData.append("ownerDateOfBirth3", _this.state.ownerDateOfBirth3);
+              }
+
+              _context.next = 13;
+              return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/assets", formData);
+
+            case 13:
+              response = _context.sent;
+
+              if (response.data.success) {
+                _this.setState({
+                  loading: false,
+                  terms: true,
+                  pay: false
+                });
+              }
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "submit",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      var accounts;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
               return _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_7__["default"].eth.getAccounts();
 
             case 2:
-              accounts = _context.sent;
+              accounts = _context4.sent;
 
               if (!(_this.state.value > 0)) {
-                _context.next = 14;
+                _context4.next = 10;
                 break;
               }
 
@@ -379,7 +445,7 @@ function (_Component) {
               }); //execute payment to admin address if value > 0
 
 
-              _context.next = 7;
+              _context4.next = 7;
               return _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_8__["default"].methods.payKYC().send({
                 from: accounts[0],
                 value: _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_7__["default"].utils.toWei(_this.state.value, "ether")
@@ -390,69 +456,102 @@ function (_Component) {
                 title: "Thank You!",
                 text: "You will be redirected to the video identification",
                 type: "success",
-                onClose: function onClose() {
-                  _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/videochat");
-                }
-              }); //if payment successfull, set new cookie  
+                onClose: function () {
+                  var _onClose = _asyncToGenerator(
+                  /*#__PURE__*/
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+                    var response;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                      while (1) {
+                        switch (_context2.prev = _context2.next) {
+                          case 0:
+                            _context2.next = 2;
+                            return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/clickandpay");
 
-              _context.next = 10;
-              return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/clickandpay");
+                          case 2:
+                            response = _context2.sent;
+
+                            if (response.data.success) {
+                              console.log("success");
+                              Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", response.data.videoCookie, 1);
+                              _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/videochat");
+                            }
+
+                          case 4:
+                          case "end":
+                            return _context2.stop();
+                        }
+                      }
+                    }, _callee2, this);
+                  }));
+
+                  return function onClose() {
+                    return _onClose.apply(this, arguments);
+                  };
+                }()
+              });
+              _context4.next = 11;
+              break;
 
             case 10:
-              response = _context.sent;
+              if (_this.state.value === "") {
+                _this.setState({
+                  error: true
+                });
+              } else {
+                //if value = 0 redirect user to video chat
+                sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
+                  title: "Thank You!",
+                  text: "You will be redirected to the video identification",
+                  type: "success",
+                  onClose: function () {
+                    var _onClose2 = _asyncToGenerator(
+                    /*#__PURE__*/
+                    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+                      var response;
+                      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                        while (1) {
+                          switch (_context3.prev = _context3.next) {
+                            case 0:
+                              _context3.next = 2;
+                              return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/clickandpay");
 
-              if (response.data.success) {
-                Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", response.data.videoCookie, 1);
+                            case 2:
+                              response = _context3.sent;
+
+                              if (response.data.success) {
+                                console.log("success");
+                                Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", response.data.videoCookie, 1);
+                                _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/videochat");
+                              }
+
+                            case 4:
+                            case "end":
+                              return _context3.stop();
+                          }
+                        }
+                      }, _callee3, this);
+                    }));
+
+                    return function onClose() {
+                      return _onClose2.apply(this, arguments);
+                    };
+                  }()
+                });
               }
 
-              _context.next = 23;
-              break;
-
-            case 14:
-              if (!(_this.state.value === "")) {
-                _context.next = 18;
-                break;
-              }
-
-              _this.setState({
-                error: true
-              });
-
-              _context.next = 23;
-              break;
-
-            case 18:
-              //if value = 0 redirect user to video chat
-              sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
-                title: "Thank You!",
-                text: "You will be redirected to the video identification",
-                type: "success",
-                onClose: function onClose() {
-                  _routes__WEBPACK_IMPORTED_MODULE_2__["Router"].push("/videochat");
-                }
-              });
-              _context.next = 21;
-              return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/clickandpay");
-
-            case 21:
-              _response = _context.sent;
-
-              if (_response.data.success) {
-                Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_6__["setCookie"])("x-access-token", _response.data.videoCookie, 1);
-              }
-
-            case 23:
+            case 11:
               _this.setState({
                 loading: false,
                 waiting: false
               });
 
-            case 24:
+            case 12:
             case "end":
-              return _context.stop();
+              return _context4.stop();
           }
         }
-      }, _callee, this);
+      }, _callee4, this);
     })));
 
     _this.state = {
@@ -471,15 +570,7 @@ function (_Component) {
       value: "",
       metaMask: true,
       waiting: false
-    }; // this.getMembersCount();
-    // this.submit = e => this._submit();
-
-    _this.ownerFormSubmit = function (e) {
-      return _this._ownerFormSubmit();
-    }; // this.handleCheckAssets1 = this.handleCheckAssets1.bind(this);
-    // this.handleCheckAssets2 = this.handleCheckAssets2.bind(this);
-
-
+    };
     return _this;
   }
 
@@ -488,12 +579,12 @@ function (_Component) {
     value: function () {
       var _componentWillMount = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var _this2 = this;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 //checking whether user is logged in to metamask
                 setInterval(function () {
@@ -509,97 +600,24 @@ function (_Component) {
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context5.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee5, this);
       }));
 
       return function componentWillMount() {
         return _componentWillMount.apply(this, arguments);
       };
-    }() //handle the checkboxes for beneficial owners 
-
-  }, {
-    key: "_ownerFormSubmit",
-    //send beneficial owner data to server
-    value: function () {
-      var _ownerFormSubmit2 = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var formData, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                this.setState({
-                  loading: true
-                });
-                formData = new FormData(); //send data of the first beneficial owner because it is required
-
-                formData.append("ownerFname", this.state.ownerFname);
-                formData.append("ownerLname", this.state.ownerLname);
-                formData.append("ownerStreet", this.state.ownerStreet);
-                formData.append("ownerHouseNr", this.state.ownerHouseNr);
-                formData.append("ownerPostCode", this.state.ownerPostCode);
-                formData.append("ownerPlaceOfRes", this.state.ownerPlaceOfRes);
-                formData.append("ownerDateOfBirth", this.state.ownerDateOfBirth); //check if the user has entered data for a second beneficial Owner
-
-                if (this.state.ownerFname2 && this.state.ownerLname2 && this.state.ownerStreet2 && this.state.ownerHouseNr2 && this.state.ownerPostCode2 && this.state.ownerPlaceOfRes2 && this.state.ownerDateOfBirth2) {
-                  formData.append("ownerFname2", this.state.ownerFname2);
-                  formData.append("ownerLname2", this.state.ownerLname2);
-                  formData.append("ownerStreet2", this.state.ownerStreet2);
-                  formData.append("ownerHouseNr2", this.state.ownerHouseNr2);
-                  formData.append("ownerPostCode2", this.state.ownerPostCode2);
-                  formData.append("ownerPlaceOfRes2", this.state.ownerPlaceOfRes2);
-                  formData.append("ownerDateOfBirth2", this.state.ownerDateOfBirth2);
-                } //check if the user has entered data for a third beneficial Owner
-
-
-                if (this.state.ownerFname3 && this.state.ownerLname3 && this.state.ownerStreet3 && this.state.ownerHouseNr3 && this.state.ownerPostCode3 && this.state.ownerPlaceOfRes3 && this.state.ownerDateOfBirth3) {
-                  formData.append("ownerFname3", this.state.ownerFname3);
-                  formData.append("ownerLname3", this.state.ownerLname3);
-                  formData.append("ownerStreet3", this.state.ownerStreet3);
-                  formData.append("ownerHouseNr3", this.state.ownerHouseNr3);
-                  formData.append("ownerPostCode3", this.state.ownerPostCode3);
-                  formData.append("ownerPlaceOfRes3", this.state.ownerPlaceOfRes3);
-                  formData.append("ownerDateOfBirth3", this.state.ownerDateOfBirth3);
-                }
-
-                _context3.next = 13;
-                return axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(window.location.origin + "/assets", formData);
-
-              case 13:
-                response = _context3.sent;
-
-                if (response.data.success) {
-                  this.setState({
-                    loading: false,
-                    terms: true,
-                    pay: false
-                  });
-                }
-
-              case 15:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      return function _ownerFormSubmit() {
-        return _ownerFormSubmit2.apply(this, arguments);
-      };
-    }() //execute ether payment
+    }() //handle the checkboxes for beneficial owners
 
   }, {
     key: "render",
     value: function render() {
-      var _ref2,
+      var _ref3,
           _this3 = this,
-          _ref3,
-          _ref4;
+          _ref4,
+          _ref5;
 
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), this.state.terms == false && this.state.pay == false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Segment"], {
         style: {
@@ -653,9 +671,9 @@ function (_Component) {
           textAlign: "left"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
-        style: (_ref2 = {
+        style: (_ref3 = {
           fontWeight: "bold"
-        }, _defineProperty(_ref2, "fontWeight", "900"), _defineProperty(_ref2, "fontSize", "17px"), _defineProperty(_ref2, "borderRadius", "100%"), _defineProperty(_ref2, "display", "inline"), _defineProperty(_ref2, "paddingLeft", "6px"), _defineProperty(_ref2, "paddingRight", "7px"), _defineProperty(_ref2, "backgroundColor", "black"), _defineProperty(_ref2, "color", "white"), _ref2)
+        }, _defineProperty(_ref3, "fontWeight", "900"), _defineProperty(_ref3, "fontSize", "17px"), _defineProperty(_ref3, "borderRadius", "100%"), _defineProperty(_ref3, "display", "inline"), _defineProperty(_ref3, "paddingLeft", "6px"), _defineProperty(_ref3, "paddingRight", "7px"), _defineProperty(_ref3, "backgroundColor", "black"), _defineProperty(_ref3, "color", "white"), _ref3)
       }, "1"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"], {
         onSubmit: this.ownerFormSubmit,
         style: {
@@ -760,9 +778,9 @@ function (_Component) {
           marginTop: "1%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
-        style: (_ref3 = {
+        style: (_ref4 = {
           fontWeight: "bold"
-        }, _defineProperty(_ref3, "fontWeight", "900"), _defineProperty(_ref3, "fontSize", "17px"), _defineProperty(_ref3, "borderRadius", "100%"), _defineProperty(_ref3, "display", "inline"), _defineProperty(_ref3, "paddingLeft", "6px"), _defineProperty(_ref3, "paddingRight", "7px"), _defineProperty(_ref3, "backgroundColor", "black"), _defineProperty(_ref3, "color", "white"), _ref3)
+        }, _defineProperty(_ref4, "fontWeight", "900"), _defineProperty(_ref4, "fontSize", "17px"), _defineProperty(_ref4, "borderRadius", "100%"), _defineProperty(_ref4, "display", "inline"), _defineProperty(_ref4, "paddingLeft", "6px"), _defineProperty(_ref4, "paddingRight", "7px"), _defineProperty(_ref4, "backgroundColor", "black"), _defineProperty(_ref4, "color", "white"), _ref4)
       }, "2"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         widths: "equal"
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
@@ -855,9 +873,9 @@ function (_Component) {
           marginTop: "1%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
-        style: (_ref4 = {
+        style: (_ref5 = {
           fontWeight: "bold"
-        }, _defineProperty(_ref4, "fontWeight", "900"), _defineProperty(_ref4, "fontSize", "17px"), _defineProperty(_ref4, "borderRadius", "100%"), _defineProperty(_ref4, "display", "inline"), _defineProperty(_ref4, "paddingLeft", "6px"), _defineProperty(_ref4, "paddingRight", "7px"), _defineProperty(_ref4, "backgroundColor", "black"), _defineProperty(_ref4, "color", "white"), _ref4)
+        }, _defineProperty(_ref5, "fontWeight", "900"), _defineProperty(_ref5, "fontSize", "17px"), _defineProperty(_ref5, "borderRadius", "100%"), _defineProperty(_ref5, "display", "inline"), _defineProperty(_ref5, "paddingLeft", "6px"), _defineProperty(_ref5, "paddingRight", "7px"), _defineProperty(_ref5, "backgroundColor", "black"), _defineProperty(_ref5, "color", "white"), _ref5)
       }, "3"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         widths: "equal"
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Form"].Input, {
