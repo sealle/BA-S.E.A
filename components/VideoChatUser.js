@@ -15,11 +15,12 @@ import {
   Button,
   Container,
   Dimmer,
-  Loader,
+  Loader
 } from "semantic-ui-react";
 import axios from "axios";
 import { Router } from "../routes";
 import swal from "sweetalert2";
+import { MultiStreamsMixer } from "multistreamsmixer";
 let xsrfToken = "";
 let pusher;
 let peer;
@@ -39,9 +40,10 @@ export default class VideoChat extends Component {
       message: "",
       isConnected: false,
       disableButton: true,
-      isRecording: "",
+      isRecording: ""
     };
 
+    //create object of user
     this.currentUser = {
       id: "",
       stream: undefined
@@ -59,7 +61,7 @@ export default class VideoChat extends Component {
         window.location.origin + "/videochat/stream"
       );
       this.setState({
-        userName: response.data.currentUser,
+        userName: response.data.currentUser
       });
       this.currentUser.id = this.state.userName;
       xsrfToken = response.data.token;
@@ -90,7 +92,7 @@ export default class VideoChat extends Component {
       }
     });
     this.setupPusher();
-    return
+    return;
   }
 
   //setting up pusher API
@@ -99,6 +101,7 @@ export default class VideoChat extends Component {
     //Pusher.logToConsole = true;
 
     //create new Pusher
+    //for authentication, token and userId is required
     pusher = new Pusher(APP_KEY, {
       authEndpoint: "/pusher/auth",
       cluster: "eu",
@@ -121,17 +124,17 @@ export default class VideoChat extends Component {
 
     //listener for added members to the channel
     channelName.bind("pusher:member_added", member => {
-      console.log("connected to" + member.id)
-      // swal("You are conneted to", `${member.id}`, "success"); //Only Admin!!
+      //store added member in array
       if (userNames.includes(member.id) === false) {
         userNames.push(member.id);
       }
       console.log(userNames);
     });
 
-    //listener for added members to the channel
+    //listener for removed members to the channel
     channelName.bind("pusher:member_removed", member => {
       console.log(userName);
+      //remove removed member from array
       let i = userNames.indexOf(userName);
       userNames.splice(i, 1);
       console.log(userNames);
@@ -142,7 +145,6 @@ export default class VideoChat extends Component {
       });
     });
 
-    //bind client signal to channel
     //this is executed when the event is triggered
     channelName.bind(`client-signal-${this.currentUser.id}`, signal => {
       let peer = this.peers[signal.userId];
@@ -155,18 +157,23 @@ export default class VideoChat extends Component {
       peer.signal(signal.data);
     });
 
+    //listener for user when declined
     channelName.bind(`client-message-${this.currentUser.id}`, message => {
+      //delete cookie and send user to login page
       setCookie("x-access-token", "", -60 * 60);
       window.location.href = "/login";
       Router.push("/login");
     });
 
+    //listener for admin if user has successfully entered otp and ended the process
     channelName.bind(`client-approval-${this.currentUser.id}`, message => {
       swal({
         title: "Success!",
         text: "The user has entered the correct OTP",
         type: "success",
         confirmButtonText: "Confirm",
+        //when admin confirms, send audio recording in db
+        //hash user data and send to smart contract
         onClose: () => {
           //Stop audio recording and send .wav file to server
           recordRTC.stopRecording(async () => {
@@ -174,6 +181,7 @@ export default class VideoChat extends Component {
             let recordedBlob = recordRTC.getBlob();
             console.log(recordedBlob);
             let fileName = `${userName}.wav`;
+            //create new file to send to server
             let file = new File([recordedBlob], fileName, {
               mimeType: "audio/wav"
             });
@@ -182,6 +190,7 @@ export default class VideoChat extends Component {
             formData.append("file", file);
             formData.append("userName", userName);
             this.setState({ isRecording: "" });
+            //get user data from server
             let response = await axios.post(
               window.location.origin + "/approval",
               formData
@@ -193,6 +202,7 @@ export default class VideoChat extends Component {
               let idNum = response.data.idNum;
               let kycKey = response.data.kycKey;
               console.log(fname, lname, idNum, kycKey);
+              //hash user data and store in smart contract
               let hash = web3.utils.soliditySha3(
                 `${fname} ${lname} ${idNum} ${kycKey}`
               );
@@ -245,12 +255,17 @@ export default class VideoChat extends Component {
               console.log(e);
             });
         }
-        //start recording the audio line
-        recordRTC = RecordRTC(stream, {
-          //TODO: Which stream is beeing recorded? How to record both streams?
+        //send both streams to MultiStreamsMixer
+        let audioMixer = new MultiStreamsMixer([
+          this.currentUser.stream,
+          stream
+        ]);
+        //start recording the mixed streams
+        recordRTC = RecordRTC(audioMixer.getMixedStream(), {
           recorderType: StereoAudioRecorder,
           mimeType: "audio/wav"
         });
+        //start recording
         recordRTC.startRecording();
         this.setState({ isRecording: "Recording..." });
       } catch (e) {
@@ -268,8 +283,6 @@ export default class VideoChat extends Component {
     if (res.data.success) {
       let otpToken = res.data.otpToken;
       //check whether otpToken is the same as the entered otp
-      console.log(this.state.otp);
-      console.log(otpToken);
       if (otpToken === this.state.otp) {
         //trigger client event to Admin
         await channelName.trigger(`client-approval-${firstMember}`, {
@@ -277,6 +290,8 @@ export default class VideoChat extends Component {
         });
         //destroy P2P connection
         peer.destroy();
+        //delete user's cookie
+        //send user to login page
         setCookie("x-access-token", "", -60 * 60);
         window.location.href = "/login";
         Router.push("/login");
@@ -294,81 +309,85 @@ export default class VideoChat extends Component {
           background: #e6e6e6;
         }
       `}</style>
-          <div>
-            {this.state.isConnected === false ? (
-              <Dimmer active>
-                <Loader indeterminate>Waiting for Admin</Loader>
-              </Dimmer>
-            ) : null}
-            <Segment style={{ marginTop: "50px" }}>
-              <Container
-                className="video-container"
+        <div>
+          {/* shows if user has not been called to */}
+          {this.state.isConnected === false ? (
+            <Dimmer active>
+              <Loader indeterminate>Waiting for Admin</Loader>
+            </Dimmer>
+          ) : null}
+          <Segment style={{ marginTop: "50px" }}>
+            {/* Get video elements */}
+            <Container
+              className="video-container"
+              style={{
+                width: "500px",
+                height: "376px",
+                margin: "0px auto",
+                border: "2px solid black",
+                position: "relative"
+              }}
+            >
+              <video
+                className="my-video"
+                id="my-video"
                 style={{
-                  width: "500px",
-                  height: "376px",
-                  margin: "0px auto",
-                  border: "2px solid black",
-                  position: "relative"
+                  width: "130px",
+                  position: "absolute",
+                  left: "10px",
+                  bottom: "10px",
+                  border: "2px solid #0061ff",
+                  zIndex: "2"
                 }}
-              >
-                <video
-                  className="my-video"
-                  id="my-video"
-                  style={{
-                    width: "130px",
-                    position: "absolute",
-                    left: "10px",
-                    bottom: "10px",
-                    border: "2px solid #0061ff",
-                    zIndex: "2"
-                  }}
-                />
-                <video
-                  className="user-video"
-                  id="user-video"
-                  style={{
-                    position: "absolute",
-                    left: "0",
-                    right: "0",
-                    bottom: "0",
-                    top: "0",
-                    width: "100%",
-                    height: "100%",
-                    zIndex: "1"
-                  }}
-                />
-              </Container>
-              <br />
-              <Container style={{ width: "71%", marginBottom: "13px" }}>
-                <OtpInput
-                  style={{ margin: "auto", width: "70%" }}
-                  value={this.state.otp}
-                  onChange={otp => {
-                    this.setState({ otp: otp, otpEntered: true });
-                  }}
-                  numInputs={6}
-                  separator={<span>-</span>}
-                />
-                {this.state.message ? (
-                  <Message error header="Oops!" content={this.state.message} />
-                ) : null}
-              </Container>
-              {this.state.otpEntered ? (
-                <Button
-                  style={{
-                    color: "white",
-                    backgroundColor: "#ff3344",
-                    width: "50%",
-                    margin: "0px auto"
-                  }}
-                  fluid
-                  onClick={this.otpVerify}
-                >
-                  Submit
-                </Button>
+              />
+              <video
+                className="user-video"
+                id="user-video"
+                style={{
+                  position: "absolute",
+                  left: "0",
+                  right: "0",
+                  bottom: "0",
+                  top: "0",
+                  width: "100%",
+                  height: "100%",
+                  zIndex: "1"
+                }}
+              />
+            </Container>
+            <br />
+            {/* OTP input */}
+            <Container style={{ width: "71%", marginBottom: "13px" }}>
+              <OtpInput
+                style={{ margin: "auto", width: "70%" }}
+                value={this.state.otp}
+                onChange={otp => {
+                  this.setState({ otp: otp, otpEntered: true });
+                }}
+                numInputs={6}
+                separator={<span>-</span>}
+              />
+              {this.state.message ? (
+                <Message error header="Oops!" content={this.state.message} />
               ) : null}
-            </Segment>
-          </div>
+            </Container>
+            {/* if otp entered, show button */}
+            {this.state.otpEntered ? (
+              <Button
+                style={{
+                  color: "white",
+                  backgroundColor: "#ff3344",
+                  width: "50%",
+                  margin: "0px auto"
+                }}
+                fluid
+                onClick={this.otpVerify}
+              >
+                Submit
+              </Button>
+            ) : null}
+          </Segment>
+        </div>
       </div>
     );
   }

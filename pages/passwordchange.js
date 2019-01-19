@@ -18,7 +18,7 @@ class PwChange extends Component {
   constructor() {
     super();
     this.state = {
-      errorMessage: "",
+      errorMessage: ""
     };
   }
 
@@ -31,6 +31,7 @@ class PwChange extends Component {
 
   //send new password to server
   confirmPassword = async () => {
+    //check if both passwords match
     if (this.state.password == this.state.confirmedPassword) {
       const formData = new FormData();
       formData.append("password", this.state.password);
@@ -63,7 +64,7 @@ class PwChange extends Component {
     }
 
     this.setState({ loading: false });
-  }
+  };
 
   render() {
     return (
@@ -90,16 +91,20 @@ class PwChange extends Component {
               it
             </Header>
             <Popup
-                trigger={
-                  <Icon
-                    name="question circle outline"
-                    style={{marginBottom: "8px"}}
-                  />
-                }
-                content="The password must contain at least 1 upper case letter, 1 lower case letter, 1 digit, 1 special character and minimum eight in length!"
-                hideOnScroll
-              />
-            <Form onSubmit={this.confirmPassword} error={this.state.errorMessage}>
+              trigger={
+                <Icon
+                  name="question circle outline"
+                  style={{ marginBottom: "8px" }}
+                />
+              }
+              content="The password must contain at least 1 upper case letter, 1 lower case letter, 1 digit, 1 special character and minimum eight in length!"
+              hideOnScroll
+            />
+            {/* Form to handle input */}
+            <Form
+              onSubmit={this.confirmPassword}
+              error={this.state.errorMessage}
+            >
               <Form.Field>
                 <Form.Input
                   icon="lock"
@@ -117,7 +122,7 @@ class PwChange extends Component {
               </Form.Field>
               <Form.Field>
                 <Form.Input
-                width="sixteen"
+                  width="sixteen"
                   icon="lock"
                   iconPosition="left"
                   type="password"

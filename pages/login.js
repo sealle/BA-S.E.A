@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 import axios from "axios";
 import { setCookie } from "../utils/CookieUtils";
 
+//handle login
 class Login extends Component {
   constructor() {
     super();
@@ -15,7 +16,7 @@ class Login extends Component {
     };
   }
 
-  //send email and pasword to server
+  //send username and pasword to server to check
   login = async() => {
     const formData = new FormData();
     formData.append("username", this.state.username);
@@ -29,7 +30,7 @@ class Login extends Component {
         window.location.origin + "/authenticate",
         formData
       );
-      //check if the user is declined, admin, registered user oder not registered user
+      //check if the user is declined, admin, registered user or a not registered user
       //set cookies and place corresponding token in it
       if (res.data.success) {
         if (res.data.declined == "declined") {
@@ -82,6 +83,7 @@ class Login extends Component {
               Member Login
             </Header>
             <br />
+             {/* Form to handle input */}
             <Form onSubmit={this.login} error={this.state.errorMessage}>
               <Form.Field>
                 <Form.Input
@@ -120,6 +122,7 @@ class Login extends Component {
                 <Icon name="sign-in" />
               </Button>
               <Form.Field>
+                {/* Forgot Password Link */}
                 <Grid>
                   <Grid.Column
                     width={16}
@@ -132,6 +135,7 @@ class Login extends Component {
                 </Grid>
               </Form.Field>
               <Form.Field>
+                {/* KycKey Validation link */}
                 <Grid>
                   <Grid.Column
                     width={16}
@@ -146,6 +150,7 @@ class Login extends Component {
             </Form>
           </Segment>
           <br />
+          {/* Link to registration page */}
           <Message
             style={{
               maxWidth: "450px",

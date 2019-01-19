@@ -5,6 +5,7 @@ import Layout from "./Layout";
 import axios from "axios";
 import swal from "sweetalert2";
 
+//options for dropdown menu
 const idTypeOptions = [
   {
     key: "Swiss Identity Card",
@@ -140,6 +141,7 @@ class PersonRegister extends Component {
       <div>
         <Layout>
           <br />
+          {/* Form to handle inputs */}
           <Form onSubmit={this.handleSubmit} error={this.state.errorMessage}>
             <Form.Group>
               <Form.Input
@@ -163,6 +165,7 @@ class PersonRegister extends Component {
                 required
                 name="password"
                 value={this.state.password}
+                //strong password required
                 pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
                 onChange={event =>
                   this.setState({ password: event.target.value })

@@ -121,7 +121,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -149,8 +149,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _web3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./web3 */ "./ethereum/src/web3.js");
  //contract address and ABI/Interface to connect to it
 
-var contractAddress = "0x0523A4Da9E7f1eBcbcb5BeBa44440D4Ac4Ef0F5A"; //address of SC
-
+var contractAddress = "0x0523A4Da9E7f1eBcbcb5BeBa44440D4Ac4Ef0F5A";
 var contractABI = [{
   constant: false,
   inputs: [{
@@ -309,15 +308,15 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var Admin = next_dynamic__WEBPACK_IMPORTED_MODULE_7___default()(function () {
-  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ../components/Admin */ "./components/Admin.js"));
+var AdminConsole = next_dynamic__WEBPACK_IMPORTED_MODULE_7___default()(function () {
+  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ../components/AdminConsole */ "./components/AdminConsole.js"));
 }, {
   ssr: false,
   loadableGenerated: {
     webpack: function webpack() {
-      return [/*require.resolve*/(/*! ../components/Admin */ "./components/Admin.js")];
+      return [/*require.resolve*/(/*! ../components/AdminConsole */ "./components/AdminConsole.js")];
     },
-    modules: ["../components/Admin"]
+    modules: ["../components/AdminConsole"]
   }
 });
 var ProfileHeader = next_dynamic__WEBPACK_IMPORTED_MODULE_7___default()(function () {
@@ -362,7 +361,7 @@ function (_Component) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                //check if admin is looged in to metamask
+                //check if admin is logged in to metamask
                 setInterval(
                 /*#__PURE__*/
                 _asyncToGenerator(
@@ -424,7 +423,7 @@ function (_Component) {
                             response = _context2.sent;
 
                             try {
-                              //send answer back to requesting address
+                              //send answer back to requesting address through smart contract
                               if (response.data.success) {
                                 _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_6__["default"].methods.answer(response.data.confirmed).send({
                                   from: _this2.state.myAddress,
@@ -483,7 +482,7 @@ function (_Component) {
           color: "#2985d0",
           marginTop: "10px"
         }
-      }, "Admin Page"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Admin, null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Container"], {
+      }, "Admin Page"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(AdminConsole, null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Container"], {
         style: {
           width: "100%"
         }
@@ -501,7 +500,7 @@ function (_Component) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!******************************!*\
   !*** multi ./pages/admin.js ***!
   \******************************/

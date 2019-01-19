@@ -36,6 +36,9 @@ CREATE TABLE `users` (
   `lastModified` varchar(255) DEFAULT NULL,
   `otpToken` varchar(255) DEFAULT NULL,
   `audio` varchar(255) DEFAULT NULL,
+  `snapshot` varchar(255) DEFAULT NULL,
+  `idNum` varchar(255) DEFAULT NULL,
+  `idType` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
 

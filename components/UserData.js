@@ -7,7 +7,8 @@ import {
   Button,
   Form,
   Popup,
-  Accordion
+  Accordion,
+  Modal
 } from "semantic-ui-react";
 import axios from "axios";
 
@@ -32,13 +33,13 @@ export default class UserData extends Component {
       if (response.data.success) {
         this.setState({
           users: response.data.userData,
-          beneficialOwners: response.data.beneficialOwners,
-          isComp: response.data.isComp
+          beneficialOwners: response.data.beneficialOwners
         });
       }
     } catch (err) {
       console.log(err);
     }
+    this.setState({ isComp: this.state.users[0].isComp });
   }
 
   //edit address
@@ -191,6 +192,7 @@ export default class UserData extends Component {
     window.location.href = "/profile";
   };
 
+  //handle accordion which shows beneficial owners
   handleAccordionClick = (e, titleProps) => {
     const { index } = titleProps;
     const { activeIndex } = this.state;
@@ -229,7 +231,7 @@ export default class UserData extends Component {
                   <Icon name="close" />
                 </Button>
               ) : null}
-
+              {/* Show edit company name and company address button if user is company */}
               {this.state.isComp == "1" ? (
                 <div>
                   <Popup
@@ -310,6 +312,7 @@ export default class UserData extends Component {
                 hideOnScroll
               />
             </Container>
+            {/* Display the user's data */}
             {this.state.inAddressEdit == false &&
             this.state.inCompAddressEdit == false &&
             this.state.inCompNameEdit == false &&
@@ -421,7 +424,7 @@ export default class UserData extends Component {
                         value={member.kycKey}
                       />
                     </Form.Group>
-
+                    {/* show beneficial owners data on click */}
                     {this.state.beneficialOwners.length > 0 ? (
                       <Accordion>
                         <Accordion.Title
@@ -495,9 +498,17 @@ export default class UserData extends Component {
                         </Accordion.Content>
                       </Accordion>
                     ) : null}
-                    <br/>
+                    <br />
 
-                    <p style={{ fontWeight: "bold", display: "inline-block", paddingRight: "5px"}}>Identity Card</p>
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        display: "inline-block",
+                        paddingRight: "5px"
+                      }}
+                    >
+                      Identity Card
+                    </p>
 
                     <Popup
                       trigger={<Icon name="question circle outline" />}
@@ -507,7 +518,6 @@ export default class UserData extends Component {
                             Note: If you receive a new identity card, you will
                             need to re-register and redo the identification
                             process!
-                            Request a re-registration below.
                           </p>
                         </div>
                       }
@@ -617,7 +627,8 @@ export default class UserData extends Component {
                   </div>
                 ))}
               </Form>
-            ) : this.state.inAddressEdit == true ? (
+            ) : // show when user edits address
+            this.state.inAddressEdit == true ? (
               <Form onSubmit={this.saveAddress}>
                 <Form.Group>
                   <Form.Input
@@ -678,7 +689,8 @@ export default class UserData extends Component {
                   <Button>Save</Button>
                 </Container>
               </Form>
-            ) : this.state.inEmailEdit ? (
+            ) : // show when user edits email address
+            this.state.inEmailEdit ? (
               <Form onSubmit={this.saveEmail}>
                 <Form.Group>
                   <Form.Input
@@ -701,7 +713,8 @@ export default class UserData extends Component {
                   <Button>Save</Button>
                 </Container>
               </Form>
-            ) : this.state.inMobileEdit ? (
+            ) : // show when user edits mobile number
+            this.state.inMobileEdit ? (
               <Form onSubmit={this.saveMobile}>
                 <Form.Group>
                   <Form.Input
@@ -724,8 +737,8 @@ export default class UserData extends Component {
                   <Button>Save</Button>
                 </Container>
               </Form>
-            ) : this.state.users[0].isComp == "1" &&
-            this.state.inCompNameEdit ? (
+            ) : // show when user edits company name
+            this.state.users[0].isComp == "1" && this.state.inCompNameEdit ? (
               <Form onSubmit={this.saveCompName}>
                 <Form.Group style={{ marginTop: "10px" }}>
                   <Form.Input
@@ -747,7 +760,8 @@ export default class UserData extends Component {
                   <Button>Save</Button>
                 </Container>
               </Form>
-            ) : this.state.users[0].isComp == "1" &&
+            ) : // show when user edits company address
+            this.state.users[0].isComp == "1" &&
             this.state.inCompAddressEdit ? (
               <Form onSubmit={this.saveCompAddress}>
                 <Form.Group>
@@ -812,9 +826,7 @@ export default class UserData extends Component {
                 </Container>
               </Form>
             ) : null}
-            <br/>
-            {/* Button to re-register */}
-            <p style={{fontWeight: "bold", textAlign: "center"}}>Request re-registration!</p>
+            <br />
           </Container>
         </Segment>
       </div>

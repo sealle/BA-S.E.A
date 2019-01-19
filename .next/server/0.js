@@ -1,16 +1,16 @@
 exports.ids = [0];
 exports.modules = {
 
-/***/ "./components/Admin.js":
-/*!*****************************!*\
-  !*** ./components/Admin.js ***!
-  \*****************************/
+/***/ "./components/AdminConsole.js":
+/*!************************************!*\
+  !*** ./components/AdminConsole.js ***!
+  \************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Admin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AdminConsole; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
@@ -104,182 +104,22 @@ var userNames = [];
 var recordRTC;
 var firstMember; //Videochat and User list
 
-var Admin =
+var AdminConsole =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Admin, _Component);
+  _inherits(AdminConsole, _Component);
 
-  function Admin() {
+  function AdminConsole() {
     var _this$state;
 
     var _this;
 
-    _classCallCheck(this, Admin);
+    _classCallCheck(this, AdminConsole);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Admin).call(this));
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "selectUser",
-    /*#__PURE__*/
-    function () {
-      var _ref = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(member, e, dimmer) {
-        var currentUser, response, i;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                currentUser = member.username;
-                _context.prev = 1;
-                _context.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/usrs", {
-                  currentUser: currentUser
-                });
-
-              case 4:
-                response = _context.sent;
-
-                if (response.data.success) {
-                  _this.setState({
-                    usrs: response.data.userData,
-                    beneficialOwners: response.data.beneficialOwners
-                  }); //get Array of ethAddresses
-
-
-                  for (i = 1; i < _this.state.usrs.length; i++) {
-                    _this.state.ethAddresses[i] = _this.state.usrs[i].ethAddress;
-                  }
-                }
-
-                _context.next = 11;
-                break;
-
-              case 8:
-                _context.prev = 8;
-                _context.t0 = _context["catch"](1);
-                console.log(_context.t0);
-
-              case 11:
-                _this.setState({
-                  dimmer: dimmer,
-                  open: true,
-                  isChosen: true
-                });
-
-              case 12:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[1, 8]]);
-      }));
-
-      return function (_x, _x2, _x3) {
-        return _ref.apply(this, arguments);
-      };
-    }());
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "closeModal",
-    /*#__PURE__*/
-    _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var userName, response, a, i;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              userName = _this.state.usrs[0].username; //when closed, change edit state in DB
-
-              _context2.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/changeEdit", {
-                userName: userName
-              });
-
-            case 3:
-              response = _context2.sent;
-
-              if (response.data.success) {
-                _this.setState({
-                  open: false,
-                  ethAddresses: []
-                });
-
-                a = false;
-
-                for (i = 0; i < _this.state.users.length; i++) {
-                  if (!_this.state.users[i].edited) {
-                    _this.setState({
-                      isEdited: null
-                    });
-                  }
-                }
-              }
-
-            case 5:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    })));
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "toList", function () {
-      _this.setState({
-        isVideo: false,
-        activeItem: "users"
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "toVideo", function () {
-      _this.setState({
-        isVideo: true,
-        activeItem: "videochat"
-      });
-
-      _this.mediaHandler.getPermissions().then(function (stream) {
-        _this.setState({
-          hasMedia: true
-        });
-
-        _this.currentUser.stream = stream;
-
-        try {
-          var myVideo = document.getElementById("my-video");
-          myVideo.srcObject = stream;
-          var playPromise = myVideo.play();
-
-          if (playPromise !== null) {
-            playPromise.then(function () {
-              return myVideo.play();
-            }).catch(function (e) {
-              console.log(e);
-            });
-          }
-        } catch (e) {
-          console.log(e.stack);
-        }
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "show", function (dimmer) {
-      _this.setState({
-        dimmer: dimmer,
-        open: true
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleAccordionClick", function (e, titleProps) {
-      var index = titleProps.index;
-      var activeIndex = _this.state.activeIndex;
-      var newIndex = activeIndex === index ? -1 : index;
-
-      _this.setState({
-        activeIndex: newIndex
-      });
-    });
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminConsole).call(this));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "setupPusher", function () {
+      //log pusher to console
       // Pusher.logToConsole = true;
       pusher = new pusher_js__WEBPACK_IMPORTED_MODULE_3___default.a(APP_KEY, {
         authEndpoint: "/pusher/auth",
@@ -301,17 +141,18 @@ function (_Component) {
       }); //listener for added members to the channel
 
       channelName.bind("pusher:member_added", function (member) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_17___default()("You are conneted to", "".concat(member.id), "success"); //Only Admin!!
+        sweetalert2__WEBPACK_IMPORTED_MODULE_17___default()("You are conneted to", "".concat(member.id), "success"); //push added member into array
 
         if (userNames.includes(member.id) === false) {
           userNames.push(member.id);
         }
 
         console.log(userNames);
-      }); //listener for added members to the channel
+      }); //listener for removed members to the channel
 
       channelName.bind("pusher:member_removed", function (member) {
-        console.log(userName);
+        console.log(userName); //delete removed member from array
+
         var i = userNames.indexOf(userName);
         userNames.splice(i, 1);
         console.log(userNames);
@@ -330,38 +171,44 @@ function (_Component) {
 
         if (peer === undefined) {
           //start peer where initiator = false
-          peer = _this.startPeer(signal.userId, false); //callee //if offer is sent, stop!
+          peer = _this.startPeer(signal.userId, false);
         }
 
         peer.signal(signal.data);
-      });
+      }); //listener for user when declined
+
       channelName.bind("client-message-".concat(_this.currentUser.id), function (message) {
+        //delete cookie and send user to login page
         Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_5__["setCookie"])("x-access-token", "", -60 * 60);
         window.location.href = "/login";
         _routes__WEBPACK_IMPORTED_MODULE_16__["Router"].push("/login");
-      });
+      }); //listener for admin if user has successfully entered otp and ended the process
+
       channelName.bind("client-approval-".concat(_this.currentUser.id), function (message) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_17___default()({
           title: "Success!",
           text: "The user has entered the correct OTP",
           type: "success",
           confirmButtonText: "Confirm",
+          //when admin confirms, send audio recording in db
+          //hash user data and send to smart contract
           onClose: function onClose() {
             //Stop audio recording and send .wav file to server
             recordRTC.stopRecording(
             /*#__PURE__*/
             _asyncToGenerator(
             /*#__PURE__*/
-            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
               var formData, recordedBlob, fileName, file, response, accounts, fname, lname, idNum, kycKey, hash;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
                 while (1) {
-                  switch (_context3.prev = _context3.next) {
+                  switch (_context.prev = _context.next) {
                     case 0:
                       formData = new FormData();
                       recordedBlob = recordRTC.getBlob();
                       console.log(recordedBlob);
-                      fileName = "".concat(userName, ".wav");
+                      fileName = "".concat(userName, ".wav"); //convert recorded blob to a file and send it to the server
+
                       file = new File([recordedBlob], fileName, {
                         mimeType: "audio/wav"
                       });
@@ -372,34 +219,36 @@ function (_Component) {
 
                       _this.setState({
                         isRecording: ""
-                      });
+                      }); //get user data from server
 
-                      _context3.next = 12;
+
+                      _context.next = 12;
                       return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/approval", formData);
 
                     case 12:
-                      response = _context3.sent;
+                      response = _context.sent;
 
                       if (!response.data.success) {
-                        _context3.next = 26;
+                        _context.next = 26;
                         break;
                       }
 
-                      _context3.next = 16;
+                      _context.next = 16;
                       return _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_12__["default"].eth.getAccounts();
 
                     case 16:
-                      accounts = _context3.sent;
+                      accounts = _context.sent;
                       fname = response.data.fname;
                       lname = response.data.lname;
                       idNum = response.data.idNum;
                       kycKey = response.data.kycKey;
-                      console.log(fname, lname, idNum, kycKey);
+                      console.log(fname, lname, idNum, kycKey); //hash user data and store in smart contract
+
                       hash = _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_12__["default"].utils.soliditySha3("".concat(fname, " ").concat(lname, " ").concat(idNum, " ").concat(kycKey));
                       _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_13__["default"].methods.storeHash(hash).send({
                         from: accounts[0]
                       });
-                      _context3.next = 27;
+                      _context.next = 27;
                       break;
 
                     case 26:
@@ -407,10 +256,10 @@ function (_Component) {
 
                     case 27:
                     case "end":
-                      return _context3.stop();
+                      return _context.stop();
                   }
                 }
-              }, _callee3, this);
+              }, _callee, this);
             })));
           }
         });
@@ -424,7 +273,8 @@ function (_Component) {
         initiator: initiator,
         stream: _this.currentUser.stream,
         trickle: false
-      }); // peer._debug = console.log;
+      }); //log simple-peer to console
+      // peer._debug = console.log;
       //sends offer signal to peer
       //connection established when peer sends answer
 
@@ -473,35 +323,36 @@ function (_Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "callTo",
     /*#__PURE__*/
     function () {
-      var _ref4 = _asyncToGenerator(
+      var _ref2 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(userId) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(userId) {
         var currentUser, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 _this.setState({
                   isNotCalled: false,
                   disableButton: false,
                   disableUserList: true
-                });
+                }); //start call to userId
+
 
                 _this.peers[userId] = _this.startPeer(userId);
                 currentUser = userId;
                 console.log(userId); //get the peer's data
 
-                _context4.next = 6;
+                _context2.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/videochat/user", {
                   currentUser: currentUser
                 });
 
               case 6:
-                response = _context4.sent;
+                response = _context2.sent;
 
                 if (response.data.success) {
                   _this.setState({
-                    users: response.data.userData,
+                    usrs: response.data.userData,
                     img1: response.data.img1,
                     img2: response.data.img2
                   });
@@ -511,14 +362,14 @@ function (_Component) {
 
               case 9:
               case "end":
-                return _context4.stop();
+                return _context2.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee2, this);
       }));
 
-      return function (_x4) {
-        return _ref4.apply(this, arguments);
+      return function (_x) {
+        return _ref2.apply(this, arguments);
       };
     }());
 
@@ -526,10 +377,10 @@ function (_Component) {
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
               _this.setState({
                 declineLoading: true
@@ -542,11 +393,11 @@ function (_Component) {
               /*#__PURE__*/
               _asyncToGenerator(
               /*#__PURE__*/
-              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
                 var formData, recordedBlob, fileName, file, response;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
                   while (1) {
-                    switch (_context5.prev = _context5.next) {
+                    switch (_context3.prev = _context3.next) {
                       case 0:
                         formData = new FormData();
                         recordedBlob = recordRTC.getBlob();
@@ -565,14 +416,14 @@ function (_Component) {
                           isRecording: ""
                         });
 
-                        _context5.next = 12;
+                        _context3.next = 12;
                         return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/decline", formData);
 
                       case 12:
-                        response = _context5.sent;
+                        response = _context3.sent;
 
                         if (response.data.success) {
-                          sweetalert2__WEBPACK_IMPORTED_MODULE_17___default()("User declined", "", "success"); // this.setState({ isCalled: false});
+                          sweetalert2__WEBPACK_IMPORTED_MODULE_17___default()("User declined", "", "success"); //trigger client-event to redirect declined user to login page
 
                           channelName.trigger("client-message-".concat(userName), {
                             message: "You have been declined!"
@@ -583,10 +434,10 @@ function (_Component) {
 
                       case 14:
                       case "end":
-                        return _context5.stop();
+                        return _context3.stop();
                     }
                   }
-                }, _callee5, this);
+                }, _callee3, this);
               })));
 
               _this.setState({
@@ -595,21 +446,21 @@ function (_Component) {
 
             case 4:
             case "end":
-              return _context6.stop();
+              return _context4.stop();
           }
         }
-      }, _callee6, this);
+      }, _callee4, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "sendOTP",
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
       var otpSecret, otpToken, formData, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context7.prev = _context7.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
               _this.setState({
                 loading: true
@@ -625,17 +476,16 @@ function (_Component) {
               formData = new FormData();
               formData.append("otpToken", otpToken);
               formData.append("userName", userName);
-              _context7.next = 11;
+              _context5.next = 11;
               return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/createOTP", formData);
 
             case 11:
-              response = _context7.sent;
+              response = _context5.sent;
 
               if (response.data.success) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_17___default()("OTP sent!", "", "success");
 
                 _this.setState({
-                  // isCalled: false,
                   loading: false
                 });
               } else {
@@ -644,10 +494,10 @@ function (_Component) {
 
             case 13:
             case "end":
-              return _context7.stop();
+              return _context5.stop();
           }
         }
-      }, _callee7, this);
+      }, _callee5, this);
     })));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "ocrScan", function () {
@@ -664,8 +514,9 @@ function (_Component) {
         }
 
         var ocrLines = [];
+        console.log(_this.state.usrs[0].idType);
 
-        if (_this.state.users[0].idType === "id") {
+        if (_this.state.usrs[0].idType == "id") {
           //prepare data for identity card mrz verification
           var ocrText1 = JSON.stringify(result.text).substring(1, 31);
           var ocrText2 = JSON.stringify(result.text).substring(33, 63);
@@ -720,7 +571,7 @@ function (_Component) {
 
 
       var canvasRef = _this.imageCropPreviewCanvasRef.current;
-      var image1 = "static/" + _this.state.img1;
+      var image1 = "static/" + _this.state.img1; //trigger crop function
 
       _this.cropImage(canvasRef, image1, pixelCrop);
     });
@@ -742,7 +593,7 @@ function (_Component) {
 
 
       var canvasRef = _this.imageCropPreviewCanvasRef.current;
-      var image2 = "static/" + _this.state.img2;
+      var image2 = "static/" + _this.state.img2; //trigger crop function
 
       _this.cropImage(canvasRef, image2, pixelCrop);
     });
@@ -768,40 +619,43 @@ function (_Component) {
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
       var img, canvas, context;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
         while (1) {
-          switch (_context9.prev = _context9.next) {
+          switch (_context7.prev = _context7.next) {
             case 0:
               img = document.getElementById("user-video");
               canvas = document.getElementById("snapshot");
               context = canvas.getContext("2d");
-              context.drawImage(img, 0, 0, 500, 300);
+              context.drawImage(img, 0, 0, 500, 300); //convert image to blob
+
               canvas.toBlob(
               /*#__PURE__*/
               function () {
-                var _ref9 = _asyncToGenerator(
+                var _ref7 = _asyncToGenerator(
                 /*#__PURE__*/
-                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(blob) {
+                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(blob) {
                   var imageName, image, formData, response;
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
                     while (1) {
-                      switch (_context8.prev = _context8.next) {
+                      switch (_context6.prev = _context6.next) {
                         case 0:
-                          imageName = "".concat(userName, ".png");
+                          imageName = "".concat(userName, ".png"); //convert blob to file
+
                           image = new File([blob], imageName, {
                             mimeType: "image/png"
-                          });
+                          }); //send file to server
+
                           formData = new FormData();
                           formData.append("imageName", imageName);
                           formData.append("image", image);
                           formData.append("userName", userName);
-                          _context8.next = 8;
+                          _context6.next = 8;
                           return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/storeSnapshot", formData);
 
                         case 8:
-                          response = _context8.sent;
+                          response = _context6.sent;
 
                           if (response.data.success) {
                             console.log("success");
@@ -815,16 +669,122 @@ function (_Component) {
 
                         case 10:
                         case "end":
-                          return _context8.stop();
+                          return _context6.stop();
                       }
                     }
-                  }, _callee8, this);
+                  }, _callee6, this);
                 }));
 
-                return function (_x5) {
-                  return _ref9.apply(this, arguments);
+                return function (_x2) {
+                  return _ref7.apply(this, arguments);
                 };
               }());
+
+            case 5:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7, this);
+    })));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "selectUser",
+    /*#__PURE__*/
+    function () {
+      var _ref8 = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(member, e, dimmer) {
+        var currentUser, response, i;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                currentUser = member.username;
+                _context8.prev = 1;
+                _context8.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/usrs", {
+                  currentUser: currentUser
+                });
+
+              case 4:
+                response = _context8.sent;
+
+                if (response.data.success) {
+                  _this.setState({
+                    usrs: response.data.userData,
+                    beneficialOwners: response.data.beneficialOwners
+                  }); //get Array of ethAddresses
+
+
+                  for (i = 1; i < _this.state.usrs.length; i++) {
+                    _this.state.ethAddresses[i] = _this.state.usrs[i].ethAddress;
+                  }
+                }
+
+                _context8.next = 11;
+                break;
+
+              case 8:
+                _context8.prev = 8;
+                _context8.t0 = _context8["catch"](1);
+                console.log(_context8.t0);
+
+              case 11:
+                _this.setState({
+                  dimmer: dimmer,
+                  open: true,
+                  isChosen: true
+                });
+
+              case 12:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this, [[1, 8]]);
+      }));
+
+      return function (_x3, _x4, _x5) {
+        return _ref8.apply(this, arguments);
+      };
+    }());
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "closeModal",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+      var userName, response, a, i;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+        while (1) {
+          switch (_context9.prev = _context9.next) {
+            case 0:
+              userName = _this.state.usrs[0].username; //when closed, change edit state in DB to null
+
+              _context9.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_15___default.a.post(window.location.origin + "/changeEdit", {
+                userName: userName
+              });
+
+            case 3:
+              response = _context9.sent;
+
+              if (response.data.success) {
+                _this.setState({
+                  open: false,
+                  ethAddresses: []
+                });
+
+                a = false;
+
+                for (i = 0; i < _this.state.users.length; i++) {
+                  if (!_this.state.users[i].edited) {
+                    _this.setState({
+                      isEdited: null
+                    });
+                  }
+                }
+              }
 
             case 5:
             case "end":
@@ -833,6 +793,62 @@ function (_Component) {
         }
       }, _callee9, this);
     })));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "toList", function () {
+      _this.setState({
+        isVideo: false,
+        activeItem: "users"
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "toVideo", function () {
+      _this.setState({
+        isVideo: true,
+        activeItem: "videochat"
+      }); //get microphone and webcam
+
+
+      _this.mediaHandler.getPermissions().then(function (stream) {
+        _this.setState({
+          hasMedia: true
+        });
+
+        _this.currentUser.stream = stream;
+
+        try {
+          var myVideo = document.getElementById("my-video");
+          myVideo.srcObject = stream;
+          var playPromise = myVideo.play();
+
+          if (playPromise !== null) {
+            playPromise.then(function () {
+              return myVideo.play();
+            }).catch(function (e) {
+              console.log(e);
+            });
+          }
+        } catch (e) {
+          console.log(e.stack);
+        }
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "show", function (dimmer) {
+      _this.setState({
+        dimmer: dimmer,
+        open: true
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleAccordionClick", function (e, titleProps) {
+      var index = titleProps.index;
+      var activeIndex = _this.state.activeIndex;
+      var newIndex = activeIndex === index ? -1 : index;
+
+      _this.setState({
+        activeIndex: newIndex
+      });
+    });
 
     _this.imageCropPreviewCanvasRef = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
     _this.state = (_this$state = {
@@ -856,7 +872,8 @@ function (_Component) {
       y: 60,
       width: 100,
       height: 40
-    }), _this$state);
+    }), _this$state); //create object for current user
+
     _this.currentUser = {
       id: "",
       stream: undefined
@@ -866,7 +883,7 @@ function (_Component) {
     return _this;
   }
 
-  _createClass(Admin, [{
+  _createClass(AdminConsole, [{
     key: "componentWillMount",
     value: function () {
       var _componentWillMount = _asyncToGenerator(
@@ -879,6 +896,7 @@ function (_Component) {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
+                //check whether the edit state of users change
                 setInterval(
                 /*#__PURE__*/
                 _asyncToGenerator(
@@ -924,7 +942,7 @@ function (_Component) {
                       }
                     }
                   }, _callee10, this, [[0, 7]]);
-                })), 1000); //request user data from server
+                })), 1000); //request current user data from server
 
                 _context11.prev = 1;
                 _context11.next = 4;
@@ -985,19 +1003,19 @@ function (_Component) {
       return function componentWillMount() {
         return _componentWillMount.apply(this, arguments);
       };
-    }() //get data of the selected user in the user list
+    }() //setting up pusher API
 
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      var activeIndex = this.state.activeIndex;
       var _this$state2 = this.state,
           open = _this$state2.open,
           dimmer = _this$state2.dimmer,
-          activeItem = _this$state2.activeItem;
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), this.state.role == 1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_14__["Menu"], {
+          activeItem = _this$state2.activeItem,
+          activeIndex = _this$state2.activeIndex;
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_14__["Menu"], {
         pointing: true,
         secondary: true
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_14__["Menu"].Item, {
@@ -1044,7 +1062,7 @@ function (_Component) {
           marginBottom: "10px",
           marginLeft: "2px"
         }
-      }) : null)) : null, this.state.isVideo ? //videochat
+      }) : null)), this.state.isVideo ? //videochat
       react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_14__["Segment"], {
         style: {
           marginTop: "16px",
@@ -1723,7 +1741,7 @@ function (_Component) {
     }
   }]);
 
-  return Admin;
+  return AdminConsole;
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
 
@@ -1893,12 +1911,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCookie", function() { return setCookie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookie", function() { return getCookie; });
 //set cookie function
+//https://www.w3schools.com/js/js_cookies.asp
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   var expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + "HttpOnly;" + ";path=/";
 } //get cookie function
+//https://www.w3schools.com/js/js_cookies.asp
 
 function getCookie(cname) {
   var name = cname + "=";

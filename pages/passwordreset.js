@@ -9,7 +9,7 @@ class PwReset extends Component {
   constructor() {
     super();
     this.state = {
-      errorMessage: "",
+      errorMessage: ""
     };
   }
 
@@ -107,6 +107,7 @@ class PwReset extends Component {
             <Header as="h3" textAlign="center" style={{ marginBottom: 20 }}>
               Please enter your username and your email address
             </Header>
+            {/* Form to handle input */}
             <Form onSubmit={this.pwReset} error={this.state.errorMessage}>
               <Form.Field>
                 <Form.Input
@@ -133,6 +134,7 @@ class PwReset extends Component {
                   }
                 />
               </Form.Field>
+              {/* Error Message */}
               <Message error header="Oops!" content={this.state.errorMessage} />
               <Button
                 fluid

@@ -2,6 +2,8 @@ import React from "react";
 import { Container } from "semantic-ui-react";
 import Head from "next/head";
 
+//Layout component
+//enables to render children to adapt the style
 export default props => {
   return (
     <Container style={{ width: 650, border: 1 }}>

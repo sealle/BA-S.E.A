@@ -41,6 +41,7 @@ export default class RegisterPage extends Component {
             >
               Registration
             </Header>
+            {/* Menu to choose if one registers as person or on behalf of a company  */}
             <Menu pointing secondary>
               <Menu.Item
                 name="person"

@@ -28,13 +28,12 @@ export default class ProfileHeader extends Component {
   }
 
   //on logout, delete cookies
+  //redirect user to login page
   logout = () => {
     setCookie("x-access-token", "", -60 * 60);
     Router.pushRoute("/login");
     window.location.href = "/login";
   }
-
-  // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
     return (

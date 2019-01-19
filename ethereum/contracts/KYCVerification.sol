@@ -37,7 +37,7 @@ contract KYCVerification {
         array.push(newHash);
     }
     
-    //return bytes32 array 
+    //returns bytes32 array 
     function getHashes() public view returns(bytes32[]) {
         return array;
     }

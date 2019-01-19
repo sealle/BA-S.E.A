@@ -5,6 +5,7 @@ import { Router, Link } from "../routes";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
+//error page
 class Error extends Component {
   constructor() {
     super();
@@ -23,19 +24,20 @@ class Error extends Component {
     if (res.data.success) {
       this.setState({ cookie: res.data.cookie });
     }
+    //decode cookie from server
     let decoded = jwtDecode(this.state.cookie);
     //get role of user to redirect them to their page
     if (decoded.role === 1) {
       this.setState({ isAdmin: true });
     } else if (decoded.role === 0 && decoded.reg === 1) {
       this.setState({ isUser: true });
-    } else if(decoded.paid === 1) {
-      this.setState({inVideochat: true})
+    } else if (decoded.paid === 1) {
+      this.setState({ inVideochat: true });
     } else {
       this.setState({ isReg: true });
     }
   }
-  
+
   render() {
     return (
       <div>
@@ -47,6 +49,7 @@ class Error extends Component {
           >
             You are not entitled to see this page!
           </Header>
+          {/* If admin, send to admin page */}
           {this.state.isAdmin ? (
             <Container textAlign="center">
               <Link route="/admin">
@@ -54,6 +57,7 @@ class Error extends Component {
               </Link>
             </Container>
           ) : null}
+          {/* If user, send to profile page */}
           {this.state.isUser ? (
             <Container textAlign="center">
               <Link route="/profile">
@@ -61,6 +65,7 @@ class Error extends Component {
               </Link>
             </Container>
           ) : null}
+          {/* If registered user, send to clickandpay page */}
           {this.state.isReg ? (
             <Container textAlign="center">
               <Link route="/clickandpay">
@@ -68,7 +73,8 @@ class Error extends Component {
               </Link>
             </Container>
           ) : null}
-            {this.state.inVideochat ? (
+          {/* If user with videochat, send to videochat page */}
+          {this.state.inVideochat ? (
             <Container textAlign="center">
               <Link route="/videochat">
                 <Button primary>Back</Button>

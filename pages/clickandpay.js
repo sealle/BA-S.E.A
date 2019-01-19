@@ -46,7 +46,7 @@ class Assets extends Component {
         else if (accounts.length == 0) this.setState({ metaMask: false });
         else this.setState({ metaMask: true, myAddress: accounts[0] });
       });
-    }, 500);
+    }, 500); //0.5 seconds
   }
 
   //handle the checkboxes for beneficial owners
@@ -192,6 +192,7 @@ class Assets extends Component {
           background: #e6e6e6;
         }
       `}</style>
+          {/* assets view */}
           {this.state.terms == false && this.state.pay == false ? (
             <Segment style={{ marginTop: "50px" }}>
               <br />
@@ -238,6 +239,7 @@ class Assets extends Component {
                   />
                 ) : null}
                 <Divider />
+                {/* open form when checkbox 2 is checked */}
                 {this.state.checkedAssets2 ? (
                   <div style={{ marginBottom: "10px" }}>
                     <Segment style={{ textAlign: "left" }}>
@@ -254,6 +256,7 @@ class Assets extends Component {
                           color: "white"
                         }}
                       >
+                      {/* Form to get all beneficial owners */}
                         1
                       </p>
                       <Form
@@ -636,6 +639,7 @@ class Assets extends Component {
                 ) : null}
               </Container>
             </Segment>
+            // Terms & Conditions view
           ) : this.state.terms == true && this.state.pay == false ? (
             <Segment style={{ marginTop: "50px" }}>
               <br />
@@ -751,6 +755,7 @@ class Assets extends Component {
                     style={{ float: "right" }}
                   />
                 ) : null}
+                {/* Check if all checkboxes are checked to enable the next button */}
                 <Divider />
                 {this.state.checked1 &&
                 this.state.checked2 &&
@@ -808,6 +813,7 @@ class Assets extends Component {
                 )}
               </Container>
             </Segment>
+            //Payment view
           ) : this.state.terms == true && this.state.pay == true ? (
             <div>
               <Segment
@@ -834,6 +840,7 @@ class Assets extends Component {
                     content="waiting for transaction success..."
                   />
                 ) : null}
+                {/* Enter ether value to send */}
                 <Form onSubmit={this.submit} error={this.state.error}>
                   <Form.Field>
                     <Form.Input

@@ -5,7 +5,7 @@ const VideoChatUser = dynamic(import('../components/VideoChatUser'), {
   ssr: false
 })
 
-//render video chat component
+//render video chat component of user
 export default class VideoChatPage extends Component {
   render() {
     return (

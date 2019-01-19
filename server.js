@@ -20,8 +20,9 @@ const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
-//jwt and email secrets
+//jwt secret
 const secret = "iliketurtles";
+//nodemailer secret
 const EMAIL_SECRET = "yello15873";
 
 const date = require("date-and-time");
@@ -61,9 +62,11 @@ app
 
     //Registration of person
     server.post("/register", urlEncodedParser, (req, response) => {
+      //get files from client
       let image = req.files.file1;
       let image2 = req.files.file2;
 
+      //rename the files with the username
       let imageName = `${req.body.username}-${image.name}`;
       let imageName2 = `${req.body.username}-${image2.name}`;
 
@@ -74,7 +77,8 @@ app
           let nowShort = date.format(new Date(), "DD.MM.YY");
           let body = req.body;
 
-          //prevent sql injection by escaping user input (format())
+          //prevent sql injection by escaping user input
+          //insertdata received in users db table
           let insertSQL = SqlString.format(
             "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, isComp=?, lastModified=?, idNum=?, idType=?",
             [
@@ -99,10 +103,12 @@ app
               body.idType
             ]
           );
+          //search for username in db
           let searchSQL = SqlString.format(
             "SELECT * FROM users WHERE username=?",
             [body.username]
           );
+          //search for email address in db
           let searchEmail = SqlString.format(
             "SELECT * FROM users WHERE email=?",
             [body.email]
@@ -122,67 +128,69 @@ app
                 console.log("User already exists");
               } else {
                 //check if email address exists
-                // database.connection.query(searchEmail, function(err, res) {
-                //   //check if email exists
-                //   if (err) {
-                //     response
-                //       .status(400)
-                //       .json({ message: "Database Server is not connected!" });
-                //   } else {
-                // if (res.length) {
-                //   response.status(400).json({
-                //     success: false,
-                //     message: "Email already exists! Choose a different one."
-                //   });
-                //   console.log("Email already exists");
-                // } else {
-                database.connection.query(insertSQL, function(err, result) {
+                database.connection.query(searchEmail, function(err, res) {
                   if (err) {
-                    response.status(400).json({
-                      message: "Database Server is not connected!"
-                    });
+                    response
+                      .status(400)
+                      .json({ message: "Database Server is not connected!" });
                   } else {
-                    //sign a token and send it via email to user
-                    jwt.sign(
-                      {
-                        username: body.username,
-                        emailToken: crypto
-                          .createHash("sha256")
-                          .update(body.username)
-                          .digest("hex")
-                      },
-                      EMAIL_SECRET,
-                      {
-                        expiresIn: 36000 //1h
-                      },
-                      (err, emailToken) => {
-                        const url = `http://localhost:3000/activate/${emailToken}`;
-                        transporter.sendMail({
-                          from: "no.reply.sealle@gmail.com",
-                          to: body.email,
-                          subject: "Confirm Email",
-                          html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
-                        });
-                      }
-                    );
-                    //store image in static folder
-                    image.mv("static/" + imageName, function(err) {
-                      if (err) return response.status(500).send(err);
-                    });
-                    image2.mv("static/" + imageName2, function(err) {
-                      if (err) return response.status(500).send(err);
-                    });
-                    response.status(200).json({
-                      success: true,
-                      message: "successfully registered!"
-                    });
-                    console.log("1 record inserted");
+                    if (res.length) {
+                      response.status(400).json({
+                        success: false,
+                        message: "Email already exists! Choose a different one."
+                      });
+                      console.log("Email already exists");
+                    } else {
+                      database.connection.query(insertSQL, function(
+                        err,
+                        result
+                      ) {
+                        if (err) {
+                          response.status(400).json({
+                            message: "Database Server is not connected!"
+                          });
+                        } else {
+                          //sign a token and send it via email to user
+                          jwt.sign(
+                            {
+                              username: body.username,
+                              emailToken: crypto
+                                .createHash("sha256")
+                                .update(body.username)
+                                .digest("hex")
+                            },
+                            EMAIL_SECRET,
+                            {
+                              expiresIn: 36000 //1h
+                            },
+                            (err, emailToken) => {
+                              const url = `http://localhost:3000/activate/${emailToken}`;
+                              transporter.sendMail({
+                                from: "no.reply.sealle@gmail.com",
+                                to: body.email,
+                                subject: "Confirm Email",
+                                html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
+                              });
+                            }
+                          );
+                          //store image in static folder
+                          image.mv("static/" + imageName, function(err) {
+                            if (err) return response.status(500).send(err);
+                          });
+                          image2.mv("static/" + imageName2, function(err) {
+                            if (err) return response.status(500).send(err);
+                          });
+                          response.status(200).json({
+                            success: true,
+                            message: "successfully registered!"
+                          });
+                          console.log("1 record inserted");
+                        }
+                      });
+                    }
                   }
                 });
               }
-              //     }
-              //   });
-              // }
             }
           });
         });
@@ -191,11 +199,13 @@ app
 
     //Registration for companies
     server.post("/companyregister", urlEncodedParser, function(req, response) {
+      //get files from client
       let image = req.files.file1;
       let image2 = req.files.file2;
       let doc = req.files.doc1;
       let doc2 = req.files.doc2;
 
+      //rename the files with the username
       let imageName = `${req.body.username}-${image.name}`;
       let imageName2 = `${req.body.username}-${image2.name}`;
       let docName = `${req.body.username}-${doc.name}`;
@@ -209,6 +219,7 @@ app
           let body = req.body;
 
           //prevent sql injection by escaping user input
+                    //insertdata received in users db table
           let insertSQL = SqlString.format(
             "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, compName=?, compPostCode=?, residence=?, businessAd=?, compHouseNr=?, doc1=?, doc2=?, isComp=?, lastModified=?, idNum=?, idType=?",
             [
@@ -240,10 +251,12 @@ app
               body.idType
             ]
           );
+          //search for username in db
           let searchSQL = SqlString.format(
             "SELECT * FROM users WHERE username=?",
             [body.username]
           );
+          //search for email address in db
           let searchEmail = SqlString.format(
             "SELECT * FROM users WHERE email=?",
             [body.email]
@@ -263,19 +276,19 @@ app
                 console.log("User already exists");
               } else {
                 //check if email address exists
-                // database.connection.query(searchEmail, function(err, res) {
-                //   if (err) {
-                //     response
-                //       .status(400)
-                //       .json({ message: "Database Server is not connected!" });
-                //   } else {
-                //     if (res.length) {
-                //       response.status(400).json({
-                //         success: false,
-                //         message: "Email already exists! Choose a different one."
-                //       });
-                //       console.log("Email already exists");
-                //     } else {
+                database.connection.query(searchEmail, function(err, res) {
+                  if (err) {
+                    response
+                      .status(400)
+                      .json({ message: "Database Server is not connected!" });
+                  } else {
+                    if (res.length) {
+                      response.status(400).json({
+                        success: false,
+                        message: "Email already exists! Choose a different one."
+                      });
+                      console.log("Email already exists");
+                    } else {
                       database.connection.query(insertSQL, function(
                         err,
                         result
@@ -328,16 +341,16 @@ app
                         }
                       });
                     }
-              //     }
-              //   });
-              // }
+                  }
+                });
+              }
             }
           });
         });
       });
     });
 
-    //Login
+    //Login handler
     server.post("/authenticate", (req, response) => {
       let body = req.body;
       //preventing SQL injection
@@ -351,6 +364,7 @@ app
             .status(400)
             .json({ message: "Database Server is not connected!" });
         } else if (!result.length) {
+          //checking if username exists
           response
             .status(400)
             .json({ message: "Username or password is incorrect!" });
@@ -565,7 +579,7 @@ app
       });
     });
 
-    //enter username and email to receive email
+    //receive username and email address to send email
     server.post("/passwordreset", async (req, res) => {
       let body = req.body;
       let sql = SqlString.format("SELECT * FROM users WHERE username=?", [
@@ -623,6 +637,7 @@ app
       );
       database.connection.query(searchSQL, (err, result) => {
         if (result.length) {
+          //hash the new password
           bcrypt.genSalt(saltRounds, function(err, salt) {
             bcrypt.hash(req.body.password, salt, null, function(err, hash) {
               let updatePw = SqlString.format(
@@ -681,14 +696,14 @@ app
       });
     });
 
-    //Gets data of a user
+    //serve client with user data
     server.post("/users", urlEncodedParser, function(req, response) {
       //get current user
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
       let currentUser = decoded.username;
       let searchUser = SqlString.format(
-        "SELECT * FROM users WHERE username=?; SELECT * FROM beneficialOwners WHERE username=?",
+        "SELECT * FROM users WHERE username=?; SELECT DISTINCT * FROM beneficialOwners WHERE username=?",
         [currentUser, currentUser]
       );
       //send data from DB to client
@@ -707,7 +722,7 @@ app
     });
 
     //receive changed data from users in profile page
-    //change edit state to not null
+    //change edit state to corresponding field
     server.post("/editData", urlEncodedParser, function(req, response) {
       let body = req.body;
       //set latest modified date
@@ -805,8 +820,10 @@ app
     server.post("/usrs", urlEncodedParser, function(req, response) {
       //get current user from client
       let currentUser = req.body.currentUser;
+      //join users and ethAddresses table
+      //get data from benficialOwners table
       let join = SqlString.format(
-        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE username=?; SELECT * FROM beneficialOwners WHERE username=?",
+        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE username=?; SELECT DISTINCT * FROM beneficialOwners WHERE username=?",
         [currentUser, currentUser]
       );
       database.connection.query(join, function(err, res, fields) {
@@ -823,7 +840,6 @@ app
     });
 
     //send otp via email to user
-    //store audio file in DB
     server.post("/createOTP", urlEncodedParser, (req, response) => {
       let body = req.body;
       let otpToken = body.otpToken;
@@ -941,7 +957,7 @@ app
       });
     });
 
-    //is exectuted when a user has been declined in the videochat
+    //is executed when a user has been declined in the videochat
     server.post("/decline", urlEncodedParser, (req, response) => {
       let audioName = req.body.fileName;
       let audio = req.files.file;
@@ -974,7 +990,7 @@ app
       });
     });
 
-    //get Snapshot of user and store it in static folder and DB
+    //get Snapshot from client and store it in static folder and DB
     server.post("/storeSnapshot", urlEncodedParser, (req, response) => {
       let image = req.files.image;
       let imageName = req.body.imageName;
@@ -1080,13 +1096,13 @@ app
     server.post("/clickandpay", urlEncodedParser, function(req, response) {
       let cookie = req.cookies["x-access-token"];
       let decoded = jwtDecode(cookie);
-      //sign video chat cookie
+      //sign video chat token
       let videoCookie = jwt.sign(
         {
           username: decoded.username,
           role: 0, //user
           reg: 0, //registered
-          paid: 1,
+          paid: 1, //has paid
           xsrfToken: crypto
             .createHash("sha256")
             .update(decoded.username)
@@ -1274,7 +1290,7 @@ app
     process.exit(1);
   });
 
-// function to protect all pages
+// function to protect all pages which require a token
 function unless(paths, middleware) {
   return function(req, res, next) {
     let isHave = false;
@@ -1292,7 +1308,7 @@ function unless(paths, middleware) {
   };
 }
 
-//protect admin page
+//verify token and check whether the user has access to the admin page
 function protectedAdminPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
@@ -1313,7 +1329,7 @@ function protectedAdminPage(req, res, next) {
   }
 }
 
-//protect user page
+//verify token and check whether the user has access to the profile page
 function protectedUserPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
@@ -1334,11 +1350,10 @@ function protectedUserPage(req, res, next) {
   }
 }
 
-//protect registration page
+//verify token and check whether the user has access to the registration page
 function protectedRegPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
-    //verify if user has registration token
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         console.log(err);
@@ -1355,10 +1370,10 @@ function protectedRegPage(req, res, next) {
   }
 }
 
+//verify token and check whether the user has access to the videochat page
 function protectedVideochatPage(req, res, next) {
   const token = req.cookies["x-access-token"];
   if (token) {
-    //verify if user has video chat token
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         console.log(err);

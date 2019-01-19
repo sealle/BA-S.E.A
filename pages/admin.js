@@ -5,7 +5,7 @@ import Head from "next/head";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
 import dynamic from "next/dynamic";
-const Admin = dynamic(import("../components/Admin"), {
+const AdminConsole = dynamic(import("../components/AdminConsole"), {
   ssr: false
 });
 const ProfileHeader = dynamic(import("../components/ProfileHeader"), {
@@ -22,7 +22,7 @@ class adminPage extends Component {
   }
 
   async componentWillMount() {
-    //check if admin is looged in to metamask
+    //check if admin is logged in to metamask
     setInterval(async () => {
       web3.eth.getAccounts((err, accounts) => {
         if (err != null) console.error("An error occurred: " + err);
@@ -45,11 +45,11 @@ class adminPage extends Component {
           platformAddress
         });
         try {
-          //send answer back to requesting address
+          //send answer back to requesting address through smart contract
           if (response.data.success) {
             contract.methods.answer(response.data.confirmed).send({
               from: this.state.myAddress,
-              to: toAddress
+              to: toAddress,
             });
           }
         } catch (error) {
@@ -78,7 +78,8 @@ class adminPage extends Component {
           >
             Admin Page
           </Header>
-          <Admin />
+          {/* render admin console */}
+          <AdminConsole />
           <Container style={{ width: "100%" }}>
             <Head>
               <link

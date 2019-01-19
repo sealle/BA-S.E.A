@@ -23,6 +23,7 @@ beforeEach(async () => {
   kycverify.setProvider(provider);
 });
 
+//Test all functions of the smart contract
 describe("KYCVerification", () => {
   it("deploys a contract", () => {
     assert.ok(kycverify.options.address);

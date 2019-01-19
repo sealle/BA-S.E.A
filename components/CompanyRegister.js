@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import axios from "axios";
 import swal from "sweetalert2";
 
+//options for dropdown menu
 const idTypeOptions = [
   {
     key: "Swiss Identity Card",
@@ -162,6 +163,7 @@ class CompanyRegister extends Component {
       <div>
         <Layout>
           <br />
+          {/* Form to handle user input */}
           <Form onSubmit={this.handleSubmit} error={this.state.errorMessage}>
             <Form.Group>
               <Form.Input
@@ -183,6 +185,7 @@ class CompanyRegister extends Component {
                 label="Password"
                 placeholder="Password"
                 required
+                //strong password required
                 pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
                 name="password"
                 value={this.state.password}
@@ -466,6 +469,7 @@ class CompanyRegister extends Component {
                 fluid
                 name="doc1"
                 id="doc1"
+                required
                 type="file"
                 width="sixteen"
                 label="Electronic extract of the relevant registration authority"

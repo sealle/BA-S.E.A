@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 import web3 from "../ethereum/src/web3";
 import contract from "../ethereum/src/contract";
 
+//validation of kycKey
 class Validation extends Component {
   constructor() {
     super();
@@ -16,13 +17,15 @@ class Validation extends Component {
     };
   }
 
+  //send user back to login page
   backToLogin = () => {
-    Router.push("/login")
-  }
+    Router.push("/login");
+  };
 
-  //send email and pasword to server
+  //validate kycKey
   handleFormSubmit = () => {
-    this.setState({ loading: true, errorMessage: "", successMessage:"" });
+    this.setState({ loading: true, errorMessage: "", successMessage: "" });
+    //get user input
     let fname = this.state.fname;
     let lname = this.state.lname;
     let idNum = this.state.idNum;
@@ -72,6 +75,7 @@ class Validation extends Component {
               Note: The information must be the same as the as the information
               provided at your registration process
             </Header>
+            {/* Form to submit required data */}
             <Form
               onSubmit={this.handleFormSubmit}
               success={this.state.successMessage}
@@ -154,12 +158,12 @@ class Validation extends Component {
               </Button>
             </Form>
             <Button
-                  style={{ backgroundColor: "white" }}
-                  fluid
-                  onClick={this.backToLogin}
-                >
-                  <Icon name="arrow left" /> back
-                </Button>
+              style={{ backgroundColor: "white" }}
+              fluid
+              onClick={this.backToLogin}
+            >
+              <Icon name="arrow left" /> back
+            </Button>
           </Segment>
         </Layout>
       </div>
