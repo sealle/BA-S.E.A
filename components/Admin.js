@@ -30,6 +30,7 @@ import {
 import axios from "axios";
 import { Router } from "../routes";
 import swal from "sweetalert2";
+import { MultiStreamsMixer } from 'multistreamsmixer';
 let xsrfToken = "";
 let pusher;
 let peer;
@@ -59,6 +60,7 @@ export default class Admin extends Component {
       users: [],
       disableButton: true,
       isRecording: "",
+      snapshotMessage: "",
       activeItem: "videochat",
       isVideo: true,
       crop: {
@@ -370,12 +372,14 @@ export default class Admin extends Component {
               console.log(e);
             });
         }
-        //start recording the audio line
-        recordRTC = RecordRTC(stream, {
-          //TODO: Which stream is beeing recorded? How to record both streams?
+        //send both streams to MultiStreamsMixer
+        let audioMixer = new MultiStreamsMixer([this.currentUser.stream, stream])
+        //start recording the mixed streams
+        recordRTC = RecordRTC(audioMixer.getMixedStream(), {
           recorderType: StereoAudioRecorder,
           mimeType: "audio/wav"
         });
+        //start recording
         recordRTC.startRecording();
         this.setState({ isRecording: "Recording..." });
       } catch (e) {
@@ -605,6 +609,7 @@ export default class Admin extends Component {
       );
       if (response.data.success) {
         console.log("success");
+        this.setState({snapshotMessage:"Snapshot saved!"})
       } else {
         console.log("error");
       }
@@ -727,7 +732,7 @@ export default class Admin extends Component {
                             style={{
                               backgroundColor: "white",
                               border: "1px solid black",
-                              width: "32%"
+                              width: "31%"
                             }}
                           >
                             <Button.Content visible>
@@ -743,7 +748,7 @@ export default class Admin extends Component {
                             style={{
                               backgroundColor: "white",
                               border: "1px solid black",
-                              width: "32.5%"
+                              width: "31%"
                             }}
                           >
                             <Button.Content visible>
@@ -759,7 +764,7 @@ export default class Admin extends Component {
                             style={{
                               backgroundColor: "white",
                               border: "1px solid black",
-                              width: "32.5%"
+                              width: "31%"
                             }}
                           >
                             <Button.Content visible>
@@ -767,7 +772,10 @@ export default class Admin extends Component {
                             </Button.Content>
                             <Button.Content hidden>Quit Call</Button.Content>
                           </Button>
-                          <span>{this.state.isRecording}</span>
+                          {this.state.isRecording ? 
+                          <Icon style={{display: "inline-block"}} color="red" loading name='spinner' />
+                          : null }
+                          <span style={{paddingTop: "5px"}}>{this.state.snapshotMessage}</span>
                         </div>
                       ) : (
                         <div>
@@ -778,7 +786,7 @@ export default class Admin extends Component {
                             style={{
                               backgroundColor: "white",
                               border: "1px solid black",
-                              width: "32.5%"
+                              width: "31%"
                             }}
                             disabled
                           >
@@ -794,7 +802,7 @@ export default class Admin extends Component {
                             style={{
                               backgroundColor: "white",
                               border: "1px solid black",
-                              width: "32.5%"
+                              width: "31%"
                             }}
                             disabled
                           >
@@ -810,7 +818,7 @@ export default class Admin extends Component {
                             style={{
                               backgroundColor: "white",
                               border: "1px solid black",
-                              width: "32.5%"
+                              width: "31%"
                             }}
                             disabled
                           >
