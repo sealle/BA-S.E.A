@@ -18,7 +18,7 @@ beforeEach(async () => {
     //tells web3 that we want to deploy a new copy of this contract
     .deploy({ data: bytecode })
     //Instructs web3 to send out a transaction that creates this contract
-    .send({ from: accounts[0], gas: "1000000" });
+    .send({ from: accounts[0], gas: "5000000" });
 
   kycverify.setProvider(provider);
 });

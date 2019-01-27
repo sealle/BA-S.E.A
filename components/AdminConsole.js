@@ -403,7 +403,7 @@ export default class AdminConsole extends Component {
     );
     if (response.data.success) {
       swal("OTP sent!", "", "success");
-      this.setState({loading: false});
+      this.setState({ loading: false });
     } else {
       console.log("error");
     }
@@ -648,56 +648,56 @@ export default class AdminConsole extends Component {
           background: #e6e6e6;
         }
       `}</style>
-          {/* menu to switch between videochat and user list */}
-          <Menu pointing secondary>
+        {/* menu to switch between videochat and user list */}
+        <Menu pointing secondary>
+          <Menu.Item
+            active={activeItem === "videochat"}
+            name="video"
+            onClick={this.toVideo}
+            style={{ color: "#2985d0" }}
+          >
+            <Icon name="video" />
+            Videochat
+          </Menu.Item>
+          {this.state.disableUserList ? (
             <Menu.Item
-              active={activeItem === "videochat"}
-              name="video"
-              onClick={this.toVideo}
+              disabled
+              active={activeItem === "users"}
+              name="users"
+              onClick={this.toList}
               style={{ color: "#2985d0" }}
             >
-              <Icon name="video" />
-              Videochat
+              <Icon name="users" />
+              Userlist
+              {this.state.isEdited ? (
+                <Icon
+                  name="circle thin"
+                  size="tiny"
+                  color="red"
+                  style={{ marginBottom: "10px", marginLeft: "2px" }}
+                />
+              ) : null}
             </Menu.Item>
-            {this.state.disableUserList ? (
-              <Menu.Item
-                disabled
-                active={activeItem === "users"}
-                name="users"
-                onClick={this.toList}
-                style={{ color: "#2985d0" }}
-              >
-                <Icon name="users" />
-                Userlist
-                {this.state.isEdited ? (
-                  <Icon
-                    name="circle thin"
-                    size="tiny"
-                    color="red"
-                    style={{ marginBottom: "10px", marginLeft: "2px" }}
-                  />
-                ) : null}
-              </Menu.Item>
-            ) : (
-              <Menu.Item
-                active={activeItem === "users"}
-                name="users"
-                onClick={this.toList}
-                style={{ color: "#2985d0" }}
-              >
-                <Icon name="users" />
-                Userlist
-                {this.state.isEdited ? (
-                  <Icon
-                    name="circle thin"
-                    size="tiny"
-                    color="red"
-                    style={{ marginBottom: "10px", marginLeft: "2px" }}
-                  />
-                ) : null}
-              </Menu.Item>
-            )}
-          </Menu>
+          ) : (
+            <Menu.Item
+              active={activeItem === "users"}
+              name="users"
+              onClick={this.toList}
+              style={{ color: "#2985d0" }}
+            >
+              <Icon name="users" />
+              Userlist
+              {this.state.isEdited ? (
+                <Icon
+                  name="circle thin"
+                  size="tiny"
+                  color="red"
+                  style={{ marginBottom: "10px", marginLeft: "2px" }}
+                />
+              ) : null}
+            </Menu.Item>
+          )}
+        </Menu>
         {this.state.isVideo ? (
           //videochat view
           <div>
@@ -705,7 +705,7 @@ export default class AdminConsole extends Component {
               <Grid>
                 <Grid.Row>
                   <Grid.Column width={8}>
-                  {/* video containers */}
+                    {/* video containers */}
                     <Container
                       className="video-container"
                       style={{
@@ -807,8 +807,8 @@ export default class AdminConsole extends Component {
                             {this.state.snapshotMessage}
                           </span>
                         </div>
-                        //disable buttons when not in call
                       ) : (
+                        //disable buttons when not in call
                         <div>
                           <Button
                             animated
@@ -938,7 +938,6 @@ export default class AdminConsole extends Component {
                               border: "1px solid green"
                             }}
                           />
-                          {/* message when identity card is not valid */}
                         ) : this.state.idIsValid === false ? (
                           <Message
                             header={`Not Valid! Type: ${this.state.ocrFormat}`}

@@ -10,7 +10,7 @@ contract KYCVerification {
         address sender
     );
     
-    //event listener for platforms  sending kycKeys
+    //event listener for platforms requesting the verification of a kycKey
     event PlatformListen(
         bool confirmed
     );

@@ -39,12 +39,13 @@ CREATE TABLE `users` (
   `snapshot` varchar(255) DEFAULT NULL,
   `idNum` varchar(255) DEFAULT NULL,
   `idType` varchar(255) DEFAULT NULL,
+  `kycHash` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
 
  -- EthAddresses Table
  CREATE TABLE `ethAddresses` (
-  `kycKey` varchar(255) DEFAULT NULL,
+  `kycHash` varchar(255) DEFAULT NULL,
   `ethAddress` varchar(255) DEFAULT NULL
 )
 

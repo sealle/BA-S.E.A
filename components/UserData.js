@@ -11,6 +11,9 @@ import {
   Modal
 } from "semantic-ui-react";
 import axios from "axios";
+import swal from "sweetalert2";
+import { Link, Router } from "../routes";
+import { setCookie } from "../utils/CookieUtils";
 
 export default class UserData extends Component {
   constructor() {

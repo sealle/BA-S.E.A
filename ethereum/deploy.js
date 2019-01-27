@@ -3,8 +3,8 @@ const Web3 = require("web3");
 const { interface, bytecode } = require("./compile");
 
 const provider = new HDWalletProvider(
-  "Your mneumonic", // mneumonic
-  "Your Infura API Key" // Personal Infura API Key
+  "Your twelf word account seed phrase", // mnemonic
+  "" // Personal Infura API Key
 );
 const web3 = new Web3(provider);
 
@@ -15,7 +15,7 @@ const deploy = async () => {
 
   const result = await new web3.eth.Contract(JSON.parse(interface))
     .deploy({ data: bytecode })
-    .send({ gas: "1000000", from: accounts[0] });
+    .send({ gas: "5000000", from: accounts[0] });
 
   //log the interface and contract address
   //they are used in the contract.js file 

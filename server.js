@@ -219,7 +219,7 @@ app
           let body = req.body;
 
           //prevent sql injection by escaping user input
-                    //insertdata received in users db table
+          //insertdata received in users db table
           let insertSQL = SqlString.format(
             "INSERT INTO users SET username=?, password=?, fname=?, lname=?, street=?, houseNr=?, postCode=?, placeOfRes=?, dateOfBirth=?, nat=?, email=?, mobNr=?, ID1=?, ID2=?, regDate=?, compName=?, compPostCode=?, residence=?, businessAd=?, compHouseNr=?, doc1=?, doc2=?, isComp=?, lastModified=?, idNum=?, idType=?",
             [
@@ -823,7 +823,7 @@ app
       //join users and ethAddresses table
       //get data from benficialOwners table
       let join = SqlString.format(
-        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycKey = ethAddresses.kycKey WHERE username=?; SELECT DISTINCT * FROM beneficialOwners WHERE username=?",
+        "SELECT DISTINCT * FROM users LEFT JOIN ethAddresses ON users.kycHash = ethAddresses.kycHash WHERE username=?; SELECT DISTINCT * FROM beneficialOwners WHERE username=?",
         [currentUser, currentUser]
       );
       database.connection.query(join, function(err, res, fields) {
@@ -906,11 +906,13 @@ app
       //create new kycKey
       let newAccount = web3.eth.accounts.create();
       let newKycKey = newAccount.address;
+
+      let kycHash = web3.utils.soliditySha3(newKycKey);
       //insert kycKey in DB and set user to isregistered
       //set otpToken to null after verification
       let storekycKeyUsers = SqlString.format(
-        "UPDATE users SET kycKey=?, isRegistered=?, audio=? WHERE username=?; UPDATE users SET otpToken=? WHERE username=?",
-        [newKycKey, "yes", audioName, userName, null, userName]
+        "UPDATE users SET kycKey=?, isRegistered=?, audio=?, kycHash=? WHERE username=?; UPDATE users SET otpToken=? WHERE username=?",
+        [newKycKey, "yes", audioName, kycHash, userName, null, userName]
       );
       //send fields to hash to the client
       let getHashInfo = SqlString.format(
@@ -919,8 +921,8 @@ app
       );
       //initialise ethAddresses where first field is set to null
       let storeEthAddresses = SqlString.format(
-        "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
-        [newKycKey, null]
+        "INSERT INTO ethAddresses SET kycHash=?, ethAddress=?",
+        [kycHash, null]
       );
       database.connection.query(storekycKeyUsers, function(err, res, fields) {
         if (err) {
@@ -1232,9 +1234,10 @@ app
     server.post("/verify", urlEncodedParser, function(req, response) {
       let body = req.body;
       //receive kycKey from the smart contract and verify
-      let checkKycKey = SqlString.format("SELECT * FROM users WHERE kycKey=?", [
-        body.kycKey
-      ]);
+      let checkKycKey = SqlString.format(
+        "SELECT * FROM users WHERE kycHash=?",
+        [body.kycKey]
+      );
       database.connection.query(checkKycKey, function(err, result, fields) {
         if (err) {
           console.log("error");
@@ -1247,7 +1250,7 @@ app
             });
             //insert into ethAddresses
             let storeAddress = SqlString.format(
-              "INSERT INTO ethAddresses SET kycKey=?, ethAddress=?",
+              "INSERT INTO ethAddresses SET kycHash=?, ethAddress=?",
               [body.kycKey, body.platformAddress]
             );
             database.connection.query(storeAddress, function(

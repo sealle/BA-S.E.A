@@ -27,10 +27,6 @@ class Assets extends Component {
       checkedAssets2: false,
       terms: false,
       pay: false,
-      checked3: false,
-      checked4: false,
-      checked5: false,
-      checked6: false,
       error: false,
       etherValue: "",
       metaMask: true,
@@ -655,7 +651,7 @@ class Assets extends Component {
               </Header>
               <Container textAlign="center">
                 <Checkbox
-                  label="I confirm to have my identity card ready"
+                  label="I agree to conduct the video identification"
                   required
                   checked={this.state.checked1}
                   onClick={() =>
@@ -689,14 +685,14 @@ class Assets extends Component {
                 ) : null}
                 <Divider />
                 <Checkbox
-                  label="I confirm that I have a good internet connection"
+                  label="I confirm to have my identity card ready"
                   required
                   checked={this.state.checked3}
                   onClick={() =>
                     this.setState({ checked3: !this.state.checked3 })
                   }
                 />
-                {this.state.checked3 ? (
+                {this.state.checked4 ? (
                   <Icon
                     name="check circle"
                     color="green"
@@ -704,9 +700,9 @@ class Assets extends Component {
                     style={{ float: "right" }}
                   />
                 ) : null}
-                <Divider />
+                <Divider/>
                 <Checkbox
-                  label="I confirm that I am in a silent environment"
+                  label="I confirm that I have a good internet connection"
                   required
                   checked={this.state.checked4}
                   onClick={() =>
@@ -723,7 +719,7 @@ class Assets extends Component {
                 ) : null}
                 <Divider />
                 <Checkbox
-                  label="I confirm that I have a good microphone (preferably headset)"
+                  label="I confirm that I am in a silent environment"
                   required
                   checked={this.state.checked5}
                   onClick={() =>
@@ -740,14 +736,31 @@ class Assets extends Component {
                 ) : null}
                 <Divider />
                 <Checkbox
-                  label="I agree to pay a fee for the video identification"
+                  label="I confirm that I have a good microphone (preferably headset)"
                   required
                   checked={this.state.checked6}
                   onClick={() =>
                     this.setState({ checked6: !this.state.checked6 })
                   }
                 />
-                {this.state.checked6 ? (
+                {this.state.checked6? (
+                  <Icon
+                    name="check circle"
+                    color="green"
+                    size="large"
+                    style={{ float: "right" }}
+                  />
+                ) : null}
+                <Divider />
+                <Checkbox
+                  label="I agree to pay a fee for the video identification"
+                  required
+                  checked={this.state.checked7}
+                  onClick={() =>
+                    this.setState({ checked7: !this.state.checked7 })
+                  }
+                />
+                {this.state.checked7 ? (
                   <Icon
                     name="check circle"
                     color="green"
@@ -762,7 +775,8 @@ class Assets extends Component {
                 this.state.checked3 &&
                 this.state.checked4 &&
                 this.state.checked5 &&
-                this.state.checked6 ? (
+                this.state.checked6 &&
+                this.state.checked7 ? (
                   <Container style={{ display: "inline-block" }}>
                     <Button
                       icon
