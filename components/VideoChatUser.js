@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
-const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
+const APP_KEY = "Your personal Pusher API app key"; //Pusher Key
 import { setCookie } from "../utils/CookieUtils";
 import OtpInput from "react-otp-input";
 import RecordRTC from "recordrtc";
@@ -69,6 +69,7 @@ export default class VideoChat extends Component {
       console.log(e);
     }
 
+    //@https://github.com/AfikDeri/laravel-react-webrtc-video-chat
     //ask for permission to allow microphone and webcam
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
@@ -95,6 +96,7 @@ export default class VideoChat extends Component {
     return;
   }
 
+  //@https://github.com/AfikDeri/laravel-react-webrtc-video-chat
   //setting up pusher API
   setupPusher = () => {
     //log pusher to console
@@ -104,7 +106,7 @@ export default class VideoChat extends Component {
     //for authentication, token and userId is required
     pusher = new Pusher(APP_KEY, {
       authEndpoint: "/pusher/auth",
-      cluster: "eu",
+      cluster: "e.g. eu",
       auth: {
         params: this.currentUser.id,
         headers: {
@@ -218,6 +220,7 @@ export default class VideoChat extends Component {
     });
   };
 
+  //@https://github.com/AfikDeri/laravel-react-webrtc-video-chat
   //connect to peer
   startPeer = (userId, initiator = true) => {
     //create new Peer

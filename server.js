@@ -21,27 +21,27 @@ const bodyParser = require("body-parser");
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
 //jwt secret
-const secret = "iliketurtles";
+const secret = "Your JWT Secret";
 //nodemailer secret
-const EMAIL_SECRET = "yello15873";
+const EMAIL_SECRET = "Your Nodemailer Secret";
 
 const date = require("date-and-time");
 
 //Nodemailer setup
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  service: "e.g. Gmail",
   auth: {
-    user: "no.reply.sealle@gmail.com",
-    pass: "iLikeTurtles"
+    user: "Your admin email address",
+    pass: "Your admin email password"
   }
 });
 
 //Pusher setup
 const pusher = new Pusher({
-  appId: "601383",
-  key: "0f924dcd44dc93a88aa7",
-  secret: "2d7e81c42956ced982b5",
-  cluster: "eu",
+  appId: "Your appId",
+  key: "Your API key",
+  secret: "Your secret",
+  cluster: "e.g. eu",
   encrypted: true
 });
 
@@ -166,7 +166,7 @@ app
                             (err, emailToken) => {
                               const url = `http://localhost:3000/activate/${emailToken}`;
                               transporter.sendMail({
-                                from: "no.reply.sealle@gmail.com",
+                                from: "Your admin email address",
                                 to: body.email,
                                 subject: "Confirm Email",
                                 html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
@@ -313,7 +313,7 @@ app
                             (err, emailToken) => {
                               const url = `http://localhost:3000/activate/${emailToken}`;
                               transporter.sendMail({
-                                from: "no.reply.sealle@gmail.com",
+                                from: "Your admin email address",
                                 to: body.email,
                                 subject: "Confirm Email",
                                 html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
@@ -532,7 +532,7 @@ app
         (err, emailToken) => {
           const url = `http://localhost:3000/activate/${emailToken}`;
           transporter.sendMail({
-            from: "no.reply.sealle@gmail.com",
+            from: "Your admin email address",
             to: req.body.email,
             subject: "Confirm Email",
             html: `Please click this link to confirm your email: <br/><a href="${url}">${url}</a>`
@@ -563,7 +563,7 @@ app
         (err, pwResetToken) => {
           const url = `http://localhost:3000/passwordchange/${pwResetToken}`;
           transporter.sendMail({
-            from: "no.reply.sealle@gmail.com",
+            from: "Your admin email address",
             to: req.body.email,
             subject: "Password Reset",
             html: `Please click on the link to reset your password: <br/><a href="${url}">${url}</a>`
@@ -608,7 +608,7 @@ app
               (err, pwResetToken) => {
                 const url = `http://localhost:3000/passwordchange/${pwResetToken}`;
                 transporter.sendMail({
-                  from: "no.reply.sealle@gmail.com",
+                  from: "Your admin email address",
                   to: body.email,
                   subject: "Password Reset",
                   html: `Please click on the link to reset your password: <br/><a href="${url}">${url}</a>`
@@ -858,7 +858,7 @@ app
           throw err;
         } else {
           transporter.sendMail({
-            from: "no.reply.sealle@gmail.com",
+            from: "Your admin email address",
             to: res[0].email,
             subject: "OTP",
             html: `Your OTP: ${otpToken}`
@@ -907,6 +907,7 @@ app
       let newAccount = web3.eth.accounts.create();
       let newKycKey = newAccount.address;
 
+      //hash the kyc key
       let kycHash = web3.utils.soliditySha3(newKycKey);
       //insert kycKey in DB and set user to isregistered
       //set otpToken to null after verification

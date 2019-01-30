@@ -31,7 +31,7 @@ class Validation extends Component {
     let idNum = this.state.idNum;
     let kycKey = this.state.kycKey;
 
-    //get array of hasches from smart contract
+    //get array of hashes from smart contract
     contract.methods
       .getHashes()
       .call()

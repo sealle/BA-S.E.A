@@ -137,7 +137,9 @@ class Assets extends Component {
       //execute payment to admin address if etherValue > 0
       await contract.methods.payKYC().send({
         from: accounts[0],
-        value: web3.utils.toWei(this.state.etherValue, "ether")
+        value: web3.utils.toWei(this.state.etherValue, "ether"),
+        gas: 200000,
+        gasPrice: "5000000000"
       });
       swal({
         title: "Thank You!",
@@ -252,8 +254,7 @@ class Assets extends Component {
                           color: "white"
                         }}
                       >
-                      {/* Form to get all beneficial owners */}
-                        1
+                        {/* Form to get all beneficial owners */}1
                       </p>
                       <Form
                         onSubmit={this.ownerFormSubmit}
@@ -635,8 +636,8 @@ class Assets extends Component {
                 ) : null}
               </Container>
             </Segment>
-            // Terms & Conditions view
-          ) : this.state.terms == true && this.state.pay == false ? (
+          ) : // Terms & Conditions view
+          this.state.terms == true && this.state.pay == false ? (
             <Segment style={{ marginTop: "50px" }}>
               <br />
               <Header
@@ -700,7 +701,7 @@ class Assets extends Component {
                     style={{ float: "right" }}
                   />
                 ) : null}
-                <Divider/>
+                <Divider />
                 <Checkbox
                   label="I confirm that I have a good internet connection"
                   required
@@ -743,7 +744,7 @@ class Assets extends Component {
                     this.setState({ checked6: !this.state.checked6 })
                   }
                 />
-                {this.state.checked6? (
+                {this.state.checked6 ? (
                   <Icon
                     name="check circle"
                     color="green"
@@ -827,8 +828,8 @@ class Assets extends Component {
                 )}
               </Container>
             </Segment>
-            //Payment view
-          ) : this.state.terms == true && this.state.pay == true ? (
+          ) : //Payment view
+          this.state.terms == true && this.state.pay == true ? (
             <div>
               <Segment
                 style={{
@@ -858,6 +859,7 @@ class Assets extends Component {
                 <Form onSubmit={this.submit} error={this.state.error}>
                   <Form.Field>
                     <Form.Input
+                      readOnly={this.state.metaMask == false}
                       icon="ethereum"
                       iconPosition="left"
                       placeholder="Ether"
@@ -877,6 +879,7 @@ class Assets extends Component {
                     content="Please enter a value"
                   />
                   <Button
+                    disabled={this.state.metaMask == false}
                     fluid
                     icon
                     size="large"

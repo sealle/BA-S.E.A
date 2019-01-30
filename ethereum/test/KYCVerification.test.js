@@ -38,12 +38,19 @@ describe("KYCVerification", () => {
     await kycverify.methods.answer(true);
   });
   it("can pay an either amount", async () => {
-    await kycverify.methods.payKYC(0.1);
+    await kycverify.methods.payKYC().send({
+      from: accounts[0],
+      value: web3.utils.toWei("0.1", "ether")
+    });
   });
   it("can store a sha3 hash", async () => {
-    await kycverify.methods.storeHash(
-      "0xc4314e9b27a5e0bec39f436bb5e3203e369e588862e665712de65092e44f9f68"
+    let hash = web3.utils.soliditySha3(
+      "firstName",
+      "lastName",
+      "kycKey",
+      "idNumber"
     );
+    await kycverify.methods.storeHash(hash);
   });
   it("can return an array of all stored hashes", async () => {
     await kycverify.methods.getHashes();

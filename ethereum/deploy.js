@@ -4,7 +4,7 @@ const { interface, bytecode } = require("./compile");
 
 const provider = new HDWalletProvider(
   "Your twelf word account seed phrase", // mnemonic
-  "" // Personal Infura API Key
+  "your personal infura API key" // Personal Infura API Key
 );
 const web3 = new Web3(provider);
 
@@ -18,7 +18,7 @@ const deploy = async () => {
     .send({ gas: "5000000", from: accounts[0] });
 
   //log the interface and contract address
-  //they are used in the contract.js file 
+  //they are used in the contract.js file
   console.log(interface);
   console.log("Contract deployed to", result.options.address); //address of deployed contract
 };

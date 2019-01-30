@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import MediaHandler from "../webrtc/MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
-const APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
+const APP_KEY = "Your Pusher API app key"; //Pusher Key
 import { setCookie } from "../utils/CookieUtils";
 import { authenticator } from "otplib/otplib-browser";
 import { Tesseract } from "tesseract.ts";
@@ -115,6 +115,7 @@ export default class AdminConsole extends Component {
       console.log(e);
     }
 
+    //@https://github.com/AfikDeri/laravel-react-webrtc-video-chat
     //ask for permission to allow microphone and webcam
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
@@ -141,13 +142,14 @@ export default class AdminConsole extends Component {
     return;
   }
 
+  //@https://github.com/AfikDeri/laravel-react-webrtc-video-chat
   //setting up pusher API
   setupPusher = () => {
     //log pusher to console
     // Pusher.logToConsole = true;
     pusher = new Pusher(APP_KEY, {
       authEndpoint: "/pusher/auth",
-      cluster: "eu",
+      cluster: "e.g. eu",
       auth: {
         params: this.currentUser.id,
         headers: {
@@ -252,7 +254,9 @@ export default class AdminConsole extends Component {
                 `${fname} ${lname} ${idNum} ${kycKey}`
               );
               contract.methods.storeHash(hash).send({
-                from: accounts[0]
+                from: accounts[0],
+                gas: 200000,
+                gasPrice: "5000000000"
               });
             } else {
               console.log("error");
@@ -263,6 +267,7 @@ export default class AdminConsole extends Component {
     });
   };
 
+  //@https://github.com/AfikDeri/laravel-react-webrtc-video-chat
   //connect to peer
   startPeer = (userId, initiator = true) => {
     //create new Peer
@@ -389,11 +394,8 @@ export default class AdminConsole extends Component {
     this.setState({ loading: true });
     //genereate a otp secret
     let otpSecret = authenticator.generateSecret();
-    console.log(otpSecret);
     //generate otp
     let otpToken = authenticator.generate(otpSecret);
-    console.log(otpToken);
-    console.log(userName);
     let formData = new FormData();
     formData.append("otpToken", otpToken);
     formData.append("userName", userName);
@@ -977,7 +979,7 @@ export default class AdminConsole extends Component {
                             style={{
                               backgroundColor: "white",
                               border: "1px solid black",
-                              width: "32.5%"
+                              width: "31%"
                             }}
                           >
                             <Button.Content visible>

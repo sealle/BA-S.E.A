@@ -1,31 +1,42 @@
 exports.ids = [2];
 exports.modules = {
 
-/***/ "./components/ProfileHeader.js":
+/***/ "./components/VideoChatUser.js":
 /*!*************************************!*\
-  !*** ./components/ProfileHeader.js ***!
+  !*** ./components/VideoChatUser.js ***!
   \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ProfileHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoChat; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-jsx/style */ "styled-jsx/style");
-/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
-/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../routes */ "./routes.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "axios");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _Layout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Layout */ "./components/Layout.js");
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../webrtc/MediaHandler */ "./webrtc/MediaHandler.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! pusher-js */ "pusher-js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! simple-peer */ "simple-peer");
+/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _utils_CookieUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/CookieUtils */ "./utils/CookieUtils.js");
+/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-otp-input */ "react-otp-input");
+/* harmony import */ var react_otp_input__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_otp_input__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var recordrtc__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! recordrtc */ "recordrtc");
+/* harmony import */ var recordrtc__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(recordrtc__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../ethereum/src/web3 */ "./ethereum/src/web3.js");
+/* harmony import */ var _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ethereum/src/contract */ "./ethereum/src/contract.js");
+/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
+/* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../routes */ "./routes.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! sweetalert2 */ "sweetalert2");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var multistreamsmixer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! multistreamsmixer */ "multistreamsmixer");
+/* harmony import */ var multistreamsmixer__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(multistreamsmixer__WEBPACK_IMPORTED_MODULE_14__);
 
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -56,109 +67,596 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+var APP_KEY = "0f924dcd44dc93a88aa7"; //Pusher Key
 
 
 
-var ProfileHeader =
+
+var StereoAudioRecorder = recordrtc__WEBPACK_IMPORTED_MODULE_7___default.a.StereoAudioRecorder;
+
+
+
+
+
+
+
+var xsrfToken = "";
+var pusher;
+var peer;
+var channelName;
+var userName;
+var userNames = [];
+var recordRTC;
+var firstMember; //User's videochat
+
+var VideoChat =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(ProfileHeader, _Component);
+  _inherits(VideoChat, _Component);
 
-  function ProfileHeader() {
+  function VideoChat() {
     var _this;
 
-    _classCallCheck(this, ProfileHeader);
+    _classCallCheck(this, VideoChat);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProfileHeader).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(VideoChat).call(this));
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "logout", function () {
-      Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_4__["setCookie"])("x-access-token", "", -60 * 60);
-      _routes__WEBPACK_IMPORTED_MODULE_5__["Router"].pushRoute("/login");
-      window.location.href = "/login";
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "setupPusher", function () {
+      //log pusher to console
+      //Pusher.logToConsole = true;
+      //create new Pusher
+      //for authentication, token and userId is required
+      pusher = new pusher_js__WEBPACK_IMPORTED_MODULE_3___default.a(APP_KEY, {
+        authEndpoint: "/pusher/auth",
+        cluster: "eu",
+        auth: {
+          params: _this.currentUser.id,
+          headers: {
+            "X-XSRF-Token": xsrfToken
+          }
+        }
+      }); //create new presence-channel
+
+      channelName = pusher.subscribe("presence-video-channel"); //requires auth
+      //get members in channel
+
+      channelName.bind("pusher:subscription_succeeded", function (members) {
+        //get id of Admin from the object
+        firstMember = Object.keys(members.members)[0];
+      }); //listener for added members to the channel
+
+      channelName.bind("pusher:member_added", function (member) {
+        //store added member in array
+        if (userNames.includes(member.id) === false) {
+          userNames.push(member.id);
+        }
+
+        console.log(userNames);
+      }); //listener for removed members to the channel
+
+      channelName.bind("pusher:member_removed", function (member) {
+        console.log(userName); //remove removed member from array
+
+        var i = userNames.indexOf(userName);
+        userNames.splice(i, 1);
+        console.log(userNames);
+
+        _this.setState({
+          img1: !_this.state.img1,
+          showMrzValidationButton: !_this.state.showMrzValidationButton,
+          disableButton: true
+        });
+      }); //this is executed when the event is triggered
+
+      channelName.bind("client-signal-".concat(_this.currentUser.id), function (signal) {
+        var peer = _this.peers[signal.userId]; // if peer does not already exist, we got an incoming call
+
+        if (peer === undefined) {
+          //start peer where initiator = false
+          peer = _this.startPeer(signal.userId, false);
+
+          _this.setState({
+            isConnected: true
+          });
+        }
+
+        peer.signal(signal.data);
+      }); //listener for user when declined
+
+      channelName.bind("client-message-".concat(_this.currentUser.id), function (message) {
+        //delete cookie and send user to login page
+        Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_5__["setCookie"])("x-access-token", "", -60 * 60);
+        window.location.href = "/login";
+        _routes__WEBPACK_IMPORTED_MODULE_12__["Router"].push("/login");
+      }); //listener for admin if user has successfully entered otp and ended the process
+
+      channelName.bind("client-approval-".concat(_this.currentUser.id), function (message) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_13___default()({
+          title: "Success!",
+          text: "The user has entered the correct OTP",
+          type: "success",
+          confirmButtonText: "Confirm",
+          //when admin confirms, send audio recording in db
+          //hash user data and send to smart contract
+          onClose: function onClose() {
+            //Stop audio recording and send .wav file to server
+            recordRTC.stopRecording(
+            /*#__PURE__*/
+            _asyncToGenerator(
+            /*#__PURE__*/
+            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+              var formData, recordedBlob, fileName, file, response, accounts, fname, lname, idNum, kycKey, hash;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                while (1) {
+                  switch (_context.prev = _context.next) {
+                    case 0:
+                      formData = new FormData();
+                      recordedBlob = recordRTC.getBlob();
+                      console.log(recordedBlob);
+                      fileName = "".concat(userName, ".wav"); //create new file to send to server
+
+                      file = new File([recordedBlob], fileName, {
+                        mimeType: "audio/wav"
+                      });
+                      console.log(file);
+                      formData.append("fileName", fileName);
+                      formData.append("file", file);
+                      formData.append("userName", userName);
+
+                      _this.setState({
+                        isRecording: ""
+                      }); //get user data from server
+
+
+                      _context.next = 12;
+                      return axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(window.location.origin + "/approval", formData);
+
+                    case 12:
+                      response = _context.sent;
+
+                      if (!response.data.success) {
+                        _context.next = 26;
+                        break;
+                      }
+
+                      _context.next = 16;
+                      return _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_8__["default"].eth.getAccounts();
+
+                    case 16:
+                      accounts = _context.sent;
+                      fname = response.data.fname;
+                      lname = response.data.lname;
+                      idNum = response.data.idNum;
+                      kycKey = response.data.kycKey;
+                      console.log(fname, lname, idNum, kycKey); //hash user data and store in smart contract
+
+                      hash = _ethereum_src_web3__WEBPACK_IMPORTED_MODULE_8__["default"].utils.soliditySha3("".concat(fname, " ").concat(lname, " ").concat(idNum, " ").concat(kycKey));
+                      _ethereum_src_contract__WEBPACK_IMPORTED_MODULE_9__["default"].methods.storeHash(hash).send({
+                        from: accounts[0]
+                      });
+                      _context.next = 27;
+                      break;
+
+                    case 26:
+                      console.log("error");
+
+                    case 27:
+                    case "end":
+                      return _context.stop();
+                  }
+                }
+              }, _callee, this);
+            })));
+          }
+        });
+      });
     });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "startPeer", function (userId) {
+      var initiator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      //create new Peer
+      peer = new simple_peer__WEBPACK_IMPORTED_MODULE_4___default.a({
+        initiator: initiator,
+        stream: _this.currentUser.stream,
+        trickle: false
+      }); //log simple-peer to console
+      // peer._debug = console.log
+      //sends offer signal to peer
+      //connection established when peer sends answer
+
+      peer.on("signal", function (data) {
+        channelName.trigger("client-signal-".concat(userId), {
+          type: "signal",
+          userId: _this.currentUser.id,
+          data: data
+        });
+      }); //when the connection is established get the peer's audio/video stream
+
+      peer.on("stream", function (stream) {
+        try {
+          var userVideo = document.getElementById("user-video");
+          userVideo.srcObject = stream;
+          var playPromise = userVideo.play();
+
+          if (playPromise !== null) {
+            playPromise.then(function () {
+              return userVideo.play();
+            }).catch(function (e) {
+              console.log(e);
+            });
+          } //send both streams to MultiStreamsMixer
+
+
+          var audioMixer = new multistreamsmixer__WEBPACK_IMPORTED_MODULE_14__["MultiStreamsMixer"]([_this.currentUser.stream, stream]); //start recording the mixed streams
+
+          recordRTC = recordrtc__WEBPACK_IMPORTED_MODULE_7___default()(audioMixer.getMixedStream(), {
+            recorderType: StereoAudioRecorder,
+            mimeType: "audio/wav"
+          }); //start recording
+
+          recordRTC.startRecording();
+
+          _this.setState({
+            isRecording: "Recording..."
+          });
+        } catch (e) {
+          console.log(e.stack);
+        }
+      });
+      return peer;
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "otpVerify",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var res, otpToken;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(window.location.origin + "/otpToken");
+
+            case 2:
+              res = _context2.sent;
+
+              if (!res.data.success) {
+                _context2.next = 15;
+                break;
+              }
+
+              otpToken = res.data.otpToken; //check whether otpToken is the same as the entered otp
+
+              if (!(otpToken === _this.state.otp)) {
+                _context2.next = 14;
+                break;
+              }
+
+              _context2.next = 8;
+              return channelName.trigger("client-approval-".concat(firstMember), {
+                message: "User entered correct OTP"
+              });
+
+            case 8:
+              //destroy P2P connection
+              peer.destroy(); //delete user's cookie
+              //send user to login page
+
+              Object(_utils_CookieUtils__WEBPACK_IMPORTED_MODULE_5__["setCookie"])("x-access-token", "", -60 * 60);
+              window.location.href = "/login";
+              _routes__WEBPACK_IMPORTED_MODULE_12__["Router"].push("/login");
+              _context2.next = 15;
+              break;
+
+            case 14:
+              _this.setState({
+                message: "wrong OTP!"
+              });
+
+            case 15:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
     _this.state = {
-      currentUser: ""
+      hasMedia: false,
+      userName: "",
+      message: "",
+      isConnected: false,
+      disableButton: true,
+      isRecording: ""
+    }; //create object of user
+
+    _this.currentUser = {
+      id: "",
+      stream: undefined
     };
+    _this.peers = [];
+    _this.mediaHandler = new _webrtc_MediaHandler__WEBPACK_IMPORTED_MODULE_2__["default"]();
     return _this;
-  } //get current user to display 
+  }
 
-
-  _createClass(ProfileHeader, [{
-    key: "componentDidMount",
+  _createClass(VideoChat, [{
+    key: "componentWillMount",
     value: function () {
-      var _componentDidMount = _asyncToGenerator(
+      var _componentWillMount = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var _this2 = this;
+
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_6___default.a.post(window.location.origin + "/currentuser");
+                _context3.prev = 0;
+                _context3.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(window.location.origin + "/videochat/stream");
 
               case 3:
-                response = _context.sent;
-
-                if (response.data.success) {
-                  this.setState({
-                    currentUser: response.data.currentUser
-                  });
-                }
-
-                _context.next = 10;
+                response = _context3.sent;
+                this.setState({
+                  userName: response.data.currentUser
+                });
+                this.currentUser.id = this.state.userName;
+                xsrfToken = response.data.token;
+                _context3.next = 12;
                 break;
 
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
+              case 9:
+                _context3.prev = 9;
+                _context3.t0 = _context3["catch"](0);
+                console.log(_context3.t0);
 
-              case 10:
+              case 12:
+                //ask for permission to allow microphone and webcam
+                this.mediaHandler.getPermissions().then(function (stream) {
+                  _this2.setState({
+                    hasMedia: true
+                  });
+
+                  _this2.currentUser.stream = stream;
+
+                  try {
+                    var myVideo = document.getElementById("my-video");
+                    myVideo.srcObject = stream;
+                    var playPromise = myVideo.play();
+
+                    if (playPromise !== null) {
+                      playPromise.then(function () {
+                        return myVideo.play();
+                      }).catch(function (e) {
+                        console.log(e);
+                      });
+                    }
+                  } catch (e) {
+                    console.log(e.stack);
+                  }
+                });
+                this.setupPusher();
+                return _context3.abrupt("return");
+
+              case 15:
               case "end":
-                return _context.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this, [[0, 7]]);
+        }, _callee3, this, [[0, 9]]);
       }));
 
-      return function componentDidMount() {
-        return _componentDidMount.apply(this, arguments);
+      return function componentWillMount() {
+        return _componentWillMount.apply(this, arguments);
       };
-    }() //on logout, delete cookies
-    //redirect user to login page
+    }() //setting up pusher API
 
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"], {
-        pointing: true
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"].Item, {
-        name: "home"
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
-        name: "home",
-        size: "small"
-      })), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"].Menu, {
-        position: "right"
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"].Item, {
-        name: "logout",
-        onClick: this.logout
-      }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Menu"].Item, null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_3__["Icon"], {
-        name: "user",
-        size: "small"
-      }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", null, this.state.currentUser)))), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Layout__WEBPACK_IMPORTED_MODULE_7__["default"], null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        styleId: "3698465938",
-        css: "body{background:#e6e6e6;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9TdXNhbi9CQS1TLkUuQS9jb21wb25lbnRzL1Byb2ZpbGVIZWFkZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBcUQ2QixBQUdrQyxtQkFDckIiLCJmaWxlIjoiL1VzZXJzL1N1c2FuL0JBLVMuRS5BL2NvbXBvbmVudHMvUHJvZmlsZUhlYWRlci5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyBDb21wb25lbnQgfSBmcm9tIFwicmVhY3RcIjtcbmltcG9ydCB7IE1lbnUsIEljb24gfSBmcm9tIFwic2VtYW50aWMtdWktcmVhY3RcIjtcbmltcG9ydCB7IHNldENvb2tpZSB9IGZyb20gXCIuLi91dGlscy9Db29raWVVdGlsc1wiO1xuaW1wb3J0IHsgUm91dGVyLCBMaW5rIH0gZnJvbSBcIi4uL3JvdXRlc1wiO1xuaW1wb3J0IGF4aW9zIGZyb20gXCJheGlvc1wiO1xuaW1wb3J0IExheW91dCBmcm9tIFwiLi9MYXlvdXRcIjtcblxuZXhwb3J0IGRlZmF1bHQgY2xhc3MgUHJvZmlsZUhlYWRlciBleHRlbmRzIENvbXBvbmVudCB7XG4gIGNvbnN0cnVjdG9yKCkge1xuICAgIHN1cGVyKCk7XG4gICAgdGhpcy5zdGF0ZSA9IHtcbiAgICAgIGN1cnJlbnRVc2VyOiBcIlwiLFxuICAgIH07XG4gIH1cblxuICAvL2dldCBjdXJyZW50IHVzZXIgdG8gZGlzcGxheSBcbiAgYXN5bmMgY29tcG9uZW50RGlkTW91bnQoKSB7XG4gICAgdHJ5IHtcbiAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgYXhpb3MucG9zdChcbiAgICAgICAgd2luZG93LmxvY2F0aW9uLm9yaWdpbiArIFwiL2N1cnJlbnR1c2VyXCJcbiAgICAgICk7XG4gICAgICBpZiAocmVzcG9uc2UuZGF0YS5zdWNjZXNzKSB7XG4gICAgICAgIHRoaXMuc2V0U3RhdGUoeyBjdXJyZW50VXNlcjogcmVzcG9uc2UuZGF0YS5jdXJyZW50VXNlciB9KTtcbiAgICAgIH1cbiAgICB9IGNhdGNoIChlcnIpIHtcbiAgICAgIGNvbnNvbGUubG9nKGVycik7XG4gICAgfVxuICB9XG5cbiAgLy9vbiBsb2dvdXQsIGRlbGV0ZSBjb29raWVzXG4gIC8vcmVkaXJlY3QgdXNlciB0byBsb2dpbiBwYWdlXG4gIGxvZ291dCA9ICgpID0+IHtcbiAgICBzZXRDb29raWUoXCJ4LWFjY2Vzcy10b2tlblwiLCBcIlwiLCAtNjAgKiA2MCk7XG4gICAgUm91dGVyLnB1c2hSb3V0ZShcIi9sb2dpblwiKTtcbiAgICB3aW5kb3cubG9jYXRpb24uaHJlZiA9IFwiL2xvZ2luXCI7XG4gIH1cblxuICByZW5kZXIoKSB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxkaXY+XG4gICAgICAgIDxNZW51IHBvaW50aW5nPlxuICAgICAgICAgIDxNZW51Lkl0ZW0gbmFtZT1cImhvbWVcIj5cbiAgICAgICAgICAgIDxJY29uIG5hbWU9XCJob21lXCIgc2l6ZT1cInNtYWxsXCIgLz5cbiAgICAgICAgICA8L01lbnUuSXRlbT5cbiAgICAgICAgICA8TWVudS5NZW51IHBvc2l0aW9uPVwicmlnaHRcIj5cbiAgICAgICAgICAgIDxNZW51Lkl0ZW0gbmFtZT1cImxvZ291dFwiIG9uQ2xpY2s9e3RoaXMubG9nb3V0fSAvPlxuICAgICAgICAgICAgPE1lbnUuSXRlbT5cbiAgICAgICAgICAgICAgPEljb24gbmFtZT1cInVzZXJcIiBzaXplPVwic21hbGxcIiAvPlxuICAgICAgICAgICAgICA8cD57dGhpcy5zdGF0ZS5jdXJyZW50VXNlcn08L3A+XG4gICAgICAgICAgICA8L01lbnUuSXRlbT5cbiAgICAgICAgICA8L01lbnUuTWVudT5cbiAgICAgICAgPC9NZW51PlxuICAgICAgICA8TGF5b3V0PlxuICAgICAgICAgIDxzdHlsZSBqc3ggZ2xvYmFsPntgXG4gICAgICAgICAgICBib2R5IHtcbiAgICAgICAgICAgICAgYmFja2dyb3VuZDogI2U2ZTZlNjtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICBgfTwvc3R5bGU+XG4gICAgICAgIDwvTGF5b3V0PlxuICAgICAgPC9kaXY+XG4gICAgKTtcbiAgfVxufVxuIl19 */\n/*@ sourceURL=/Users/Susan/BA-S.E.A/components/ProfileHeader.js */"
-      })));
+      var _this3 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", null, "\n        body {\n          background: #e6e6e6;\n        }\n      "), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.state.isConnected === false ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__["Dimmer"], {
+        active: true
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__["Loader"], {
+        indeterminate: true
+      }, "Waiting for Admin")) : null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__["Segment"], {
+        style: {
+          marginTop: "50px"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__["Container"], {
+        className: "video-container",
+        style: {
+          width: "500px",
+          height: "376px",
+          margin: "0px auto",
+          border: "2px solid black",
+          position: "relative"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
+        className: "my-video",
+        id: "my-video",
+        style: {
+          width: "130px",
+          position: "absolute",
+          left: "10px",
+          bottom: "10px",
+          border: "2px solid #0061ff",
+          zIndex: "2"
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
+        className: "user-video",
+        id: "user-video",
+        style: {
+          position: "absolute",
+          left: "0",
+          right: "0",
+          bottom: "0",
+          top: "0",
+          width: "100%",
+          height: "100%",
+          zIndex: "1"
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__["Container"], {
+        style: {
+          width: "71%",
+          marginBottom: "13px"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_otp_input__WEBPACK_IMPORTED_MODULE_6___default.a, {
+        style: {
+          margin: "auto",
+          width: "70%"
+        },
+        value: this.state.otp,
+        onChange: function onChange(otp) {
+          _this3.setState({
+            otp: otp,
+            otpEntered: true
+          });
+        },
+        numInputs: 6,
+        separator: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, "-")
+      }), this.state.message ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__["Message"], {
+        error: true,
+        header: "Oops!",
+        content: this.state.message
+      }) : null), this.state.otpEntered ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_10__["Button"], {
+        style: {
+          color: "white",
+          backgroundColor: "#ff3344",
+          width: "50%",
+          margin: "0px auto"
+        },
+        fluid: true,
+        onClick: this.otpVerify
+      }, "Submit") : null)));
     }
   }]);
 
-  return ProfileHeader;
-}(react__WEBPACK_IMPORTED_MODULE_2__["Component"]);
+  return VideoChat;
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
 
+
+/***/ }),
+
+/***/ "./ethereum/src/contract.js":
+/*!**********************************!*\
+  !*** ./ethereum/src/contract.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _web3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./web3 */ "./ethereum/src/web3.js");
+ //contract address and ABI/Interface to connect to it
+
+var contractAddress = "0x0523A4Da9E7f1eBcbcb5BeBa44440D4Ac4Ef0F5A";
+var contractABI = [{
+  constant: false,
+  inputs: [{
+    name: "confirmed",
+    type: "bool"
+  }],
+  name: "answer",
+  outputs: [],
+  payable: false,
+  stateMutability: "nonpayable",
+  type: "function"
+}, {
+  constant: true,
+  inputs: [],
+  name: "getHashes",
+  outputs: [{
+    name: "",
+    type: "bytes32[]"
+  }],
+  payable: false,
+  stateMutability: "view",
+  type: "function"
+}, {
+  constant: false,
+  inputs: [{
+    name: "kycKey",
+    type: "string"
+  }, {
+    name: "platformAddress",
+    type: "address"
+  }],
+  name: "verify",
+  outputs: [],
+  payable: true,
+  stateMutability: "payable",
+  type: "function"
+}, {
+  constant: false,
+  inputs: [{
+    name: "newHash",
+    type: "bytes32"
+  }],
+  name: "storeHash",
+  outputs: [],
+  payable: false,
+  stateMutability: "nonpayable",
+  type: "function"
+}, {
+  constant: false,
+  inputs: [],
+  name: "payKYC",
+  outputs: [],
+  payable: true,
+  stateMutability: "payable",
+  type: "function"
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: false,
+    name: "kycKey",
+    type: "string"
+  }, {
+    indexed: false,
+    name: "platformAddress",
+    type: "address"
+  }, {
+    indexed: false,
+    name: "sender",
+    type: "address"
+  }],
+  name: "KycListen",
+  type: "event"
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: false,
+    name: "confirmed",
+    type: "bool"
+  }],
+  name: "PlatformListen",
+  type: "event"
+}];
+/* harmony default export */ __webpack_exports__["default"] = (new _web3__WEBPACK_IMPORTED_MODULE_0__["default"].eth.Contract(contractABI, contractAddress));
+
+/***/ }),
+
+/***/ "./ethereum/src/web3.js":
+/*!******************************!*\
+  !*** ./ethereum/src/web3.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var web3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! web3 */ "web3");
+/* harmony import */ var web3__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(web3__WEBPACK_IMPORTED_MODULE_0__);
+ //use givenProvider to access the ethereum network
+
+var web3 = new web3__WEBPACK_IMPORTED_MODULE_0___default.a(web3__WEBPACK_IMPORTED_MODULE_0___default.a.givenProvider || "ws://localhost:3000");
+/* harmony default export */ __webpack_exports__["default"] = (web3);
 
 /***/ }),
 
@@ -216,6 +714,53 @@ function getCookie(cname) {
 
   return "";
 }
+
+/***/ }),
+
+/***/ "./webrtc/MediaHandler.js":
+/*!********************************!*\
+  !*** ./webrtc/MediaHandler.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MediaHandler; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//function to get the users media
+var MediaHandler =
+/*#__PURE__*/
+function () {
+  function MediaHandler() {
+    _classCallCheck(this, MediaHandler);
+  }
+
+  _createClass(MediaHandler, [{
+    key: "getPermissions",
+    value: function getPermissions() {
+      return new Promise(function (resolve, rej) {
+        navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true
+        }).then(function (stream) {
+          resolve(stream);
+        }).catch(function (err) {
+          throw new Error("Unable to fetch stream ".concat(err));
+        });
+      });
+    }
+  }]);
+
+  return MediaHandler;
+}();
+
+
 
 /***/ })
 

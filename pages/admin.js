@@ -17,7 +17,7 @@ class adminPage extends Component {
     super();
     this.state = {
       metaMask: true,
-      myAddress: "",
+      myAddress: ""
     };
   }
 
@@ -50,6 +50,8 @@ class adminPage extends Component {
             contract.methods.answer(response.data.confirmed).send({
               from: this.state.myAddress,
               to: toAddress,
+              gas: 200000,
+              gasPrice: "5000000000"
             });
           }
         } catch (error) {

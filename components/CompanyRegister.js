@@ -322,11 +322,7 @@ class CompanyRegister extends Component {
               />
             </Form.Group>
             <Popup
-              trigger={
-                <Icon
-                  name="question circle outline"
-                />
-              }
+              trigger={<Icon name="question circle outline" />}
               content={
                 <div>
                   <p style={{ fontWeight: "bold" }}>Identity card:</p>

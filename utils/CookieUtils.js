@@ -1,5 +1,5 @@
+//@https://www.w3schools.com/js/js_cookies.asp
 //set cookie function
-//https://www.w3schools.com/js/js_cookies.asp
 export function setCookie(cname, cvalue, exdays) {
   let d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
@@ -8,8 +8,8 @@ export function setCookie(cname, cvalue, exdays) {
     cname + "=" + cvalue + ";" + expires + "HttpOnly;" + ";path=/";
 }
 
+//@https://www.w3schools.com/js/js_cookies.asp
 //get cookie function
-//https://www.w3schools.com/js/js_cookies.asp
 export function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(";");

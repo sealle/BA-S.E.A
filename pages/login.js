@@ -17,7 +17,7 @@ class Login extends Component {
   }
 
   //send username and pasword to server to check
-  login = async() => {
+  login = async () => {
     const formData = new FormData();
     formData.append("username", this.state.username);
     formData.append("password", this.state.password);
@@ -59,7 +59,7 @@ class Login extends Component {
     }
 
     this.setState({ loading: false });
-  }
+  };
 
   render() {
     return (
@@ -73,7 +73,13 @@ class Login extends Component {
             }}
           >
             <div style={{ textAlign: "center", marginBottom: "-50px" }}>
-              <Icon circular name="users" size="huge" fluid="true" color="blue" />
+              <Icon
+                circular
+                name="users"
+                size="huge"
+                fluid="true"
+                color="blue"
+              />
             </div>
             <Header
               as="h1"
@@ -83,7 +89,7 @@ class Login extends Component {
               Member Login
             </Header>
             <br />
-             {/* Form to handle input */}
+            {/* Form to handle input */}
             <Form onSubmit={this.login} error={this.state.errorMessage}>
               <Form.Field>
                 <Form.Input
@@ -137,10 +143,7 @@ class Login extends Component {
               <Form.Field>
                 {/* KycKey Validation link */}
                 <Grid>
-                  <Grid.Column
-                    width={16}
-                    style={{ textAlign: "center"}}
-                  >
+                  <Grid.Column width={16} style={{ textAlign: "center" }}>
                     <a href="/validate" style={{ color: "#2985d0" }}>
                       KycKey not working? Validate it!
                     </a>

@@ -9,11 +9,11 @@ export default class ProfileHeader extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: "",
+      currentUser: ""
     };
   }
 
-  //get current user to display 
+  //get current user to display
   async componentDidMount() {
     try {
       const response = await axios.post(
@@ -33,7 +33,7 @@ export default class ProfileHeader extends Component {
     setCookie("x-access-token", "", -60 * 60);
     Router.pushRoute("/login");
     window.location.href = "/login";
-  }
+  };
 
   render() {
     return (
